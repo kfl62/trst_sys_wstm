@@ -1,15 +1,27 @@
 firm:
-  layout:       'layout'
-  sass_dir:     'trst/assets/stylesheets/asrv'
-  css_dir:      'public/stylesheets/asrv'
-  images_dir:   'public/images/asrv'
-  css_path:     '/stylesheets/asrv'
-  images_path:  '/images/asrv'
-  i18n_path:    'trst'
-  head_title:   'TrustSys'
-  header_text:  'TrustSys AutoSrv'
-  footer_text:  '&copy; 2005-2012 kfl62'
-  footer_title: 'Ferenc-Loránt Kiss'
-  db_devel:     'demo_asrv'
-  db_test:      'demo_test'
-  db_prod:      'demo_asrv'
+  public:
+    controller: 'public'
+    views:      'wstm'
+    layout:     'wstm'
+    page:
+      title:        'Waste Management Ltd.'
+      header:       'WSTM motto'
+      footer_text:  '&copy; 2005-2012 Waste Management Ltd.'
+      footer_title: 'Ferenc-Loránt Kiss'
+  system:
+    page:
+      title:        'TrustSys - Wstm'
+      header:       'TrustSys wstm'
+      footer_text:  '&copy; 2005-2012 kfl62'
+      footer_title: 'Ferenc-Loránt Kiss'
+
+  sass_dir:     'system/assets/stylesheets/wstm'
+  css_dir:      'public/stylesheets/wstm'
+  images_dir:   'public/images/wstm'
+  css_path:     '/stylesheets/wstm'
+  images_path:  '/images/wstm'
+  i18n_path:    'wstm'
+
+  db_devel:     'trst_wstm'
+  db_test:      'trst_test'
+  db_prod:      'trst_wstm'
