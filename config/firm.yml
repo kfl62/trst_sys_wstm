@@ -22,6 +22,7 @@ firm:
   images_path:  '/images/wstm'
   i18n_path:    'wstm'
 
+  models_path:  [trst, wstm]
   db_devel:     'trst_wstm'
   db_test:      'trst_test'
   db_prod:      'trst_wstm'
