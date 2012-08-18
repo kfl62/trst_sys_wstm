@@ -1,0 +1,10 @@
+ro:
+  mongoid:
+    attributes:
+      'trst/person': &trst_person
+        tab_title: Date personale
+      'trst/address': &trst_address
+        model_name: Adresă
+      'wstm/partner_person':
+        model_name: Client Persoană Fizică
+        << : *trst_person
