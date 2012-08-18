@@ -1,0 +1,27 @@
+%tbody#tabs-1{data: {title: mat(@object, :tab_title)}}
+  - tr_show_for @object,  'id'
+  - tr_show_for @object,  'id_pn'
+  - tr_show_for @object,  'name_last'
+  - tr_show_for @object,  'name_frst'
+  - tr_show_for @object,  'id_doc',  {order: 'type'}
+  - tr_show_for @object,  'id_doc',  {order: 'sr'}
+  - tr_show_for @object,  'id_doc',  {order: 'nr'}
+  - tr_show_for @object,  'id_doc',  {order: 'by'}
+  - tr_show_for @object,  'id_doc',  {order: 'on'}
+  - tr_show_for @object,  'created_at'
+  - tr_show_for @object,  'updated_at'
+- if @object.has_address?; o = @object.address
+  %tbody{id: "tabs-person-address", data: {title: "#{mat(o,'model_name')} #{o.name}"}}
+    - tr_show_for o,  'id'
+    - tr_show_for o,  'name'
+    - tr_show_for o,  'city'
+    - tr_show_for o,  'street'
+    - tr_show_for o,  'nr'
+    - tr_show_for o,  'bl'
+    - tr_show_for o,  'sc'
+    - tr_show_for o,  'ap'
+    - tr_show_for o,  'state'
+    - tr_show_for o,  'country'
+    - tr_show_for o,  'zip'
+    - tr_show_for o,  'created_at'
+    - tr_show_for o,  'updated_at'
