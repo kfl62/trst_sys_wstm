@@ -3,6 +3,8 @@
 .ui-widget-overlay
   background-color: #ff0000 !important
   background-image: none !important
+.ui-tabs .ui-tabs-nav li a
+  padding: 0.3em 0.7em !important
 ul.trst-ui-sortable
   border-radius: 5px
   background-color: #f0f0f0
@@ -62,6 +64,33 @@ ul.trst-ui-sortable
             color: #ff0000
           input[type="text"], input[type="password"]
             width: 100%
+          input.before-yes
+            margin-left: 3em
+            display: inline-block
+            &:before
+              display: inline-block
+              text-indent: -1.6em
+              content: "Da"
+          input.before-no
+            margin-left: 3em
+            display: inline-block
+            &:before
+              display: inline-block
+              text-indent: -1.6em
+              content: "Nu"
+          &.info
+            background:
+              color: rgba(230, 255, 230, 1)
+              image: image_url(unquote("icons/info.png"))
+              position: 0.5em 0.5em
+              repeat: no-repeat
+            border-radius: 10px
+            box-shadow: 0.5em 0.5em #3e3e3e
+            padding: 1em
+            text-indent: 1.5em
+            span
+              display: block
+              min-height: 2em
     tfoot
       tr
         td
@@ -77,5 +106,6 @@ ul.trst-ui-sortable
 .s2_option
   div
     &.select2-result-label
-      padding: 1px 7px !important
+      padding: 0px 7px !important
+      white-space: pre
 
