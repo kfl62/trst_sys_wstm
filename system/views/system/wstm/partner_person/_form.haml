@@ -23,7 +23,7 @@
       %td{colspan: '3'}
         %input{type: 'hidden', name: "[#{@path}][address_attributes][id]", value: o.id}
 - else
-  - @object.address = Trst::Address.new; o = @object.address
+  - o = @object.build_address
   %tbody{id: "tabs-person-address-new",data: {title: mat(o, 'model_name')}}
     - tr_input_for o,  'name',    {nested:  'address'}
     - tr_input_for o,  'city',    {nested:  'address'}

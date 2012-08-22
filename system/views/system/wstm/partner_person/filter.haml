@@ -10,7 +10,7 @@
           %select#oid.s2{style: 'width:300px', data: {minlength: 3}}
             %option{value: "null"}= t("filter.select.option", data: mat(@object,'model_name'))
             - @object.default_sort.each do |o|
-              %option.s2_option{value: o.view_filter[0]}= "#{o.view_filter[2]} - #{o.view_filter[1]}"
+              %option.s2_option{value: o.view_filter[0]}= "#{o.view_filter[2].ljust(18)} #{o.view_filter[1]}"
     %tfoot
       %tr
         %td.buttonset.ce
