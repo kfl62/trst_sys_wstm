@@ -21,7 +21,7 @@ class TrstPartnersPf
           pf._id = id
         end
     wpf.save
-    wpf.address = Trst::Address.new(
+    wpf.build_address(
       city:   address['city'],
       street: address['street'],
       nr:     address['nr'],
