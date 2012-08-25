@@ -78,25 +78,26 @@ ul.trst-ui-sortable
               display: inline-block
               text-indent: -1.6em
               content: "Nu"
-          &.info
-            background:
-              color: rgba(230, 255, 230, 1)
-              image: image_url(unquote("icons/info.png"))
-              position: 0.5em 0.5em
-              repeat: no-repeat
-            border-radius: 10px
-            box-shadow: 0.5em 0.5em #3e3e3e
-            padding: 1em
-            text-indent: 1.5em
-            span
-              display: block
-              min-height: 2em
     tfoot
       tr
         td
           &:first-child
             border-top: solid 1px #000000
             padding: 0.5em
+
+  span.info
+    background:
+      color: rgba(230, 255, 230, 1)
+      image: image_url(unquote("icons/info.png"))
+      position: 0.5em 0.5em
+      repeat: no-repeat
+    border-radius: 10px
+    box-shadow: 0.5em 0.5em #3e3e3e
+    padding: 0.5em
+    margin-bottom: 0.5em 1em
+    text-indent: 25px
+    font-size: 12px
+    display: block
 
 #relationsContainer
   border-radius: 5px
