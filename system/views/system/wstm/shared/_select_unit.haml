@@ -1,0 +1,19 @@
+:ruby
+  unit_id = session[:unit_id]
+- if unit_id
+  %div.small
+    %span.small= t('filter.select.has_unit')
+    %select.wstm.unit
+      %option{value: 'null'}= t('filter.select.option', data: 'Unitatea')
+      - Wstm::PartnerFirm.find_by(firm: true).units.asc(:slug).each do |unit|
+        %option{value: unit.id, selected: unit.id.to_s == unit_id}= unit.name[1]
+    %hr
+-else
+  %div.small
+    %span.info= t('filter.select.no_unit')
+    %select.wstm.unit.ce
+      %option{value: 'null'}= t('filter.select.option', data: 'Unitatea')
+      - Wstm::PartnerFirm.find_by(firm: true).units.asc(:slug).each do |unit|
+        %option{value: unit.id}= unit.name[1]
+    %p.ce{style: 'padding-top:1em'}
+      %button{:type => "button", data: {action: "cancel", icon: "circle-close"}}= t('button.cancel')
