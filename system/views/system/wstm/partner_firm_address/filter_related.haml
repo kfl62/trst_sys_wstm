@@ -1,0 +1,33 @@
+%span#hidden_data.hidden{data: {dialog: "filter", title: t("filter.title", data: mat(@object,'model_name')), model: mat(@object,'model_name'), oid: "null", related_id: params[:related_id] || 'null'}}
+%form{action: "/sys/#{@path}", method: "get"}
+  %table{cellspacing: "0"}
+    %thead
+      %tr
+        - unless params[:related_id]
+          %td= t("filter.embedded", child: mat(@object,'model_name'), parent: mat(@related_object,'model_name'))
+        - else
+          %td= t("filter.intro", data: mat(@object,'model_name'))
+    %tbody
+      %tr
+        %td
+          %select#related_id
+            %option{value: "null"}= t("filter.select.option", data:  mat(@related_object,'model_name'))
+            - @related_object.default_sort.each do |o|
+              %option{value: o.view_filter.first, selected: o.view_filter.first.to_s == params[:related_id]}= "#{o.view_filter[2].ljust(15)} #{o.view_filter[1]}"
+          - if params[:related_id]
+            %select#oid
+              %option{value: "null"}= t("filter.select.option", data: mat(@object,'model_name'))
+              - @object.default_sort.each do |o|
+                %option{value: o.view_filter.first}= o.view_filter.last
+      %tfoot
+        %tr
+          %td.buttonset.ce
+            - if params[:related_id]
+              %button{:type => "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create')
+              %button{:type => "button", data: {action: "show",   icon: "clipboard"}}=    t('button.show')
+              %button{:type => "button", data: {action: "edit",   icon: "document"}}=     t('button.edit')
+              %button{:type => "button", data: {action: "delete", icon: "circle-minus"}}= t('button.delete')
+              %button{:type => "button", data: {action: "cancel", icon: "circle-close"}}= t('button.cancel')
+            - else
+              %button{:type => "button", data: {action: "cancel", icon: "circle-close"}}= t('button.cancel')
+
