@@ -1,10 +1,10 @@
 %span#hidden_data.hidden{data: {dialog: "filter", title: t("filter.title", data: mat(@object,'model_name')), model: mat(@object,'model_name'), oid: "null", related_id: params[:related_id] || 'null'}}
 %form{action: "/sys/#{@path}", method: "get"}
   %table{cellspacing: "0"}
-    %thead
-      %tr
-        %td= t("filter.intro", data: mat(@object,'model_name'))
     %tbody
+      %tr
+        %td
+          %span.info= t("filter.intro", data: mat(@object,'model_name'))
       %tr
         %td
           %select#oid.s2{style: 'width:300px', data: {minlength: 2}}
