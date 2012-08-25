@@ -21,6 +21,7 @@ firm:
   css_path:     '/stylesheets/wstm'
   images_path:  '/images/wstm'
   i18n_path:    'wstm'
+  js_path:      'wstm'
 
   models_path:  [trst, wstm]
   db_devel:     'trst_wstm'
