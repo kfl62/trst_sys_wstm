@@ -1,0 +1,9 @@
+ro:
+  wstm:
+    filter:
+      intro_freight: |
+        Puteţi modifica preţul unitar la un &raquo;%{data}&laquo;<br>
+        după ce îl alegeţi din listă!
+      select:
+        no_unit: Nu aveţi nici un Punct de lucru selectat!
+        has_unit: Punctul de lucru selectat:&nbsp;&nbsp;
