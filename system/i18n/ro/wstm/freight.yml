@@ -1,0 +1,9 @@
+ro:
+  mongoid:
+    attributes:
+      'trst/freight': &trst_freight
+        << : *trst_freight
+      'wstm/freight':
+        code: Cod deşeu
+        p03: Se reţine 3% ?
+        << : *trst_freight
