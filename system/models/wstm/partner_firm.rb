@@ -1,0 +1,73 @@
+# encoding: utf-8
+module Wstm
+  class PartnerFirm < Trst::Firm
+    field :client,              type: Boolean,       default: true
+    field :supplier,            type: Boolean,       default: true
+    field :transporter,         type: Boolean,       default: true
+    field :p03,                 type: Boolean,       default: true
+    field :firm,                type: Boolean,       default: false
+
+    embeds_many :addresses,   class_name: "Wstm::PartnerFirmAddress", cascade_callbacks: true
+    embeds_many :people,      class_name: "Wstm::PartnerFirmPerson",  cascade_callbacks: true
+    embeds_many :units,       class_name: "Wstm::PartnerFirmUnit",    cascade_callbacks: true
+    accepts_nested_attributes_for :addresses, :people, :units
+
+    class << self
+      # @todo
+      def unit_by_unit_id(i)
+        find_by(:firm => true).units.find(i)
+      end
+      # @todo
+      def unit_ids
+        find_by(:firm => true).units.asc(:slug).map{|u| u.id}
+      end
+      # @todo
+      def pos(s)
+        s = s.upcase
+        find_by(:firm => true).units.find_by(:slug => s)
+      end
+    end # Class methods
+    # @todo
+    def view_filter
+      [id, name[1], identities['fiscal']]
+    end
+  end # PartnerFirm
+
+  class PartnerFirmAddress < Trst::Address
+
+    field :name,    type: String,   default: 'Main Address'
+
+    embedded_in :firm, class_name: 'Wstm::PartnerFirm', inverse_of: :addresses
+
+  end # FirmAddress
+
+  class PartnerFirmPerson < Trst::Person
+
+    field :role,    type: String
+
+    embedded_in :firm, class_name: 'Wstm::PartnerFirm', inverse_of: :people
+
+  end # FirmPerson
+
+  class PartnerFirmUnit
+    include Mongoid::Document
+    include Mongoid::Timestamps
+    include Trst::ViewHelpers
+
+    field :role,      type: String
+    field :name,      type: Array,        default: ['ShortName','FullName']
+    field :slug,      type: String
+    field :chief,     type: String,       default: 'Lastname Firstname'
+    field :env_auth,  type: String
+    field :main,      type: Boolean,      default: false
+
+    embedded_in :firm,      class_name: 'Wstm::PartnerFirm',  inverse_of: :units
+    has_many    :users,     class_name: 'Wstm::User',         inverse_of: :unit
+    has_many    :freights,  class_name: 'Wstm::Freight',      inverse_of: :unit
+
+    # @todo
+    def view_filter
+      [id, name[1]]
+    end
+  end # FirmUnit
+end # Wstm
