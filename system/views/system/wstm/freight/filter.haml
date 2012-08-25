@@ -1,0 +1,34 @@
+:ruby
+  unit_id = @current_user.unit_id.nil? ? session[:unit_id] : @current_user.unit_id
+-if unit_id
+  %span#hidden_data.hidden{data: {dialog: "filter", title: t("filter.title", data: mat(@object,'model_name')), model: mat(@object,'model_name'), oid: "null", related_id: params[:related_id] || 'null'}}
+  - unless @current_user.unit_id
+    = partial 'wstm/shared/select_unit'
+  %form{action: "/sys/#{@path}", method: "get"}
+    %table{cellspacing: "0"}
+      %tbody
+        %tr
+          %td
+            - if @current_user.admin?
+              %span.info= t("filter.intro", data: mat(@object,'model_name'))
+            - else
+              %span.info= t("filter.intro_freight", data: mat(@object,'model_name'))
+        %tr
+          %td
+            %select#oid
+              %option{value: "null"}= t("filter.select.option", data: mat(@object,'model_name'))
+              - @object.where(unit_id: unit_id).default_sort.each do |o|
+                %option{value: o.view_filter.first}= o.view_filter.last
+      %tfoot
+        %tr
+          %td.buttonset.ce
+            - if @current_user.admin?
+              %button{:type => "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create')
+            %button{:type => "button", data: {action: "show",   icon: "clipboard"}}=    t('button.show')
+            %button{:type => "button", data: {action: "edit",   icon: "document"}}=     t('button.edit')
+            - if @current_user.admin?
+              %button{:type => "button", data: {action: "delete", icon: "circle-minus"}}= t('button.delete')
+            %button{:type => "button", data: {action: "cancel", icon: "circle-close"}}= t('button.cancel')
+-else
+  %span#hidden_data.hidden{data: {dialog: "filter", title: t("filter.title", data: mat(@object,'model_name')), model: mat(@object,'model_name'), oid: "null", related_id: params[:related_id] || 'null'}}
+  = partial 'wstm/shared/select_unit'

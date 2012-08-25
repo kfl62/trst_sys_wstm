@@ -1,0 +1,20 @@
+%tbody
+  - if @current_user.admin?
+    - tr_input_for  @object,        'name'
+    - tr_input_for  @object,        'um'
+    - tr_input_for  @object,        'pu'
+    - tr_input_for  @object,        'id_stats'
+    - tr_input_for  @object,        'code'
+    %tr
+      - td_label_for @object, 'p03'
+      %td.boolean
+        %input.before-yes{type: 'radio', name: "[#{@path}][p03]", checked: @object.p03,  value: 'true'}
+        %input.before-no{ type: 'radio', name: "[#{@path}][p03]", checked: !@object.p03, value: 'false'}
+      - td_error_for @object, 'p03'
+  -else
+    - tr_show_for   @object,        'name'
+    - tr_show_for   @object,        'um'
+    - tr_input_for  @object,        'pu'
+    - tr_show_for   @object,        'id_stats'
+    - tr_show_for   @object,        'code'
+    - tr_show_for   @object,        'p03'
