@@ -1,0 +1,43 @@
+%tbody#tabs-1{data: {title: mat(@object, :tab_title)}}
+  - tr_input_for @object, 'name',       {order: 0}
+  - tr_input_for @object, 'name',       {order: 1}
+  - tr_input_for @object, 'name',       {order: 2}
+  - tr_input_for @object, 'identities', {order: 'caen'}
+  - tr_input_for @object, 'identities', {order: 'chambcom'}
+  - tr_input_for @object, 'identities', {order: 'fiscal'}
+  - tr_input_for @object, 'identities', {order: 'account'}
+  - tr_input_for @object, 'identities', {order: 'itm'}
+  - tr_input_for @object, 'identities', {order: 'internet'}
+  - tr_input_for @object, 'identities', {order: 'cod'}
+  - tr_input_for @object, 'contact',    {order: 'phone'}
+  - tr_input_for @object, 'contact',    {order: 'fax'}
+  - tr_input_for @object, 'contact',    {order: 'email'}
+  - tr_input_for @object, 'contact',    {order: 'website'}
+  %tr
+    - td_label_for @object, 'client'
+    %td.boolean
+      %input.before-yes{type: 'radio', name: "[#{@path}][client]", checked: @object.client,  value: 'true'}
+      %input.before-no{type: 'radio', name: "[#{@path}][client]", checked: !@object.client, value: 'false'}
+    - td_error_for @object, 'client'
+  %tr
+    - td_label_for @object, 'supplier'
+    %td.boolean
+      %input.before-yes{type: 'radio', name: "[#{@path}][supplier]", checked: @object.supplier,  value: 'true'}
+      %input.before-no{type: 'radio', name: "[#{@path}][supplier]", checked: !@object.supplier, value: 'false'}
+    - td_error_for @object, 'supplier'
+  %tr
+    - td_label_for @object, 'transporter'
+    %td.boolean
+      %input.before-yes{type: 'radio', name: "[#{@path}][transporter]", checked: @object.transporter,  value: 'true'}
+      %input.before-no{type: 'radio', name: "[#{@path}][transporter]", checked: !@object.transporter, value: 'false'}
+    - td_error_for @object, 'transporter'
+  %tr
+    - td_label_for @object, 'p03'
+    %td.boolean
+      %input.before-yes{type: 'radio', name: "[#{@path}][p03]", checked: @object.p03,  value: 'true'}
+      %input.before-no{type: 'radio', name: "[#{@path}][p03]", checked: !@object.p03, value: 'false'}
+    - td_error_for @object, 'p03'
+%tbody#tabs-2{data: {title: mat(@object, :tab_notes_title)}}
+  %tr
+    %td.info{colspan: '2'}
+      %span= mat(@object,'tab_notes_content')

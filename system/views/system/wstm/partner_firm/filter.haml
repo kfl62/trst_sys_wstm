@@ -1,0 +1,21 @@
+%span#hidden_data.hidden{data: {dialog: "filter", title: t("filter.title", data: mat(@object,'model_name')), model: mat(@object,'model_name'), oid: "null", related_id: params[:related_id] || 'null'}}
+%form{action: "/sys/#{@path}", method: "get"}
+  %table{cellspacing: "0"}
+    %thead
+      %tr
+        %td= t("filter.intro", data: mat(@object,'model_name'))
+    %tbody
+      %tr
+        %td
+          %select#oid.s2{style: 'width:300px', data: {minlength: 2}}
+            %option{value: "null"}= t("filter.select.option", data: mat(@object,'model_name'))
+            - @object.default_sort.each do |o|
+              %option.s2_option{value: o.view_filter[0]}= "#{o.view_filter[2].ljust(15)} #{o.view_filter[1]}"
+    %tfoot
+      %tr
+        %td.buttonset.ce
+          %button{:type => "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create')
+          %button{:type => "button", data: {action: "show",   icon: "clipboard"}}=    t('button.show')
+          %button{:type => "button", data: {action: "edit",   icon: "document"}}=     t('button.edit')
+          %button{:type => "button", data: {action: "delete", icon: "circle-minus"}}= t('button.delete')
+          %button{:type => "button", data: {action: "cancel", icon: "circle-close"}}= t('button.cancel')
