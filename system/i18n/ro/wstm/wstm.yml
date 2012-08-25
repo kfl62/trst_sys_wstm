@@ -7,3 +7,7 @@ ro:
       select:
         no_unit: Nu aveţi nici un Punct de lucru selectat!
         has_unit: Punctul de lucru selectat:&nbsp;&nbsp;
+    edit:
+      intro_freight: |
+        Puteţi modifica doar câmpul<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&raquo;Preţ unitar&laquo;
