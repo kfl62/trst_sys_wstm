@@ -22,7 +22,11 @@ ul.trst-ui-sortable
     padding: 0.25em 0.5em 0.5em
     display: block
     min-width: 180px
-
+.s2_option
+  div
+    &.select2-result-label
+      padding: 0px 7px !important
+      white-space: pre
 #deskDialog, #loginDialog
   .icon-only
     .ui-button-text
@@ -84,7 +88,6 @@ ul.trst-ui-sortable
           &:first-child
             border-top: solid 1px #000000
             padding: 0.5em
-
   span.info
     background:
       color: rgba(230, 255, 230, 1)
@@ -93,20 +96,28 @@ ul.trst-ui-sortable
       repeat: no-repeat
     border-radius: 10px
     box-shadow: 0.5em 0.5em #3e3e3e
-    padding: 0.5em
-    margin-bottom: 0.5em 1em
+    padding: 0.5em 1em
+    margin-bottom: 0.75em
     text-indent: 25px
-    font-size: 12px
+    font-size: 0.9em
     display: block
-
+    white-space: nowrap
+  span.warning
+    background:
+      color: rgba(255, 204, 204, 1)
+      image: image_url(unquote("icons/warning.png"))
+      position: 0.5em 0.5em
+      repeat: no-repeat
+    border-radius: 10px
+    box-shadow: 0.5em 0.5em #3e3e3e
+    padding: 0.5em 1em
+    margin-bottom: 0.75em
+    text-indent: 25px
+    font-size: 0.9em
+    display: block
+    white-space: nowrap
 #relationsContainer
   border-radius: 5px
   box-shadow: 0.25em 0.25em #3e3e3e
   font-size: 12px
   position: fixed
-.s2_option
-  div
-    &.select2-result-label
-      padding: 0px 7px !important
-      white-space: pre
-
