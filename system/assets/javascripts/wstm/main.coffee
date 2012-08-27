@@ -1,4 +1,7 @@
-define (['wstm/desk']), () ->
+define ([
+  '/javascripts/libs/select2.min.js',
+  'wstm/desk'
+  ]), () ->
   $.extend Wstm,
     unit_info:
       label: 'Punctul de colectare selectat:'
