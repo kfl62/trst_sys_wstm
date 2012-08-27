@@ -7,10 +7,7 @@
           %span.info= t("filter.intro", data: mat(@object,'model_name'))
       %tr
         %td
-          %select#oid.s2{style: 'width:300px', data: {minlength: 2}}
-            %option{value: "null"}= t("filter.select.option", data: mat(@object,'model_name'))
-            - @object.default_sort.each do |o|
-              %option.s2_option{value: o.view_filter[0]}= "#{o.view_filter[2].ljust(15)} #{o.view_filter[1]}"
+          %input.select2{type: 'hidden', style: 'width:300px', data: {minlength: 2,model: @path.classify}}
     %tfoot
       %tr
         %td.buttonset.ce
