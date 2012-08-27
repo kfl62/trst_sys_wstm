@@ -26,6 +26,13 @@ module Wstm
         s = s.upcase
         find_by(:firm => true).units.find_by(:slug => s)
       end
+      # @todo
+      def auto_search(params)
+        default_sort.only(:id,:name,:identities)
+        .or(name: /\A#{params[:q]}/i)
+        .or(:'identities.fiscal' => /\A#{params[:q]}/i)
+        .each_with_object([]){|pf,a| a << {id: pf.id.to_s,text: "#{pf.identities['fiscal'].ljust(18)} #{pf.name[1]}"}}
+      end
     end # Class methods
     # @todo
     def view_filter
