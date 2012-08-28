@@ -71,6 +71,7 @@ module Wstm
     embedded_in :firm,      class_name: 'Wstm::PartnerFirm',  inverse_of: :units
     has_many    :users,     class_name: 'Wstm::User',         inverse_of: :unit
     has_many    :freights,  class_name: 'Wstm::Freight',      inverse_of: :unit
+    has_many    :dps,       class_name: 'Wstm::Cache',        inverse_of: :unit
 
     # @todo
     def view_filter
