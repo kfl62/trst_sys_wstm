@@ -18,5 +18,5 @@ module Wstm
     class << self
     end # Class methods
 
-  end # User
+  end # FreightIn
 end # Wstm

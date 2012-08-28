@@ -16,5 +16,5 @@ module Wstm
     def unit
       Wstm::PartnerFirm.unit_by_unit_id(unit_id) rescue nil
     end
-  end # User
+  end # Freight
 end # Wstm
