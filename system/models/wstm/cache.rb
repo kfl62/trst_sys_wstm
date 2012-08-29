@@ -1,6 +1,8 @@
 # encoding: utf-8
 module Wstm
   class Cache < Trst::Cache
+
+    field :name,        type: String,     default: -> {"DP_NR-#{Date.today.to_s}"}
     field :expl,        type: String,     default: 'Vasy Ildiko'
     field :id_intern,   type: Boolean,    default: false
 
