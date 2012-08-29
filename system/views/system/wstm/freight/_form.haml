@@ -11,10 +11,13 @@
         %input.before-yes{type: 'radio', name: "[#{@path}][p03]", checked: @object.p03,  value: 'true'}
         %input.before-no{ type: 'radio', name: "[#{@path}][p03]", checked: !@object.p03, value: 'false'}
       - td_error_for @object, 'p03'
-  -else
+  - else
     - tr_show_for   @object,        'name'
     - tr_show_for   @object,        'um'
     - tr_input_for  @object,        'pu'
     - tr_show_for   @object,        'id_stats'
     - tr_show_for   @object,        'code'
     - tr_show_for   @object,        'p03'
+  %tr
+    %td{colspan: 3}
+      %input{type: 'hidden', name: "[#{@path}][unit_id]", value: @current_user.unit_id || session[:unit_id]}
