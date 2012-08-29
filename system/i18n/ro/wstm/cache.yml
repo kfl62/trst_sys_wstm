@@ -1,0 +1,8 @@
+ro:
+  mongoid:
+    attributes:
+      'trst/cache': &trst_cache
+        << : *trst_cache
+      'wstm/cache':
+        expl: Explicaţii
+        << : *trst_cache
