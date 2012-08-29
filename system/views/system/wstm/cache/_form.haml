@@ -1,0 +1,15 @@
+%tbody
+  - tr_input_for @object,        'name'
+  %tr
+    - td_label_for @object,      'id_date'
+    %td
+      - input_for @object,       'id_date', {id: 'date_show',name: 'strip'}
+      - input_for @object,       'id_date', {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
+  - tr_input_for @object,        'money_in'
+  - if @current_user.admin?
+    - tr_input_for @object,        'money_out'
+    - tr_input_for @object,        'money_stock'
+  - tr_input_for @object,        'expl'
+  %tr
+    %td{colspan: 3}
+      %input{type: 'hidden', name: "[#{@path}][unit_id]", value: @current_user.unit_id || session[:unit_id]}
