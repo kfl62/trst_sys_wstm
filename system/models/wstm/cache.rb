@@ -9,6 +9,11 @@ module Wstm
     belongs_to  :unit,     class_name: 'Wstm::PartnerFirmUnit', inverse_of: :dps
 
     class << self
+      # @todo
+      def pos(s)
+        s = s.upcase
+        where(unit_id: Wstm::PartnerFirm.pos(s).id)
+      end
     end # Class methods
 
     #todo

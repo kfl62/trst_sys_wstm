@@ -10,6 +10,11 @@ module Wstm
     has_many    :outs,     class_name: "Wstm::FreightOut",      inverse_of: :freight
 
     class << self
+      # @todo
+      def pos(s)
+        s = s.upcase
+        where(unit_id: Wstm::PartnerFirm.pos(s).id)
+      end
     end # Class methods
 
     #todo
