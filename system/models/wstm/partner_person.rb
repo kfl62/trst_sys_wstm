@@ -1,7 +1,10 @@
 # encoding: utf-8
 module Wstm
   class PartnerPerson < Trst::Person
-    embeds_one :address,  class_name:  'Wstm::PartnerPersonAddress', cascade_callbacks: true
+
+    embeds_one  :address,   class_name: 'Wstm::PartnerPersonAddress', cascade_callbacks: true
+    has_many    :apps,      class_name: 'Wstm::Expenditure',          inverse_of: :client
+
     accepts_nested_attributes_for :address
 
     class << self

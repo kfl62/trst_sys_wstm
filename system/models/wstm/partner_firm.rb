@@ -72,6 +72,7 @@ module Wstm
     has_many    :users,     class_name: 'Wstm::User',         inverse_of: :unit
     has_many    :freights,  class_name: 'Wstm::Freight',      inverse_of: :unit
     has_many    :dps,       class_name: 'Wstm::Cache',        inverse_of: :unit
+    has_many    :apps,      class_name: 'Wstm::Expenditure',  inverse_of: :unit
 
     # @todo
     def view_filter

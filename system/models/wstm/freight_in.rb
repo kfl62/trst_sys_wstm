@@ -13,7 +13,8 @@ module Wstm
     field :qu,          type: Float,     default: 0.00
     field :val,         type: Float,     default: 0.00
 
-    belongs_to  :freight,  class_name: 'Wstm::Freight', inverse_of: :ins
+    belongs_to  :freight,  class_name: 'Wstm::Freight',     inverse_of: :ins
+    belongs_to  :doc_exp,  class_name: 'Wstm::Expenditure', inverse_of: :freights
 
     class << self
     end # Class methods
