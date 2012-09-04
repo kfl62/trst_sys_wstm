@@ -1,7 +1,8 @@
 # encoding: utf-8
 module Wstm
   class User < Trst::User
-    belongs_to :unit,     class_name: 'Wstm::PartnerFirmUnit', inverse_of: :users
+    belongs_to :unit,     class_name: 'Wstm::PartnerFirmUnit',  inverse_of: :users
+    has_many   :apps,     class_name: 'Wstm::Expenditure',      inverse_of: :signed_by
 
     class << self
     end # Class methods
