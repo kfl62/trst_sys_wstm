@@ -11,9 +11,11 @@
 -else
   %div.small
     %span.info= t('filter.select.no_unit')
+    %hr
     %select.wstm.unit.ce
       %option{value: 'null'}= t('filter.select.option', data: 'Unitatea')
       - Wstm::PartnerFirm.find_by(firm: true).units.asc(:slug).each do |unit|
         %option{value: unit.id}= unit.name[1]
+    %hr
     %p.ce{style: 'padding-top:1em'}
       %button{:type => "button", data: {action: "cancel", icon: "circle-close"}}= t('button.cancel')
