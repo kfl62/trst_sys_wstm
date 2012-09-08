@@ -25,6 +25,14 @@ module Wstm
     def view_filter
       [id, name, id_pn]
     end
+    # @todo
+    def i18n_hash
+      {
+        id_pn: id_pn, name: name,
+        city: address.city, street: address.street, nr: address.nr, bl: address.bl, sc: address.sc, et: address.et, ap: address.ap,
+        dsr: id_doc["sr"], dnr: id_doc["nr"], dby: id_doc["by"], don: id_doc["on"]
+      }
+    end
   end # PartnerPerson
 
   class PartnerPersonAddress < Trst::Address
