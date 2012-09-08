@@ -8,11 +8,11 @@ module Wstm
     belongs_to  :unit,     class_name: 'Wstm::PartnerFirmUnit', inverse_of: :freights
     has_many    :ins,      class_name: "Wstm::FreightIn",       inverse_of: :freight
     has_many    :outs,     class_name: "Wstm::FreightOut",      inverse_of: :freight
+    has_many    :stocks,   class_name: "Wstm::FreightStock",    inverse_of: :freight
 
     class << self
       # @todo
       def pos(s)
-        s = s.upcase
         where(unit_id: Wstm::PartnerFirm.pos(s).id)
       end
     end # Class methods
