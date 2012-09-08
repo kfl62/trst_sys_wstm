@@ -1,0 +1,15 @@
+%span#hidden_data.hidden{data: {dialog: "delete", title: t("delete.title", data: mat(@object,'model_name')), model: mat(@object,'model_name'), oid: @object.id, related_id: params[:related_id] || 'null'}}
+%form{action: "/sys/#{@path}", method: "delete"}
+  %table{cellspacing: "0"}
+    %thead
+      %tr
+        %th{colspan: "8"}
+          %span.warning= t('delete.header_expenditure', data: mat(@object,'model_name'))
+          %span.info= t('show.header_expenditure',@object.client.i18n_hash.merge(enr: @object.name,eon: l(@object.id_date,format: :trst)))
+    = partial "/#{@path}/show"
+    %tfoot
+      %tr
+        %td.buttonset.ce{colspan: "8"}
+          %button{type: "button", data: {action: "delete",icon: "circle-minus"}}= t('button.delete')
+          %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+
