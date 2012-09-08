@@ -1,0 +1,6 @@
+ro:
+  mongoid:
+    attributes:
+      'wstm/expenditure':
+        model_name: Adeverinţă Primire/Plată
+        table_header: ["Material", "UM", "PU", "Cant.", "Valoare", "3%", "16%", "Rest", "&nbsp;&nbsp;"]
