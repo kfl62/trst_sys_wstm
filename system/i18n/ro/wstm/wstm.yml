@@ -1,13 +1,50 @@
 ro:
   wstm:
     filter:
-      intro_freight: |
-        Puteţi modifica preţul unitar la un &raquo;%{data}&laquo;<br>
-        după ce îl alegeţi din listă!
       select:
         no_unit: Nu aveţi nici un Punct de lucru selectat!
         has_unit: Punctul de lucru selectat:&nbsp;&nbsp;
+      intro_freight: |
+        Puteţi modifica preţul unitar la un &raquo;%{data}&laquo;<br>
+        după ce îl alegeţi din listă!
+      title_expenditure: |
+        Selectare &raquo;%{data}&laquo; ptr. a crea un APP
+      intro_expenditure: |
+        Pentru a crea o &raquo;Adeverinţă Primire/Plată&laquo; este nevoie să selectaţi un client.<br>
+        Introduceţi min. 3 cifre din CNP sau 3 litere din Nume/Prenume (cu cât mai multe<br>
+        cifre/litere lista care apare va fi mai scurtă), după alegere -> "Creare APP"<br>
+        În cazul în care persoana nu există, întroduceţi 13 cifre şi dacă este un CNP<br>
+        valid se activează butonul "Creare persoană fizică".
     edit:
       intro_freight: |
         Puteţi modifica doar câmpul<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&raquo;Preţ unitar&laquo;
+    create:
+      header_expenditure: |
+        S-au primit de la %{name} CNP %{id_pn}<br>
+        cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}<br>
+        legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}<br>
+        următoarele deşeuri reciclabile:
+    show:
+      header_expenditure: |
+        Adeverinţa Primire/Plată nr.<b>%{enr}</b> din <b>%{eon}</b><br>
+        S-au primit de la %{name} CNP %{id_pn}<br>
+        cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}<br>
+        legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}<br>
+        următoarele deşeuri reciclabile:
+    delete:
+      header_expenditure: |
+        Atenţie!!! Se va şterge &raquo;Adeverinţa Primire/Plată&laquo;!!!
+    print:
+      expenditure_client: |
+        S-au primit de la <b>%{name}</b> CNP <b>%{id_pn}</b>
+        cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}
+        legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}
+        mijloc de transport _________________, următoarele deşeuri reciclabile:
+      expenditure_decl: |
+        Subsemnatul <b>%{name}</b> declar următoarele:
+        1.) Cunosc faptul că falsul în declaraţie constituie infracţiune, se pedepseşte
+        #####conform Codului Penal;
+        2.) Materialel pe care le predau provin din:
+        #####a.) Gospodărie proprie;
+        #####b.) Alte surse.
