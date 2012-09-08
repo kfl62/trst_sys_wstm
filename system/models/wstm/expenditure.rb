@@ -27,7 +27,6 @@ module Wstm
     class << self
       # @todo
       def pos(s)
-        s = s.upcase
         where(unit_id: Wstm::PartnerFirm.pos(s).id)
       end
       # @todo
