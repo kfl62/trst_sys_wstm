@@ -4,6 +4,7 @@ module Wstm
     include Mongoid::Document
     include Mongoid::Timestamps
     include Trst::ViewHelpers
+    include Trst::DateHelpers
 
     field :id_date,     type: Date
     field :id_stats,    type: String
