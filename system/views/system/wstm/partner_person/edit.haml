@@ -1,0 +1,17 @@
+%span#hidden_data.hidden{data: {dialog: "edit", title: t("edit.title", data: mat(@object,'model_name')), model: mat(@object,'model_name'), oid: @object.id, related_id: params[:related_id] || 'null'}}
+%form{action: "/sys/#{@path}", method: "put"}
+  %table{cellspacing: "0"}
+    %thead
+      %tr
+        %th{colspan: "3"}
+    = partial "#{@path}/form"
+    %tfoot
+      %tr
+        %td.buttonset.ce{colspan: "3"}
+          - if params[:reload_path]
+            %button{type: "button", data: {url: "/sys/#{@path}?reload_path=#{params[:reload_path]}",action: "save",   icon: "disk",remove: 'false'}}=         t('button.save')
+          - else
+            %button{type: "button", data: {action: "save",   icon: "disk",remove: 'false'}}=         t('button.save')
+          - if params[:reload_path] || @current_user.admin?
+            %button{type: "button", data: {action: "delete", icon: "circle-minus",remove: 'false'}}= t('button.delete')
+          %button{type: "button", data: {action: "cancel", icon: "circle-close"}}= t('button.cancel')
