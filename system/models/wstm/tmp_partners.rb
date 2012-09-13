@@ -16,7 +16,7 @@ class TrstPartner
   embeds_many :units,           :class_name => "TrstPartnerUnit"
 
   class << self
-    def export
+    def export(firm = 'continent')
       ownfirm = Trst::Firm.first
       Trst::Firm.delete_all
       wp = Wstm::PartnerFirm.new(
@@ -81,10 +81,50 @@ class TrstPartner
         end
       end
       ownfirm.unset(:delegates)
+      if firm == 'diren'
+        diren_partner = TrstPartner.find("4edd8aaa13e16c3610000001")
+        wp.people.where(role: 'contactp').destroy
+        diren_partner.persons.each do |person|
+          if person['name'] != 'FirstName LastName'
+            wp.people.new(
+              id_pn: person['id_pn'],
+              name_frst: person['name'].split(' ')[0].titleize.gsub(' ','-'),
+              name_last: person['name'].split(' ')[1].titleize.gsub(' ','-'),
+              other: person['other'],
+              id_doc: {"type" => 'CI', "sr" => person["id_sr"], "nr" => person["id_nr"], "by" => person["id_by"], "on" => person["id_on"]}
+            ) do |pp|
+              pp._id = person['_id']
+              pp['role'] = 'contactp'
+              pp['email'] = person['email']
+              pp['phone'] = person['phone']
+              pp.save(validate: false)
+            end
+          end
+        end
+        diren_partner.unset(:persons)
+        diren_partner.delegates.each do |person|
+          if person['name'] != 'FirstName LastName'
+            wp.people.new(
+              id_pn: person['id_pn'],
+              name_frst: person['name'].split(' ')[0].titleize.gsub(' ','-'),
+              name_last: person['name'].split(' ')[1].titleize.gsub(' ','-'),
+              other: person['other'],
+              id_doc: {"type" => 'CI', "sr" => person["id_sr"], "nr" => person["id_nr"], "by" => person["id_by"], "on" => person["id_on"]}
+            ) do |pp|
+              pp._id = person['_id']
+              pp['role'] = 'delegate'
+              pp['email'] = person['email']
+              pp['phone'] = person['phone']
+              pp.save(validate: false)
+            end
+          end
+        end
+        diren_partner.unset(:delegates)
+      end
     end
   end
 
-  def export
+  def export(firm = 'continent')
     wp = Wstm::PartnerFirm.new(
       name: name,
       identities: identities,
@@ -129,8 +169,8 @@ class TrstPartner
         if person['name'] != 'FirstName LastName'
           wp.people.new(
             id_pn: person['id_pn'],
-            name_frst: person['name'].split(' ')[0].titleize.gsub(' ','-'),
-            name_last: person['name'].split(' ')[1].titleize.gsub(' ','-'),
+            name_frst: (person['name'].split(' ')[0].titleize.gsub(' ','-').strip rescue ''),
+            name_last: (person['name'].split(' ')[1].titleize.gsub(' ','-').strip rescue ''),
             other: person['other'],
             id_doc: {"type" => 'CI', "sr" => person["id_sr"], "nr" => person["id_nr"], "by" => person["id_by"], "on" => person["id_on"]}
           ) do |pp|
