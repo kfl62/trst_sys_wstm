@@ -48,3 +48,18 @@ ro:
         2.) Materialel pe care le predau provin din:
         #####a.) Gospodărie proprie;
         #####b.) Alte surse.
+    query:
+      freight:
+        title: |
+          Stocuri cantitative - %{data}
+        intro_unit: |
+          În tabelul de mai jos aveţi stocurile "Lunare" conform APP/AE-lor operate.<br>
+          Ultimele coloane conţin stocurile punctelor de lucru (componentele stocului).<br/>
+          Pentru detalii "click" pe titlul coloanei, ce conţine unitatea, care vă interesează.
+        intro_freight: |
+          Pentru fişa de magazie "click" pe denumirea materialului!
+        exit_freight: |
+          Pentru stocuri alegeţi "Toate materialele"!
+        table_stats: ['Material', 'Iniţial', 'Intrări', 'Ieşiri', 'Stoc']
+        table_freight: ['Data', 'Intrări', 'Ieşiri', 'Stoc']
+        stock_start: Stoc initial
