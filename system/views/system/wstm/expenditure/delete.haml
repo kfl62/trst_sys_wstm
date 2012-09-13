@@ -1,4 +1,4 @@
-%span#hidden_data.hidden{data: {dialog: "delete", title: t("delete.title", data: mat(@object,'model_name')), model: mat(@object,'model_name'), oid: @object.id, related_id: params[:related_id] || 'null'}}
+%span#hidden_data.hidden{data: {dialog: "delete",title: t("delete.title",data: mat(@object,'model_name')),model: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_expenditure'}}
 %form{action: "/sys/#{@path}", method: "delete"}
   %table{cellspacing: "0"}
     %thead

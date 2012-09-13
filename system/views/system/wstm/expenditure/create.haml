@@ -2,7 +2,7 @@
   client  = Wstm::PartnerPerson.find(params[:client_id])
   unit_id = @current_user.unit_id.nil? ? session[:unit_id] : @current_user.unit_id
   freights= Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights
-%span#hidden_data.hidden{data: {dialog: "create", title: t("create.title", data: mat(@object,'model_name')), model: mat(@object,'model_name'), oid: "null", related_id: params[:related_id] || 'null'}}
+%span#hidden_data.hidden{data: {dialog: "create",title: t("create.title",data: mat(@object,'model_name')),model: mat(@object,'model_name'),oid: "null",js_ext: 'desk_expenditure'}}
 %form{action: "/sys/#{@path}", method: "post"}
   %table{:cellspacing => "0"}
     %thead

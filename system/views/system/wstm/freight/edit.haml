@@ -1,4 +1,4 @@
-%span#hidden_data.hidden{data: {dialog: "edit", title: t("edit.title", data: mat(@object,'model_name')), model: mat(@object,'model_name'), oid: @object.id, related_id: params[:related_id] || 'null'}}
+%span#hidden_data.hidden{data: {dialog: "edit",title: t("edit.title",data: mat(@object,'model_name')),model: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_freight'}}
 %form{action: "/sys/#{@path}", method: "put"}
   %table{cellspacing: "0"}
     %thead

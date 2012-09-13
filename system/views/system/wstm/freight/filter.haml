@@ -1,7 +1,7 @@
 :ruby
   unit_id = @current_user.unit_id.nil? ? session[:unit_id] : @current_user.unit_id
+%span#hidden_data.hidden{data: {dialog: "filter",title: t("filter.title",data: mat(@object,'model_name')),model: mat(@object,'model_name'),oid: "null",js_ext: 'desk_freight'}}
 -if unit_id
-  %span#hidden_data.hidden{data: {dialog: "filter", title: t("filter.title", data: mat(@object,'model_name')), model: mat(@object,'model_name'), oid: "null", related_id: params[:related_id] || 'null'}}
   - unless @current_user.unit_id
     = partial 'wstm/shared/select_unit'
   %form{action: "/sys/#{@path}", method: "get"}
@@ -30,5 +30,4 @@
               %button{:type => "button", data: {action: "delete", icon: "circle-minus"}}= t('button.delete')
             %button{:type => "button", data: {action: "cancel", icon: "circle-close"}}= t('button.cancel')
 -else
-  %span#hidden_data.hidden{data: {dialog: "filter", title: t("filter.title", data: mat(@object,'model_name')), model: mat(@object,'model_name'), oid: "null", related_id: params[:related_id] || 'null'}}
   = partial 'wstm/shared/select_unit'
