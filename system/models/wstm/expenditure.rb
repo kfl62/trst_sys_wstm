@@ -21,6 +21,8 @@ module Wstm
     belongs_to :unit,       class_name: "Wstm::PartnerFirmUnit", inverse_of: :apps
     belongs_to :signed_by,  class_name: "Wstm::User",            inverse_of: :apps
 
+    # @todo validate id_date (min -> Date.today.month - 1)
+
     accepts_nested_attributes_for :freights,
       reject_if: ->(attrs){ attrs[:qu].to_i == 0 }
 
@@ -32,6 +34,10 @@ module Wstm
       # @todo
       def to_txt
         all.asc(:name).each{|app| p "#{app.name} --- #{app.id_date.to_s} #{app.updated_at.strftime("%H:%M")} --- #{("%.2f" % app.sum_out).rjust(8)}"}
+      end
+      # @todo
+      def nonin(nin = true)
+        where(id_intern: !nin)
       end
     end # Class methods
 

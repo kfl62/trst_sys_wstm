@@ -14,6 +14,10 @@ module Wstm
         s = s.upcase
         where(unit_id: Wstm::PartnerFirm.pos(s).id)
       end
+      # @todo
+      def nonin(nin = true)
+        where(id_intern: !nin)
+      end
     end # Class methods
 
     #todo
