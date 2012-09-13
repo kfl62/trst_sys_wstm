@@ -1,6 +1,7 @@
 # encoding: utf-8
 module Wstm
   class PartnerFirm < Trst::Firm
+
     field :client,              type: Boolean,       default: true
     field :supplier,            type: Boolean,       default: true
     field :transporter,         type: Boolean,       default: true
@@ -10,6 +11,12 @@ module Wstm
     embeds_many :addresses,   class_name: "Wstm::PartnerFirmAddress", cascade_callbacks: true
     embeds_many :people,      class_name: "Wstm::PartnerFirmPerson",  cascade_callbacks: true
     embeds_many :units,       class_name: "Wstm::PartnerFirmUnit",    cascade_callbacks: true
+    has_many    :dlns_client, class_name: "Wstm::DeliveryNote",       inverse_of: :client
+    has_many    :dlns_transp, class_name: "Wstm::DeliveryNote",       inverse_of: :transporter
+    has_many    :grns_supplr, class_name: "Wstm::Grn",                inverse_of: :supplier
+    has_many    :grns_transp, class_name: "Wstm::Grn",                inverse_of: :transporter
+    has_many    :invs_client, class_name: "Wstm::Invoice",            inverse_of: :client
+
     accepts_nested_attributes_for :addresses, :people, :units
 
     class << self
@@ -18,8 +25,13 @@ module Wstm
         find_by(:firm => true).units.find(i)
       end
       # @todo
+      def person_by_person_id(i)
+        i = Moped::BSON::ObjectId(i) if i.is_a?(String)
+        find_by(:'people._id' => i).people.find(i)
+      end
+      # @todo
       def unit_ids
-        find_by(:firm => true).units.asc(:slug).map{|u| u.id}
+        find_by(:firm => true).units.asc(:slug).map(&:id)
       end
       # @todo
       def pos(s)
@@ -52,7 +64,12 @@ module Wstm
 
     field :role,    type: String
 
-    embedded_in :firm, class_name: 'Wstm::PartnerFirm', inverse_of: :people
+    embedded_in :firm,          class_name: 'Wstm::PartnerFirm',  inverse_of: :people
+    has_many    :dlns_client,   class_name: 'Wstm::DeliveryNote', inverse_of: :client_d
+    has_many    :dlns_transp,   class_name: 'Wstm::DeliveryNote', inverse_of: :transp_d
+    has_many    :grns_transp,   class_name: 'Wstm::Grn',          inverse_of: :transp_d
+    has_many    :grns_supplr,   class_name: 'Wstm::Grn',          inverse_of: :supplr_d
+    has_many    :invs_client,   class_name: 'Wstm::Invoice',      inverse_of: :client_d
 
   end # FirmPerson
 
@@ -74,10 +91,21 @@ module Wstm
     has_many    :dps,       class_name: 'Wstm::Cache',        inverse_of: :unit
     has_many    :apps,      class_name: 'Wstm::Expenditure',  inverse_of: :unit
     has_many    :stocks,    class_name: 'Wstm::Stock',        inverse_of: :unit
+    has_many    :dlns,      class_name: 'Wstm::DeliveryNote', inverse_of: :unit
+    has_many    :grns,      class_name: 'Wstm::Grn',          inverse_of: :unit
+    has_many    :csss,      class_name: 'Wstm::Cassation',    inverse_of: :unit
 
     # @todo
     def view_filter
       [id, name[1]]
+    end
+    # @todo
+    def stock_now
+      stocks.find_by(id_date: Date.new(2000,1,31))
+    end
+    # @todo
+    def stock_monthly(y,m)
+      stocks.find_by(id_date: Date.new(y,m + 1,1))
     end
   end # FirmUnit
 end # Wstm
