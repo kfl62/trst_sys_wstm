@@ -16,9 +16,69 @@ module Wstm
 
     belongs_to  :freight,  class_name: 'Wstm::Freight',     inverse_of: :ins
     belongs_to  :doc_exp,  class_name: 'Wstm::Expenditure', inverse_of: :freights
+    belongs_to  :doc_grn,  class_name: 'Wstm::Grn',         inverse_of: :freights
+
+    after_save    :'handle_stock(true)'
+    after_destroy :'handle_stock(false)'
 
     class << self
+      # @todo
+      def keys(pu = true)
+        ks = all.each_with_object([]){|f,k| k << "#{f.id_stats}"}.uniq.sort!
+        ks = all.each_with_object([]){|f,k| k << "#{f.id_stats}_#{"%05.2f" % f.pu}"}.uniq.sort! if pu
+        ks
+      end
+      # @todo
+      def by_key(key)
+        id_stats, pu = key.split('_')
+        where(id_stats: id_stats)
+        where(id_stats: id_stats, pu: pu.to_f) if pu
+      end
+      # @todo
+      def nonin(nin = true)
+        where(id_intern: !nin)
+      end
+      # @todo
+      def pos(s)
+        where(:freight_id.in => Wstm::PartnerFirm.pos(s).freights.ids)
+      end
+      # @todo
+      def sum_ins(*args)
+        opts = args.last.is_a?(Hash) ? {what: :qu}.merge!(args.pop) : {what: :qu}
+        y,m,d = *args; today = Date.today
+        y,m,d = today.year, today.month, today.day unless ( y || m || d)
+        v = opts[:what]
+        if d
+          daily(y,m,d).sum(v) || 0.0
+        elsif m
+          monthly(y,m).sum(v) || 0.0
+        else
+          yearly(y).sum(v)    || 0.0
+        end
+      end
     end # Class methods
 
+    # @todo
+    def unit
+      Wstm::PartnerFirm.unit_by_unit_id(doc.unit_id)
+    end
+    # @todo
+    def doc
+      doc_exp || doc_grn
+    end
+
+    private
+    # @todo
+    def handle_stock(add_delete)
+      today = Date.today; retro = id_date.month == today.month
+      stock_to_handle = retro ? [unit.stock_now] : [unit.stock_now, unit.stock_monthly(id_date.year,id_date.month)]
+      stock_to_handle.each do |stck|
+        f = stck.freights.find_or_create_by(id_stats: id_stats, pu: pu)
+        f.freight_id = freight_id
+        add_delete ? f.qu += qu : f.qu -= qu
+        f.val = (f.pu * f. qu).round(2)
+        f.save
+      end
+    end
   end # FreightIn
 end # Wstm
