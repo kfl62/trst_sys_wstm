@@ -6,7 +6,9 @@ define () ->
           $select = node
           $select.change ()->
             if $select.val() is 'null' then Wstm.unit_info.update() else Wstm.unit_info.update($select.find('option:selected').text())
-            Trst.desk.init("/utils/units/wstm/freight/#{$select.val()}")
+            $model  = Trst.desk.hdo.js_ext.split('_')[1]
+            $dialog = Trst.desk.hdo.dialog
+            Trst.desk.init("/utils/units/wstm/#{$model}/#{$dialog}/#{$select.val()}")
             return
           return
         select2: (node)->
