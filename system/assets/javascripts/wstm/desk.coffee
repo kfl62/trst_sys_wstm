@@ -30,10 +30,9 @@ define () ->
             altFormat: 'yy-mm-dd'
             autoSize: true
             $.datepicker.regional['ro']
-        $model = Trst.desk.hdf.attr('action').split('/').pop(-1)
-        if $model is 'expenditure'
-          require (['wstm/desk_expenditure']), ()->
-            Wstm.desk.expenditure.init()
+        if $ext = Trst.desk.hdo.js_ext
+          require (["wstm/#{$ext}"]), ()->
+            Wstm[$ext.split('_')[0]][$ext.split('_')[1]].init()
         if $('input[name*="id_pn"]').length
           if Trst.desk.hdo.dialog is 'create' or Trst.desk.hdo.dialog is 'edit'
             Wstm.desk.idPnHandle()
