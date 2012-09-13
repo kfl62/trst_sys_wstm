@@ -8,7 +8,6 @@ module Wstm
 
     field :name,        type: String
     field :id_date,     type: Date
-    field :id_intern,   type: Boolean,  default: false
     field :expl,        type: String,   default: 'Stock initial'
 
     has_many   :freights,   class_name: "Wstm::FreightStock",   :inverse_of => :doc
@@ -21,6 +20,12 @@ module Wstm
       end
     end # Class methods
 
+    # @todo
+    def keys(pu = true)
+      ks = freights.each_with_object([]){|f,k| k << "#{f.id_stats}"}.uniq.sort!
+      ks = freights.each_with_object([]){|f,k| k << "#{f.id_stats}_#{"%05.2f" % f.pu}"}.uniq.sort! if pu
+      ks
+    end
     # @todo
     def unit
       Wstm::PartnerFirm.unit_by_unit_id(unit_id) rescue nil
