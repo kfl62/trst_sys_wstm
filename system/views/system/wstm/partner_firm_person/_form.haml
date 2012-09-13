@@ -4,7 +4,8 @@
     - td_value_for @related_object, 'name', {order: 2}
     - td_error_for @related_object, 'name', {order: 2}
   - tr_select_for @object,'role',   {type: 'enum',select_options: %w{null admin contactp delegate}}
-  - tr_input_for  @object, 'name'
+  - tr_input_for  @object, 'name_last'
+  - tr_input_for  @object, 'name_frst'
   - tr_input_for  @object, 'id_pn'
   - tr_input_for  @object, 'id_doc', {order: 'type'}
   - tr_input_for  @object, 'id_doc', {order: 'sr'}
