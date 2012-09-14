@@ -10,7 +10,7 @@ define () ->
             $select = $(this)
             $select.on 'change', ()->
               $url  = "sys/wstm/cache/query?y=#{$sy.val()}&m=#{$sm.val()}"
-              $url += "#{$url}&uid=#{$su.val()}" if $su.length
+              $url += "&uid=#{$su.val()}" if $su.length
               Trst.desk.init($url)
               return
             return
