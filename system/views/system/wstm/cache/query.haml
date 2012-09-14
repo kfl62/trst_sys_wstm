@@ -1,0 +1,65 @@
+:ruby
+  today = Date.today;   cols = 0
+  y   = params[:y].nil? ? today.year  : params[:y].to_i
+  m   = params[:m].nil? ? today.month : params[:m].to_i
+  uid = @current_user.unit_id ? @current_user.unit_id : params[:uid] == 'null' ? nil : params[:uid]
+  firm= Wstm::PartnerFirm.find_by(firm: :true); unit= firm.units.find(uid) if uid
+  data= uid ? unit.name[1] : firm.name[2]
+%span#hidden_data.hidden{data: {dialog: "query",title: t("query.cache.title", data: data),model: mat(@object,'model_name'),oid: "null",js_ext: 'desk_cache'}}
+- if uid
+  %div.small
+    %span.info= t('query.cache.intro_unit')
+    %p
+      %select#y
+        - [2011,2012].each do |year|
+          %option{value: year, selected: y == year}= year
+      %select#m
+        - t('month')[1..12].each_with_index do |month,i|
+          %option{value: i + 1, selected: m == i + 1}= month
+      %select#u
+        %option{value: 'null'} Toate unităţile
+        - firm.units.each do |pos|
+          %option{value: pos.id, selected: uid.to_s == pos.id.to_s}= pos.name[1]
+  %table{:cellspacing => "0"}
+    %tbody.inner
+      %tr
+        - t('query.cache.table_unit').each do |cn|
+          %td
+            %span.stats.ce= cn
+      %tr
+        %td{colspan: '3'}
+          %span.stats.ce Sold iniţial
+        %td
+          %span.stats.ri= "%0.2f" % @object.by_unit_id(uid).sum_mny(y,m,mny: [:money_stock]).first
+      - @object.stats_pos(uid,y,m,exp_all: false).each do |r|
+        - dif = r.delete_at(2); r.delete_at(-2)
+        %tr
+          %td
+            %span.stats= r.shift
+          - r.each_with_index do |c|
+            %td
+              %span.stats.ri= "%0.2f" % c
+- else
+  %div.small
+    %span.info= t('query.cache.intro_firm')
+    %p
+      %select#y
+        - [2011,2012].each do |year|
+          %option{value: year, selected: y == year}= year
+      %select#m
+        - t('month')[1..12].each_with_index do |month,i|
+          %option{value: i + 1, selected: m == i + 1}= month
+  %table{:cellspacing => "0"}
+    %tbody.inner
+      %tr
+        - t('query.cache.table_firm').each do |cn|
+          %td
+            %span.stats.ce= cn
+      - @object.stats_all(y,m,mny_all: false,ext_all: false).each do |r|
+        - r.delete_at(-2)
+        %tr
+          %td
+            %span.stats{id: (r[0] != 'Total') && r.shift, class: (r[0] != 'Total') && 'link'}= r.shift
+          - r.each do |c|
+            %td
+              %span.stats.ri= "%0.2f" % c
