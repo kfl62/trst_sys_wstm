@@ -117,6 +117,19 @@ define () ->
                     Trst.desk.closeDesk(false)
                     Trst.desk.init($url,$type,$data)
                     $msg 'Wstm::Expenditure save...'
+            else if Trst.desk.hdo.dialog is 'show'
+              if $bd.action is 'print'
+                $button.on 'click', ()->
+                  Trst.msgShow('Acum se generează documentul. Aveţi puţină tică răbdare...')
+                  $.fileDownload "/sys/wstm/expenditure/print?id=#{Trst.desk.hdo.oid}",
+                    successCallback: ()->
+                      Trst.msgHide()
+                    failCallback: ()->
+                      Trst.msgHide()
+                      Trst.desk.downloadError
+                        what: 'error.download'
+                        data: Trst.desk.hdo.model
+                  false
             else
               ###
               Buttons default handler Trst.desk.buttons
