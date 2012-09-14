@@ -20,6 +20,8 @@ module Wstm
     belongs_to  :doc_dln,  class_name: 'Wstm::DeliveyNote', inverse_of: :freights
     belongs_to  :doc_cas,  class_name: 'Wstm::Cassation',   inverse_of: :freights
 
+    index({ freight_id: 1, id_date: 1 })
+
     class << self
       # @todo
       def keys(pu = true)

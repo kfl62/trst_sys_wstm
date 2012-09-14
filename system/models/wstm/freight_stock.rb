@@ -17,6 +17,8 @@ module Wstm
     belongs_to  :freight,  class_name: 'Wstm::Freight',     inverse_of: :stks
     belongs_to  :doc,      class_name: 'Wstm::Stock',       inverse_of: :freights
 
+    index({ freight_id: 1, id_date: 1 })
+
     class << self
       # @todo
       def keys(pu = true)

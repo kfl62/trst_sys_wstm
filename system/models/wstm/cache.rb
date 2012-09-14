@@ -8,6 +8,7 @@ module Wstm
 
     belongs_to  :unit,     class_name: 'Wstm::PartnerFirmUnit', inverse_of: :dps
 
+    index({ unit_id: 1, id_date: 1 })
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
 
     class << self

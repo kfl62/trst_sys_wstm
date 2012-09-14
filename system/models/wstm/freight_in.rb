@@ -21,6 +21,8 @@ module Wstm
     after_save    :'handle_stock(true)'
     after_destroy :'handle_stock(false)'
 
+    index({ freight_id: 1, id_date: 1 })
+
     class << self
       # @todo
       def keys(pu = true)
