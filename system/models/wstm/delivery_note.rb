@@ -22,7 +22,7 @@ module Wstm
     belongs_to :unit,         class_name: "Wstm::PartnerFirmUnit",  inverse_of: :dlns
     belongs_to :signed_by,    class_name: "Wstm::User",             inverse_of: :dlns
 
-    scope: :by_unit_id, (unit_id)-> {where(unit_id: unit_id)}
+    scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
 
     class << self
       # @todo

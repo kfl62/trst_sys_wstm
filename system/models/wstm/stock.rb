@@ -13,7 +13,7 @@ module Wstm
     has_many   :freights,   class_name: "Wstm::FreightStock",   :inverse_of => :doc
     belongs_to :unit,       class_name: "Wstm::PartnerFirmUnit",:inverse_of => :stocks
 
-    scope: :by_unit_id, (unit_id)-> {where(unit_id: unit_id)}
+    scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
 
     class << self
       # @todo

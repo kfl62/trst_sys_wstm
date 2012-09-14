@@ -8,7 +8,7 @@ module Wstm
     has_many   :grns,   class_name: 'Wstm::Grn',              inverse_of: :signed_by
     has_many   :csss,   class_name: 'Wstm::Cassation',        inverse_of: :signed_by
 
-    scope: :by_unit_id, (unit_id)-> {where(unit_id: unit_id)}
+    scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
 
     class << self
     end # Class methods
