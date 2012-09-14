@@ -26,6 +26,8 @@ module Wstm
     accepts_nested_attributes_for :freights,
       reject_if: ->(attrs){ attrs[:qu].to_i == 0 }
 
+    scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
+
     class << self
       # @todo
       def pos(s)
@@ -38,6 +40,21 @@ module Wstm
       # @todo
       def nonin(nin = true)
         where(id_intern: !nin)
+      end
+      # @todo
+      def sum_mny(*args)
+        opts = args.last.is_a?(Hash) ? {exp_all: false}.merge!(args.pop) : {exp_all: false}
+        y,m,d = *args; today = Date.today
+        y,m,d = today.year, today.month, today.day unless ( y || m || d)
+        ary = opts[:exp_all] ? [:sum_003,:sum_016,:sum_out,:sum_100] : [:sum_out,:sum_100]
+        ary = opts[:exp] if opts[:exp]
+        if d
+          ary.each_with_object([]){|v,a| a << (daily(y,m,d).sum(v) || 0.0).round(2)}
+        elsif m
+          ary.each_with_object([]){|v,a| a << (monthly(y,m).sum(v) || 0.0).round(2)}
+        else
+          ary.each_with_object([]){|v,a| a << (yearly(y).sum(v)    || 0.0).round(2)}
+        end
       end
     end # Class methods
 
