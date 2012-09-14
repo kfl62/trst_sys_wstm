@@ -63,3 +63,15 @@ ro:
         table_stats: ['Material', 'Iniţial', 'Intrări', 'Ieşiri', 'Stoc']
         table_freight: ['Data', 'Intrări', 'Ieşiri', 'Stoc']
         stock_start: Stoc initial
+      cache:
+        title: |
+          Situaţie monetar - %{data}
+        intro_firm: |
+          În tabelul de mai jos aveţi soldurile "Actuale" conform APP-lor operate.<br>
+          Pentru detalii "click" pe Punctul de lucru care vă interesează.
+        intro_unit: |
+          În tabelul de mai jos aveţi soldurile "Actuale" conform APP-lor<br>
+          operate. Dacă "Ieşiri" are culoarea roşie, însemnă că aţi făcut şi<br>
+          alte plăţi în afară de Adeverinţe Primire/Plată!
+        table_firm: ["Punct de lucru", "Sold iniţial", "Bani lăsaţi", "Bani cheltuiţi", "Sold în casă"]
+        table_unit: ["Data", "Intrări", "Ieşiri", "Sold"]
