@@ -28,7 +28,11 @@ module Wstm
     belongs_to :unit,         class_name: "Wstm::PartnerFirmUnit",  inverse_of: :grns
     belongs_to :signed_by,    class_name: "Wstm::User",             inverse_of: :grns
 
+    index({ unit_id: 1, id_date: 1 })
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
+
+    accepts_nested_attributes_for :freights,
+      reject_if: ->(attrs){ attrs[:qu].to_i == 0 }
 
     class << self
       # @todo

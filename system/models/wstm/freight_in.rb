@@ -22,6 +22,8 @@ module Wstm
     after_destroy :'handle_stock(false)'
 
     index({ freight_id: 1, id_date: 1 })
+    index({ doc_exp_id: 1})
+    index({ doc_grn_id: 1})
 
     class << self
       # @todo
