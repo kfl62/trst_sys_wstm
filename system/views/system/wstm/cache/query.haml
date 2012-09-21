@@ -8,7 +8,7 @@
 %span#hidden_data.hidden{data: {dialog: "query",title_data: data,model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_cache'}}
 - if uid
   %div.small
-    %span.info= t('intro.desk_cache.query.one')
+    %span.info= t('intro.query.desk_cache.one')
     %p
       %select#y
         - [2011,2012].each do |year|
@@ -41,7 +41,7 @@
               %span.stats.ri= "%0.2f" % c
 - else
   %div.small
-    %span.info= t('intro.desk_cache.query.all')
+    %span.info= t('intro.query.desk_cache.all')
     %p
       %select#y
         - [2011,2012].each do |year|

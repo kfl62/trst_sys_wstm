@@ -4,7 +4,7 @@
     %tbody
       %tr
         %td
-          %span.info= t("intro.filter", data: mat(@object,'model_name'))
+          %span.info= t("intro.filter.main", data: mat(@object,'model_name'))
       %tr
         %td
           %input.select2{type: 'hidden', style: 'width:300px', data: {minlength: 2,search: @path.classify}}

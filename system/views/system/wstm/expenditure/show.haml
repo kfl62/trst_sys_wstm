@@ -4,7 +4,7 @@
     %thead
       %tr
         %th{colspan: "8"}
-          %span.info= t('intro.desk_expenditure.show',@object.client.i18n_hash.merge(enr: @object.name,eon: l(@object.id_date,format: :trst)))
+          %span.info= t('intro.show.desk_expenditure',@object.client.i18n_hash.merge(enr: @object.name,eon: l(@object.id_date,format: :trst)))
     = partial "#{@path}/show"
     %tfoot
       %tr

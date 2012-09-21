@@ -18,7 +18,7 @@
           - input_for @object, 'signed_by', {type: 'hidden', value: @current_user.id}
       %tr
         %td{colspan: "9"}
-          %span.info= t('intro.desk_expenditure.create',client.i18n_hash)
+          %span.info= t('intro.create.desk_expenditure',client.i18n_hash)
     = partial "#{@path}/form", locals: {freights: freights, unit_id: unit_id}
     %tfoot
       %tr

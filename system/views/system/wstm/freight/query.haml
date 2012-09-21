@@ -23,7 +23,7 @@
           %option{value: 'null'} Toate unităţile
           - firm.units.each do |pos|
             %option{value: pos.id, selected: uid.to_s == pos.id.to_s}= pos.name[1]
-    %span.info= t('intro.desk_freight.query.one')
+    %span.info= t('intro.query.desk_freight.one')
   %table{:cellspacing => "0"}
     %tbody.inner
       %tr
@@ -41,7 +41,7 @@
         %td{colspan: cols} &nbsp;
 - elsif freight
   %div.small
-    %span.info= t('intro.desk_freight.query.exit_one')
+    %span.info= t('intro.query.desk_freight.exit_one')
     %p.hasFreight
       %select#y
         - [2011,2012].each do |year|
@@ -73,7 +73,7 @@
               %span.stats.ri= "%0.2f" % v
 - else
   %div.small
-    %span.info= t('intro.desk_freight.query.all')
+    %span.info= t('intro.query.desk_freight.all')
     %p.noFreight
       %select#y
         - [2011,2012].each do |year|

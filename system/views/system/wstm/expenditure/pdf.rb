@@ -71,7 +71,7 @@ def box_content(pdf)
     :align => :center, :size => 10, :style => :bold
   pdf.move_down 5.mm
   pdf.font_size 9 do
-    pdf.text I18n.t('wstm.intro.desk_expenditure.pdf.text_01', @object.client.i18n_hash),:leading => 2, :inline_format => true
+    pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_01', @object.client.i18n_hash),:leading => 2, :inline_format => true
     pdf.move_down 10.mm
     pdf.table(table_freight_data) do
       style(row(0..7), :padding => [1,3])
@@ -93,7 +93,7 @@ def box_content(pdf)
       style(row(6), :background_color => 'dddddd', :align => :center)
     end
     pdf.move_down 10.mm
-    pdf.text I18n.t('wstm.intro.desk_expenditure.pdf.text_02', @object.client.i18n_hash).gsub('#',"#{Prawn::Text::NBSP}"),:leading => 2, :inline_format => true
+    pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_02', @object.client.i18n_hash).gsub('#',"#{Prawn::Text::NBSP}"),:leading => 2, :inline_format => true
     pdf.draw_text('Semnătura (amprenta) ________________', :at  => [50.mm,pdf.y - 25])
     pdf.move_down 5.mm
     pdf.table(table_recap_data) do
