@@ -5,10 +5,10 @@
     %td
       - input_for @object,       'id_date', {id: 'date_show',name: 'strip'}
       - input_for @object,       'id_date', {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
-  - tr_input_for @object,        'money_in'
+  - tr_input_for @object,        'money_in',{style: 'ui-state-default focus'}
   - if @current_user.admin?
-    - tr_input_for @object,        'money_out'
-    - tr_input_for @object,        'money_stock'
+    - tr_input_for @object,      'money_out'
+    - tr_input_for @object,      'money_stock'
   - tr_input_for @object,        'expl'
   %tr
     %td{colspan: 3}
