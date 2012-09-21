@@ -1,0 +1,10 @@
+:ruby
+  unit_id = @current_user.unit_id.nil? ? session[:unit_id] : @current_user.unit_id
+%span#hidden_data.hidden{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_delivery_note'}}
+-if unit_id
+  - unless @current_user.unit_id
+    = partial 'wstm/shared/select_unit'
+    %p= 'some'
+-else
+  %form{action: "/sys/#{@path}", method: "get"}
+    = partial 'wstm/shared/select_unit'
