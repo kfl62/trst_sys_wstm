@@ -1,6 +1,6 @@
 :ruby
   unit_id = @current_user.unit_id.nil? ? session[:unit_id] : @current_user.unit_id
-%span#hidden_data.hidden{data: {dialog: "filter",title: t("filter.title",data: mat(@object,'model_name')),model: mat(@object,'model_name'),oid: "null",js_ext: 'desk_freight'}}
+%span#hidden_data.hidden{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: 'null',js_ext: 'desk_freight'}}
 -if unit_id
   - unless @current_user.unit_id
     = partial 'wstm/shared/select_unit'
@@ -10,13 +10,13 @@
         %tr
           %td
             - if @current_user.admin?
-              %span.info= t("filter.intro", data: mat(@object,'model_name'))
+              %span.info= t("intro.filter", data: mat(@object,'model_name'))
             - else
-              %span.info= t("filter.intro_freight", data: mat(@object,'model_name'))
+              %span.info= t("intro.desk_freight.filter", data: mat(@object,'model_name'))
         %tr
           %td
             %select#oid
-              %option{value: "null"}= t("filter.select.option", data: mat(@object,'model_name'))
+              %option{value: "null"}= t("select.option", data: mat(@object,'model_name'))
               - @object.where(unit_id: unit_id).default_sort.each do |o|
                 %option{value: o.view_filter.first}= o.view_filter.last
       %tfoot

@@ -1,4 +1,4 @@
-%span#hidden_data.hidden{data: {dialog: "show",title: t("show.title",data: mat(@object,'model_name')),model: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_freight'}}
+%span#hidden_data.hidden{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_freight'}}
 %form{action: "/sys/#{@path}", method: "get"}
   %table{cellspacing: "0"}
     %thead
