@@ -1,0 +1,47 @@
+:ruby
+  ext  = params[:report]
+  uid  = @current_user.unit_id
+  unit = Wstm::PartnerFirm.unit_by_unit_id(uid) if uid
+  firm = Wstm::PartnerFirm.find_by(firm: true) unless uid
+  s2dt = firm.units.asc(:slug).map{|u| {id: u.id,text: u.slug}}.to_json if firm
+  data = t("intro.desk_report.#{ext}")
+- if ext
+  %span#hidden_data.hidden{data: {dialog: 'report',title_data: data,model_name: mat(@object,'model_name'),oid: nil,js_ext: 'desk_report'}}
+  %form{action: "/sys/wstm/report/print?rb=unit_daily_exp_#{ext}"}
+    %table{cellspacing: "0"}
+      %thead
+        %tr
+          %th{colspan: "2"}
+            - if uid
+              %span.info= t("intro.desk_report.unit",data: data,unit: unit.name[1])
+            - else
+              %span.info= t("intro.desk_report.firm",data: data)
+      %tbody
+        %tr
+          %td
+            %span Alegeţi data:
+          %td
+            - if uid
+              %input#date_show.ui-state-default.ce{type: 'text',  value: l(Date.today, format: :trst),style: 'width:auto'}
+              %input#date_send.ui-state-default.ce{type: 'hidden',value: Date.today.to_s,name: 'date'}
+              %input{type: 'hidden',name: 'unit_ids',value: uid}
+              %input#period{type: 'hidden',name: 'period',value: '1'}
+              %input#file_name{type: 'hidden',name: 'fn',value: t("intro.desk_report.file_name.#{ext}", firm: unit.firm.name[0][0..2].upcase, unit: "_#{unit.slug}")}
+            - else
+              %input#date_show.ui-state-default.ce{type: 'text',  value: l(Date.today, format: :trst),style: 'width:auto'}
+              %input#date_send.ui-state-default.ce{type: 'hidden',value: Date.today.to_s,name: 'date'}
+              %span Nr.zile:
+              %input#period.ui-state-default.ce{type: 'text',value: 1,name: 'period',size: '3',style: 'width:auto'}
+        - unless uid
+          %tr
+            %td{colspan: '2'}
+              %span &nbsp;
+          %tr
+            %td{colspan: '2'}
+              %input#unit_ids.ui-state-default{type: 'hidden',name: 'unit_ids',style: 'width:300px',data: {data: s2dt}}
+              %input#file_name{type: 'hidden',name: 'fn',value: t("intro.desk_report.file_name.#{ext}", firm: firm.name[0][0..2].upcase, unit: "_PCTE")}
+      %tfoot
+        %tr
+          %td.buttonset.ce{colspan: "2"}
+            %button{type: "button", data: {action: "print",  icon: "print"}}= t('button.print')
+            %button{type: "button", data: {action: "cancel", icon: "circle-close"}}= t('button.cancel')
