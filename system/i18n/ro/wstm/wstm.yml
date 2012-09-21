@@ -21,11 +21,46 @@ ro:
         Nu aveţi nici un Punct de lucru selectat!
       has_unit: |
         Punctul de lucru selectat:&nbsp;&nbsp;
-      desk_cache:
-        filter: |
+      filter:
+        desk_cache: |
           Puteţi modifica "Suma primită" la o &raquo;Dispoziţie de plată&laquo; după ce<br>
           o alegeţi din listă, sau alegând "Creare" veţi crea una nouă.
-        query:
+        desk_delivery_note: |
+          Pentru a crea o &raquo;Anexa3 Aviz de expediţie&laquo; este nevoie să selectaţi un "Destinatar"<br>
+          opţional un "Delegat" ptr. acest "Destinatar", un "Transportator" şi obligatoriu un "Delegat"<br>
+          ptr. "Transportator". "Destinatar"-ul şi "Transportator"-ul pot fi aceeaşi firmă.
+        desk_freight: |
+          Puteţi modifica preţul unitar la un &raquo;%{data}&laquo;<br>
+          după ce îl alegeţi din listă!
+        desk_expenditure: |
+          Pentru a crea o &raquo;Adeverinţă Primire/Plată&laquo; este nevoie să selectaţi un client.<br>
+          Introduceţi min. 3 cifre din CNP sau 3 litere din Nume/Prenume (cu cât mai multe<br>
+          cifre/litere lista care apare va fi mai scurtă), după alegere -> "Creare APP"<br>
+          În cazul în care persoana nu există, întroduceţi 13 cifre şi dacă este un CNP<br>
+          valid se activează butonul "Creare persoană fizică".
+        desk_report:
+          cdd: Document cumulativ APP
+          grn: Notă de recepţie APP
+          unit: |
+            După ce alegeţi data, sau o lăsaţi pe cea de azi<br>
+            puteţi genera un &raquo;%{data}&laquo; pentru<br>
+            <b>%{unit}</b>
+          firm: |
+            Se poate tipări &raquo;%{data}&laquo; pe mai multe zile,<br>
+            cu începere din data pe care o selectaţi. Trebuie să alegeţi cel<br>
+            puţin una, sau mai multe Puncte de Colectare.
+      create:
+        desk_expenditure: |
+          S-au primit de la %{name} CNP %{id_pn}<br>
+          cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}<br>
+          legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}<br>
+          următoarele deşeuri reciclabile:
+      edit:
+        desk_freight: |
+          Puteţi modifica doar câmpul<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&raquo;Preţ unitar&laquo;
+      query:
+        desk_cache:
           all: |
             În tabelul de mai jos aveţi soldurile "Actuale" conform APP-lor operate.<br>
             Pentru detalii "click" pe Punctul de lucru care vă interesează.
@@ -33,14 +68,7 @@ ro:
             În tabelul de mai jos aveţi soldurile "Actuale" conform APP-lor<br>
             operate. Dacă "Ieşiri" are culoarea roşie, însemnă că aţi făcut şi<br>
             alte plăţi în afară de Adeverinţe Primire/Plată!
-      desk_freight:
-        filter: |
-          Puteţi modifica preţul unitar la un &raquo;%{data}&laquo;<br>
-          după ce îl alegeţi din listă!
-        edit: |
-          Puteţi modifica doar câmpul<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&raquo;Preţ unitar&laquo;
-        query:
+        desk_freight:
           all: |
             În tabelul de mai jos aveţi stocurile "Lunare" conform APP/AE-lor operate.<br>
             Ultimele coloane conţin stocurile punctelor de lucru (componentele stocului).<br/>
@@ -49,27 +77,18 @@ ro:
             Pentru fişa de magazie "click" pe denumirea materialului!
           exit_one: |
             Pentru stocuri alegeţi "Toate materialele"!
-      desk_expenditure:
-        filter: |
-          Pentru a crea o &raquo;Adeverinţă Primire/Plată&laquo; este nevoie să selectaţi un client.<br>
-          Introduceţi min. 3 cifre din CNP sau 3 litere din Nume/Prenume (cu cât mai multe<br>
-          cifre/litere lista care apare va fi mai scurtă), după alegere -> "Creare APP"<br>
-          În cazul în care persoana nu există, întroduceţi 13 cifre şi dacă este un CNP<br>
-          valid se activează butonul "Creare persoană fizică".
-        create: |
-          S-au primit de la %{name} CNP %{id_pn}<br>
-          cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}<br>
-          legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}<br>
-          următoarele deşeuri reciclabile:
-        show: |
+      show:
+        desk_expenditure: |
           Adeverinţa Primire/Plată nr.<b>%{enr}</b> din <b>%{eon}</b><br>
           S-au primit de la %{name} CNP %{id_pn}<br>
           cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}<br>
           legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}<br>
           următoarele deşeuri reciclabile:
-        delete: |
+      delete:
+        desk_expenditure: |
           Atenţie!!! Se va şterge &raquo;Adeverinţa Primire/Plată&laquo;!!!
-        pdf:
+      pdf:
+        desk_expenditure:
           text_01: |
             S-au primit de la <b>%{name}</b> CNP <b>%{id_pn}</b>
             cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}
@@ -82,26 +101,17 @@ ro:
             2.) Materialel pe care le predau provin din:
             #####a.) Gospodărie proprie;
             #####b.) Alte surse.
-      desk_report:
-        cdd: Document cumulativ APP
-        grn: Notă de recepţie APP
-        unit: |
-          După ce alegeţi data, sau o lăsaţi pe cea de azi<br>
-          puteţi genera un &raquo;%{data}&laquo; pentru<br>
-          <b>%{unit}</b>
-        firm: |
-          Se poate tipări &raquo;%{data}&laquo; pe mai multe zile,<br>
-          cu începere din data pe care o selectaţi. Trebuie să alegeţi cel<br>
-          puţin una, sau mai multe Puncte de Colectare.
-        file_name:
-          cdd: |
-            %{firm}%{unit}_DC-
-          grn: |
-            %{firm}%{unit}_NIR-
+        desk_report:
+          file_name:
+            cdd: |
+              %{firm}%{unit}_DC-
+            grn: |
+              %{firm}%{unit}_NIR-
     select:
       freight_all: Toate materialele
       unit_all: Toate unităţile
-      desk_expenditure: ['Selectaţi un Partner Persoană Fizică']
+      desk_expenditure: ['Alegeţi - Partener Persoană Fizică']
+      desk_delivery_note: ['Alegeţi - Destinatar', 'Alegeţi - Transportator', 'Alegeţi - Delegat']
     msg:
       input_too_short_strt: |
         Vă rugăm întroduceţi min. %{nr} caractere!
