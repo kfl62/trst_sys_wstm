@@ -3,23 +3,24 @@ define () ->
     desk:
       cache:
         init: ()->
-          $sy = $('#y')
-          $sm = $('#m')
-          $su = $('#u')
-          $('select').each ()->
-            $select = $(this)
-            $select.on 'change', ()->
-              $url  = "sys/wstm/cache/query?y=#{$sy.val()}&m=#{$sm.val()}"
-              $url += "&uid=#{$su.val()}" if $su.length
-              Trst.desk.init($url)
+          if Trst.desk.hdo.dialog is 'query'
+            $sy = $('#y')
+            $sm = $('#m')
+            $su = $('#u')
+            $('select').each ()->
+              $select = $(@)
+              $select.on 'change', ()->
+                $url  = "sys/wstm/cache/query?y=#{$sy.val()}&m=#{$sm.val()}"
+                $url += "&uid=#{$su.val()}" if $su.length
+                Trst.desk.init($url)
+                return
               return
-            return
-          $('span.link').each ()->
-            $link = $(this)
-            $link.on 'click', ()->
-              $url = "sys/wstm/cache/query?y=#{$sy.val()}&m=#{$sm.val()}&uid=#{$link.attr('id')}"
-              Trst.desk.init($url)
+            $('span.link').each ()->
+              $link = $(@)
+              $link.on 'click', ()->
+                $url = "sys/wstm/cache/query?y=#{$sy.val()}&m=#{$sm.val()}&uid=#{$link.attr('id')}"
+                Trst.desk.init($url)
+                return
               return
-            return
-          $msg 'Wstm.desk.cache.init() OK...'
-  Wstm
+          $log 'Wstm.desk.cache.init() OK...'
+  Wstm.desk.cache

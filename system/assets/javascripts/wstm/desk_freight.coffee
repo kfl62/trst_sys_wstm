@@ -7,7 +7,7 @@ define () ->
           $sm = $('#m')
           $sf = $('#f')
           $('select').each ()->
-            $select = $(this)
+            $select = $(@)
             $select.on 'change', ()->
               $url  = "sys/wstm/freight/query?y=#{$sy.val()}&m=#{$sm.val()}&uid=#{$sf.data('uid')}&fid=#{$sf.val()}"
               Trst.desk.init($url)
@@ -19,7 +19,7 @@ define () ->
           $sm = $('#m')
           $su = $('#u')
           $('select').each ()->
-            $select = $(this)
+            $select = $(@)
             $select.on 'change', ()->
               $url  = "sys/wstm/freight/query?y=#{$sy.val()}&m=#{$sm.val()}"
               $url += "#{$url}&uid=#{$su.val()}" if $su.length
@@ -27,7 +27,7 @@ define () ->
               return
             return
           $('span.link').each ()->
-            $link = $(this)
+            $link = $(@)
             $link.on 'click', ()->
               $url = "sys/wstm/freight/query?y=#{$sy.val()}&m=#{$sm.val()}"
               $url = if $su.length then "#{$url}&uid=#{$su.val()}&fid=#{$link.attr('id')}" else "#{$url}&uid=#{$link.attr('id')}"
@@ -41,5 +41,5 @@ define () ->
               Wstm.desk.freight.handleNoFreight()
             if $('p.hasFreight').length
               Wstm.desk.freight.handleFreight()
-          $msg 'Wstm.desk.freight.init() OK...'
-  Wstm
+          $log 'Wstm.desk.freight.init() OK...'
+  Wstm.desk.freight

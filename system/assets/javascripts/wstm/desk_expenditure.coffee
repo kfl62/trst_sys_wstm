@@ -27,7 +27,7 @@ define () ->
           $total = $('tr.total')
           tot_val = 0; tot_p03 = 0; tot_p16 = 0; tot_res = 0
           $rows.each ()->
-            $tr = $(this)
+            $tr = $(@)
             $sd = $tr.find('select').find('option:selected').data()
             pu  = $tr.find('input[name*="pu"]').decFixed(2)
             qu  = $tr.find('input[name*="qu"]').decFixed(2)
@@ -53,14 +53,14 @@ define () ->
           return
         select: (slcts)->
           slcts.each ()->
-            $select = $(this)
+            $select = $(@)
             $sd = $select.data()
             if $select.hasClass 'select2'
               $select.select2
                 formatNoMatches: (term)->
                   Wstm.desk.expenditure.noMatchesMsg(term)
                 ajax:
-                  url: "/utils/search/#{$sd.model}"
+                  url: "/utils/search/#{$sd.search}"
                   dataType: 'json'
                   quietMillis: 1000
                   data: (term)->
@@ -93,11 +93,15 @@ define () ->
                   Wstm.desk.expenditure.calculate()
                 Wstm.desk.expenditure.calculate()
                 qu.focus().select()
+            else if $select.hasClass 'wstm'
+              ###
+              Handled by Wstm.desk.select
+              ###
             else
-              $msg 'Select not handled!'
+              $log 'Select not handled!'
         buttons: (btns)->
           btns.each ()->
-            $button = $(this)
+            $button = $(@)
             $bd = $button.data()
             if Trst.desk.hdo.dialog is 'filter'
               if $bd.action is 'create'
@@ -116,7 +120,7 @@ define () ->
                     $url += "/create"
                     Trst.desk.closeDesk(false)
                     Trst.desk.init($url,$type,$data)
-                    $msg 'Wstm::Expenditure save...'
+                    $log 'Wstm::Expenditure save...'
             else if Trst.desk.hdo.dialog is 'show'
               if $bd.action is 'print'
                 $button.on 'click', ()->
@@ -135,7 +139,7 @@ define () ->
               Buttons default handler Trst.desk.buttons
               ###
           $('span.row-remove').each ()->
-            $button = $(this)
+            $button = $(@)
             $button.on 'click', ()->
               $button.parentsUntil('tbody').last().remove()
               Wstm.desk.expenditure.calculate()
@@ -144,5 +148,5 @@ define () ->
         init: ()->
           Wstm.desk.expenditure.buttons($('button'))
           Wstm.desk.expenditure.select($('select.wstm, input.select2'))
-          $msg 'Wstm.desk.expenditure.init() OK...'
-  Wstm
+          $log 'Wstm.desk.expenditure.init() OK...'
+  Wstm.desk.expenditure
