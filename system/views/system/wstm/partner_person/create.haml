@@ -1,16 +1,16 @@
-%span#hidden_data.hidden{data: {dialog: "create", title: t("create.title", data: mat(@object,'model_name')), model: mat(@object,'model_name'), oid: "null", related_id: params[:related_id] || 'null'}}
+%span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null"}}
 %form{action: "/sys/#{@path}", method: "post"}
   %table{:cellspacing => "0"}
     %thead
       %tr
         %th{colspan: "3"}
-          %span.warning= t('create.header', data: mat(@object,'model_name'))
+          %span.warning= t('intro.create', data: mat(@object,'model_name'))
     = partial "#{@path}/form"
     %tfoot
       %tr
         %td.buttonset.ce{colspan: "3"}
           - if params[:id_pn]
-            %button{type: "button", data: {url: "/sys/#{@path}?reload_path=/sys/wstm/expenditure/create",action: "save",  icon: "disk",remove: 'false'}}= t('button.save')
+            %button{type: "button", data: {r_path: "/sys/wstm/expenditure/create",action: "save",  icon: "disk",remove: 'false'}}= t('button.save')
           - else
             %button{type: "button", data: {action: "save",  icon: "disk",remove: 'false'}}= t('button.save')
           %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
