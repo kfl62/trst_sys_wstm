@@ -6,7 +6,7 @@
     - for i in 0..4 do; o = @object.freights.new
       %tr.freight
         %td
-          %select.wstm.freight
+          %select.wstm.freight{class: i == 0 && 'focus'}
             %option{value: 'null'} Selectare material
             - freights.asc(:name).each do |f|
               %option{value: f.id, selected: f.id == o.freight_id, data: {id_stats: f.id_stats,um: f.um,pu: f.pu,p03: f.p03.to_s}}= f.name

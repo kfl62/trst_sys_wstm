@@ -1,6 +1,6 @@
 :ruby
   unit_id = @current_user.unit_id.nil? ? session[:unit_id] : @current_user.unit_id
-%span#hidden_data.hidden{data: {dialog: "filter",title: t("filter.title_expenditure",data: mat(Wstm::PartnerPerson,'model_name')),model: mat(Wstm::PartnerPerson,'model_name'),oid: "null",js_ext: 'desk_expenditure'}}
+%span#hidden_data.hidden{data: {dialog: "filter",title_data: mat(Wstm::PartnerPerson,'model_name'),model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_expenditure'}}
 -if unit_id
   - unless @current_user.unit_id
     = partial 'wstm/shared/select_unit'
@@ -9,10 +9,10 @@
       %tbody
         %tr
           %td
-            %span.info= t("filter.intro_expenditure", data: mat(@object,'model_name'))
+            %span.info= t("intro.desk_expenditure.filter", data: mat(@object,'model_name'))
         %tr
           %td
-            %input.select2{type: 'hidden', style: 'width:300px', data: {minlength: 3, model: 'Wstm::PartnerPerson', client_id: 'true', noinit: 'true'}}
+            %input.select2{type: 'hidden', style: 'width:300px', data: {minlength: 3,ph: 0,search: 'Wstm::PartnerPerson',client_id: 'true',noinit: 'true'}}
             %button.partner-person{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create') + " Persoană fizică!"
       %tfoot
         %tr

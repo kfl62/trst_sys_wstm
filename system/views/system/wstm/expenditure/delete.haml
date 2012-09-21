@@ -1,11 +1,11 @@
-%span#hidden_data.hidden{data: {dialog: "delete",title: t("delete.title",data: mat(@object,'model_name')),model: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_expenditure'}}
+%span#hidden_data.hidden{data: {dialog: "delete",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_expenditure'}}
 %form{action: "/sys/#{@path}", method: "delete"}
   %table{cellspacing: "0"}
     %thead
       %tr
         %th{colspan: "8"}
-          %span.warning= t('delete.header_expenditure', data: mat(@object,'model_name'))
-          %span.info= t('show.header_expenditure',@object.client.i18n_hash.merge(enr: @object.name,eon: l(@object.id_date,format: :trst)))
+          %span.warning= t('intro.desk_expenditure.delete', data: mat(@object,'model_name'))
+          %span.info= t('intro.desk_expenditure.show',@object.client.i18n_hash.merge(enr: @object.name,eon: l(@object.id_date,format: :trst)))
     = partial "/#{@path}/show"
     %tfoot
       %tr

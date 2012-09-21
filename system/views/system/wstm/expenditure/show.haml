@@ -1,10 +1,10 @@
-%span#hidden_data.hidden{data: {dialog: "show",title: t("show.title",data: mat(@object,'model_name')),model: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_expenditure'}}
+%span#hidden_data.hidden{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_expenditure'}}
 %form{action: "/sys/#{@path}", method: "get"}
   %table{cellspacing: "0"}
     %thead
       %tr
         %th{colspan: "8"}
-          %span.info= t('show.header_expenditure',@object.client.i18n_hash.merge(enr: @object.name,eon: l(@object.id_date,format: :trst)))
+          %span.info= t('intro.desk_expenditure.show',@object.client.i18n_hash.merge(enr: @object.name,eon: l(@object.id_date,format: :trst)))
     = partial "#{@path}/show"
     %tfoot
       %tr

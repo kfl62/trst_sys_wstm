@@ -2,7 +2,7 @@
   client  = Wstm::PartnerPerson.find(params[:client_id])
   unit_id = @current_user.unit_id.nil? ? session[:unit_id] : @current_user.unit_id
   freights= Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights
-%span#hidden_data.hidden{data: {dialog: "create",title: t("create.title",data: mat(@object,'model_name')),model: mat(@object,'model_name'),oid: "null",js_ext: 'desk_expenditure'}}
+%span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_expenditure'}}
 %form{action: "/sys/#{@path}", method: "post"}
   %table{:cellspacing => "0"}
     %thead
@@ -18,7 +18,7 @@
           - input_for @object, 'signed_by', {type: 'hidden', value: @current_user.id}
       %tr
         %td{colspan: "9"}
-          %span.info= t('create.header_expenditure',client.i18n_hash)
+          %span.info= t('intro.desk_expenditure.create',client.i18n_hash)
     = partial "#{@path}/form", locals: {freights: freights, unit_id: unit_id}
     %tfoot
       %tr
