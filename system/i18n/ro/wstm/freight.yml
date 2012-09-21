@@ -6,4 +6,7 @@ ro:
       'wstm/freight':
         code: Cod deşeu
         p03: Se reţine 3% ?
+        table_all: ['Material', 'Iniţial', 'Intrări', 'Ieşiri', 'Stoc']
+        table_one: ['Data', 'Intrări', 'Ieşiri', 'Stoc']
+        stock_start: Stoc initial
         << : *trst_freight

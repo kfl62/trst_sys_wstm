@@ -1,0 +1,5 @@
+ro:
+  mongoid:
+    attributes:
+      'wstm/delivery_note':
+        model_name: Anexa3 Aviz Expediţie

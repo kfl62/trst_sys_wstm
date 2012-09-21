@@ -1,77 +1,115 @@
 ro:
   wstm:
-    filter:
-      select:
-        no_unit: Nu aveţi nici un Punct de lucru selectat!
-        has_unit: Punctul de lucru selectat:&nbsp;&nbsp;
-      intro_freight: |
-        Puteţi modifica preţul unitar la un &raquo;%{data}&laquo;<br>
-        după ce îl alegeţi din listă!
-      title_expenditure: |
-        Selectare &raquo;%{data}&laquo; ptr. a crea un APP
-      intro_expenditure: |
-        Pentru a crea o &raquo;Adeverinţă Primire/Plată&laquo; este nevoie să selectaţi un client.<br>
-        Introduceţi min. 3 cifre din CNP sau 3 litere din Nume/Prenume (cu cât mai multe<br>
-        cifre/litere lista care apare va fi mai scurtă), după alegere -> "Creare APP"<br>
-        În cazul în care persoana nu există, întroduceţi 13 cifre şi dacă este un CNP<br>
-        valid se activează butonul "Creare persoană fizică".
-    edit:
-      intro_freight: |
-        Puteţi modifica doar câmpul<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&raquo;Preţ unitar&laquo;
-    create:
-      header_expenditure: |
-        S-au primit de la %{name} CNP %{id_pn}<br>
-        cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}<br>
-        legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}<br>
-        următoarele deşeuri reciclabile:
-    show:
-      header_expenditure: |
-        Adeverinţa Primire/Plată nr.<b>%{enr}</b> din <b>%{eon}</b><br>
-        S-au primit de la %{name} CNP %{id_pn}<br>
-        cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}<br>
-        legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}<br>
-        următoarele deşeuri reciclabile:
-    delete:
-      header_expenditure: |
-        Atenţie!!! Se va şterge &raquo;Adeverinţa Primire/Plată&laquo;!!!
-    print:
-      expenditure_client: |
-        S-au primit de la <b>%{name}</b> CNP <b>%{id_pn}</b>
-        cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}
-        legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}
-        mijloc de transport _________________, următoarele deşeuri reciclabile:
-      expenditure_decl: |
-        Subsemnatul <b>%{name}</b> declar următoarele:
-        1.) Cunosc faptul că falsul în declaraţie constituie infracţiune, se pedepseşte
-        #####conform Codului Penal;
-        2.) Materialel pe care le predau provin din:
-        #####a.) Gospodărie proprie;
-        #####b.) Alte surse.
-    query:
-      freight:
-        title: |
-          Stocuri cantitative - %{data}
-        intro_unit: |
-          În tabelul de mai jos aveţi stocurile "Lunare" conform APP/AE-lor operate.<br>
-          Ultimele coloane conţin stocurile punctelor de lucru (componentele stocului).<br/>
-          Pentru detalii "click" pe titlul coloanei, ce conţine unitatea, care vă interesează.
-        intro_freight: |
-          Pentru fişa de magazie "click" pe denumirea materialului!
-        exit_freight: |
-          Pentru stocuri alegeţi "Toate materialele"!
-        table_stats: ['Material', 'Iniţial', 'Intrări', 'Ieşiri', 'Stoc']
-        table_freight: ['Data', 'Intrări', 'Ieşiri', 'Stoc']
-        stock_start: Stoc initial
-      cache:
-        title: |
+    unit_info_lbl: Punct de lucru selectat
+    unit_info_all: Toate unităţile
+    title:
+      filter:
+        desk_delivery_note: |
+          Configurare &raquo;%{data}&laquo;
+        desk_expenditure: |
+          Selectare &raquo;%{data}&laquo; ptr. a crea un APP
+      query:
+        desk_cache: |
           Situaţie monetar - %{data}
-        intro_firm: |
-          În tabelul de mai jos aveţi soldurile "Actuale" conform APP-lor operate.<br>
-          Pentru detalii "click" pe Punctul de lucru care vă interesează.
-        intro_unit: |
-          În tabelul de mai jos aveţi soldurile "Actuale" conform APP-lor<br>
-          operate. Dacă "Ieşiri" are culoarea roşie, însemnă că aţi făcut şi<br>
-          alte plăţi în afară de Adeverinţe Primire/Plată!
-        table_firm: ["Punct de lucru", "Sold iniţial", "Bani lăsaţi", "Bani cheltuiţi", "Sold în casă"]
-        table_unit: ["Data", "Intrări", "Ieşiri", "Sold"]
+        desk_freight: |
+          Stocuri cantitative - %{data}
+      report:
+        desk_report: |
+          Configurare &raquo;%{data}&laquo;
+    intro:
+      no_unit: |
+        Nu aveţi nici un Punct de lucru selectat!
+      has_unit: |
+        Punctul de lucru selectat:&nbsp;&nbsp;
+      desk_cache:
+        filter: |
+          Puteţi modifica "Suma primită" la o &raquo;Dispoziţie de plată&laquo; după ce<br>
+          o alegeţi din listă, sau alegând "Creare" veţi crea una nouă.
+        query:
+          all: |
+            În tabelul de mai jos aveţi soldurile "Actuale" conform APP-lor operate.<br>
+            Pentru detalii "click" pe Punctul de lucru care vă interesează.
+          one: |
+            În tabelul de mai jos aveţi soldurile "Actuale" conform APP-lor<br>
+            operate. Dacă "Ieşiri" are culoarea roşie, însemnă că aţi făcut şi<br>
+            alte plăţi în afară de Adeverinţe Primire/Plată!
+      desk_freight:
+        filter: |
+          Puteţi modifica preţul unitar la un &raquo;%{data}&laquo;<br>
+          după ce îl alegeţi din listă!
+        edit: |
+          Puteţi modifica doar câmpul<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&raquo;Preţ unitar&laquo;
+        query:
+          all: |
+            În tabelul de mai jos aveţi stocurile "Lunare" conform APP/AE-lor operate.<br>
+            Ultimele coloane conţin stocurile punctelor de lucru (componentele stocului).<br/>
+            Pentru detalii "click" pe titlul coloanei, ce conţine unitatea, care vă interesează.
+          one: |
+            Pentru fişa de magazie "click" pe denumirea materialului!
+          exit_one: |
+            Pentru stocuri alegeţi "Toate materialele"!
+      desk_expenditure:
+        filter: |
+          Pentru a crea o &raquo;Adeverinţă Primire/Plată&laquo; este nevoie să selectaţi un client.<br>
+          Introduceţi min. 3 cifre din CNP sau 3 litere din Nume/Prenume (cu cât mai multe<br>
+          cifre/litere lista care apare va fi mai scurtă), după alegere -> "Creare APP"<br>
+          În cazul în care persoana nu există, întroduceţi 13 cifre şi dacă este un CNP<br>
+          valid se activează butonul "Creare persoană fizică".
+        create: |
+          S-au primit de la %{name} CNP %{id_pn}<br>
+          cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}<br>
+          legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}<br>
+          următoarele deşeuri reciclabile:
+        show: |
+          Adeverinţa Primire/Plată nr.<b>%{enr}</b> din <b>%{eon}</b><br>
+          S-au primit de la %{name} CNP %{id_pn}<br>
+          cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}<br>
+          legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}<br>
+          următoarele deşeuri reciclabile:
+        delete: |
+          Atenţie!!! Se va şterge &raquo;Adeverinţa Primire/Plată&laquo;!!!
+        pdf:
+          text_01: |
+            S-au primit de la <b>%{name}</b> CNP <b>%{id_pn}</b>
+            cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}
+            legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}
+            mijloc de transport _________________, următoarele deşeuri reciclabile:
+          text_02: |
+            Subsemnatul <b>%{name}</b> declar următoarele:
+            1.) Cunosc faptul că falsul în declaraţie constituie infracţiune, se pedepseşte
+            #####conform Codului Penal;
+            2.) Materialel pe care le predau provin din:
+            #####a.) Gospodărie proprie;
+            #####b.) Alte surse.
+      desk_report:
+        cdd: Document cumulativ APP
+        grn: Notă de recepţie APP
+        unit: |
+          După ce alegeţi data, sau o lăsaţi pe cea de azi<br>
+          puteţi genera un &raquo;%{data}&laquo; pentru<br>
+          <b>%{unit}</b>
+        firm: |
+          Se poate tipări &raquo;%{data}&laquo; pe mai multe zile,<br>
+          cu începere din data pe care o selectaţi. Trebuie să alegeţi cel<br>
+          puţin una, sau mai multe Puncte de Colectare.
+        file_name:
+          cdd: |
+            %{firm}%{unit}_DC-
+          grn: |
+            %{firm}%{unit}_NIR-
+    select:
+      freight_all: Toate materialele
+      unit_all: Toate unităţile
+      desk_expenditure: ['Selectaţi un Partner Persoană Fizică']
+    msg:
+      input_too_short_strt: |
+        Vă rugăm întroduceţi min. %{nr} caractere!
+      input_too_short_more: |
+        Vă rugăm întroduceţi încă %{nr} caractere!
+      input_too_short_last: |
+        Vă rugăm întroduceţi încă un caracter!
+      searching: |
+        Aveţi puţin tică răbdare...
+      no_matches: Nu există în baza de date...
+

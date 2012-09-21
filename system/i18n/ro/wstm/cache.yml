@@ -5,4 +5,7 @@ ro:
         << : *trst_cache
       'wstm/cache':
         expl: Explicaţii
+        table_all: ["Punct de lucru", "Sold iniţial", "Bani lăsaţi", "Bani cheltuiţi", "Sold în casă"]
+        table_one: ["Data", "Intrări", "Ieşiri", "Sold"]
+        stock_start: Sold iniţial
         << : *trst_cache
