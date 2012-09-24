@@ -21,8 +21,8 @@ module Wstm
 
     has_many   :freights,     class_name: "Wstm::FreightIn",        inverse_of: :doc_grn, dependent: :destroy
     has_many   :dlns,         class_name: "Wstm::DeliveryNote",     inverse_of: :doc_grn
-    belongs_to :supplier,     class_name: "Wstm::PartnerFirm",      inverse_of: :grns_supplr
-    belongs_to :transporter,  class_name: "Wstm::PartnerFirm",      inverse_of: :grns_transp
+    belongs_to :supplr,       class_name: "Wstm::PartnerFirm",      inverse_of: :grns_supplr
+    belongs_to :transp,       class_name: "Wstm::PartnerFirm",      inverse_of: :grns_transp
     belongs_to :supplr_d,     class_name: "Wstm::PartnerFirmPerson",inverse_of: :grns_supplr
     belongs_to :transp_d,     class_name: "Wstm::PartnerFirmPerson",inverse_of: :grns_transp
     belongs_to :unit,         class_name: "Wstm::PartnerFirmUnit",  inverse_of: :grns
