@@ -21,18 +21,22 @@ define () ->
         else
           false
       init: () ->
-        if $('select.wstm, input.select2').length
-          require (['wstm/desk_select']), (select)->
-            select.init()
-        if $ext = Trst.desk.hdo.js_ext
-          require (["wstm/#{$ext}"]), (ext)->
-            ext.init()
         if $('#date_show').length
-          $('#date_show').datepicker
+          $dsh = $('#date_show')
+          $dsh.datepicker
             altField: '#date_send'
             altFormat: 'yy-mm-dd'
-            autoSize: true
             $.datepicker.regional['ro']
+          $dsh.addClass('ce').attr 'size', $dsh.val().length + 2
+          $dsh.on 'change', ()->
+            $dsh.attr 'size', $dsh.val().length + 2
+            return
+        if $('input.id_intern').length
+          $id_intern = $('input[name*="\[name\]"]')
+          $id_intern.attr 'size', $id_intern.val().length + 4
+          $id_intern.on 'change', ()->
+            $id_intern.attr 'size', $id_intern.val().length + 4
+            return
         if Trst.desk.hdo.dialog is 'create' or Trst.desk.hdo.dialog is 'edit'
           if $('input[name*="id_pn"]').length
             Wstm.desk.idPnHandle()
@@ -41,4 +45,11 @@ define () ->
           $('input.focus').focus()
           $('select.focus').focus()
         $log 'Wstm.desk.init() Ok...'
+        if $('select.wstm, input.select2').length
+          require (['wstm/desk_select']), (select)->
+            select.init()
+        if $ext = Trst.desk.hdo.js_ext
+          require (["wstm/#{$ext}"]), (ext)->
+            ext.init()
+        return
   Wstm.desk
