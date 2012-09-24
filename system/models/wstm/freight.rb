@@ -18,6 +18,14 @@ module Wstm
         where(unit_id: Wstm::PartnerFirm.pos(s).id)
       end
       # @todo
+      def options_for_exp
+        asc(:name).each_with_object([]){|f,a| a << [f.id,f.name,{id_stats: f.id_stats,um: f.um,pu: f.pu,p03: f.p03.to_s}]}
+      end
+      # @todo
+      def options_for_dln
+        asc(:name).each_with_object([]){|f,a| a << [f.id,f.name,{id_stats: f.id_stats,um: f.um,stck: f.stock}]}
+      end
+      # @todo
       def stats_pos(*args)
         opts = args.last.is_a?(Hash) ? {}.merge!(args.pop) : {}
         asc(:id_stats).each_with_object([]) do |f,a|
@@ -92,6 +100,15 @@ module Wstm
       args = args.unshift(id)
       self.class.stats_one(*args)
     end
-
+    # @todo
+    def stock(*args)
+      opts = args.last.is_a?(Hash) ? {}.merge!(args.pop) : {}
+      y,m = *args; today = Date.today
+      y ||= today.year; m ||= today.month
+      s = stocks.sum_stks(y,m,opts)
+      i = ins.sum_ins(y,m,opts)
+      o = outs.sum_outs(y,m,opts)
+      (s + i - o).round(2)
+    end
   end # Freight
 end # Wstm
