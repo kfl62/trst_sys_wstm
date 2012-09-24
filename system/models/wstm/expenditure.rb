@@ -65,11 +65,11 @@ module Wstm
     end
     # @todo
     def increment_name(unit_id)
-      apps = Wstm::Expenditure.yearly(Date.today.year).where(unit_id: unit_id)
+      apps = Wstm::Expenditure.by_unit_id(unit_id).yearly(Date.today.year)
       if apps.count > 0
         name = apps.asc(:name).last.name.next
       else
-        apps = Wstm::Expenditure.where(unit_id: unit_id)
+        apps = Wstm::Expenditure.by_unit_id(unit_id)
         unit = Wstm::PartnerFirm.unit_by_unit_id(unit_id)
         if apps.count > 0
           prefix = apps.asc(:name).last.name.split('-').last[0].next
