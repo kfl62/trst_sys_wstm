@@ -15,16 +15,14 @@ define () ->
             $file  = "#{$file_name}#{$('#date_send').val()}"
             $file += "##{$('#period').val()}" if $('#period').val() > 1
             $('#file_name').val($file)
-            Trst.msgShow('Acum se generează documentul. Aveţi puţină tică răbdare...')
+            Trst.msgShow Trst.i18n.msg.report.start
             $.fileDownload $form.attr('action'),
               data: $form.serialize()
               successCallback: ()->
                 Trst.msgHide()
               failCallback: ()->
                 Trst.msgHide()
-                Trst.desk.downloadError
-                  what: 'error.download'
-                  data: Trst.desk.hdo.model
+                Trst.desk.downloadError Trst.desk.hdo.title_data
           $('button').last().focus()
           $log 'Wstm.desk.report.init() OK...'
   Wstm.desk.report
