@@ -16,7 +16,7 @@ module Wstm
     has_many   :freights,     class_name: "Wstm::FreightOut",       inverse_of: :doc_dln, dependent: :destroy
     belongs_to :doc_grn,      class_name: "Wstm::Grn",              inverse_of: :dlns
     belongs_to :client,       class_name: "Wstm::PartnerFirm",      inverse_of: :dlns_client
-    belongs_to :transporter,  class_name: "Wstm::PartnerFirm",      inverse_of: :dlns_transp
+    belongs_to :transp,       class_name: "Wstm::PartnerFirm",      inverse_of: :dlns_transp
     belongs_to :client_d,     class_name: "Wstm::PartnerFirmPerson",inverse_of: :dlns_client
     belongs_to :transp_d,     class_name: "Wstm::PartnerFirmPerson",inverse_of: :dlns_transp
     belongs_to :unit,         class_name: "Wstm::PartnerFirmUnit",  inverse_of: :dlns
@@ -50,6 +50,23 @@ module Wstm
     # @todo
     def client_d
       Wstm::PartnerFirm.person_by_person_id(client_d_id) rescue nil
+    end
+    # @todo
+    def increment_name(unit_id)
+      apps = Wstm::DeliveryNote.by_unit_id(unit_id).yearly(Date.today.year)
+      if apps.count > 0
+        name = apps.asc(:name).last.name.next
+      else
+        apps = Wstm::DeliveryNote.by_unit_id(unit_id)
+        unit = Wstm::PartnerFirm.unit_by_unit_id(unit_id)
+        if apps.count > 0
+          prefix = apps.asc(:name).last.name.split('-').last[0].next
+          name = "#{unit.firm.name[0][0..2].upcase}_#{unit.slug}_AEA3-#{prefix}00001"
+        else
+          name = "#{unit.firm.name[0][0..2].upcase}_#{unit.slug}_AEA3-000001"
+        end
+      end
+      name
     end
 
   end # DeliveryNote
