@@ -55,6 +55,10 @@ ro:
           cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}<br>
           legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}<br>
           următoarele deşeuri reciclabile:
+        desk_delivery_note: |
+          Firma <b>%{firm}</b> reprezentat de %{firm_d} expediază clientului,<br>
+          <b>%{client}</b> reprezentat de %{client_d}, transportul fiind asigurat de <br>
+          <b>%{transp}</b> delegat %{transp_d}, următoarele materiale:
       edit:
         desk_freight: |
           Puteţi modifica doar câmpul<br>
@@ -98,7 +102,7 @@ ro:
             Subsemnatul <b>%{name}</b> declar următoarele:
             1.) Cunosc faptul că falsul în declaraţie constituie infracţiune, se pedepseşte
             #####conform Codului Penal;
-            2.) Materialel pe care le predau provin din:
+            2.) Materialele pe care le predau provin din:
             #####a.) Gospodărie proprie;
             #####b.) Alte surse.
         desk_report:
@@ -111,7 +115,7 @@ ro:
       freight_all: Toate materialele
       unit_all: Toate unităţile
       desk_expenditure: ['Alegeţi - Partener Persoană Fizică']
-      desk_delivery_note: ['Alegeţi - Destinatar', 'Alegeţi - Transportator', 'Alegeţi - Delegat']
+      desk_delivery_note: ['Alegeţi - Destinatar', 'Alegeţi - Delegat (opţional)', 'Alegeţi - Transportator', 'Alegeţi - Delegat']
     msg:
       input_too_short_strt: |
         Vă rugăm întroduceţi min. %{nr} caractere!
@@ -122,4 +126,20 @@ ro:
       searching: |
         Aveţi puţin tică răbdare...
       no_matches: Nu există în baza de date...
+      id_pn:
+        start: |
+          Acest client nu există! Introduceţi un CNP valid format din 13 cifre, incă (%{data}) cifre!
+        valid: |
+          CNP valid. Apăsaţi "Creare Persoană Fizică!"
+        invalid: |
+          CNP invalid! Mai încercaţi :)
+        too_long: |
+          CNP-ul nu poate fi mai lung de 13 cifre!
+      delivery_note_negative_stock: |
+          Cantitatea introdusă este mai mare decât stocul disponibil!
+          În cazul în care puteţi modifica cantitatea pe Aviz,
+          modificaţi avizul cu cantitatea corectă ( %{stck}kg )!
+          În caz contrar apăsaţi "Renunţare"! Puteţi reface Anexa3
+          după ce faceţi o intrare de cel puţin ( %{res}kg ).
+
 
