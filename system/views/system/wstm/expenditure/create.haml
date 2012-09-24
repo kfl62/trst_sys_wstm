@@ -9,7 +9,7 @@
       %tr
         %td.ce{colspan: "9"}
           %span.st Nr.
-          - input_for @object, 'name',      {value: @object.increment_name(unit_id)}
+          - input_for @object, 'name',      {value: @object.increment_name(unit_id),style: 'ui-state-default ce id_intern'}
           %span.st din data de:
           - input_for @object, 'id_date',   {id: 'date_show',name: 'strip'}
           - input_for @object, 'id_date',   {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
