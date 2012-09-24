@@ -3,8 +3,8 @@ module Wstm
   class PartnerFirm < Trst::Firm
 
     field :client,              type: Boolean,       default: true
-    field :supplier,            type: Boolean,       default: true
-    field :transporter,         type: Boolean,       default: true
+    field :supplr,              type: Boolean,       default: true
+    field :transp,              type: Boolean,       default: true
     field :p03,                 type: Boolean,       default: true
     field :firm,                type: Boolean,       default: false
 
@@ -12,9 +12,9 @@ module Wstm
     embeds_many :people,      class_name: "Wstm::PartnerFirmPerson",  cascade_callbacks: true
     embeds_many :units,       class_name: "Wstm::PartnerFirmUnit",    cascade_callbacks: true
     has_many    :dlns_client, class_name: "Wstm::DeliveryNote",       inverse_of: :client
-    has_many    :dlns_transp, class_name: "Wstm::DeliveryNote",       inverse_of: :transporter
-    has_many    :grns_supplr, class_name: "Wstm::Grn",                inverse_of: :supplier
-    has_many    :grns_transp, class_name: "Wstm::Grn",                inverse_of: :transporter
+    has_many    :dlns_transp, class_name: "Wstm::DeliveryNote",       inverse_of: :transp
+    has_many    :grns_supplr, class_name: "Wstm::Grn",                inverse_of: :supplr
+    has_many    :grns_transp, class_name: "Wstm::Grn",                inverse_of: :transp
     has_many    :invs_client, class_name: "Wstm::Invoice",            inverse_of: :client
 
     accepts_nested_attributes_for :addresses, :people, :units
@@ -40,10 +40,18 @@ module Wstm
       end
       # @todo
       def auto_search(params)
-        default_sort.only(:id,:name,:identities)
-        .or(name: /\A#{params[:q]}/i)
-        .or(:'identities.fiscal' => /\A#{params[:q]}/i)
-        .each_with_object([]){|pf,a| a << {id: pf.id.to_s,text: "#{pf.identities['fiscal'].ljust(18)} #{pf.name[1]}"}}
+        if params[:w]
+          default_sort.where(params[:w].to_sym => true)
+          .and(name: /\A#{params[:q]}/i)
+          .each_with_object([]){|pf,a| a << {id: pf.id.to_s,text: "#{pf.name[0][0..20]}"}}
+        elsif params[:id]
+          find(params[:id]).people.asc(:name_last).each_with_object([]){|d,a| a << {id: d.id.to_s,text: "#{d.name[0..20]}"}}.push({id: 'new',text: 'Adăugare delegat'})
+        else
+          default_sort.only(:id,:name,:identities)
+          .or(name: /\A#{params[:q]}/i)
+          .or(:'identities.fiscal' => /\A#{params[:q]}/i)
+          .each_with_object([]){|pf,a| a << {id: pf.id.to_s,text: "#{pf.identities['fiscal'].ljust(18)} #{pf.name[1]}"}}
+        end
       end
     end # Class methods
     # @todo
