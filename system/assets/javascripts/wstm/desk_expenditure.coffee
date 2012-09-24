@@ -4,24 +4,20 @@ define () ->
       expenditure:
         noMatchesMsg: (term)->
           $button = $('button.partner-person')
-          $button.unbind()
           if term.length < 13
             $button.button 'option', 'disabled', true
-            $msg = "Acest client nu există! Introduceţi un CNP valid format din 13 cifre, incă (#{13 - term.length}) cifre!"
+            $msg = Trst.i18n.msg.id_pn.start.replace '%{data}', 13 - term.length
           else if term.length is 13
             if Wstm.desk.idPnValidate(term)
               $button.button 'option', 'disabled', false
-              $url = "/sys/wstm/partner_person/create?id_pn=#{term}"
-              $button.on 'click', ()->
-                Trst.desk.closeDesk()
-                Trst.desk.init($url)
-              $msg = 'CNP valid. Apăsaţi "Creare Persoană Fizică!"'
+              $button.data 'url', "/sys/wstm/partner_person?id_pn=#{term}"
+              $msg = Trst.i18n.msg.id_pn.valid
             else
               $button.button 'option', 'disabled', true
-              $msg = "CNP invalid! Mai încercaţi :)"
+              $msg = Trst.i18n.msg.id_pn.invalid
           else
             $button.button 'option', 'disabled', true
-            $msg = 'CNP-ul nu poate fi mai lung de 13 cifre!'
+            $msg = Trst.i18n.msg.id_pn.too_long
         calculate: ()->
           $rows  = $('tr.freight')
           $total = $('tr.total')
@@ -70,11 +66,7 @@ define () ->
               $select.unbind()
               $select.on 'change', ()->
                 $button = $('button.expenditure')
-                $url = "/sys/wstm/expenditure/create?client_id=#{$select.select2('val')}"
-                $button.on 'click', ()->
-                  Trst.desk.closeDesk()
-                  Trst.desk.init($url)
-                  return
+                $button.data 'url', "/sys/wstm/expenditure?client_id=#{$select.select2('val')}"
                 $button.button 'option', 'disabled', false
                 return
             else if $select.hasClass 'freight'
@@ -105,34 +97,26 @@ define () ->
             $bd = $button.data()
             if Trst.desk.hdo.dialog is 'filter'
               if $bd.action is 'create'
-                $button.unbind()
                 $button.button 'option', 'disabled', true
                 return
             else if Trst.desk.hdo.dialog is 'create'
               if $bd.action is 'save'
                 if Trst.desk.hdf.attr('action') is '/sys/wstm/expenditure'
-                  $button.unbind()
-                  $button.on 'click', ()->
-                    Wstm.desk.expenditure.calculate()
-                    $url  = Trst.desk.hdf.attr('action')
-                    $type = Trst.desk.hdf.attr('method')
-                    $data = Trst.desk.hdf.serializeArray()
-                    $url += "/create"
-                    Trst.desk.closeDesk(false)
-                    Trst.desk.init($url,$type,$data)
-                    $log 'Wstm::Expenditure save...'
+                  $button.data('remove',false)
+                  $button.off 'click', Trst.desk.buttons.action.save
+                  $button.on  'click', Wstm.desk.expenditure.calculate
+                  $button.on  'click', Trst.desk.buttons.action.save
+                  $log 'Wstm::Expenditure save...'
             else if Trst.desk.hdo.dialog is 'show'
               if $bd.action is 'print'
                 $button.on 'click', ()->
-                  Trst.msgShow('Acum se generează documentul. Aveţi puţină tică răbdare...')
+                  Trst.msgShow Trst.i18n.msg.report.start
                   $.fileDownload "/sys/wstm/expenditure/print?id=#{Trst.desk.hdo.oid}",
                     successCallback: ()->
                       Trst.msgHide()
                     failCallback: ()->
                       Trst.msgHide()
-                      Trst.desk.downloadError
-                        what: 'error.download'
-                        data: Trst.desk.hdo.model
+                      Trst.desk.downloadError Trst.desk.hdo.model_name
                   false
             else
               ###
@@ -146,6 +130,10 @@ define () ->
               return
           return
         init: ()->
+          if $('#date_show').length
+            now = new Date()
+            $('#date_show').datepicker 'option', 'maxDate', '+0'
+            $('#date_show').datepicker 'option', 'minDate', new Date(now.getFullYear(),now.getMonth(),1)
           Wstm.desk.expenditure.buttons($('button'))
           Wstm.desk.expenditure.select($('select.wstm, input.select2'))
           $log 'Wstm.desk.expenditure.init() OK...'
