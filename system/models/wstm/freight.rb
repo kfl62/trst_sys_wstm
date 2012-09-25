@@ -2,7 +2,7 @@
 module Wstm
   class Freight < Trst::Freight
 
-    field :code,    type: String
+    field :code,    type: Array,        default: []
     field :p03,     type: Boolean,      default: false
 
     belongs_to  :unit,     class_name: 'Wstm::PartnerFirmUnit', inverse_of: :freights
@@ -79,6 +79,10 @@ module Wstm
       Wstm::PartnerFirm.unit_by_unit_id(unit_id) rescue nil
     end
     # @todo
+    def key(p)
+      "#{id_stats}_#{"%05.2f" % p}"
+    end
+    # @todo
     def stats_sum(*args)
       opts = args.last.is_a?(Hash) ? {}.merge!(args.pop) : {}
       if opts[:all]
@@ -109,6 +113,10 @@ module Wstm
       i = ins.sum_ins(y,m,opts)
       o = outs.sum_outs(y,m,opts)
       (s + i - o).round(2)
+    end
+    # @todo
+    def stock_by_key(key)
+      unit.stock_now.freights.by_key(key).sum(:qu)
     end
   end # Freight
 end # Wstm
