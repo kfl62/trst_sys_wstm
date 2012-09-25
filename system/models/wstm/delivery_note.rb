@@ -13,6 +13,8 @@ module Wstm
     field :doc_plat,    type: String
     field :charged,     type: Boolean,  default: false
 
+    alias :file_name :name
+
     has_many   :freights,     class_name: "Wstm::FreightOut",       inverse_of: :doc_dln, dependent: :destroy
     belongs_to :doc_grn,      class_name: "Wstm::Grn",              inverse_of: :dlns
     belongs_to :client,       class_name: "Wstm::PartnerFirm",      inverse_of: :dlns_client
