@@ -3,3 +3,9 @@ ro:
     attributes:
       'wstm/delivery_note':
         model_name: Anexa3 Aviz Expediţie
+        table_header_show: ['Material', 'UM', 'PU', 'Se livrează', 'Valoare', 'Stock(kg)']
+        table_header_form: ['Material', 'UM', 'Stock', 'Se livrează', 'Rămâne', ' ']
+        name: Anexa3 nr.
+        id_date: din data de
+        doc_name: Aviz nr.
+        doc_plat: maşina nr.

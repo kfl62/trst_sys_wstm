@@ -88,9 +88,16 @@ ro:
           cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}<br>
           legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}<br>
           următoarele deşeuri reciclabile:
+        desk_delivery_note: |
+          Cu Avizul de expediţie nr.<b>%{doc_name}</b> în data de <b>%{id_date}</b><br>
+          Firma <b>%{firm}</b> reprezentat de %{firm_d} expediază clientului,<br>
+          <b>%{client}</b> reprezentat de %{client_d}, transportul fiind asigurat de <br>
+          <b>%{transp}</b> delegat %{transp_d}, următoarele materiale:
       delete:
         desk_expenditure: |
           Atenţie!!! Se va şterge &raquo;Adeverinţa Primire/Plată&laquo;!!!
+        desk_delivery_note: |
+          Atenţie!!! Se va şterge &raquo;%{data}&laquo;!!!
       pdf:
         desk_expenditure:
           text_01: |
@@ -126,6 +133,11 @@ ro:
       searching: |
         Aveţi puţin tică răbdare...
       no_matches: Nu există în baza de date...
+      no_freight_selected: |
+        <br>
+        Hmmm... Se pare că nu aţi ales niciun material!<br>
+        Sau aţi uitat să introduceţi cantitatea!<br>
+        Apăsaţi <b>"Ştergere"</b> şi încercaţi din nou :)<br>
       id_pn:
         start: |
           Acest client nu există! Introduceţi un CNP valid format din 13 cifre, incă (%{data}) cifre!
@@ -141,5 +153,7 @@ ro:
           modificaţi avizul cu cantitatea corectă ( %{stck}kg )!
           În caz contrar apăsaţi "Renunţare"! Puteţi reface Anexa3
           după ce faceţi o intrare de cel puţin ( %{res}kg ).
-
+      delivery_note_not_complete: |
+          Nu aţi completat sau aţi completat greşit
+          unul din câmpurile "Aviz nr.", "maşina nr."!
 
