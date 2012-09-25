@@ -1,31 +1,38 @@
-%tbody.inner
-  %tr
-    - mat(@object,'table_header')[0..-2].each do |label|
-      %td.ce= label
-  - @object.freights.each do |o|
+- @object.reload
+- if @object.freights.count > 0
+  %tbody.inner
     %tr
-      - td_value_for  o, 'freight',   {order: 'name',style: 'name',nested: 'doc_exp'}
-      - td_value_for  o, 'um',        {style: 'um', nested: 'doc_exp'}
-      - td_value_for  o, 'pu',        {style: 'pu', nested: 'doc_exp'}
-      - td_value_for  o, 'qu',        {style: 'qu', nested: 'doc_exp'}
-      - td_value_for  o, 'val',       {style: 'val',nested: 'doc_exp'}
+      - mat(@object,'table_header')[0..-2].each do |label|
+        %td.ce= label
+    - @object.freights.each do |o|
+      %tr
+        - td_value_for  o, 'freight',   {order: 'name',style: 'name',nested: 'doc_exp'}
+        - td_value_for  o, 'um',        {style: 'um', nested: 'doc_exp'}
+        - td_value_for  o, 'pu',        {style: 'pu', nested: 'doc_exp'}
+        - td_value_for  o, 'qu',        {style: 'qu', nested: 'doc_exp'}
+        - td_value_for  o, 'val',       {style: 'val',nested: 'doc_exp'}
+        %td
+          - p03 = (o.val * 0.03).round(2)
+          %span.p03= "%.2f" % p03
+        %td
+          - p16 = (o.val * 0.16).round(2)
+          %span.p16= "%.2f" % p16
+        %td
+          - res = (o.val - p03 - p16).round(2)
+          %span.res= "%.2f" % p16
+    %tr
+      %td.ce.st{colspan: '4'}
+        %span Total
       %td
-        - p03 = (o.val * 0.03).round(2)
-        %span.p03= "%.2f" % p03
+        %span.val= "%.2f" % @object.sum_100
       %td
-        - p16 = (o.val * 0.16).round(2)
-        %span.p16= "%.2f" % p16
+        %span.p03= "%.2f" % @object.sum_003
       %td
-        - res = (o.val - p03 - p16).round(2)
-        %span.res= "%.2f" % p16
-  %tr
-    %td.ce.st{colspan: '4'}
-      %span Total
-    %td
-      %span.val= "%.2f" % @object.sum_100
-    %td
-      %span.p03= "%.2f" % @object.sum_003
-    %td
-      %span.p16= "%.2f" % @object.sum_016
-    %td
-      %span.res= "%.2f" % @object.sum_out
+        %span.p16= "%.2f" % @object.sum_016
+      %td
+        %span.res= "%.2f" % @object.sum_out
+- else
+  %tbody
+    %tr
+      %td
+        %span.warning= t('msg.no_freight_selected')
