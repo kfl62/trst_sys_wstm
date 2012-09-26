@@ -1,0 +1,8 @@
+ro:
+  mongoid:
+    attributes:
+      'wstm/grn':
+        model_name_id_intern: NIR - Transfer gestiune
+        model_name: NIR - Persoane juridice
+        p03: [['null', 'Tip marfă'], ['true', 'DA se reţine 3%'], ['false', 'NU se reţine 3%']]
+        table_header: ['Material', 'Preţ', 'Cantitate', 'Valoare']

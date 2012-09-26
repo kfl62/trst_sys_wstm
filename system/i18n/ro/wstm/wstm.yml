@@ -8,6 +8,8 @@ ro:
           Configurare &raquo;%{data}&laquo;
         desk_expenditure: |
           Selectare &raquo;%{data}&laquo; ptr. a crea un APP
+        desk_grn: |
+          Configurare &raquo;%{data}&laquo;
       query:
         desk_cache: |
           Situaţie monetar - %{data}
@@ -38,6 +40,19 @@ ro:
           cifre/litere lista care apare va fi mai scurtă), după alegere -> "Creare APP"<br>
           În cazul în care persoana nu există, întroduceţi 13 cifre şi dacă este un CNP<br>
           valid se activează butonul "Creare persoană fizică".
+        desk_grn:
+          admin: |
+            Pentru a transfera în gestiunea <b>%{unit}</b>, prima dată<br>
+            trebuie să selectaţi tipul de marfă, cu sau fără 3%, după care veţi putea<br>
+            selecta <b>Avizele de expediţie</b>, care vă interesează.
+          user: |
+            Pentru a transfera în gestiunea <b>%{unit}</b>
+          no_dln: |
+            Nu aveţi nici un Aviz de expediţie!
+          legend: |
+            Legendă:
+          hover: |
+            Ptr.detalii despre aviz poziţionaţi mouse-ul deasupra denumirii...
         desk_report:
           cdd: Document cumulativ APP
           grn: Notă de recepţie APP
@@ -156,4 +171,3 @@ ro:
       delivery_note_not_complete: |
           Nu aţi completat sau aţi completat greşit
           unul din câmpurile "Aviz nr.", "maşina nr."!
-
