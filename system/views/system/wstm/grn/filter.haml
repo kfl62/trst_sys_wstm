@@ -1,0 +1,77 @@
+:ruby
+  firm     = Wstm::PartnerFirm.find_by(firm: true)
+  to_unit  = @current_user.unit_id || firm.units.find_by(main: true).id
+  unit     = firm.units.find(to_unit)
+  from_unit= @current_user.unit_id.nil? ? nil : firm.units.find_by(main: true).id
+  dln_ary  = params[:dln_ary].nil? ? [] : params[:dln_ary].split(',')
+  bckgrnd  = {"afdv" => "#FFBFF0","dpoa" => "#FFBFF0","ca21" => "#DDDDDD","cb25" => "#DDDDDD","sa57" => "#FFFF99","o139" => "#FFFF99","r25b" => "#BFFFBF","rafn" => "#BFFFBF"}
+- if params[:id_intern]
+  %span#hidden_data.hidden{data: {dialog: 'filter',model_name: mat(@object,'model_name_id_intern'),oid: 'null',js_ext: 'desk_grn'}}
+  %form{action: "/sys/#{@path}/filter?id_intern=true", method: 'get'}
+    %table{cellspacing: "0"}
+      %thead
+        %tr
+          %td{colspan: '8'}
+            - if @current_user.admin?
+              %span.info= t('intro.filter.desk_grn.admin',unit: unit.name[1])
+            -else
+              %span.info= t('intro.filter.desk_grn.user',unit: unit.name[1])
+        %tr
+          %td{colspan: '8'}
+            %select#p03.wstm
+              - mat(@object,'p03').each do |o|
+                %option{value: o[0], selected: o[0] == params[:p03]}= o[1]
+        - if params[:p03]
+          - dlns = Wstm::DeliveryNote.nonin(false).charged(false).by_p03(params[:p03].to_bool).where(:unit_id.ne  => to_unit)
+          - dlns = Wstm::DeliveryNote.nonin(false).charged(false).by_p03(params[:p03].to_bool).where(unit_id: from_unit) if from_unit
+          - if dlns.empty?
+            %tr
+              %td{colspan: '8'}
+                %span.info= t('intro.filter.desk_grn.no_dln')
+          - else
+            - dlns.each_with_index do |dln,i|
+              - if i % 8 == 0
+                %tr
+              %td
+                %label{style: "border-right: solid 1px #333333;padding-right: 3px;cursor: pointer;background-color: #{bckgrnd[dln.name.split('_')[1].downcase]}",
+                       title: "#{dln.id_date}\n#{dln.name}\n#{dln.freights_list.join("\n")}"}
+                  %input{id:dln.id,type: 'checkbox',checked: dln_ary.include?(dln.id.to_s)}
+                  = dln.doc_name
+          %tr
+            %td{:colspan => "8"}
+              %br
+              %span.small= t('intro.filter.desk_grn.legend')
+              - firm.units.asc(:slug).each do |u|
+                %span.small{:style => "border: solid 1px #333333; background-color: #{bckgrnd[u.name[0].downcase]}"}= u.name[1]
+              %br
+              %span.small= t('intro.filter.desk_grn.hover')
+      %tbody
+        - unless dln_ary.empty?
+          %tr
+            %td{:colspan => "8"}
+              %table{:style => "width:80%; margin: 15px auto 5px;"}
+                %tbody.inner
+                  %tr
+                    - mat(@object,'table_header').each do |label|
+                      %td.ce= label
+                  - data = Wstm::DeliveryNote.where(:id.in => dln_ary).sum_freights_grn; data.sort.each do |s|
+                    %tr
+                      %td
+                        %span.name= s[1][0]
+                      %td
+                        %span.qu{:style => "width:80%"}= "%.2f" % s[1][2]
+                      %td
+                        %span.val{:style => "width:80%"}= "%.2f" % s[1][3]
+                      %td
+                        %span.val{:style => "width:80%"}= "%.2f" % s[1][4]
+                  %tr.result
+                    %td.ce.st{:colspan => "3"}= "Total"
+                    %td
+                      %span.val{:style => "width:80%"}= "%.2f" % data.values.sum{|r| r[4]}
+      %tfoot
+        %tr
+          %td.buttonset.ce{colspan: '8'}
+            %button.dn{type: 'button', data: {action: 'create', icon: 'circle-plus'}}=  t('button.create') + " NIR!"
+            %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')
+- else
+  %span#hidden_data.hidden{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_grn'}}
