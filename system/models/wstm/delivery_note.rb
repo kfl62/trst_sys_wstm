@@ -39,6 +39,28 @@ module Wstm
       def nonin(nin = true)
         where(id_intern: !nin)
       end
+      # @todo
+      def charged(b = true)
+        where(charged: b)
+      end
+      # @todo
+      def by_p03(p03 = true)
+        ids = Wstm::FreightOut.where(:freight_id.in => Wstm::Freight.where(p03: p03).map(&:id), :doc_dln_id.in => all.map(&:id)).map(&:doc_dln_id).uniq
+        where(:id.in => ids)
+      end
+      # @todo
+      def sum_freights_grn
+        all.each_with_object({}) do |dn,s|
+          dn.freights.each_with_object(s) do |f,s|
+            if s[f.key].nil?
+              s[f.key] = [f.freight.name,f.freight.id_stats,f.pu,f.qu,(f.pu * f.qu).round(2)]
+            else
+              s[f.key][3] += f.qu
+              s[f.key][4] += (f.pu * f.qu).round(2)
+            end
+          end
+        end
+      end
     end # Class methods
 
     # @todo
@@ -70,6 +92,11 @@ module Wstm
       end
       name
     end
-
+    # @todo
+    def freights_list
+      freights.asc(:id_stats).each_with_object([]) do |f,r|
+        r << "#{f.freight.name}: #{"%.2f" % f.qu} kg ( #{"%.2f" % f.pu} )"
+      end
+    end
   end # DeliveryNote
 end # Wstm
