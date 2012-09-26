@@ -55,6 +55,10 @@ module Wstm
         end
       end
     end # Class methods
+    # @todo
+    def key
+      "#{id_stats}_#{"%05.2f" % pu}"
+    end
 
     # @todo
     def unit

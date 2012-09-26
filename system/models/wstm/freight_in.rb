@@ -70,6 +70,10 @@ module Wstm
     def doc
       doc_exp || doc_grn
     end
+    # @todo
+    def key
+      "#{id_stats}_#{"%05.2f" % pu}"
+    end
 
     private
     # @todo
