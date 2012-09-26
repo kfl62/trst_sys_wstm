@@ -98,7 +98,6 @@ define () ->
             if Trst.desk.hdo.dialog is 'filter'
               if $bd.action is 'create'
                 $button.button 'option', 'disabled', true
-                return
             else if Trst.desk.hdo.dialog is 'create'
               if $bd.action is 'save'
                 if Trst.desk.hdf.attr('action') is '/sys/wstm/expenditure'
