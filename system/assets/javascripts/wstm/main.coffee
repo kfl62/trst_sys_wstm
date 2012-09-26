@@ -16,8 +16,13 @@ define (['/javascripts/libs/select2.min.js','/javascripts/libs/jquery.ui.datepic
     init: () ->
       $('#menu.system ul li a').filter('[id^="page"]').unbind()
       $('#menu.system ul li a').filter('[id^="page"]').click ()->
-        $('#xhr_tasks').load "/sys/tasks/#{$(@).attr('id').split('_')[1]}",
-          ()-> Wstm.unit_info.update(Trst.lst.unit_info_txt)
+        $page_id = $(@).attr('id').split('_')[1]
+        $('#xhr_tasks').load "/sys/tasks/#{$page_id}", ()->
+          Trst.lst.setItem 'page_id', $page_id
+          Wstm.unit_info.update(Trst.lst.unit_info_txt)
         false
+      if Trst.lst.page_id
+        $('#xhr_tasks').load "/sys/tasks/#{Trst.lst.page_id}", ()->
+          Wstm.unit_info.update(Trst.lst.unit_info_txt)
       $log "Wstm init() OK..."
   Wstm
