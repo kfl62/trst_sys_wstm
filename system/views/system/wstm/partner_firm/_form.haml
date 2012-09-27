@@ -20,17 +20,17 @@
       %input.before-no{type: 'radio', name: "[#{@path}][client]", checked: !@object.client, value: 'false'}
     - td_error_for @object, 'client'
   %tr
-    - td_label_for @object, 'supplier'
+    - td_label_for @object, 'supplr'
     %td.boolean
-      %input.before-yes{type: 'radio', name: "[#{@path}][supplier]", checked: @object.supplier,  value: 'true'}
-      %input.before-no{type: 'radio', name: "[#{@path}][supplier]", checked: !@object.supplier, value: 'false'}
-    - td_error_for @object, 'supplier'
+      %input.before-yes{type: 'radio', name: "[#{@path}][supplr]", checked: @object.supplr,  value: 'true'}
+      %input.before-no{type: 'radio', name: "[#{@path}][supplr]", checked: !@object.supplr, value: 'false'}
+    - td_error_for @object, 'supplr'
   %tr
-    - td_label_for @object, 'transporter'
+    - td_label_for @object, 'transp'
     %td.boolean
-      %input.before-yes{type: 'radio', name: "[#{@path}][transporter]", checked: @object.transporter,  value: 'true'}
-      %input.before-no{type: 'radio', name: "[#{@path}][transporter]", checked: !@object.transporter, value: 'false'}
-    - td_error_for @object, 'transporter'
+      %input.before-yes{type: 'radio', name: "[#{@path}][transp]", checked: @object.transp,  value: 'true'}
+      %input.before-no{type: 'radio', name: "[#{@path}][transp]", checked: !@object.transp, value: 'false'}
+    - td_error_for @object, 'transp'
   %tr
     - td_label_for @object, 'p03'
     %td.boolean
