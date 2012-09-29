@@ -1,0 +1,22 @@
+- @object.reload
+- if @object.freights.count > 0
+  %tbody.inner
+    %tr
+      - mat(@object,'table_header').each do |label|
+        %td.ce= label
+    - @object.freights.asc(:id_stats).each do |o|
+      %tr
+        - td_value_for  o, 'freight',   {order: 'name',style: 'name',nested: 'doc_grn'}
+        - td_value_for  o, 'pu',        {style: 'pu', nested: 'doc_grn'}
+        - td_value_for  o, 'qu',        {style: 'qu', nested: 'doc_grn'}
+        - td_value_for  o, 'val',       {style: 'val',nested: 'doc_grn'}
+    %tr
+      %td.ce.st{colspan: '3'}
+        %span Total
+      %td
+        %span.val= "%.2f" % @object.sum_100
+- else
+  %tbody
+    %tr
+      %td
+        %span.warning= t('msg.no_freight_selected')

@@ -6,18 +6,18 @@
   dln_ary  = params[:dln_ary].nil? ? [] : params[:dln_ary].split(',')
   bckgrnd  = {"afdv" => "#FFBFF0","dpoa" => "#FFBFF0","ca21" => "#DDDDDD","cb25" => "#DDDDDD","sa57" => "#FFFF99","o139" => "#FFFF99","r25b" => "#BFFFBF","rafn" => "#BFFFBF"}
 - if params[:id_intern]
-  %span#hidden_data.hidden{data: {dialog: 'filter',model_name: mat(@object,'model_name_id_intern'),oid: 'null',js_ext: 'desk_grn'}}
+  %span#hidden_data.hidden{data: {dialog: 'filter',model_name: mat(@object,'model_name_id_intern'),oid: 'null',js_ext: 'desk_grn',unit_id: to_unit}}
   %form{action: "/sys/#{@path}/filter?id_intern=true", method: 'get'}
     %table{cellspacing: "0"}
       %thead
         %tr
-          %td{colspan: '8'}
+          %td
             - if @current_user.admin?
               %span.info= t('intro.filter.desk_grn.admin',unit: unit.name[1])
             -else
               %span.info= t('intro.filter.desk_grn.user',unit: unit.name[1])
         %tr
-          %td{colspan: '8'}
+          %td
             %select#p03.wstm
               - mat(@object,'p03').each do |o|
                 %option{value: o[0], selected: o[0] == params[:p03]}= o[1]
@@ -26,29 +26,28 @@
           - dlns = Wstm::DeliveryNote.nonin(false).charged(false).by_p03(params[:p03].to_bool).where(unit_id: from_unit) if from_unit
           - if dlns.empty?
             %tr
-              %td{colspan: '8'}
+              %td
                 %span.info= t('intro.filter.desk_grn.no_dln')
           - else
-            - dlns.each_with_index do |dln,i|
-              - if i % 8 == 0
-                %tr
+            %tr
               %td
-                %label{style: "border-right: solid 1px #333333;padding-right: 3px;cursor: pointer;background-color: #{bckgrnd[dln.name.split('_')[1].downcase]}",
-                       title: "#{dln.id_date}\n#{dln.name}\n#{dln.freights_list.join("\n")}"}
-                  %input{id:dln.id,type: 'checkbox',checked: dln_ary.include?(dln.id.to_s)}
-                  = dln.doc_name
-          %tr
-            %td{:colspan => "8"}
-              %br
-              %span.small= t('intro.filter.desk_grn.legend')
-              - firm.units.asc(:slug).each do |u|
-                %span.small{:style => "border: solid 1px #333333; background-color: #{bckgrnd[u.name[0].downcase]}"}= u.name[1]
-              %br
-              %span.small= t('intro.filter.desk_grn.hover')
+                - dlns.each_with_index do |dln,i|
+                  %label{style: "border-right: solid 1px #333333;padding-right: 3px;cursor: pointer;background-color: #{bckgrnd[dln.name.split('_')[1].downcase]}",
+                         title: "#{dln.id_date}\n#{dln.name}\n#{dln.freights_list.join("\n")}"}
+                    %input.dln_ary{id:dln.id,type: 'checkbox',checked: dln_ary.include?(dln.id.to_s)}
+                    = dln.doc_name
+            %tr
+              %td
+                %br
+                %span.small= t('intro.filter.desk_grn.legend')
+                - firm.units.asc(:slug).each do |u|
+                  %span.small{:style => "border: solid 1px #333333; background-color: #{bckgrnd[u.name[0].downcase]}"}= u.name[1]
+                %br
+                %span.small= t('intro.filter.desk_grn.hover')
       %tbody
         - unless dln_ary.empty?
           %tr
-            %td{:colspan => "8"}
+            %td
               %table{:style => "width:80%; margin: 15px auto 5px;"}
                 %tbody.inner
                   %tr
@@ -70,7 +69,7 @@
                       %span.val{:style => "width:80%"}= "%.2f" % data.values.sum{|r| r[4]}
       %tfoot
         %tr
-          %td.buttonset.ce{colspan: '8'}
+          %td.buttonset.ce
             %button.dn{type: 'button', data: {action: 'create', icon: 'circle-plus'}}=  t('button.create') + " NIR!"
             %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')
 - else
