@@ -35,6 +35,10 @@
             %input#transp_d_id.select2{type: 'hidden',name: '[wstm/grn][transp_d_id]', style: 'width:200px', data: {minlength: 0,ph: '3',search: 'Wstm::PartnerFirm',noinit: 'true',transp_id: firm.id}}
             - input_for @object, 'doc_plat', {placeholder: 'Maşina nr.'}
             %button#transp_d{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create') + " Delegat!"
+        %tr
+          %td{colspan: '4'}
+            %hr
+            %span.small{style: 'max-width: 500px'}= mat(@object,'dlns_name').concat @object.dlns.map(&:doc_name).join(', ')
       = partial "#{@path}/form", locals: {dlns: dln_ary,id_intern: true,unit: unit}
       %tfoot
         %tr

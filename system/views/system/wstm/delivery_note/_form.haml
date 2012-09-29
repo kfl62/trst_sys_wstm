@@ -5,7 +5,7 @@
   - if @object.freights.empty?
     - for i in 0..4 do; o = @object.freights.new
       %tr.freight
-        %td
+        %td.select-freight
           %select.wstm.freight
             %option{value: 'null'} Selectare material
             - freights.each do |f|
@@ -23,7 +23,7 @@
           - input_for  o, 'qu',        {style: ' qu',nested: 'doc_dln',index: i}
         %td
           %span.res 0.00
-        %td
+        %td.action-1
           %span.row-remove.icon-remove-sign{title: t('button.delete')}
     %tr.total
       %td.ce.st{colspan: '3'}
