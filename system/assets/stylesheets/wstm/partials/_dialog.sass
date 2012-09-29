@@ -57,6 +57,10 @@ ul.trst-ui-sortable
           td
             padding-bottom: 0.5em
         td
+          &.select-freight
+            width: 1px
+          &.action-1
+            width: 20px
           &.buttonset
             padding-left: 8px
           input[type="text"], input[type="password"]
@@ -89,26 +93,19 @@ ul.trst-ui-sortable
               display: inline-block
               font-weight: bolder
               text-align: right
-              padding-right: 5px
+              padding: 0px 5px
             &.name
               text-align: left
-              padding: 0px 5px
             &.um
               text-align: center
               width: 30px
               padding: 0px
             &.pu
               width: 40px
-            &.qu
-              width: 60px
-            &.val
-              width: 70px
-            &.p03
-              width: 70px
-            &.p16
-              width: 70px
-            &.res
-              width: 70px
+              float: right
+            &.qu, &.val, &.p03, &.p16, &.res
+              float: right
+              min-width: 40px
           span.label
             padding-right: 5px
           span.value
