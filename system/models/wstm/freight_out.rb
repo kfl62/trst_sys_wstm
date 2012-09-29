@@ -20,12 +20,12 @@ module Wstm
     belongs_to  :doc_dln,  class_name: 'Wstm::DeliveryNote',inverse_of: :freights
     belongs_to  :doc_cas,  class_name: 'Wstm::Cassation',   inverse_of: :freights
 
-    after_save    :'handle_stock(false)'
-    after_destroy :'handle_stock(true)'
-
     index({ freight_id: 1, id_date: 1 })
     index({ doc_dln_id: 1})
     index({ doc_cas_id: 1})
+
+    after_save    :'handle_stock(false)'
+    after_destroy :'handle_stock(true)'
 
     class << self
       # @todo
@@ -77,7 +77,7 @@ module Wstm
       "#{id_stats}_#{"%05.2f" % pu}"
     end
 
-    private
+    protected
     # @todo
     def handle_stock(add_delete)
       today = Date.today; retro = id_date.month == today.month
