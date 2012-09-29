@@ -74,6 +74,9 @@ ro:
           Firma <b>%{firm}</b> reprezentat de %{firm_d} expediază clientului,<br>
           <b>%{client}</b> reprezentat de %{client_d}, transportul fiind asigurat de <br>
           <b>%{transp}</b> delegat %{transp_d}, următoarele materiale:
+        desk_grn:
+          id_intern: |
+            Transfer în gestiunea <b>%{unit}</b> prin delegatul:
       edit:
         desk_freight: |
           Puteţi modifica doar câmpul<br>
@@ -108,10 +111,16 @@ ro:
           Firma <b>%{firm}</b> reprezentat de %{firm_d} expediază clientului,<br>
           <b>%{client}</b> reprezentat de %{client_d}, transportul fiind asigurat de <br>
           <b>%{transp}</b> delegat %{transp_d}, următoarele materiale:
+        desk_grn: |
+          În ziua de <b>%{id_date}</b> în gestiunea <b>%{unit}</b> de către<br>
+          <b>%{signed_by}</b> în prezenţa delegatului <b>%{transp_d}</b>, s-au recepţionat următoarele<br>
+          materiale provenind de la <b>%{supplr}</b> :<br>
       delete:
         desk_expenditure: |
           Atenţie!!! Se va şterge &raquo;Adeverinţa Primire/Plată&laquo;!!!
         desk_delivery_note: |
+          Atenţie!!! Se va şterge &raquo;%{data}&laquo;!!!
+        desk_grn: |
           Atenţie!!! Se va şterge &raquo;%{data}&laquo;!!!
       pdf:
         desk_expenditure:
@@ -138,6 +147,7 @@ ro:
       unit_all: Toate unităţile
       desk_expenditure: ['Alegeţi - Partener Persoană Fizică']
       desk_delivery_note: ['Alegeţi - Destinatar', 'Alegeţi - Delegat (opţional)', 'Alegeţi - Transportator', 'Alegeţi - Delegat']
+      desk_grn: ['Alegeţi - Furnizor', 'Alegeţi - Delegat (opţional)', 'Alegeţi - Transportator', 'Alegeţi - Delegat']
     msg:
       input_too_short_strt: |
         Vă rugăm întroduceţi min. %{nr} caractere!
