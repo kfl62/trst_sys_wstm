@@ -10,9 +10,9 @@
             %option{value: 'null'} Selectare material
             - freights.asc(:name).each do |f|
               %option{value: f.id, selected: f.id == o.freight_id, data: {id_stats: f.id_stats,um: f.um,pu: f.pu,p03: f.p03.to_s}}= f.name
-          - input_for   o, 'freight_id',{type: 'hidden',nested: 'doc_exp',value: 'strip',index: i}
-          - input_for   o, 'id_stats',  {type: 'hidden',nested: 'doc_exp',value: 'strip',index: i}
           - input_for   o, 'id_date',   {type: 'hidden',nested: 'doc_exp',value: 'strip',index: i}
+          - input_for   o, 'id_stats',  {type: 'hidden',nested: 'doc_exp',value: 'strip',index: i}
+          - input_for   o, 'freight_id',{type: 'hidden',nested: 'doc_exp',value: 'strip',index: i}
         - td_input_for  o, 'um',        {style: ' um',nested: 'doc_exp',index: i}
         - td_input_for  o, 'pu',        {style: ' pu',nested: 'doc_exp',index: i}
         - td_input_for  o, 'qu',        {style: ' qu',nested: 'doc_exp',index: i}
