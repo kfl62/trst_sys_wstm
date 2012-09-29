@@ -29,8 +29,13 @@ module Wstm
     belongs_to :signed_by,    class_name: "Wstm::User",             inverse_of: :grns
 
     index({ unit_id: 1, id_date: 1 })
+
+    after_save    :'handle_dlns(true)'
+    after_destroy :'handle_dlns(false)'
+
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
 
+    accepts_nested_attributes_for :dlns
     accepts_nested_attributes_for :freights,
       reject_if: ->(attrs){ attrs[:qu].to_i == 0 }
 
@@ -57,6 +62,29 @@ module Wstm
     def supplr_d
       Wstm::PartnerFirm.person_by_person_id(supplr_d_id) rescue nil
     end
+    # @todo
+    def increment_name(unit_id)
+      apps = Wstm::Grn.by_unit_id(unit_id).yearly(Date.today.year)
+      if apps.count > 0
+        name = apps.asc(:name).last.name.next
+      else
+        apps = Wstm::Grn.by_unit_id(unit_id)
+        unit = Wstm::PartnerFirm.unit_by_unit_id(unit_id)
+        if apps.count > 0
+          prefix = apps.asc(:name).last.name.split('-').last[0].next
+          name = "#{unit.firm.name[0][0..2].upcase}_#{unit.slug}_NIR-#{prefix}00001"
+        else
+          name = "#{unit.firm.name[0][0..2].upcase}_#{unit.slug}_NIR-000001"
+        end
+      end
+      name
+    end
 
+    protected
+    # @todo
+    def handle_dlns(add_remove)
+      dlns.each{|dln| dln.set(:charged,add_remove)}
+      dlns.each{|dln| dln.set(:doc_grn_id,nil)} if add_remove == false
+    end
   end # Grn
 end # wstm
