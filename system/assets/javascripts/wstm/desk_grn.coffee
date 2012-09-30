@@ -2,23 +2,59 @@ define () ->
   $.extend true,Wstm,
     desk:
       grn:
+        calculate: ()->
+          $rows  = $('tr.freight')
+          $total = $('tr.total')
+          tot_val = 0; tot_p03 = 0;
+          $rows.each ()->
+            $tr = $(@)
+            $sd = $tr.find('select').find('option:selected').data()
+            pu  = $tr.find('input[name*="pu"]').decFixed(2)
+            qu  = $tr.find('input[name*="qu"]').decFixed(2)
+            val = (parseFloat(pu.val()) * parseFloat(qu.val())).round(2)
+            p03 = if ($sd.p03 and $('#supplr_id').data('p03')) then (val * 0.03).round(2) else 0
+            tot_val += val; tot_p03 += p03
+            $tr.find('span.val').text(val.toFixed(2))
+            $tr.find('span.p03').text(p03.toFixed(2))
+            $tr.find('input[name*="val"]').val(val.toFixed(2))
+            return
+          $total.find('span.val').text(tot_val.toFixed(2))
+          $total.find('span.p03').text(tot_p03.toFixed(2))
+          $total.find('input[name*="sum_100"]').val(tot_val.toFixed(2))
+          $total.find('input[name*="sum_003"]').val(tot_p03.toFixed(2))
+          return
         validate:
           filter: ()->
+            if $('#supplr_id').val() isnt '' and $('#transporter_id').val() isnt '' and $('#transp_d_id').val() isnt '' and $('#transp_d_id').val() isnt 'new'
+              $url = Trst.desk.hdf.attr('action')
+              $url += "?supplr_id=#{$('#supplr_id').val()}"
+              $url += "&transp_id=#{$('#transp_id').val()}"
+              $url += "&transp_d_id=#{$('#transp_d_id').val()}"
+              $url += "&supplr_d_id=#{$('#supplr_d_id').val()}" if $('#supplr_d_id').val() isnt '' and $('#supplr_d_id').val() isnt 'new'
+              $('button.dn').data('url', $url)
+              $('button.dn').button 'option', 'disabled', false
+            else
+              $('button.dn').button 'option', 'disabled', true
             return
           create: ()->
-            if $('input#transp_d_id').select2('val') is '' or $('input#transp_d_id').select2('val') is 'new'
-              $('button[data-action="save"]').button 'option', 'disabled', true
-              return false
-            else
-              $('button[data-action="save"]').button 'option', 'disabled', false
-              return true
+            if $('input#transp_d_id').length
+              $transp_d = $('input#transp_d_id')
+              if $transp_d.select2('val') is '' or $transp_d.select2('val') is 'new'
+                $('button[data-action="save"]').button 'option', 'disabled', true
+              else
+                $('button[data-action="save"]').button 'option', 'disabled', false
+            if $('select.doc_type').length
+              if $('select.doc_type').val() isnt 'null' and $('input[name*="doc_name"]').val() isnt '' and $('input[name*="doc_plat"]').val() isnt ''
+                $('button[data-action="save"]').button 'option', 'disabled', false
+                return true
+            return
         selectedDeliveryNotes: ()->
           @dln_ary = []
           $('input:checked').each ()->
             Wstm.desk.grn.dln_ary.push(@id)
             return
           $url = Trst.desk.hdf.attr('action')
-          $url += "&p03=#{$('select#p03').val()}"
+          $url += "&p03=#{$('select.p03').val()}"
           $url += "&dln_ary=#{Wstm.desk.grn.dln_ary}" if Wstm.desk.grn.dln_ary.length
           Trst.desk.init($url)
           return
@@ -26,9 +62,15 @@ define () ->
           inpts.each ()->
             $input = $(@)
             $id = $input.attr('id')
-            $input.on 'change', ()->
-              Wstm.desk.grn.selectedDeliveryNotes()
-              return
+            if $input.hasClass 'dln_ary'
+              $input.on 'change', ()->
+                Wstm.desk.grn.selectedDeliveryNotes()
+                return
+            if $input.attr('id') is 'date_show' and $('input[name*="doc_date"]').length
+              $input.on 'change', ()->
+                $('input[name*="doc_date"]').val($('#date_send').val())
+                $('select.doc_type').focus()
+                return
             return
           return
         selects: (slcts)->
@@ -37,11 +79,39 @@ define () ->
             $sd = $select.data()
             $id = $select.attr('id')
             if $select.hasClass 'wstm'
-              $select.on 'change', ()->
-                $url  = Trst.desk.hdf.attr('action')
-                $url += "&p03=#{$select.val()}" unless $select.val() is 'null'
-                Trst.desk.init($url)
-                return
+              if $select.hasClass 'p03'
+                $select.on 'change', ()->
+                  $url  = Trst.desk.hdf.attr('action')
+                  $url += "&p03=#{$select.val()}" unless $select.val() is 'null'
+                  Trst.desk.init($url)
+                  return
+              if $select.hasClass 'doc_type'
+                $select.on 'change', ()->
+                  $('input[name*="doc_date"]').val($('#date_send').val())
+                  $select.next().focus()
+                  return
+              if $select.hasClass 'freight'
+                $select.on 'change', ()->
+                  if Wstm.desk.grn.validate.create()
+                    $sod = $select.find('option:selected').data()
+                    $inp = $select.parentsUntil('tbody').last().find('input')
+                    $inp.filter('[name*="freight_id"]').val($select.val())
+                    $inp.filter('[name*="id_date"]').val($('#date_send').val())
+                    $inp.filter('[name*="id_stats"]').val($sod.id_stats)
+                    $inp.filter('[name*="um"]').val($sod.um)
+                    pu = $inp.filter('[name*="pu"]').val($sod.pu).decFixed(2)
+                    qu = $inp.filter('[name*="qu"]').val('0.00')
+                    pu.on 'change', ()->
+                      Wstm.desk.grn.calculate()
+                    qu.on 'change', ()->
+                      Wstm.desk.grn.calculate()
+                    Wstm.desk.grn.calculate()
+                    qu.focus().select()
+                  else
+                    alert Trst.i18n.msg.grn_not_complete
+                    $select.val('null')
+                    $('button[data-action="save"]').button 'option', 'disabled', true
+                  return
             else if $select.hasClass 'select2'
               if $id in ['supplr_id','transp_id']
                 $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph]
@@ -168,11 +238,16 @@ define () ->
               ###
               Buttons default handler Trst.desk.buttons
               ###
-            return
+          $('span.row-remove').each ()->
+            $button = $(@)
+            $button.on 'click', ()->
+              $button.parentsUntil('tbody').last().remove()
+              Wstm.desk.grn.calculate()
+              return
           return
         init: ()->
           Wstm.desk.grn.buttons($('button'))
           Wstm.desk.grn.selects($('select.wstm, input.select2'))
-          Wstm.desk.grn.inputs($('input.dln_ary'))
+          Wstm.desk.grn.inputs($('input'))
           $log 'Wstm.desk.grn.init() OK...'
   Wstm.desk.grn
