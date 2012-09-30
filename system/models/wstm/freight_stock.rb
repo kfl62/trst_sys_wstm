@@ -30,8 +30,7 @@ module Wstm
       # @todo
       def by_key(key)
         id_stats, pu = key.split('_')
-        where(id_stats: id_stats)
-        where(id_stats: id_stats, pu: pu.to_f) if pu
+        pu.nil? ? where(id_stats: id_stats) : where(id_stats: id_stats, pu: pu.to_f)
       end
       # @todo
       def nonin(nin = true)
@@ -52,7 +51,7 @@ module Wstm
         elsif m
           monthly(y,m).sum(v) || 0.0
         else
-          yearly(y).sum(v)    || 0.0
+          monthly(y,1).sum(v) || 0.0
         end
       end
     end # Class methods

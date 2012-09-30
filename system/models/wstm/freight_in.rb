@@ -35,8 +35,7 @@ module Wstm
       # @todo
       def by_key(key)
         id_stats, pu = key.split('_')
-        where(id_stats: id_stats)
-        where(id_stats: id_stats, pu: pu.to_f) if pu
+        pu.nil? ? where(id_stats: id_stats) : where(id_stats: id_stats, pu: pu.to_f)
       end
       # @todo
       def nonin(nin = true)
