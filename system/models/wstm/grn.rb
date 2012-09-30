@@ -19,6 +19,8 @@ module Wstm
     field :sum_out,     type: Float,    default: 0.00
     field :sum_pay,     type: Float,    default: 0.00
 
+    alias :file_name :name
+
     has_many   :freights,     class_name: "Wstm::FreightIn",        inverse_of: :doc_grn, dependent: :destroy
     has_many   :dlns,         class_name: "Wstm::DeliveryNote",     inverse_of: :doc_grn
     belongs_to :supplr,       class_name: "Wstm::PartnerFirm",      inverse_of: :grns_supplr
