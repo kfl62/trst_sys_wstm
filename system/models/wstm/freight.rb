@@ -8,7 +8,7 @@ module Wstm
     belongs_to  :unit,     class_name: 'Wstm::PartnerFirmUnit', inverse_of: :freights
     has_many    :ins,      class_name: "Wstm::FreightIn",       inverse_of: :freight
     has_many    :outs,     class_name: "Wstm::FreightOut",      inverse_of: :freight
-    has_many    :stocks,   class_name: "Wstm::FreightStock",    inverse_of: :freight
+    has_many    :stks,     class_name: "Wstm::FreightStock",    inverse_of: :freight
 
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
 
@@ -62,7 +62,7 @@ module Wstm
         f   = find(i)
         y ||= today.year; m ||= today.month
         days_in_month = (Date.new(y, 12, 31) << (12 - m)).day
-        final = f.stocks.sum_stks(y,m,opts)
+        final = f.stks.sum_stks(y,m,opts)
         (1..days_in_month).each do |i|
           f_ins   = f.ins.sum_ins(y,m,i,opts)
           f_out   = f.outs.sum_outs(y,m,i,opts)
@@ -86,14 +86,14 @@ module Wstm
     def stats_sum(*args)
       opts = args.last.is_a?(Hash) ? {}.merge!(args.pop) : {}
       if opts[:all]
-        s = stocks.sum_stks(*args,opts)
+        s = stks.sum_stks(*args,opts)
         i = ins.sum_ins(*args,opts)
         o = outs.sum_outs(*args,opts)
         i_nin = ins.nonin.sum_ins(*args,opts)
         o_nin = outs.nonin.sum_outs(*args,opts)
         [s,i_nin,o_nin,s + i_nin - o_nin, s + i - o]
       else
-        s = stocks.sum_stks(*args,opts)
+        s = stks.sum_stks(*args,opts)
         i = ins.sum_ins(*args,opts)
         o = outs.sum_outs(*args,opts)
         [s,i,o,s + i - o]
@@ -109,7 +109,7 @@ module Wstm
       opts = args.last.is_a?(Hash) ? {}.merge!(args.pop) : {}
       y,m = *args; today = Date.today
       y ||= today.year; m ||= today.month
-      s = stocks.sum_stks(y,m,opts)
+      s = stks.sum_stks(y,m,opts)
       i = ins.sum_ins(y,m,opts)
       o = outs.sum_outs(y,m,opts)
       (s + i - o).round(2)

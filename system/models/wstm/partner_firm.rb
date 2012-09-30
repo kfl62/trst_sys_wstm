@@ -98,7 +98,7 @@ module Wstm
     has_many    :freights,  class_name: 'Wstm::Freight',      inverse_of: :unit
     has_many    :dps,       class_name: 'Wstm::Cache',        inverse_of: :unit
     has_many    :apps,      class_name: 'Wstm::Expenditure',  inverse_of: :unit
-    has_many    :stocks,    class_name: 'Wstm::Stock',        inverse_of: :unit
+    has_many    :stks,      class_name: 'Wstm::Stock',        inverse_of: :unit
     has_many    :dlns,      class_name: 'Wstm::DeliveryNote', inverse_of: :unit
     has_many    :grns,      class_name: 'Wstm::Grn',          inverse_of: :unit
     has_many    :csss,      class_name: 'Wstm::Cassation',    inverse_of: :unit
@@ -109,11 +109,11 @@ module Wstm
     end
     # @todo
     def stock_now
-      stocks.find_by(id_date: Date.new(2000,1,31))
+      stks.find_by(id_date: Date.new(2000,1,31))
     end
     # @todo
     def stock_monthly(y,m)
-      stocks.find_by(id_date: Date.new(y,m + 1,1))
+      stks.find_by(id_date: Date.new(y,m + 1,1))
     end
   end # FirmUnit
 end # Wstm
