@@ -8,8 +8,8 @@
         %td
           %select.wstm.freight{class: i == 0 && 'focus'}
             %option{value: 'null'} Selectare material
-            - freights.asc(:name).each do |f|
-              %option{value: f.id, selected: f.id == o.freight_id, data: {id_stats: f.id_stats,um: f.um,pu: f.pu,p03: f.p03.to_s}}= f.name
+            - freights.each do |f|
+              %option{value: f[0], data: f[2]}= f[1]
           - input_for   o, 'id_date',   {type: 'hidden',nested: 'doc_exp',value: 'strip',index: i}
           - input_for   o, 'id_stats',  {type: 'hidden',nested: 'doc_exp',value: 'strip',index: i}
           - input_for   o, 'freight_id',{type: 'hidden',nested: 'doc_exp',value: 'strip',index: i}
