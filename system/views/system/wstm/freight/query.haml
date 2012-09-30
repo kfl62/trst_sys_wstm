@@ -63,7 +63,7 @@
         %td{:colspan => "3"}
           %span.stats.ce= mat(@object,'stock_start')
         %td
-          %span.stats.ri= "%0.2f" % freight.stocks.sum_stks(y,m)
+          %span.stats.ri= "%0.2f" % freight.stks.sum_stks(y,m)
       - data = @object.stats_one(fid,y,m); data.each do |d|
         %tr
           %td
