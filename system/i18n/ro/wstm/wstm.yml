@@ -85,6 +85,10 @@ ro:
             În gestiunea <b>%{unit}</b> Dn-ul/Dna <b>%{signed_by}</b> recepţionează<br>
             de la furnizorul  <b>%{supplr}</b>, în prezenţa delegatului <b>%{transp_d}</b>,<br>
             în baza actelor(completate mai sus), următoarele materiale:
+          payment: |
+            <b>Detalii plată:</b> Suma se completează numai dacă există chitanţă sau OP.<br>
+            Se trece suma achitată efectiv (Valoare - Taxă mediu 3%)! În caz contrar se<br>
+            completeză cu <b>La termen</b> prima rubrică şi cu <b>0.00</b> a doua.
       edit:
         desk_freight: |
           Puteţi modifica doar câmpul<br>

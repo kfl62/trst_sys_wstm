@@ -76,14 +76,19 @@
         %tr
           %td{colspan: '7'}
             - select_for @object,'doc_type',    {type: 'enum',style: 'wstm doc_type focus',select_options: %w{null DN INV MIN}}
-            - input_for  @object,'doc_name',    {placeholder: 'Document nr.'}
-            - input_for  @object,'doc_plat',    {placeholder: 'Maşina nr.'}
+            - input_for  @object,'doc_name',    {placeholder: mat(@object,'doc_name')}
+            - input_for  @object,'doc_plat',    {placeholder: mat(@object,'doc_plat')}
             - input_for  @object,'doc_date',    {type: 'hidden',value: 'strip'}
         %tr
           %td{colspan: '7'}
             %span.info= t('intro.create.desk_grn.partner_firm',unit: unit.name[1],signed_by: @current_user.name,supplr: supplr.name[2],transp_d: transp_d.name)
       = partial "#{@path}/form", locals: {id_intern: false,unit: unit,freights: freights}
       %tfoot
+        %tr
+          %td{colspan: '7'}
+            %span.info= t('intro.create.desk_grn.payment')
+            - input_for  @object,'doc_paym',     {placeholder: mat(@object,'doc_paym')}
+            - input_for  @object,'sum_pay',      {placeholder: mat(@object,'sum_pay'),value: 'strip'}
         %tr
           %td.buttonset.ce{colspan: "7"}
             %button{type: "button", data: {action: "save",  icon: "disk",remove: 'false'}}= t('button.save')
