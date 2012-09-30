@@ -1,5 +1,5 @@
 # encoding: utf-8
-# Template for AdeverintaPredarePrimire.pdf
+# Template for Wstm::Expenditure#pdf
 require 'prawn/measurement_extensions'
 
 def firm
