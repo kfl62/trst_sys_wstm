@@ -2,7 +2,7 @@
 - if @object.freights.count > 0
   %tbody.inner
     %tr
-      - i = @object.id_intern == true ? 4 : -1; mat(@object,'table_header')[0..i].each do |label|
+      - i = @object.id_intern == true ? 4 : -2; mat(@object,'table_header')[0..i].each do |label|
         %td.ce= label
     - @object.freights.asc(:id_stats).each do |o|
       %tr
