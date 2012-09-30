@@ -18,7 +18,7 @@
               %span.info= t('intro.filter.desk_grn.user',unit: unit.name[1])
         %tr
           %td
-            %select#p03.wstm
+            %select.wstm.p03
               - mat(@object,'p03').each do |o|
                 %option{value: o[0], selected: o[0] == params[:p03]}= o[1]
         - if params[:p03]
@@ -51,12 +51,14 @@
               %table{:style => "width:70%;margin:auto;font-size:1.1em"}
                 %tbody.inner
                   %tr
-                    - mat(@object,'table_header').each do |label|
+                    - mat(@object,'table_header')[0..4].each do |label|
                       %td.ce= label
                   - data = Wstm::DeliveryNote.where(:id.in => dln_ary).sum_freights_grn; data.sort.each do |s|
                     %tr
                       %td
                         %span.name= s[1][0]
+                      %td
+                        %span.um kg
                       %td
                         %span.qu= "%.2f" % s[1][2]
                       %td
@@ -64,7 +66,7 @@
                       %td
                         %span.val= "%.2f" % s[1][4]
                   %tr.result
-                    %td.ce.st{:colspan => "3"}= "Total"
+                    %td.ce.st{:colspan => "4"}= "Total"
                     %td
                       %span.val= "%.2f" % data.values.sum{|r| r[4]}
           %tr
@@ -76,3 +78,25 @@
             %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')
 - else
   %span#hidden_data.hidden{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_grn'}}
+  %form{action: "/sys/#{@path}", method: 'get'}
+    %table{cellspacing: "0"}
+      %thead
+        %tr
+          %td
+            %span.info= t('intro.filter.desk_grn.partner_firm',unit: unit.name[1])
+      %tbody
+        %tr
+          %td
+            %input#supplr_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: 2,ph: 0,search: 'Wstm::PartnerFirm',noinit: 'true'}}
+            %input#supplr_d_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: 0,ph: 1,search: 'Wstm::PartnerFirm',noinit: 'true'}}
+            %button#supplr_d{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create') + " Delegat!"
+        %tr
+          %td
+            %input#transp_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: 2,ph: 2,search: 'Wstm::PartnerFirm',noinit: 'true'}}
+            %input#transp_d_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: 0,ph: 3,search: 'Wstm::PartnerFirm',noinit: 'true'}}
+            %button#transp_d{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create') + " Delegat!"
+      %tfoot
+        %tr
+          %td.buttonset.ce
+            %button.dn{type: 'button', data: {action: 'create', icon: 'circle-plus'}}=  t('button.create') + " NIR!"
+            %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')

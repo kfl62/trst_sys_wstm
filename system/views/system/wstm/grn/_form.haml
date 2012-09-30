@@ -1,7 +1,7 @@
 - if id_intern
   %tbody.inner
     %tr
-      - mat(@object,'table_header').each do |label|
+      - mat(@object,'table_header')[0..4].each do |label|
         %td.ce= label
     - data = Wstm::DeliveryNote.where(:id.in => dlns).sum_freights_grn; data.sort.each_with_index do |s,i|
       - o = @object.freights.new
@@ -13,6 +13,8 @@
           - input_for o, 'id_intern', {type: 'hidden',nested: 'doc_grn',index: i,value: 'true'}
           - input_for o, 'freight_id',{type: 'hidden',nested: 'doc_grn',index: i,value: unit.freights.find_by(id_stats: s[1][1]).id}
         %td
+          %span.um kg
+        %td
           %span.qu= "%.2f" % s[1][2]
           - input_for o, 'pu',        {type: 'hidden',nested: 'doc_grn',index: i,value: s[1][2]}
         %td
@@ -22,7 +24,7 @@
           %span.val= "%.2f" % s[1][4]
           - input_for o, 'val',       {type: 'hidden',nested: 'doc_grn',index: i,value: s[1][4]}
     %tr.result
-      %td.ce.st{:colspan => "3"}= "Total"
+      %td.ce.st{:colspan => "4"}= "Total"
       %td
         %span.val= "%.2f" % data.values.sum{|r| r[4]}.round(2)
         - input_for @object, 'sum_100',{type: 'hidden',value: data.values.sum{|r| r[4]}.round(2)}
@@ -32,3 +34,35 @@
     %tr
       - mat(@object,'table_header').each do |label|
         %td.ce= label
+    - for i in 0..4 do; o = @object.freights.new
+      %tr.freight
+        %td.select-freight
+          %select.wstm.freight
+            %option{value: 'null'} Selectare material
+            - freights.each do |f|
+              %option{value: f[0], data: f[2]}= f[1]
+          - input_for   o, 'id_date',   {type: 'hidden',nested: 'doc_grn',value: 'strip',index: i}
+          - input_for   o, 'id_stats',  {type: 'hidden',nested: 'doc_grn',value: 'strip',index: i}
+          - input_for   o, 'freight_id',{type: 'hidden',nested: 'doc_grn',value: 'strip',index: i}
+        - td_input_for  o, 'um',        {style: ' um',nested: 'doc_grn',index: i}
+        - td_input_for  o, 'pu',        {style: ' pu',nested: 'doc_grn',index: i}
+        - td_input_for  o, 'qu',        {style: ' qu',nested: 'doc_grn',index: i}
+        %td
+          %span.val 0.00
+          - input_for   o, 'val',       {type: 'hidden',nested: 'doc_grn',index: i}
+        %td
+          %span.p03 0.00
+        %td.action-1
+          %span.row-remove.icon-remove-sign{title: t('button.delete')}
+    %tr.total
+      %td.ce.st{colspan: '4'}
+        %span Total
+      %td
+        %span.val 0.00
+        - input_for @object, 'sum_100',   {type: 'hidden'}
+      %td
+        %span.p03 0.00
+        - input_for @object, 'sum_003',   {type: 'hidden'}
+      %td
+        %span &nbsp;
+

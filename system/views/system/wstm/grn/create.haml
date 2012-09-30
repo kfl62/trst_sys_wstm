@@ -1,16 +1,17 @@
 :ruby
   firm     = Wstm::PartnerFirm.find_by(firm: true)
-  unit_id  = params[:unit_id]
-  unit     = firm.units.find(unit_id)
-  dln_ary  = params[:dln_ary].split(',')
-  dln_ary.each{|id| @object.dlns << Wstm::DeliveryNote.find(id)}
 - if params[:id_intern]
+  :ruby
+    unit_id  = params[:unit_id]
+    unit     = firm.units.find(unit_id)
+    dln_ary  = params[:dln_ary].split(',')
+    dln_ary.each{|id| @object.dlns << Wstm::DeliveryNote.find(id)}
   %span#hidden_data.hidden{data: {dialog: 'create',model_name: mat(@object,'model_name_id_intern'),oid: 'null',js_ext: 'desk_grn'}}
   %form{action: "/sys/#{@path}/create?id_intern=true", method: 'post'}
     %table{cellspacing: "0"}
       %thead
         %tr
-          %td{colspan: '4'}
+          %td{colspan: '5'}
             - label_for @object, 'name'
             - input_for @object, 'name',      {value: @object.increment_name(unit_id),style: 'ui-state-default ce id_intern'}
             - label_for @object, 'id_date'
@@ -28,20 +29,62 @@
             - dln_ary.each do |dn|
               -input_for @object,'dln_ids',   {type: 'hidden',name: "[#{@path}][dln_ids][]",value: dn}
         %tr
-          %td{colspan: '4'}
+          %td{colspan: '5'}
             %span= t('intro.create.desk_grn.id_intern',unit: unit.name[1])
         %tr
-          %td{colspan: '4'}
+          %td{colspan: '5'}
             %input#transp_d_id.select2{type: 'hidden',name: '[wstm/grn][transp_d_id]', style: 'width:200px', data: {minlength: 0,ph: '3',search: 'Wstm::PartnerFirm',noinit: 'true',transp_id: firm.id}}
             - input_for @object, 'doc_plat', {placeholder: 'Maşina nr.'}
             %button#transp_d{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create') + " Delegat!"
         %tr
-          %td{colspan: '4'}
+          %td{colspan: '5'}
             %hr
             %span.small{style: 'max-width: 500px'}= mat(@object,'dlns_name').concat @object.dlns.map(&:doc_name).join(', ')
       = partial "#{@path}/form", locals: {dlns: dln_ary,id_intern: true,unit: unit}
       %tfoot
         %tr
-          %td.buttonset.ce{colspan: "4"}
-            %button{type: "button", data: {action: "save",  icon: "disk",remove: 'false'}}=         t('button.save')
+          %td.buttonset.ce{colspan: "5"}
+            %button{type: "button", data: {action: "save",  icon: "disk",remove: 'false'}}= t('button.save')
+            %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+- else
+  :ruby
+    unit     = firm.units.find_by(main: true)
+    supplr   = Wstm::PartnerFirm.find(params[:supplr_id])
+    supplr_d = supplr.people.find(params[:supplr_d_id]) rescue nil
+    transp   = Wstm::PartnerFirm.find(params[:transp_id])
+    transp_d = transp.people.find(params[:transp_d_id])
+    freights = unit.freights.options_for_exp
+  %span#hidden_data.hidden{data: {dialog: 'create',model_name: mat(@object,'model_name'),oid: 'null',js_ext: 'desk_grn'}}
+  %form{action: "/sys/#{@path}", method: 'post'}
+    %table{cellspacing: "0"}
+      %thead
+        %tr
+          %td{colspan: '7'}
+            - label_for @object, 'name'
+            - input_for @object, 'name',        {value: @object.increment_name(unit.id),style: 'ui-state-default ce id_intern'}
+            - label_for @object, 'id_date'
+            - input_for @object, 'id_date',     {id: 'date_show',name: 'strip'}
+            - input_for @object, 'id_date',     {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
+            - input_for @object, 'id_intern',   {type: 'hidden',value: 'false'}
+            - input_for @object, 'supplr_id',   {type: 'hidden',value: supplr.id,id: 'supplr_id', data: {p03: supplr.p03.to_s}}
+            - input_for @object, 'transp_id',   {type: 'hidden',value: transp.id}
+            - input_for @object, 'transp_d_id', {type: 'hidden',value: transp_d.id}
+            - if supplr_d
+              - input_for @object,'supplr_d_id',{type: 'hidden',value: supplr_d.id}
+            - input_for @object, 'unit_id',     {type: 'hidden',value: unit.id}
+            - input_for @object, 'signed_by',   {type: 'hidden',value: @current_user.id}
+        %tr
+          %td{colspan: '7'}
+            - select_for @object,'doc_type',    {type: 'enum',style: 'wstm doc_type focus',select_options: %w{null DN INV MIN}}
+            - input_for  @object,'doc_name',    {placeholder: 'Document nr.'}
+            - input_for  @object,'doc_plat',    {placeholder: 'Maşina nr.'}
+            - input_for  @object,'doc_date',    {type: 'hidden',value: 'strip'}
+        %tr
+          %td{colspan: '7'}
+            %span.info= t('intro.create.desk_grn.partner_firm',unit: unit.name[1],signed_by: @current_user.name,supplr: supplr.name[2],transp_d: transp_d.name)
+      = partial "#{@path}/form", locals: {id_intern: false,unit: unit,freights: freights}
+      %tfoot
+        %tr
+          %td.buttonset.ce{colspan: "7"}
+            %button{type: "button", data: {action: "save",  icon: "disk",remove: 'false'}}= t('button.save')
             %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
