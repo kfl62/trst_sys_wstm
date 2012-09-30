@@ -101,7 +101,7 @@ pdf.text_box "#{@object.doc_paym rescue '-'}",
              :at => [220.mm, pdf.bounds.top - 30.mm], :width => 63.mm, :align => :center, :size => 10
 pdf.text_box delegate.name,
              :at => [43.mm, pdf.bounds.top - 48.mm], :width => 92.mm, :align => :center, :size => 10
-pdf.text_box "#{@object.doc_plat rescue '-'}",
+pdf.text_box "#{@object.doc_plat.upcase rescue '-'}",
              :at => [175.mm, pdf.bounds.top - 48.mm], :width => 105.mm, :align => :center, :size => 10
 pdf.text_box signed_by,
              :at => [195.mm, 12.mm], :size => 10
