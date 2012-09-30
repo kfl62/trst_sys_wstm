@@ -3,10 +3,14 @@ ro:
     attributes:
       'wstm/grn':
         model_name_id_intern: NIR - Transfer gestiune
-        model_name: NIR - Persoane juridice
+        model_name: NIR - Notă de recepţie
         p03: [['null', 'Tip marfă'], ['true', 'DA se reţine 3%'], ['false', 'NU se reţine 3%']]
-        table_header: ['Material', 'Preţ', 'Cantitate', 'Valoare']
+        table_header: ['Material', 'UM', 'Preţ', 'Cantitate', 'Valoare', '3%', '']
         name: 'Nr. intern '
         id_date: ' din data de '
         transp_d: ' delegatul '
         dlns_name: 'Avize nr: '
+        doc_type_null: 'Tip document'
+        doc_type_DN:   'Aviz expediţie'
+        doc_type_INV:  'Factură fiscală'
+        doc_type_MIN:  'Proces verbal'

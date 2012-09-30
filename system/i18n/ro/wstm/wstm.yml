@@ -47,6 +47,10 @@ ro:
             selecta <b>Avizele de expediţie</b>, care vă interesează.
           user: |
             Pentru a transfera în gestiunea <b>%{unit}</b>
+          partner_firm: |
+            Pentru a a crea un &raquo;NIR - Persoane juridice&laquo; este nevoie să selectaţi un "Furnizor"<br>
+            opţional un "Delegat" ptr. acest "Furnizor", un "Transportator" şi obligatoriu un "Delegat"<br>
+            ptr. "Transportator". "Furnizor"-ul şi "Transportator"-ul pot fi aceeaşi firmă.
           no_dln: |
             Nu aveţi nici un Aviz de expediţie!
           legend: |
@@ -77,6 +81,10 @@ ro:
         desk_grn:
           id_intern: |
             Transfer în gestiunea <b>%{unit}</b> prin delegatul:
+          partner_firm: |
+            În gestiunea <b>%{unit}</b> Dn-ul/Dna <b>%{signed_by}</b> recepţionează<br>
+            de la furnizorul  <b>%{supplr}</b>, în prezenţa delegatului <b>%{transp_d}</b>,<br>
+            în baza actelor(completate mai sus), următoarele materiale:
       edit:
         desk_freight: |
           Puteţi modifica doar câmpul<br>
@@ -181,3 +189,6 @@ ro:
       delivery_note_not_complete: |
           Nu aţi completat sau aţi completat greşit
           unul din câmpurile "Aviz nr.", "maşina nr."!
+      grn_not_complete: |
+          Nu aţi selectat "Tip document", sau nu aţi completat
+          unul din câmpurile "Document nr.", "Maşina nr."!
