@@ -69,6 +69,9 @@ define () ->
             if $input.attr('id') is 'date_show' and $('input[name*="doc_date"]').length
               $input.on 'change', ()->
                 $('input[name*="doc_date"]').val($('#date_send').val())
+                $('input[name*="id_date"]').each ()->
+                  $(@).val($('#date_send').val()) unless $(@).val() is ''
+                  return
                 $('select.doc_type').focus()
                 return
             return
@@ -246,6 +249,11 @@ define () ->
               return
           return
         init: ()->
+          if $('#date_show').length
+            now = new Date()
+            min = if Trst.lst.admin is 'true' then new Date(now.getFullYear(),now.getMonth() - 1,1) else min = new Date(now.getFullYear(),now.getMonth(),1)
+            $('#date_show').datepicker 'option', 'maxDate', '+0'
+            $('#date_show').datepicker 'option', 'minDate', min
           Wstm.desk.grn.buttons($('button'))
           Wstm.desk.grn.selects($('select.wstm, input.select2'))
           Wstm.desk.grn.inputs($('input'))

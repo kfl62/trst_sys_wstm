@@ -171,8 +171,9 @@ define () ->
         init: ()->
           if $('#date_show').length
             now = new Date()
+            min = if Trst.lst.admin is 'true' then new Date(now.getFullYear(),now.getMonth() - 1,1) else new Date(now.getFullYear(),now.getMonth(),1)
             $('#date_show').datepicker 'option', 'maxDate', '+0'
-            $('#date_show').datepicker 'option', 'minDate', new Date(now.getFullYear(),now.getMonth(),1)
+            $('#date_show').datepicker 'option', 'minDate', min
           Wstm.desk.delivery_note.buttons($('button'))
           Wstm.desk.delivery_note.select($('select.wstm, input.select2'))
           $log 'Wstm.desk.delivery_note.init() OK...'
