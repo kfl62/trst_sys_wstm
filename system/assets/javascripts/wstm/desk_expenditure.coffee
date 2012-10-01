@@ -47,6 +47,17 @@ define () ->
           $total.find('input[name*="sum_016"]').val(tot_p16.toFixed(2))
           $total.find('input[name*="sum_out"]').val(tot_res.toFixed(2))
           return
+        inputs: (inpts)->
+          inpts.each ()->
+            $input = $(@)
+            if $input.attr('id') is 'date_show'
+              $input.on 'change', ()->
+                $('input[name*="id_date"]').each ()->
+                  $(@).val($('#date_send').val()) unless $(@).val() is ''
+                  return
+                return
+            return
+          return
         select: (slcts)->
           slcts.each ()->
             $select = $(@)
@@ -136,5 +147,6 @@ define () ->
             $('#date_show').datepicker 'option', 'minDate', min
           Wstm.desk.expenditure.buttons($('button'))
           Wstm.desk.expenditure.select($('select.wstm, input.select2'))
+          Wstm.desk.expenditure.inputs($('input'))
           $log 'Wstm.desk.expenditure.init() OK...'
   Wstm.desk.expenditure

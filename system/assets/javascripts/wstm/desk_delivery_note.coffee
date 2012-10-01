@@ -43,6 +43,17 @@ define () ->
             else
               $('button[data-action="save"]').button 'option', 'disabled', false
               return true
+        inputs: (inpts)->
+          inpts.each ()->
+            $input = $(@)
+            if $input.attr('id') is 'date_show'
+              $input.on 'change', ()->
+                $('input[name*="id_date"]').each ()->
+                  $(@).val($('#date_send').val()) unless $(@).val() is ''
+                  return
+                return
+            return
+          return
         select: (slcts)->
           slcts.each ()->
             $select = $(@)
@@ -176,5 +187,6 @@ define () ->
             $('#date_show').datepicker 'option', 'minDate', min
           Wstm.desk.delivery_note.buttons($('button'))
           Wstm.desk.delivery_note.select($('select.wstm, input.select2'))
+          Wstm.desk.delivery_note.inputs($('input'))
           $log 'Wstm.desk.delivery_note.init() OK...'
   Wstm.desk.delivery_note
