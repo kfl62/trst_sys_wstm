@@ -84,9 +84,10 @@ module Wstm
       if add_delete
         stock_to_handle.each do |stck|
           f = stck.freights.find_or_create_by(id_stats: id_stats, pu: pu)
-          f.freight_id = freight_id
           f.qu += qu
-          f.val = (f.pu * f. qu).round(2)
+          f.freight_id= freight_id
+          f.id_date   = stck.id_date
+          f.val       = (f.pu * f. qu).round(2)
           f.save
         end
       else
