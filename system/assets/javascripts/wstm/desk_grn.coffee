@@ -66,14 +66,17 @@ define () ->
               $input.on 'change', ()->
                 Wstm.desk.grn.selectedDeliveryNotes()
                 return
-            if $input.attr('id') is 'date_show' and $('input[name*="doc_date"]').length
+            if $input.attr('id') is 'date_show'
               $input.on 'change', ()->
-                $('input[name*="doc_date"]').val($('#date_send').val())
-                $('input[name*="id_date"]').each ()->
-                  $(@).val($('#date_send').val()) unless $(@).val() is ''
-                  return
-                $('select.doc_type').focus()
-                return
+                if Trst.desk.hdo.dialog is 'create'
+                  $('input[name*="doc_date"]').val($('#date_send').val())
+                  $('input[name*="id_date"]').each ()->
+                    $(@).val($('#date_send').val()) unless $(@).val() is ''
+                    return
+                  $('select.doc_type').focus()
+                if Trst.desk.hdo.dialog is 'repair'
+                  Wstm.desk.grn.selects($('input.repair'))
+              return
             return
           return
         selects: (slcts)->
@@ -198,6 +201,42 @@ define () ->
                     $select.nextAll('button').hide()
                   Wstm.desk.grn.validate.create()
                   return
+            else if $select.hasClass 'repair'
+              $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph]
+              $select.select2
+                placeholder: $ph
+                allowClear: true
+                quietMillis: 1000
+                ajax:
+                  url: "/utils/search/#{$sd.search}"
+                  dataType: 'json'
+                  data: (term)->
+                    uid: $sd.uid
+                    day: $('#date_send').val()
+                    q:   term
+                  results: (data)->
+                    results: data
+                formatResult: (d)->
+                  $markup  = "<div title='#{d.text.title}'>"
+                  $markup += "<span>Doc: </span>"
+                  $markup += "<span style='width:80px;display:inline-block'>#{d.text.doc_name.substring(0,12)}</span>"
+                  $markup += "<span> - Firma: </span>"
+                  $markup += "<span style='display:inline-block'>#{d.text.supplier.substring(0,30)}</span>"
+                  $markup += "</div>"
+                  $markup
+               formatSelection: (d)->
+                  d.text.name
+                searchingMsg: ()->
+                  Trst.i18n.msg.searching
+                formatNoMatches: (t)->
+                  Trst.i18n.msg.no_matches
+              $select.on 'change', ()->
+                if $select.select2('val') isnt ''
+                  $url  = Trst.desk.hdf.attr('action')
+                  $url += "/#{$select.select2('val')}"
+                  Trst.desk.closeDesk(false)
+                  Trst.desk.init($url)
+                return
             else
               $log 'Select not handled!'
             return
@@ -241,7 +280,7 @@ define () ->
               ###
               Buttons default handler Trst.desk.buttons
               ###
-          $('span.row-remove').each ()->
+          $('span.icon-remove-sign').each ()->
             $button = $(@)
             $button.on 'click', ()->
               $button.parentsUntil('tbody').last().remove()
@@ -255,7 +294,7 @@ define () ->
             $('#date_show').datepicker 'option', 'maxDate', '+0'
             $('#date_show').datepicker 'option', 'minDate', min
           Wstm.desk.grn.buttons($('button'))
-          Wstm.desk.grn.selects($('select.wstm, input.select2'))
+          Wstm.desk.grn.selects($('select.wstm,input.select2,input.repair'))
           Wstm.desk.grn.inputs($('input'))
           $log 'Wstm.desk.grn.init() OK...'
   Wstm.desk.grn
