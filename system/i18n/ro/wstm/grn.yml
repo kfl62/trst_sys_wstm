@@ -18,3 +18,5 @@ ro:
         doc_plat: 'Maşina nr.'
         doc_paym: 'Achitat cu...'
         sum_pay:  'Suma de...'
+        day: |
+          Note de recepţie din data de:&nbsp;
