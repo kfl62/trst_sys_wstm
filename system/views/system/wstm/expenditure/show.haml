@@ -8,7 +8,7 @@
     = partial "#{@path}/show"
     %tfoot
       %tr
-        %td.buttonset.ce{colspan: "6"}
+        %td.buttonset.ce{colspan: "8"}
           - if @object.freights.count == 0
             %button{type: "button", data: {action: "delete", icon: "circle-minus",type: 'delete'}}= t('button.delete')
           - else
