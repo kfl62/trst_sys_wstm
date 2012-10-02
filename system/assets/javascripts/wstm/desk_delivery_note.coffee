@@ -48,11 +48,13 @@ define () ->
             $input = $(@)
             if $input.attr('id') is 'date_show'
               $input.on 'change', ()->
-                $('input[name*="id_date"]').each ()->
-                  $(@).val($('#date_send').val()) unless $(@).val() is ''
-                  return
-                return
-            return
+                if Trst.desk.hdo.dialog is 'create'
+                  $('input[name*="id_date"]').each ()->
+                    $(@).val($('#date_send').val()) unless $(@).val() is ''
+                    return
+                if Trst.desk.hdo.dialog is 'repair'
+                  Wstm.desk.delivery_note.select($('input.repair'))
+              return
           return
         select: (slcts)->
           slcts.each ()->
@@ -129,8 +131,45 @@ define () ->
                     Wstm.desk.delivery_note.calculate()
                   Wstm.desk.delivery_note.calculate()
                   qu.focus().select()
+                  return
                 else
                   $select.val('null')
+                return
+            else if $select.hasClass 'repair'
+              $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph]
+              $select.select2
+                placeholder: $ph
+                allowClear: true
+                quietMillis: 1000
+                ajax:
+                  url: "/utils/search/#{$sd.search}"
+                  dataType: 'json'
+                  data: (term)->
+                    uid: $sd.uid
+                    day: $('#date_send').val()
+                    q:   term
+                  results: (data)->
+                    results: data
+                formatResult: (d)->
+                  $markup  = "<div title='#{d.text.title}'>"
+                  $markup += "<span>Doc.nr: </span>"
+                  $markup += "<span style='width:70px;display:inline-block'>#{d.text.doc_name}</span>"
+                  $markup += "<span> - Client: </span>"
+                  $markup += "<span style='display:inline-block'>#{d.text.client}</span>"
+                  $markup += "</div>"
+                  $markup
+                formatSelection: (d)->
+                  d.text.name
+                searchingMsg: ()->
+                  Trst.i18n.msg.searching
+                formatNoMatches: (t)->
+                  Trst.i18n.msg.no_matches
+              $select.on 'change', ()->
+                if $select.select2('val') isnt ''
+                  $url  = Trst.desk.hdf.attr('action')
+                  $url += "/#{$select.select2('val')}"
+                  Trst.desk.closeDesk(false)
+                  Trst.desk.init($url)
                 return
             else if $select.hasClass 'wstm'
               ###
@@ -171,7 +210,7 @@ define () ->
               ###
               Buttons default handler Trst.desk.buttons
               ###
-          $('span.row-remove').each ()->
+          $('span.icon-remove-sign').each ()->
             $button = $(@)
             $button.on 'click', ()->
               $button.parentsUntil('tbody').last().remove()
@@ -186,7 +225,7 @@ define () ->
             $('#date_show').datepicker 'option', 'maxDate', '+0'
             $('#date_show').datepicker 'option', 'minDate', min
           Wstm.desk.delivery_note.buttons($('button'))
-          Wstm.desk.delivery_note.select($('select.wstm, input.select2'))
+          Wstm.desk.delivery_note.select($('select.wstm,input.select2,input.repair'))
           Wstm.desk.delivery_note.inputs($('input'))
           $log 'Wstm.desk.delivery_note.init() OK...'
   Wstm.desk.delivery_note
