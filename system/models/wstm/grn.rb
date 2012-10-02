@@ -50,6 +50,19 @@ module Wstm
       def nonin(nin = true)
         where(id_intern: !nin)
       end
+      # @todo
+      def auto_search(params)
+        unit_id = params[:uid]
+        day     = params[:day].split('-').map(&:to_i)
+        where(unit_id: unit_id,id_date: Date.new(*day),name: /#{params[:q]}/i).each_with_object([]) do |g,a|
+          a << {id: g.id,
+                text: {
+                        name:  g.name,
+                        title: g.freights_list.join("\n"),
+                        doc_name: g.doc_name,
+                        supplier: g.supplr.name[1]}}
+        end
+      end
     end # Class methods
 
     # @todo
@@ -81,7 +94,12 @@ module Wstm
       end
       name
     end
-
+    # @todo
+    def freights_list
+      freights.asc(:id_stats).each_with_object([]) do |f,r|
+        r << "#{f.freight.name}: #{"%.2f" % f.qu} kg ( #{"%.2f" % f.pu} )"
+      end
+    end
     protected
     # @todo
     def handle_dlns(add_remove)
