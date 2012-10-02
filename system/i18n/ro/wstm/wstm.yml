@@ -134,6 +134,9 @@ ro:
           Atenţie!!! Se va şterge &raquo;%{data}&laquo;!!!
         desk_grn: |
           Atenţie!!! Se va şterge &raquo;%{data}&laquo;!!!
+      repair:
+        desk_expenditure: |
+          Puteţi Tipării/Şterge Adeverinţele eliberate azi!<br>
       pdf:
         desk_expenditure:
           text_01: |
@@ -157,8 +160,8 @@ ro:
     select:
       freight_all: Toate materialele
       unit_all: Toate unităţile
-      desk_expenditure: ['Alegeţi - Partener Persoană Fizică']
-      desk_delivery_note: ['Alegeţi - Destinatar', 'Alegeţi - Delegat (opţional)', 'Alegeţi - Transportator', 'Alegeţi - Delegat']
+      desk_expenditure: ['Alegeţi - Partener Persoană Fizică', 'Selectaţi - Adeverinţă Primire/Plată']
+      desk_delivery_note: ['Alegeţi - Destinatar', 'Alegeţi - Delegat (opţional)', 'Alegeţi - Transportator', 'Alegeţi - Delegat', 'Selectaţi - Aviz de expediţie']
       desk_grn: ['Alegeţi - Furnizor', 'Alegeţi - Delegat (opţional)', 'Alegeţi - Transportator', 'Alegeţi - Delegat']
     msg:
       input_too_short_strt: |

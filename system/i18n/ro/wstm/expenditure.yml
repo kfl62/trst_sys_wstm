@@ -4,3 +4,5 @@ ro:
       'wstm/expenditure':
         model_name: Adeverinţă Primire/Plată
         table_header: ["Material", "UM", "PU", "Cant.", "Valoare", "3%", "16%", "Rest", "&nbsp;&nbsp;"]
+        day: |
+          Adeverinţe din data de:&nbsp;
