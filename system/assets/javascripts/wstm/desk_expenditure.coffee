@@ -52,11 +52,13 @@ define () ->
             $input = $(@)
             if $input.attr('id') is 'date_show'
               $input.on 'change', ()->
-                $('input[name*="id_date"]').each ()->
-                  $(@).val($('#date_send').val()) unless $(@).val() is ''
-                  return
-                return
-            return
+                if Trst.desk.hdo.dialog is 'create'
+                  $('input[name*="id_date"]').each ()->
+                    $(@).val($('#date_send').val()) unless $(@).val() is ''
+                    return
+                if Trst.desk.hdo.dialog is 'repair'
+                  Wstm.desk.expenditure.select($('input.repair'))
+              return
           return
         select: (slcts)->
           slcts.each ()->
@@ -96,6 +98,44 @@ define () ->
                   Wstm.desk.expenditure.calculate()
                 Wstm.desk.expenditure.calculate()
                 qu.focus().select()
+            else if $select.hasClass 'repair'
+              $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph]
+              $select.select2
+                placeholder: $ph
+                allowClear: true
+                quietMillis: 1000
+                ajax:
+                  url: "/utils/search/#{$sd.search}"
+                  dataType: 'json'
+                  data: (term)->
+                    uid: $sd.uid
+                    day: $('#date_send').val()
+                    q:   term
+                  results: (data)->
+                    results: data
+                formatResult: (d)->
+                  $markup  = "<div title='#{d.text.title}'>"
+                  $markup += "<span>#{d.text.name} </span>"
+                  $markup += "<span>- #{d.text.time} - </span>"
+                  $markup += "<span>Val:</span>"
+                  $markup += "<span style='width:50px;text-align:right;display:inline-block'>#{d.text.val}</span>"
+                  $markup += "<span> - Cash:</span>"
+                  $markup += "<span style='width:50px;text-align:right;display:inline-block'>#{d.text.out}</span>"
+                  $markup += "</div>"
+                  $markup
+                formatSelection: (d)->
+                  d.text.name
+                searchingMsg: ()->
+                  Trst.i18n.msg.searching
+                formatNoMatches: (t)->
+                  Trst.i18n.msg.no_matches
+              $select.on 'change', ()->
+                if $select.select2('val') isnt ''
+                  $url  = Trst.desk.hdf.attr('action')
+                  $url += "/#{$select.select2('val')}"
+                  Trst.desk.closeDesk(false)
+                  Trst.desk.init($url)
+                return
             else if $select.hasClass 'wstm'
               ###
               Handled by Wstm.desk.select
@@ -132,7 +172,7 @@ define () ->
               ###
               Buttons default handler Trst.desk.buttons
               ###
-          $('span.row-remove').each ()->
+          $('span.icon-remove-sign').each ()->
             $button = $(@)
             $button.on 'click', ()->
               $button.parentsUntil('tbody').last().remove()
@@ -146,7 +186,7 @@ define () ->
             $('#date_show').datepicker 'option', 'maxDate', '+0'
             $('#date_show').datepicker 'option', 'minDate', min
           Wstm.desk.expenditure.buttons($('button'))
-          Wstm.desk.expenditure.select($('select.wstm, input.select2'))
+          Wstm.desk.expenditure.select($('select.wstm, input.select2, input.repair'))
           Wstm.desk.expenditure.inputs($('input'))
           $log 'Wstm.desk.expenditure.init() OK...'
   Wstm.desk.expenditure
