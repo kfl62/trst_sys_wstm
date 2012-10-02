@@ -43,6 +43,20 @@ module Wstm
         where(id_intern: !nin)
       end
       # @todo
+      def auto_search(params)
+        unit_id = params[:uid]
+        day     = params[:day].split('-').map(&:to_i)
+        where(unit_id: unit_id,id_date: Date.new(*day),name: /#{params[:q]}/i).each_with_object([]) do |e,a|
+          a << {id: e.id,
+                text: {
+                        name:  e.name,
+                        title: e.freights_list.join("\n"),
+                        time:  e.updated_at.strftime("%H:%M"),
+                        val:   "%.2f" % e.sum_100,
+                        out:   "%.2f" % e.sum_out}}
+        end
+      end
+      # @todo
       def sum_mny(*args)
         opts = args.last.is_a?(Hash) ? {exp_all: false}.merge!(args.pop) : {exp_all: false}
         y,m,d = *args; today = Date.today
@@ -79,6 +93,12 @@ module Wstm
         end
       end
       name
+    end
+    # @todo
+    def freights_list
+      freights.asc(:id_stats).each_with_object([]) do |f,r|
+        r << "#{f.freight.name}: #{"%.2f" % f.qu} kg ( #{"%.2f" % f.pu} )"
+      end
     end
   end # Expenditure
 end #Wstm

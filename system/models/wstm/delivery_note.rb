@@ -61,6 +61,19 @@ module Wstm
           end
         end
       end
+      # @todo
+      def auto_search(params)
+        unit_id = params[:uid]
+        day     = params[:day].split('-').map(&:to_i)
+        where(unit_id: unit_id,id_date: Date.new(*day),name: /#{params[:q]}/i).each_with_object([]) do |d,a|
+          a << {id: d.id,
+                text: {
+                        name:  d.name,
+                        title: d.freights_list.join("\n"),
+                        doc_name: d.doc_name,
+                        client:   d.client.name[1]}}
+        end
+      end
     end # Class methods
 
     # @todo
