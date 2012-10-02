@@ -57,10 +57,10 @@ define () ->
                     $(@).val($('#date_send').val()) unless $(@).val() is ''
                     return
                 if Trst.desk.hdo.dialog is 'repair'
-                  Wstm.desk.expenditure.select($('input.repair'))
+                  Wstm.desk.expenditure.selects($('input.repair'))
               return
           return
-        select: (slcts)->
+        selects: (slcts)->
           slcts.each ()->
             $select = $(@)
             $sd = $select.data()
@@ -142,6 +142,7 @@ define () ->
               ###
             else
               $log 'Select not handled!'
+          return
         buttons: (btns)->
           btns.each ()->
             $button = $(@)
@@ -186,7 +187,7 @@ define () ->
             $('#date_show').datepicker 'option', 'maxDate', '+0'
             $('#date_show').datepicker 'option', 'minDate', min
           Wstm.desk.expenditure.buttons($('button'))
-          Wstm.desk.expenditure.select($('select.wstm, input.select2, input.repair'))
+          Wstm.desk.expenditure.selects($('select.wstm, input.select2, input.repair'))
           Wstm.desk.expenditure.inputs($('input'))
           $log 'Wstm.desk.expenditure.init() OK...'
   Wstm.desk.expenditure

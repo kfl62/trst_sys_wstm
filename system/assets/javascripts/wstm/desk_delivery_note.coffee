@@ -53,10 +53,10 @@ define () ->
                     $(@).val($('#date_send').val()) unless $(@).val() is ''
                     return
                 if Trst.desk.hdo.dialog is 'repair'
-                  Wstm.desk.delivery_note.select($('input.repair'))
+                  Wstm.desk.delivery_note.selects($('input.repair'))
               return
           return
-        select: (slcts)->
+        selects: (slcts)->
           slcts.each ()->
             $select = $(@)
             $sd = $select.data()
@@ -152,10 +152,10 @@ define () ->
                     results: data
                 formatResult: (d)->
                   $markup  = "<div title='#{d.text.title}'>"
-                  $markup += "<span>Doc.nr: </span>"
-                  $markup += "<span style='width:70px;display:inline-block'>#{d.text.doc_name}</span>"
-                  $markup += "<span> - Client: </span>"
-                  $markup += "<span style='display:inline-block'>#{d.text.client}</span>"
+                  $markup += "<span>Doc: </span>"
+                  $markup += "<span style='width:70px;display:inline-block'>#{d.text.doc_name.substring(0,12)}</span>"
+                  $markup += "<span> - Firma: </span>"
+                  $markup += "<span style='display:inline-block'>#{d.text.client.substring(0,30)}</span>"
                   $markup += "</div>"
                   $markup
                 formatSelection: (d)->
@@ -225,7 +225,7 @@ define () ->
             $('#date_show').datepicker 'option', 'maxDate', '+0'
             $('#date_show').datepicker 'option', 'minDate', min
           Wstm.desk.delivery_note.buttons($('button'))
-          Wstm.desk.delivery_note.select($('select.wstm,input.select2,input.repair'))
+          Wstm.desk.delivery_note.selects($('select.wstm,input.select2,input.repair'))
           Wstm.desk.delivery_note.inputs($('input'))
           $log 'Wstm.desk.delivery_note.init() OK...'
   Wstm.desk.delivery_note
