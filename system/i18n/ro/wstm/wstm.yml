@@ -127,6 +127,10 @@ ro:
           În ziua de <b>%{id_date}</b> în gestiunea <b>%{unit}</b> de către<br>
           <b>%{signed_by}</b> în prezenţa delegatului <b>%{transp_d}</b>, s-au recepţionat următoarele<br>
           materiale provenind de la <b>%{supplr}</b> :<br>
+        desk_cassation: |
+          În ziua de <b>%{id_date}</b> în gestiunea <b>%{unit}</b> de către<br>
+          <b>%{signed_by}</b> s-au casat/degradat următoarele: <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Notă: %{expl}
       delete:
         desk_expenditure: |
           Atenţie!!! Se va şterge &raquo;Adeverinţa Primire/Plată&laquo;!!!

@@ -1,0 +1,9 @@
+ro:
+  mongoid:
+    attributes:
+      'wstm/cassation':
+        model_name: PV Casare
+        table_header_show: ['Material', 'UM', 'PU', 'Se casează', 'Valoare', 'Stock(kg)']
+        table_header_form: ['Material', 'UM', 'Stock', 'Se casează', 'Rămâne', ' ']
+        text: 'Explicaţii'
+        text_default: 'PV din data de '
