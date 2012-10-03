@@ -123,7 +123,7 @@ module Wstm
                     doc_cas_id: (doc_cas_id if doc_cas_id)
                   ).upsert
                 end # if stock_to_handle.first
-                out -= f.qu unless out == 0
+                out -= f.qu
                 f.qu = 0
                 f.val= 0
                 f.save
@@ -142,7 +142,7 @@ module Wstm
                     doc_cas_id: (doc_cas_id if doc_cas_id)
                   ).upsert unless out == 0
                 end # if stock_to_handle.first
-                f.qu -= out
+                f.qu -= out; out = 0
                 f.val = (f.pu * f.qu).round(2)
                 f.save
               end # if out > f.qu
