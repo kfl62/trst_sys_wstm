@@ -10,17 +10,26 @@ define () ->
             $tr = $(@)
             $sd = $tr.find('select').find('option:selected').data()
             stck= parseFloat($tr.find('span.stck').text())
-            qu  = parseFloat($tr.find('input[name*="qu"]').decFixed(2).val())
-            res = (stck - qu).round(2)
-            if res < 0
-              alert Trst.i18n.msg.delivery_note_negative_stock
-                    .replace '%{stck}', stck.toFixed(2)
-                    .replace '%{res}',  (0 - res).toFixed(2)
+            qu = parseFloat($tr.find('input[name*="qu"]').decFixed(2).val())
+            puf= parseFloat($tr.find('input[name*="\[pu\]"]').decFixed(2).val())
+            pui= parseFloat($tr.find('input[name*="\[pu_i"]').decFixed(4).val())
+            res= (stck - qu).round(2)
+            if Wstm.desk.delivery_note.validate.stock(stck,qu)
               qu  = stck; res = 0
               $tr.find('input[name*="qu"]').val(qu).decFixed(2)
+              if Wstm.desk.tmp[$sd.key] is 0
+                $tr.find('select').val('null')
+                puf = 0
+                $tr.find('input[name*="\[pu\]"]').val(0).decFixed(4)
+                $tr.find('select').focus()
+            Wstm.desk.tmp[$sd.key] = res
+            if puf > 0
+              valf = (puf * qu).round(2)
+              vali = (pui * qu).round(2)
+              $tr.find('input[name*="\[val\]"]').val(valf)
+              $tr.find('input[name*="\[val_i"]').val(vali)
             tot_qu += qu
             $tr.find('span.res').text(res.toFixed(2))
-            return
           $total.find('span.res').text(tot_qu.toFixed(2))
           return
         validate:
@@ -42,7 +51,13 @@ define () ->
               return false
             else
               $('button[data-action="save"]').button 'option', 'disabled', false
+              $('span.icon-plus-sign').show()
               return true
+          stock: (s,q)->
+            if s - q < 0
+              alert Trst.i18n.msg.delivery_note_negative_stock.replace('%{stck}',s.toFixed(2)).replace('%{res}',(q - s).toFixed(2))
+              return true
+            return
         inputs: (inpts)->
           inpts.each ()->
             $input = $(@)
@@ -118,14 +133,18 @@ define () ->
             else if $select.hasClass 'freight'
               $select.on 'change', ()->
                 if Wstm.desk.delivery_note.validate.create()
+                  Wstm.desk.tmp.set('newRow',$('tr.freight').last())
                   $sod = $select.find('option:selected').data()
                   $inp = $select.parentsUntil('tbody').last().find('input')
+                  $puf = $select.parentsUntil('tbody').last().find('span.val.puf')
                   $stck= $select.parentsUntil('tbody').last().find('span.stck')
                   $inp.filter('[name*="freight_id"]').val($select.val())
                   $inp.filter('[name*="id_date"]').val($('#date_send').val())
                   $inp.filter('[name*="id_stats"]').val($sod.id_stats)
                   $inp.filter('[name*="um"]').val($sod.um)
-                  $stck.text(parseFloat($sod.stck).toFixed(2))
+                  $inp.filter('[name*="\[pu\]"]').val($sod.pu)
+                  $puf.text(parseFloat($sod.pu).toFixed(2))
+                  $stck.text(parseFloat(Wstm.desk.tmp.set($sod.key,$sod.stck)).toFixed(2))
                   qu = $inp.filter('[name*="qu"]').val('0.00')
                   qu.on 'change', ()->
                     Wstm.desk.delivery_note.calculate()
@@ -217,8 +236,18 @@ define () ->
               Wstm.desk.delivery_note.calculate()
               return
             return
+          $('span.icon-plus-sign').on 'click', ()->
+            $('tr.total').before(Wstm.desk.tmp.newRow.clone())
+            $('tr.freight').last().find('input').each ()->
+              $(@).attr('name',$(@).attr('name').replace(/\d/,$('tr.freight').length - 1))
+              return
+            Wstm.desk.delivery_note.selects($('tr.freight').last().find('select'))
+            Wstm.desk.delivery_note.calculate()
+            return
+          $('span.icon-plus-sign').hide()
           return
         init: ()->
+          Wstm.desk.tmp.clear()
           if $('#date_show').length
             now = new Date()
             min = if Trst.lst.admin is 'true' then new Date(now.getFullYear(),now.getMonth() - 1,1) else new Date(now.getFullYear(),now.getMonth(),1)
