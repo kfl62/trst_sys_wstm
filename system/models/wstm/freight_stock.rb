@@ -18,6 +18,7 @@ module Wstm
     belongs_to  :doc_stk,  class_name: 'Wstm::Stock',       inverse_of: :freights
 
     index({ freight_id: 1, id_date: 1 })
+    index({ freight_id: 1, doc_stk_id: 1, qu: 1})
     scope :stock_now, where(id_date: Date.new(2000,1,31))
 
     class << self
@@ -55,11 +56,11 @@ module Wstm
         end
       end
     end # Class methods
+
     # @todo
     def key
       "#{id_stats}_#{"%05.2f" % pu}"
     end
-
     # @todo
     def unit
       Wstm::PartnerFirm.unit_by_unit_id(doc.unit_id)
