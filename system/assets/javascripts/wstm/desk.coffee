@@ -1,6 +1,12 @@
 define () ->
   $.extend true,Wstm,
     desk:
+      tmp:
+        set: (key,value)->
+          if @[key] or @[key] is 0 then @[key] else @[key] = value
+        clear: ()->
+          $.each @, (k)=>
+            delete @[k] unless k in ['set','clear']
       idPnHandle: ()->
         $input = $('input[name*="id_pn"]')
         if Wstm.desk.idPnValidate($input.val())
