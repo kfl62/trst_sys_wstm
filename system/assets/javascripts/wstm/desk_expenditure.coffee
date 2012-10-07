@@ -65,7 +65,10 @@ define () ->
             $select = $(@)
             $sd = $select.data()
             if $select.hasClass 'select2'
+              $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph]
               $select.select2
+                placeholder: $ph
+                minimumInputLength: $sd.minlength
                 formatNoMatches: (term)->
                   Wstm.desk.expenditure.noMatchesMsg(term)
                 ajax:
@@ -82,22 +85,6 @@ define () ->
                 $button.data 'url', "/sys/wstm/expenditure?client_id=#{$select.select2('val')}"
                 $button.button 'option', 'disabled', false
                 return
-            else if $select.hasClass 'freight'
-              $select.on 'change', ()->
-                $sod = $select.find('option:selected').data()
-                $inp = $select.parentsUntil('tbody').last().find('input')
-                $inp.filter('[name*="freight_id"]').val($select.val())
-                $inp.filter('[name*="id_date"]').val($('#date_send').val())
-                $inp.filter('[name*="id_stats"]').val($sod.id_stats)
-                $inp.filter('[name*="um"]').val($sod.um)
-                pu = $inp.filter('[name*="pu"]').val($sod.pu).decFixed(2)
-                qu = $inp.filter('[name*="qu"]').val('0.00')
-                pu.on 'change', ()->
-                  Wstm.desk.expenditure.calculate()
-                qu.on 'change', ()->
-                  Wstm.desk.expenditure.calculate()
-                Wstm.desk.expenditure.calculate()
-                qu.focus().select()
             else if $select.hasClass 'repair'
               $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph]
               $select.select2
@@ -136,6 +123,22 @@ define () ->
                   Trst.desk.closeDesk(false)
                   Trst.desk.init($url)
                 return
+            else if $select.hasClass 'freight'
+              $select.on 'change', ()->
+                $sod = $select.find('option:selected').data()
+                $inp = $select.parentsUntil('tbody').last().find('input')
+                $inp.filter('[name*="freight_id"]').val($select.val())
+                $inp.filter('[name*="id_date"]').val($('#date_send').val())
+                $inp.filter('[name*="id_stats"]').val($sod.id_stats)
+                $inp.filter('[name*="um"]').val($sod.um)
+                pu = $inp.filter('[name*="pu"]').val($sod.pu).decFixed(2)
+                qu = $inp.filter('[name*="qu"]').val('0.00')
+                pu.on 'change', ()->
+                  Wstm.desk.expenditure.calculate()
+                qu.on 'change', ()->
+                  Wstm.desk.expenditure.calculate()
+                Wstm.desk.expenditure.calculate()
+                qu.focus().select()
             else if $select.hasClass 'wstm'
               ###
               Handled by Wstm.desk.select
