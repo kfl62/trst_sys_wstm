@@ -14,32 +14,13 @@ define () ->
         select2: (node)->
           $select = node
           $sd = $select.data()
-          if Trst.desk.hdo.js_ext
-            $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph] || Trst.i18n.select[Trst.desk.hdo.js_ext][0]
-          else
-            $ph = Trst.i18n.select.placeholder.replace '%{data}', Trst.desk.hdo.model_name
           $.extend true, $.fn.select2.defaults,
-            placeholder: $ph
-            minimumInputLength: $sd.minlength
             formatInputTooShort: (input, min)->
               Wstm.desk.select.inputTooShortMsg(input, min)
             formatSearching: ()->
               Wstm.desk.select.searchingMsg()
             formatNoMatches: (term)->
               Wstm.desk.select.noMatchesMsg(term)
-          unless $sd.noinit
-            $select.select2
-              ajax:
-                url: "/utils/search/#{$sd.search}"
-                dataType: 'json'
-                quietMillis: 1000
-                data: (term)->
-                  q: term
-                results: (data)->
-                  results: data
-          $select.on 'change', ()->
-            Trst.desk.hdo.oid = $select.select2('val')
-            return
           return
         inputTooShortMsg: (input, min)->
           $msg = Trst.i18n.msg.input_too_short_strt.replace '%{nr}', (min - input.length) if input.length is 0
