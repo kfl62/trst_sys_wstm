@@ -32,6 +32,8 @@
             %tr
               %td
                 - dlns.each_with_index do |dln,i|
+                  - if i != 0 && i % 6 == 0
+                    %br
                   %label{style: "border-right: solid 1px #333333;padding-right: 3px;cursor: pointer;background-color: #{bckgrnd[dln.name.split('_')[1].downcase]}",
                          title: "#{dln.id_date}\n#{dln.name}\n#{dln.freights_list.join("\n")}"}
                     %input.dln_ary{id:dln.id,type: 'checkbox',checked: dln_ary.include?(dln.id.to_s)}
