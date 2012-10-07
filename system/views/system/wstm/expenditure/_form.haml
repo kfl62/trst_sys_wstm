@@ -7,7 +7,7 @@
       %tr.freight
         %td
           %select.wstm.freight{class: i == 0 && 'focus'}
-            %option{value: 'null'} Selectare material
+            %option{value: 'null',data: {id_stats: 'null',um: 'kg',pu: 0,p03: 'null'}} Selectare material
             - freights.each do |f|
               %option{value: f[0], data: f[2]}= f[1]
           - input_for   o, 'id_date',   {type: 'hidden',nested: 'doc_exp',value: 'strip',index: i}
