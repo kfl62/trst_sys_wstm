@@ -12,7 +12,7 @@
             %span.info= t("intro.filter.desk_expenditure", data: mat(@object,'model_name'))
         %tr
           %td
-            %input.select2{type: 'hidden', style: 'width:300px', data: {minlength: 3,ph: 0,search: 'Wstm::PartnerPerson',noinit: 'true'}}
+            %input.select2{type: 'hidden', style: 'width:300px', data: {minlength: 3,ph: 0,search: 'Wstm::PartnerPerson'}}
             %button.partner-person{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create') + " Persoană fizică!"
       %tfoot
         %tr
