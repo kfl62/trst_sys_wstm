@@ -22,6 +22,7 @@ define () ->
           $total.find('span.p03').text(tot_p03.toFixed(2))
           $total.find('input[name*="sum_100"]').val(tot_val.toFixed(2))
           $total.find('input[name*="sum_003"]').val(tot_p03.toFixed(2))
+          $total.find('input[name*="sum_out"]').val((tot_val - tot_p03).toFixed(2))
           return
         validate:
           filter: ()->
@@ -31,10 +32,10 @@ define () ->
               $url += "&transp_id=#{$('#transp_id').val()}"
               $url += "&transp_d_id=#{$('#transp_d_id').val()}"
               $url += "&supplr_d_id=#{$('#supplr_d_id').val()}" if $('#supplr_d_id').val() isnt '' and $('#supplr_d_id').val() isnt 'new'
-              $('button.dn').data('url', $url)
-              $('button.dn').button 'option', 'disabled', false
+              $('button.grn').data('url', $url)
+              $('button.grn').button 'option', 'disabled', false
             else
-              $('button.dn').button 'option', 'disabled', true
+              $('button.grn').button 'option', 'disabled', true
             return
           create: ()->
             if $('input#transp_d_id').length
@@ -47,6 +48,13 @@ define () ->
               if $('select.doc_type').val() isnt 'null' and $('input[name*="doc_name"]').val() isnt '' and $('input[name*="doc_plat"]').val() isnt ''
                 $('button[data-action="save"]').button 'option', 'disabled', false
                 return true
+            return
+          pyms: ()->
+            if $('select.doc_type')?.val() isnt 'INV'
+              $('tr.inv').remove()
+            else
+              if $('input[name*="\[pyms\]\[val\]"]').val() is ''
+                $('tr.inv.pyms').remove()
             return
         selectedDeliveryNotes: ()->
           @dln_ary = []
@@ -92,8 +100,17 @@ define () ->
                   Trst.desk.init($url)
                   return
               if $select.hasClass 'doc_type'
+                $('tr.inv').hide()
                 $select.on 'change', ()->
                   $('input[name*="doc_date"]').val($('#date_send').val())
+                  if $select.val() is 'INV'
+                    $('tr.dn').hide()
+                    $('tr.inv').show()
+                    $('input[name*="deadl"]').val($('#date_send').val())
+                    $('input[name*="\[pyms\]\[id_date\]"]').val($('#date_send').val())
+                  else
+                    $('tr.dn').show()
+                    $('tr.inv').hide()
                   $select.next().focus()
                   return
               if $select.hasClass 'freight'
@@ -219,9 +236,9 @@ define () ->
                 formatResult: (d)->
                   $markup  = "<div title='#{d.text.title}'>"
                   $markup += "<span>Doc: </span>"
-                  $markup += "<span style='width:80px;display:inline-block'>#{d.text.doc_name.substring(0,12)}</span>"
+                  $markup += "<span class='truncate-70'>#{d.text.doc_name}</span>"
                   $markup += "<span> - Firma: </span>"
-                  $markup += "<span style='display:inline-block'>#{d.text.supplier.substring(0,30)}</span>"
+                  $markup += "<span class='truncate-200'>#{d.text.supplier}</span>"
                   $markup += "</div>"
                   $markup
                formatSelection: (d)->
@@ -251,7 +268,7 @@ define () ->
                 $button.hide()
               if $bd.action is 'create'
                 if $('input:checked').length is 0
-                  $button.button 'option', 'disabled', true
+                  $button.button 'option', 'disabled', true if $button.hasClass 'grn'
                 else
                   $bd   = $button.data()
                   $url  = '/sys/wstm/grn/create?id_intern=true'
@@ -265,6 +282,11 @@ define () ->
               if $bd.action is 'save'
                 $button.button 'option', 'disabled', true
                 $button.data('remove',false)
+                $button.off 'click', Trst.desk.buttons.action.save
+                $button.on  'click', Wstm.desk.grn.calculate
+                $button.on  'click', Wstm.desk.grn.validate.pyms
+                $button.on  'click', Trst.desk.buttons.action.save
+                $log 'Wstm::Grn save...'
             else if Trst.desk.hdo.dialog is 'show'
               if $bd.action is 'print'
                 $button.on 'click', ()->
