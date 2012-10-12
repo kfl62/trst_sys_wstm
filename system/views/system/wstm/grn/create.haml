@@ -11,7 +11,7 @@
     %table{cellspacing: "0"}
       %thead
         %tr
-          %td{colspan: '5'}
+          %td
             - label_for @object, 'name'
             - input_for @object, 'name',      {value: @object.increment_name(unit_id),style: 'ui-state-default ce id_intern'}
             - label_for @object, 'id_date'
@@ -21,7 +21,6 @@
             - input_for @object, 'doc_type',  {type: 'hidden',value: 'DN'}
             - input_for @object, 'doc_name',  {type: 'hidden',value: @object.dlns.map(&:doc_name).join(', ')}
             - input_for @object, 'doc_date',  {type: 'hidden',value: @object.dlns.last.id_date}
-            - input_for @object, 'doc_paym',  {type: 'hidden',value: 'Transfer intern'}
             - input_for @object, 'supplr_id', {type: 'hidden',value: firm.id}
             - input_for @object, 'transp_id', {type: 'hidden',value: firm.id}
             - input_for @object, 'unit_id',   {type: 'hidden',value: unit_id}
@@ -29,21 +28,21 @@
             - dln_ary.each do |dn|
               -input_for @object,'dln_ids',   {type: 'hidden',name: "[#{@path}][dln_ids][]",value: dn}
         %tr
-          %td{colspan: '5'}
+          %td
             %span= t('intro.create.desk_grn.id_intern',unit: unit.name[1])
         %tr
-          %td{colspan: '5'}
+          %td
             %input#transp_d_id.select2{type: 'hidden',name: '[wstm/grn][transp_d_id]', style: 'width:200px', data: {minlength: 0,ph: '3',search: 'Wstm::PartnerFirm',noinit: 'true',transp_id: firm.id}}
-            - input_for @object, 'doc_plat', {placeholder: 'Maşina nr.'}
+            - input_for @object, 'doc_plat', {style: 'ui-state-default ce',placeholder: mat(@object,'doc_plat')}
             %button#transp_d{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create') + " Delegat!"
         %tr
-          %td{colspan: '5'}
+          %td
             %hr
             %span.small{style: 'max-width: 500px'}= mat(@object,'dlns_name').concat @object.dlns.map(&:doc_name).join(', ')
       = partial "#{@path}/form", locals: {dlns: dln_ary,id_intern: true,unit: unit}
       %tfoot
         %tr
-          %td.buttonset.ce{colspan: "5"}
+          %td.buttonset.ce
             %button{type: "button", data: {action: "save",  icon: "disk",remove: 'false'}}= t('button.save')
             %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
 - else
@@ -59,7 +58,7 @@
     %table{cellspacing: "0"}
       %thead
         %tr
-          %td{colspan: '7'}
+          %td
             - label_for @object, 'name'
             - input_for @object, 'name',        {value: @object.increment_name(unit.id),style: 'ui-state-default ce id_intern'}
             - label_for @object, 'id_date'
@@ -74,22 +73,17 @@
             - input_for @object, 'unit_id',     {type: 'hidden',value: unit.id}
             - input_for @object, 'signed_by',   {type: 'hidden',value: @current_user.id}
         %tr
-          %td{colspan: '7'}
+          %td
             - select_for @object,'doc_type',    {type: 'enum',style: 'wstm doc_type focus',select_options: %w{null DN INV MIN}}
-            - input_for  @object,'doc_name',    {placeholder: mat(@object,'doc_name')}
-            - input_for  @object,'doc_plat',    {placeholder: mat(@object,'doc_plat')}
+            - input_for  @object,'doc_name',    {style: 'ui-state-default ce',placeholder: mat(@object,'doc_name')}
+            - input_for  @object,'doc_plat',    {style: 'ui-state-default ce',placeholder: mat(@object,'doc_plat')}
             - input_for  @object,'doc_date',    {type: 'hidden',value: 'strip'}
         %tr
-          %td{colspan: '7'}
+          %td
             %span.info= t('intro.create.desk_grn.partner_firm',unit: unit.name[1],signed_by: @current_user.name,supplr: supplr.name[2],transp_d: transp_d.name)
       = partial "#{@path}/form", locals: {id_intern: false,unit: unit,freights: freights}
       %tfoot
         %tr
-          %td{colspan: '7'}
-            %span.info= t('intro.create.desk_grn.payment')
-            - input_for  @object,'doc_paym',     {placeholder: mat(@object,'doc_paym')}
-            - input_for  @object,'sum_pay',      {placeholder: mat(@object,'sum_pay'),value: 'strip'}
-        %tr
-          %td.buttonset.ce{colspan: "7"}
+          %td.buttonset.ce
             %button{type: "button", data: {action: "save",  icon: "disk",remove: 'false'}}= t('button.save')
             %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')

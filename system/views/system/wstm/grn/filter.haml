@@ -50,7 +50,7 @@
         - unless dln_ary.empty?
           %tr
             %td
-              %table{:style => "width:70%;margin:auto;font-size:1.1em"}
+              %table{cellspacing: "0",style: "width:80%;margin:auto;font-size:1.1em"}
                 %tbody.inner
                   %tr
                     - mat(@object,'table_header')[0..4].each do |label|
@@ -58,7 +58,7 @@
                   - data = Wstm::DeliveryNote.where(:id.in => dln_ary).sum_freights_grn; data.sort.each do |s|
                     %tr
                       %td
-                        %span.name= s[1][0]
+                        %span.stats= s[1][0]
                       %td
                         %span.um kg
                       %td
@@ -76,7 +76,7 @@
       %tfoot
         %tr
           %td.buttonset.ce
-            %button.dn{type: 'button', data: {action: 'create', icon: 'circle-plus'}}=  t('button.create') + " NIR!"
+            %button.grn{type: 'button', data: {action: 'create', icon: 'circle-plus'}}=  t('button.create') + " NIR!"
             %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')
 - else
   %span#hidden_data.hidden{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_grn'}}
@@ -100,5 +100,5 @@
       %tfoot
         %tr
           %td.buttonset.ce
-            %button.dn{type: 'button', data: {action: 'create', icon: 'circle-plus'}}=  t('button.create') + " NIR!"
+            %button.grn{type: 'button', data: {action: 'create', icon: 'circle-plus'}}=  t('button.create') + " NIR!"
             %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')
