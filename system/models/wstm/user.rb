@@ -7,6 +7,7 @@ module Wstm
     has_many   :dlns,   class_name: 'Wstm::DeliveryNote',     inverse_of: :signed_by
     has_many   :grns,   class_name: 'Wstm::Grn',              inverse_of: :signed_by
     has_many   :csss,   class_name: 'Wstm::Cassation',        inverse_of: :signed_by
+    has_many   :invs,   class_name: 'Wstm::Invoice',          inverse_of: :signed_by
 
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
 
