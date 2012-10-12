@@ -13,11 +13,10 @@ module Wstm
     field :doc_name,    type: String
     field :doc_date,    type: Date
     field :doc_plat,    type: String
-    field :doc_paym,    type: String
     field :sum_003,     type: Float,    default: 0.00
     field :sum_100,     type: Float,    default: 0.00
     field :sum_out,     type: Float,    default: 0.00
-    field :sum_pay,     type: Float,    default: 0.00
+    field :charged,     type: Boolean,  default: false
 
     alias :file_name :name
 
@@ -27,13 +26,16 @@ module Wstm
     belongs_to :transp,       class_name: "Wstm::PartnerFirm",      inverse_of: :grns_transp
     belongs_to :supplr_d,     class_name: "Wstm::PartnerFirmPerson",inverse_of: :grns_supplr
     belongs_to :transp_d,     class_name: "Wstm::PartnerFirmPerson",inverse_of: :grns_transp
+    belongs_to :doc_inv,      class_name: "Wstm::Invoice",          inverse_of: :grns
     belongs_to :unit,         class_name: "Wstm::PartnerFirmUnit",  inverse_of: :grns
     belongs_to :signed_by,    class_name: "Wstm::User",             inverse_of: :grns
 
     index({ unit_id: 1, id_date: 1 })
 
     after_save    :'handle_dlns(true)'
+    after_save    :'handle_invs(true)'
     after_destroy :'handle_dlns(false)'
+    after_destroy :'handle_invs(false)'
 
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
 
@@ -54,7 +56,10 @@ module Wstm
       def auto_search(params)
         unit_id = params[:uid]
         day     = params[:day].split('-').map(&:to_i)
-        where(unit_id: unit_id,id_date: Date.new(*day),name: /#{params[:q]}/i).each_with_object([]) do |g,a|
+        where(unit_id: unit_id,id_date: Date.new(*day))
+        .or(doc_name: /#{params[:q]}/i)
+        .or(:supplr_id.in => Wstm::PartnerFirm.only(:id).where(name: /#{params[:q]}/i).map(&:id))
+        .each_with_object([]) do |g,a|
           a << {id: g.id,
                 text: {
                         name:  g.name,
@@ -105,6 +110,41 @@ module Wstm
     def handle_dlns(add_remove)
       dlns.each{|dln| dln.set(:charged,add_remove)}
       dlns.each{|dln| dln.set(:doc_grn_id,nil)} if add_remove == false
+    end
+    # @todo
+    def handle_invs(add_remove)
+      if add_remove
+        inv = Wstm::Invoice.create(
+          name:         doc_name,
+          id_date:      doc_date,
+          id_intern:    true,
+          doc_name:     doc_name,
+          sum_100:      sum_out,
+          deadl:        self[:deadl] || Date.today + 30.days,
+          payed:        false,
+          client_id:    supplr_id,
+          client_d_id:  supplr_d_id || (supplr.people.first.id rescue nil),
+          signed_by_id: signed_by.id
+        )
+        unset(:deadl)
+        freights.each do |f|
+          inv.freights.create(
+            name:     f.freight.name,
+            um:       f.freight.um,
+            id_stats: f.id_stats,
+            qu:       f.qu,
+            pu:       f.pu
+          )
+        end
+        if self[:pyms]
+          inv.pyms.create(self[:pyms]) if self[:pyms][:val] != 0.0
+        end
+        unset(:pyms)
+        set(:charged,true)
+        set(:doc_inv_id,inv.id)
+      else
+        doc_inv.destroy
+      end if doc_type == 'INV'
     end
   end # Grn
 end # wstm
