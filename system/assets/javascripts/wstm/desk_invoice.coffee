@@ -179,6 +179,41 @@ define () ->
                     $select.next().select2('destroy')
                     $select.next().next().hide()
                   Wstm.desk.invoice.validate.filter()
+            else if $select.hasClass 'repair'
+              $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph]
+              $select.select2
+                placeholder: $ph
+                allowClear: true
+                quietMillis: 1000
+                ajax:
+                  url: "/utils/search/#{$sd.search}"
+                  dataType: 'json'
+                  data: (term)->
+                    day: $('#date_send').val()
+                    q:   term
+                  results: (data)->
+                    results: data
+                formatResult: (d)->
+                  $markup  = "<div title='#{d.text.title}'>"
+                  $markup += "<span>Doc: </span>"
+                  $markup += "<span class='truncate-70'>#{d.text.doc_name}</span>"
+                  $markup += "<span> - Firma: </span>"
+                  $markup += "<span class='truncate-200'>#{d.text.client}</span>"
+                  $markup += "</div>"
+                  $markup
+                formatSelection: (d)->
+                  d.text.name
+                formatSearching: ()->
+                  Trst.i18n.msg.searching
+                formatNoMatches: (t)->
+                  Trst.i18n.msg.no_matches
+              $select.on 'change', ()->
+                if $select.select2('val') isnt ''
+                  $url  = Trst.desk.hdf.attr('action')
+                  $url += "/#{$select.select2('val')}"
+                  Trst.desk.closeDesk(false)
+                  Trst.desk.init($url)
+                return
             else
               $log 'Select not handled!'
             return
@@ -209,17 +244,17 @@ define () ->
               if $bd.action is 'save'
                 $button.button 'option', 'disabled', true
                 $button.data('remove',false)
-            # else if Trst.desk.hdo.dialog is 'show'
-            #   if $bd.action is 'print'
-            #     $button.on 'click', ()->
-            #       Trst.msgShow Trst.i18n.msg.report.start
-            #       $.fileDownload "/sys/wstm/invoice/print?id=#{Trst.desk.hdo.oid}",
-            #         successCallback: ()->
-            #           Trst.msgHide()
-            #         failCallback: ()->
-            #           Trst.msgHide()
-            #           Trst.desk.downloadError Trst.desk.hdo.model_name
-            #       false
+            else if Trst.desk.hdo.dialog is 'show'
+              if $bd.action is 'print'
+                $button.on 'click', ()->
+                  Trst.msgShow Trst.i18n.msg.report.start
+                  $.fileDownload "/sys/wstm/invoice/print?id=#{Trst.desk.hdo.oid}",
+                    successCallback: ()->
+                      Trst.msgHide()
+                    failCallback: ()->
+                      Trst.msgHide()
+                      Trst.desk.downloadError Trst.desk.hdo.model_name
+                  false
             else
               ###
               Buttons default handler Trst.desk.buttons
