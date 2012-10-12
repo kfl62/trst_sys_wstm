@@ -18,19 +18,15 @@ define () ->
             formatInputTooShort: (input, min)->
               Wstm.desk.select.inputTooShortMsg(input, min)
             formatSearching: ()->
-              Wstm.desk.select.searchingMsg()
+              Trst.i18n.msg.searching
             formatNoMatches: (term)->
-              Wstm.desk.select.noMatchesMsg(term)
+             Trst.i18n.msg.no_matches
           return
         inputTooShortMsg: (input, min)->
           $msg = Trst.i18n.msg.input_too_short_strt.replace '%{nr}', (min - input.length) if input.length is 0
           $msg = Trst.i18n.msg.input_too_short_more.replace '%{nr}', (min - input.length) if input.length isnt 0
           $msg = Trst.i18n.msg.input_too_short_last if (min - input.length) is 1
           $msg
-        searchingMsg: ()->
-          $msg = Trst.i18n.msg.searching
-        noMatchesMsg: (term)->
-          $msg = Trst.i18n.msg.no_matches
         init: () ->
           $('select.wstm, input.select2').each ()->
             $select =  $(@)

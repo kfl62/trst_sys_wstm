@@ -112,7 +112,7 @@ define () ->
                   $markup
                 formatSelection: (d)->
                   d.text.name
-                searchingMsg: ()->
+                formatSearching: ()->
                   Trst.i18n.msg.searching
                 formatNoMatches: (t)->
                   Trst.i18n.msg.no_matches

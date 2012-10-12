@@ -241,9 +241,9 @@ define () ->
                   $markup += "<span class='truncate-200'>#{d.text.supplier}</span>"
                   $markup += "</div>"
                   $markup
-               formatSelection: (d)->
+                formatSelection: (d)->
                   d.text.name
-                searchingMsg: ()->
+                formatSearching: ()->
                   Trst.i18n.msg.searching
                 formatNoMatches: (t)->
                   Trst.i18n.msg.no_matches
