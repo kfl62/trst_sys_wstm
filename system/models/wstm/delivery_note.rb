@@ -17,6 +17,7 @@ module Wstm
 
     has_many   :freights,     class_name: "Wstm::FreightOut",       inverse_of: :doc_dln, dependent: :destroy
     belongs_to :doc_grn,      class_name: "Wstm::Grn",              inverse_of: :dlns
+    belongs_to :doc_inv,      class_name: "Wstm::Invoice",          inverse_of: :dlns
     belongs_to :client,       class_name: "Wstm::PartnerFirm",      inverse_of: :dlns_client
     belongs_to :transp,       class_name: "Wstm::PartnerFirm",      inverse_of: :dlns_transp
     belongs_to :client_d,     class_name: "Wstm::PartnerFirmPerson",inverse_of: :dlns_client
@@ -51,7 +52,7 @@ module Wstm
       # @todo
       def sum_freights_grn
         all.each_with_object({}) do |dn,s|
-          dn.freights.each_with_object(s) do |f,s|
+          dn.freights.asc(:id_stats).each_with_object(s) do |f,s|
             if s[f.key].nil?
               s[f.key] = [f.freight.name,f.freight.id_stats,f.pu,f.qu,(f.pu * f.qu).round(2)]
             else
@@ -62,10 +63,28 @@ module Wstm
         end
       end
       # @todo
+      def sum_freights_inv
+        all.each_with_object({}) do |dn,s|
+          dn.freights.asc(:id_stats).each_with_object(s) do |f,s|
+            key = "#{f.id_stats}_#{"%07.4f" % f.pu_invoice}"
+            if s[key].nil?
+              s[key] = [f.freight.name,f.freight.id_stats,f.qu,f.val,f.pu_invoice,f.val_invoice]
+            else
+              s[key][2] += f.qu
+              s[key][3] += f.val
+              s[key][5] += f.val_invoice
+            end
+          end
+        end
+      end
+      # @todo
       def auto_search(params)
         unit_id = params[:uid]
         day     = params[:day].split('-').map(&:to_i)
-        where(unit_id: unit_id,id_date: Date.new(*day),name: /#{params[:q]}/i).each_with_object([]) do |d,a|
+        where(unit_id: unit_id,id_date: Date.new(*day))
+        .or(doc_name: /#{params[:q]}/i)
+        .or(:client_id.in => Wstm::PartnerFirm.only(:id).where(name: /#{params[:q]}/i).map(&:id))
+        .each_with_object([]) do |d,a|
           a << {id: d.id,
                 text: {
                         name:  d.name,
