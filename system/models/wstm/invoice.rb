@@ -14,6 +14,8 @@ module Wstm
     field :deadl,       type: Date,     default: -> {Date.today}
     field :payed,       type: Boolean,  default: false
 
+    alias :file_name :name
+
     embeds_many :freights,     class_name: "Wstm::InvoiceFreight",   inverse_of: :doc_inv, cascade_callbacks: true
     has_many    :dlns,         class_name: "Wstm::DeliveryNote",     inverse_of: :doc_inv
     has_many    :grns,         class_name: "Wstm::Grn",              inverse_of: :doc_inv
@@ -75,7 +77,7 @@ module Wstm
     # @todo
     def freights_list
       freights.asc(:id_stats).each_with_object([]) do |f,r|
-        r << "#{f.freight.name}: #{"%.2f" % f.qu} kg ( #{"%.2f" % f.pu} )"
+        r << "#{f.name}: #{"%.2f" % f.qu} kg ( #{"%.2f" % f.pu} )"
       end
     end
     protected
