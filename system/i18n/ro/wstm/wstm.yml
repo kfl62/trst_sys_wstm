@@ -57,6 +57,19 @@ ro:
             Legendă:
           hover: |
             Ptr.detalii despre aviz poziţionaţi mouse-ul deasupra denumirii...
+        desk_invoice:
+          main: |
+            Pentru a factura marfă prima dată este nevoie să selectaţi AE,<br>
+            iar pentru aceasta trebuie să specificaţi <b>anul, luna, Tip marfă</b><br>
+            (cu/fără 3%), respectiv <b>Clientul</b> şi <b>Delegat</b> din partea clientului<br>
+            (cine semnează factura) sau Poşta Română dacă este cazul.<br>
+            Datele ptr.<b>Transportator</b> se preiau din AE!
+          no_dln: |
+            Nu aveţi nici un Aviz de expediţie!
+          legend: |
+            Legendă:
+          hover: |
+            Ptr.detalii despre aviz poziţionaţi mouse-ul deasupra denumirii...
         desk_report:
           cdd: Document cumulativ APP
           grn: Notă de recepţie APP
@@ -84,11 +97,18 @@ ro:
           partner_firm: |
             În gestiunea <b>%{unit}</b> Dn-ul/Dna <b>%{signed_by}</b> recepţionează<br>
             de la furnizorul  <b>%{supplr}</b>, în prezenţa delegatului <b>%{transp_d}</b>,<br>
-            în baza actelor(completate mai sus), următoarele materiale:
-          payment: |
-            <b>Detalii plată:</b> Suma se completează numai dacă există chitanţă sau OP.<br>
-            Se trece suma achitată efectiv (Valoare - Taxă mediu 3%)! În caz contrar se<br>
-            completeză cu <b>La termen</b> prima rubrică şi cu <b>0.00</b> a doua.
+            în baza actelor(completate mai sus), următoarele materiale:<br>
+            Dacă recepţionaţi pe bază de factură <b>Condiţii plată</b>
+          pyms_no: |
+            Nu este cazul! Numai la recepţii facturi...
+          pyms_ok: |
+            Termenul de plată este obligatoriu (aaaa-ll-zz)!<br>
+            Se completează numai dacă există chitanţă sau OP.<br>
+            Se trece suma achitată efectiv (Valoare - Taxă mediu 3%)!
+        desk_invoice: |
+            În cazul în care <b>Preţ Vânzare</b> este 0.0000 trebuie să-l completaţi<br>
+            dacă a fost deja completat la <b>Aviz</b> atunci click pe <b>Salvare</b> dacă<br>
+            v-aţi convins că totul este completat corect!
       edit:
         desk_freight: |
           Puteţi modifica doar câmpul<br>
@@ -131,6 +151,9 @@ ro:
           În ziua de <b>%{id_date}</b> în gestiunea <b>%{unit}</b> de către<br>
           <b>%{signed_by}</b> s-au casat/degradat următoarele: <br>
           &nbsp;&nbsp;&nbsp;&nbsp;Notă: %{expl}
+        desk_invoice: |
+          În ziua de <b>%{id_date}</b> cu Factura nr.<b>%{doc_name}</b> se facturează clientului<br>
+          <b>%{client}</b> următoarele materiale:
       delete:
         desk_expenditure: |
           Atenţie!!! Se va şterge &raquo;Adeverinţa Primire/Plată&laquo;!!!
@@ -167,6 +190,7 @@ ro:
       desk_expenditure: ['Alegeţi - Partener Persoană Fizică', 'Selectaţi - Adeverinţă Primire/Plată']
       desk_delivery_note: ['Alegeţi - Destinatar', 'Alegeţi - Delegat (opţional)', 'Alegeţi - Transportator', 'Alegeţi - Delegat', 'Selectaţi - Aviz de expediţie']
       desk_grn: ['Alegeţi - Furnizor', 'Alegeţi - Delegat (opţional)', 'Alegeţi - Transportator', 'Alegeţi - Delegat', 'Selectaţi - Notă de recepţie']
+      desk_invoice: ['Alegeţi - Client', 'Alegeţi - Delegat', 'Selectaţi - Factură']
     msg:
       input_too_short_strt: |
         Vă rugăm întroduceţi min. %{nr} caractere!
@@ -182,6 +206,8 @@ ro:
         Hmmm... Se pare că nu aţi ales niciun material!<br>
         Sau aţi uitat să introduceţi cantitatea!<br>
         Apăsaţi <b>"Ştergere"</b> şi încercaţi din nou :)<br>
+      no_payments: |
+        Nu există nici o plată!
       id_pn:
         start: |
           Acest client nu există! Introduceţi un CNP valid format din 13 cifre, incă (%{data}) cifre!
