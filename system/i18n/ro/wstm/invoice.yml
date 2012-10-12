@@ -1,0 +1,18 @@
+ro:
+  mongoid:
+    attributes:
+      'wstm/invoice':
+        model_name: Factură client
+        p03: [['null', 'Tip marfă'], ['true', 'DA se reţine 3%'], ['false', 'NU se reţine 3%']]
+        table_header: ['Material', 'UM', 'Cantitate', 'Valoare<br>Cump.', 'Preţ<br>Vânz.', 'Valoare<br>Vânz.']
+        table_header_show: ['Material', 'UM', 'Cantitate', 'Preţ', 'Valoare']
+        name: 'Nr. intern '
+        id_date: ' din data de '
+        doc_name: 'Document nr.'
+        dlns_name: 'Avize nr:'
+        tabs_freights: 'Materiale facturate'
+        tabs_payments: 'Condiţii plată'
+        payed:     'Achitat? '
+        deadl:     'Termen de plată'
+        pyms_text: 'Achitat cu...'
+        pyms_val:  'Suma de...'
