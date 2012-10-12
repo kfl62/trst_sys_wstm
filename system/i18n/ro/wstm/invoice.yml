@@ -16,3 +16,5 @@ ro:
         deadl:     'Termen de plată'
         pyms_text: 'Achitat cu...'
         pyms_val:  'Suma de...'
+        day: |
+          Facturi din data de:&nbsp;
