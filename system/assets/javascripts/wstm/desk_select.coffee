@@ -38,7 +38,7 @@ define () ->
               Wstm.desk.select.select2($select)
             else if $select.hasClass('unit')
               Wstm.desk.select.unit($select)
-            else if $select.hasClass('freight')
+            else if $select.hasClass('freight') or $select.hasClass('y') or $select.hasClass('m') or $select.hasClass('p03')
               ###
               Handled by Wstm.desk.expenditure|delivery_note...
               ###
