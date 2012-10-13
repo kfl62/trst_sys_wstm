@@ -18,7 +18,7 @@ module Wstm
     belongs_to  :doc_exp,  class_name: 'Wstm::Expenditure', inverse_of: :freights
     belongs_to  :doc_grn,  class_name: 'Wstm::Grn',         inverse_of: :freights
 
-    index({ freight_id: 1, id_date: 1 })
+    index({ freight_id: 1, id_stats: 1, id_date: 1 })
     index({ doc_exp_id: 1})
     index({ doc_grn_id: 1})
 
@@ -52,11 +52,11 @@ module Wstm
         y,m,d = today.year, today.month, today.day unless ( y || m || d)
         v = opts[:what]
         if d
-          daily(y,m,d).sum(v) || 0.0
+          (daily(y,m,d).sum(v) || 0.0).round(2)
         elsif m
-          monthly(y,m).sum(v) || 0.0
+          (monthly(y,m).sum(v) || 0.0).round(2)
         else
-          yearly(y).sum(v)    || 0.0
+          (yearly(y).sum(v)    || 0.0).round(2)
         end
       end
     end # Class methods

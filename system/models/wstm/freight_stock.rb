@@ -17,7 +17,7 @@ module Wstm
     belongs_to  :freight,  class_name: 'Wstm::Freight',     inverse_of: :stks
     belongs_to  :doc_stk,  class_name: 'Wstm::Stock',       inverse_of: :freights
 
-    index({ freight_id: 1, id_date: 1 })
+    index({ freight_id: 1, id_stats: 1, id_date: 1 })
     index({ freight_id: 1, doc_stk_id: 1, qu: 1})
     scope :stock_now, where(id_date: Date.new(2000,1,31))
 
@@ -48,11 +48,11 @@ module Wstm
         y,m,d = today.year, today.month, today.day unless ( y || m || d)
         v = opts[:what]
         if d
-          monthly(y,m).sum(v) || 0.0
+          (monthly(y,m).sum(v) || 0.0).round(2)
         elsif m
-          monthly(y,m).sum(v) || 0.0
+          (monthly(y,m).sum(v) || 0.0).round(2)
         else
-          monthly(y,1).sum(v) || 0.0
+          (monthly(y,1).sum(v) || 0.0).round(2)
         end
       end
     end # Class methods
