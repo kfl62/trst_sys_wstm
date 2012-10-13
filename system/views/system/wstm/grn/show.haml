@@ -6,7 +6,7 @@
     %thead
       %tr
         %th{colspan: @object.id_intern == true ? '5' : '6'}
-          %span.info= t('intro.show.desk_grn',id_date: l(@object.id_date,format: :trst),unit: firm.units.find(@object.unit_id).name[1],signed_by: @object.signed_by.name,supplr: @object.supplr.name[2],transp_d: @object.transp_d.name)
+          %span.info.width-450.ju= t('intro.show.desk_grn',id_date: l(@object.id_date,format: :trst),unit: firm.units.find(@object.unit_id).name[1],signed_by: @object.signed_by.name,supplr: @object.supplr.name[2],transp_d: @object.transp_d.name)
     = partial "#{@path}/show"
     %tfoot
       %tr

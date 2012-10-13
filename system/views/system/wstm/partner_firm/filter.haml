@@ -1,13 +1,13 @@
-%span#hidden_data.hidden{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null"}}
+%span#hidden_data.hidden{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_partner_firm'}}
 %form{action: "/sys/#{@path}", method: "get"}
   %table{cellspacing: "0"}
     %tbody
       %tr
         %td
-          %span.info= t("intro.filter.main", data: mat(@object,'model_name'))
+          %span.info.width-400.ju= t("intro.filter.main", data: mat(@object,'model_name'))
       %tr
         %td
-          %input.select2{type: 'hidden', style: 'width:300px', data: {minlength: 2,search: @path.classify}}
+          %input.select2{type: 'hidden', style: 'width:300px', data: {minlength: 2,ph: 0,search: @path.classify}}
     %tfoot
       %tr
         %td.buttonset.ce

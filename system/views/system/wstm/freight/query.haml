@@ -17,7 +17,7 @@
         - t('month')[1..12].each_with_index do |month,i|
           %option{value: i + 1, selected: m == i + 1}= month
       - if @current_user.unit_id
-        %span= l(today, format: :trst) if month == today.month
+        %span= l(today, format: :trst) if m == today.month
       - else
         %select#u
           %option{value: 'null'} Toate unităţile
@@ -73,7 +73,7 @@
               %span.stats.ri= "%0.2f" % v
 - else
   %div.small
-    %span.info= t('intro.query.desk_freight.all')
+    %span.info.width-500.ju= t('intro.query.desk_freight.all')
     %p.noFreight
       %select#y
         - [2011,2012].each do |year|
@@ -89,7 +89,7 @@
             %span.stats.ce= cn
         - firm.units.asc(:slug).each do |cn|; cols +=1
           %td
-            %span.stats.ce.link{id: cn.id}= cn.slug
+            %span.stats.ce.link.uid{id: cn.id}= cn.slug
       - @object.stats_all(y,m).each do |st|
         %tr
           %td

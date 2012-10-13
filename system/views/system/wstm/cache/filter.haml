@@ -10,9 +10,9 @@
         %tr
           %td
             - if @current_user.admin?
-              %span.info= t("intro.filter.main", data: mat(@object,'model_name'))
+              %span.info.width-400.ju= t("intro.filter.main", data: mat(@object,'model_name'))
             - else
-              %span.info= t("intro.filter.desk_cache", data: mat(@object,'model_name'))
+              %span.info.width-400.ju= t("intro.filter.desk_cache", data: mat(@object,'model_name'))
         %tr
           %td
             %select#oid

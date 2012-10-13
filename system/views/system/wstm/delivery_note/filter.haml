@@ -9,7 +9,7 @@
       %tbody
         %tr
           %td
-            %span.info= t("intro.filter.desk_delivery_note", data: mat(@object,'model_name'))
+            %span.info.width-550.ju= t("intro.filter.desk_delivery_note", data: mat(@object,'model_name'))
         %tr
           %td
             %input#client_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: 2,ph: 0,search: 'Wstm::PartnerFirm',noinit: 'true'}}

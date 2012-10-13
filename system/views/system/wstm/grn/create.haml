@@ -80,7 +80,7 @@
             - input_for  @object,'doc_date',    {type: 'hidden',value: 'strip'}
         %tr
           %td
-            %span.info= t('intro.create.desk_grn.partner_firm',unit: unit.name[1],signed_by: @current_user.name,supplr: supplr.name[2],transp_d: transp_d.name)
+            %span.info.width-450.ju= t('intro.create.desk_grn.partner_firm',unit: unit.name[1],signed_by: @current_user.name,supplr: supplr.name[2],transp_d: transp_d.name)
       = partial "#{@path}/form", locals: {id_intern: false,unit: unit,freights: freights}
       %tfoot
         %tr

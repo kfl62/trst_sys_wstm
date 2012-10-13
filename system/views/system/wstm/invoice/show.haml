@@ -6,7 +6,7 @@
     %thead
       %tr
         %th
-          %span.info= t('intro.show.desk_invoice',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
+          %span.info.width-450.ju= t('intro.show.desk_invoice',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
     = partial "#{@path}/show"
     %tfoot
       %tr

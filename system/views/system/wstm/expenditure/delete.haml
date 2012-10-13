@@ -4,8 +4,8 @@
     %thead
       %tr
         %th{colspan: "8"}
-          %span.warning= t('intro.delete.desk_expenditure', data: mat(@object,'model_name'))
-          %span.info= t('intro.show.desk_expenditure',@object.client.i18n_hash.merge(enr: @object.name,eon: l(@object.id_date,format: :trst)))
+          %span.warning.width-450.ju= t('intro.delete.desk_expenditure', data: mat(@object,'model_name'))
+          %span.info.width-450.ju= t('intro.show.desk_expenditure',@object.client.i18n_hash.merge(enr: @object.name,eon: l(@object.id_date,format: :trst)))
     = partial "/#{@path}/show"
     %tfoot
       %tr

@@ -35,7 +35,7 @@
           - input_for @object, 'doc_plat'
       %tr
         %td{colspan: with_pu ? 8 : 6}
-          %span.info= t('intro.create.desk_delivery_note', firm: firm.name[2],firm_d: @current_user.name, client: client.name[2], client_d: (client_d.name rescue 'Anonymous'), transp: transp.name[2], transp_d: transp_d.name)
+          %span.info.width-500.ju= t('intro.create.desk_delivery_note', firm: firm.name[2],firm_d: @current_user.name, client: client.name[2], client_d: (client_d.name rescue 'Anonymous'), transp: transp.name[2], transp_d: transp_d.name)
     = partial "#{@path}/form", locals: {freights: freights,client: client,with_pu: with_pu}
     %tfoot
       %tr

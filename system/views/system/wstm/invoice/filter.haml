@@ -11,7 +11,7 @@
     %thead
       %tr
         %td
-          %span.info= t('intro.filter.desk_invoice.main')
+          %span.info.width-500.ju= t('intro.filter.desk_invoice.main')
       %tr
         %td
           %select.wstm.y
@@ -33,7 +33,7 @@
         - if dlns.empty?
           %tr.dlns
             %td
-              %span.info= t('intro.filter.desk_invoice.no_dln')
+              %span.info.width-250= t('intro.filter.desk_invoice.no_dln')
         - else
           %tr.dlns
             %td

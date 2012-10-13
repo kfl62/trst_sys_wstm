@@ -13,9 +13,9 @@
         %tr
           %td
             - if @current_user.admin?
-              %span.info= t('intro.filter.desk_grn.admin',unit: unit.name[1])
+              %span.info.info.width-450.ju= t('intro.filter.desk_grn.admin',unit: unit.name[1])
             -else
-              %span.info= t('intro.filter.desk_grn.user',unit: unit.name[1])
+              %span.info.info.width-450.ju= t('intro.filter.desk_grn.user',unit: unit.name[1],slug: unit.slug.downcase)
         %tr
           %td
             %select.wstm.p03
@@ -27,7 +27,7 @@
           - if dlns.empty?
             %tr
               %td
-                %span.info= t('intro.filter.desk_grn.no_dln')
+                %span.info.width-250= t('intro.filter.desk_grn.no_dln')
           - else
             %tr
               %td
@@ -85,7 +85,7 @@
       %thead
         %tr
           %td
-            %span.info= t('intro.filter.desk_grn.partner_firm',unit: unit.name[1])
+            %span.info.width-550.ju= t('intro.filter.desk_grn.partner_firm',unit: unit.name[1])
       %tbody
         %tr
           %td

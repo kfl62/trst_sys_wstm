@@ -6,8 +6,8 @@
     %thead
       %tr
         %th
-          %span.warning= t('intro.delete.main', data: mat(@object,'model_name'))
-          %span.info= t('intro.show.desk_invoice',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
+          %span.warning.width-450.ju= t('intro.delete.main', data: mat(@object,'model_name'))
+          %span.info.width-450.ju= t('intro.show.desk_invoice',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
     = partial "/#{@path}/show"
     %tfoot
       %tr

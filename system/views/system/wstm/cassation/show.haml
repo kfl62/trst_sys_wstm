@@ -4,7 +4,7 @@
     %thead
       %tr
         %th{colspan: "6"}
-          %span.info= t('intro.show.desk_cassation',id_date: l(@object.id_date,format: :trst),unit: @object.unit.name[1],signed_by: @object.signed_by.name,expl: @object.text)
+          %span.info.width-350.ju= t('intro.show.desk_cassation',id_date: l(@object.id_date,format: :trst),unit: @object.unit.name[1],signed_by: @object.signed_by.name,expl: @object.text)
     = partial "#{@path}/show"
     %tfoot
       %tr

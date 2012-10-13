@@ -6,8 +6,8 @@
     %thead
       %tr
         %th{colspan: "6"}
-          %span.warning= t('intro.delete.desk_delivery_note', data: mat(@object,'model_name'))
-          %span.info= t('intro.show.desk_delivery_note',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),firm: firm.name[2],firm_d: @object.signed_by.name,client: @object.client.name[2],client_d: (@object.client_d.name rescue 'Anonymous'),transp: @object.transp.name[2],transp_d: @object.transp_d.name)
+          %span.warning.width-450.ju= t('intro.delete.desk_delivery_note', data: mat(@object,'model_name'))
+          %span.info.width-450.ju= t('intro.show.desk_delivery_note',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),firm: firm.name[2],firm_d: @object.signed_by.name,client: @object.client.name[2],client_d: (@object.client_d.name rescue 'Anonymous'),transp: @object.transp.name[2],transp_d: @object.transp_d.name)
     = partial "/#{@path}/show"
     %tfoot
       %tr
