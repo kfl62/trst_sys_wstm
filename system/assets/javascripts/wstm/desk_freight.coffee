@@ -26,20 +26,21 @@ define () ->
               Trst.desk.init($url)
               return
             return
-          $('span.link').each ()->
-            $link = $(@)
-            $link.on 'click', ()->
-              $url = "sys/wstm/freight/query?y=#{$sy.val()}&m=#{$sm.val()}"
-              if $su.length
-                $url += "#{$url}&uid=#{$su.val()}&fid=#{$link.attr('id')}"
-              else
-                $url += if $link.hasClass('uid') then "#{$url}&uid=#{$link.attr('id')}" else "#{$url}&fid=#{$link.attr('id')}"
-              Trst.desk.init($url)
+          if Trst.desk.hdo.dialog is 'query'
+            $('span.link').each ()->
+              $link = $(@)
+              $link.on 'click', ()->
+                $url = "sys/wstm/freight/query?y=#{$sy.val()}&m=#{$sm.val()}"
+                if $su.length
+                  $url += "#{$url}&uid=#{$su.val()}&fid=#{$link.attr('id')}"
+                else
+                  $url += if $link.hasClass('uid') then "#{$url}&uid=#{$link.attr('id')}" else "#{$url}&fid=#{$link.attr('id')}"
+                Trst.desk.init($url)
+                return
               return
-            return
           return
         init: ()->
-          if Trst.desk.hdo.dialog is 'query'
+          if Trst.desk.hdo.dialog in ['query','query_value']
             if $('p.noFreight').length
               Wstm.desk.freight.handleNoFreight()
             if $('p.hasFreight').length
