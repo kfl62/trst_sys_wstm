@@ -30,7 +30,10 @@ define () ->
             $link = $(@)
             $link.on 'click', ()->
               $url = "sys/wstm/freight/query?y=#{$sy.val()}&m=#{$sm.val()}"
-              $url = if $su.length then "#{$url}&uid=#{$su.val()}&fid=#{$link.attr('id')}" else "#{$url}&uid=#{$link.attr('id')}"
+              if $su.length
+                $url += "#{$url}&uid=#{$su.val()}&fid=#{$link.attr('id')}"
+              else
+                $url += if $link.hasClass('uid') then "#{$url}&uid=#{$link.attr('id')}" else "#{$url}&fid=#{$link.attr('id')}"
               Trst.desk.init($url)
               return
             return
