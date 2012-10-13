@@ -1,0 +1,69 @@
+:ruby
+  today = Date.today;   cols = 0
+  y   = params[:y].nil? ? today.year  : params[:y].to_i
+  m   = params[:m].nil? ? today.month : params[:m].to_i
+  uid = @current_user.unit_id ? @current_user.unit_id : params[:uid] == 'null' ? nil : params[:uid]
+  firm= Wstm::PartnerFirm.find_by(firm: :true); unit= firm.units.find(uid) if uid
+  data= uid ? unit.name[1] : firm.name[2]
+%span#hidden_data.hidden{data: {dialog: "query_value",title_data: data,model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_freight'}}
+- if uid
+  %div.small
+    %p.noFreight
+      %select#y
+        - [2011,2012].each do |year|
+          %option{value: year, selected: y == year}= year
+      %select#m
+        - t('month')[1..12].each_with_index do |month,i|
+          %option{value: i + 1, selected: m == i + 1}= month
+      - if @current_user.unit_id
+        %span= l(today, format: :trst) if m == today.month
+      - else
+        %select#u
+          %option{value: 'null'} Toate unităţile
+          - firm.units.each do |pos|
+            %option{value: pos.id, selected: uid.to_s == pos.id.to_s}= pos.name[1]
+  %table{:cellspacing => "0"}
+    %tbody.inner
+      %tr
+        - mat(@object,'table_all_with_pu').each do |cn|; cols += 1
+          %td
+            %span.stats.ce= cn
+      - unit.freights.stats_pos_with_pu(y,m).each do |st|
+        %tr
+          %td
+            %span.stats.link{id: st.shift}= st.shift
+          - key = st.shift; fpu = key.split('_')[1].to_f
+          %td
+            %span.stats.ri= "%0.2f" % fpu
+          %td
+            %span.stats.ri= "%0.2f" % st[0]
+          %td
+            %span.stats.ri= "%0.2f" % (fpu * st[0])
+          %td
+            %span.stats.ri= "%0.2f" % st[1]
+          %td
+            %span.stats.ri= "%0.2f" % (fpu * st[1])
+          %td
+            %span.stats.ri= "%0.2f" % st[2]
+          %td
+            %span.stats.ri= "%0.2f" % (fpu * st[2])
+          %td
+            %span.stats.ri= "%0.2f" % st[3]
+          %td
+            %span.stats.ri= "%0.2f" % (fpu * st[3])
+      %tr
+        %td{colspan: cols} &nbsp;
+- else
+  %div.small
+    %p.noFreight
+      %select#y
+        - [2011,2012].each do |year|
+          %option{value: year, selected: y == year}= year
+      %select#m
+        - t('month')[1..12].each_with_index do |month,i|
+          %option{value: i + 1, selected: m == i + 1}= month
+      %select#u
+        %option{value: 'null'} Toate unităţile
+        - firm.units.each do |pos|
+          %option{value: pos.id, selected: uid.to_s == pos.id.to_s}= pos.name[1]
+    %span.info.width-350.ju= t('intro.query_value.desk_freight.all')
