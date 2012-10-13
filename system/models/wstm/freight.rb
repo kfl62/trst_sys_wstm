@@ -41,6 +41,21 @@ module Wstm
         end
       end
       # @todo
+      def stats_pos_with_pu(*args)
+        opts = args.last.is_a?(Hash) ? {}.merge!(args.pop) : {}
+        y,m,d = *args; today = Date.today
+        y,m,d = today.year, today.month, today.day unless ( y || m || d)
+        asc(:id_stats).each_with_object([]) do |f,a|
+          keys = (f.ins.monthly(y,m).keys + f.outs.monthly(y,m).keys + f.stks.monthly(y,m).keys + f.stks_now.keys).uniq.sort
+          keys.each do |key|
+            sum = *f.stats_sum(*args,opts.merge(key: key))
+            chk = (f.stks_now.by_key(key).sum(:qu) || 0.0).round(2)
+            m == today.month ? sum.push(chk) : sum.push(sum.last)
+            a << [f.id,f.name,key,*sum] unless sum.sum == 0
+          end
+        end
+      end
+      # @todo
       def stats_all(*args)
         opts = args.last.is_a?(Hash) ? {all: true}.merge!(args.pop) : {all: true}
         retval, sum_tot, part, fname = [], [0, 0, 0, 0], [], ''
@@ -75,7 +90,7 @@ module Wstm
           f_ins   = f.ins.sum_ins(y,m,i,opts)
           f_out   = f.outs.sum_outs(y,m,i,opts)
           sum_tot = sum_tot.zip([f_ins,f_out]).map{|x| x.inject(:+)}
-          final   = final + f_ins - f_out
+          final   = (final + f_ins - f_out).round(2)
           retval << [Date.new(y,m,i).to_s, f_ins, f_out, final] unless (f_ins == 0 && f_out == 0)
         end
         retval << ['TOTAL',sum_tot,final].flatten
@@ -93,18 +108,19 @@ module Wstm
     # @todo
     def stats_sum(*args)
       opts = args.last.is_a?(Hash) ? {}.merge!(args.pop) : {}
+      key = opts[:key] || id_stats
       if opts[:all]
-        s = stks.sum_stks(*args,opts)
-        i = ins.sum_ins(*args,opts)
-        o = outs.sum_outs(*args,opts)
-        i_nin = ins.nonin.sum_ins(*args,opts)
-        o_nin = outs.nonin.sum_outs(*args,opts)
-        [s,i_nin,o_nin,s + i_nin - o_nin, s + i - o]
+        s = stks.by_key(key).sum_stks(*args,opts)
+        i = ins.by_key(key).sum_ins(*args,opts)
+        o = outs.by_key(key).sum_outs(*args,opts)
+        i_nin = ins.by_key(key).nonin.sum_ins(*args,opts)
+        o_nin = outs.by_key(key).nonin.sum_outs(*args,opts)
+        [s,i_nin,o_nin,(s + i_nin - o_nin).round(2), (s + i - o).round(2)]
       else
-        s = stks.sum_stks(*args,opts)
-        i = ins.sum_ins(*args,opts)
-        o = outs.sum_outs(*args,opts)
-        [s,i,o,s + i - o]
+        s = stks.by_key(key).sum_stks(*args,opts)
+        i = ins.by_key(key).sum_ins(*args,opts)
+        o = outs.by_key(key).sum_outs(*args,opts)
+        [s,i,o,(s + i - o).round(2)]
       end
     end
     # @todo
