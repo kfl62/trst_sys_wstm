@@ -10,6 +10,27 @@ define () ->
               delete @[k] if k in [what...]
             else
               delete @[k] unless k in ['set','clear']
+      scrollHeader: (tbl)->
+        $table = $(tbl)
+        tblHdr   = $('<table style="width:auto"><tbody class="inner"><tr></tr><tr></tr></tbody></table>')
+        tblCntnr = $('<div style="height:450px;overflow-x:hidden;overflow-y:scroll"></div>')
+        tblClmnW = []
+        $table.find('tr:first td').each (i)->
+          tblClmnW[i] = $(this).width()
+          return
+        tblscrll = $table.find('tr:first').html()
+        $table.find('tr:first').html('')
+        $table.css('width','auto')
+        tblHdr.find('tr:first').html(tblscrll)
+        tblHdr.find('tr:first td').each (i)->
+          $(this).css('width', tblClmnW[i])
+          return
+        $table.find('tr:first').next().find('td').each (i)->
+          $(this).css('width', tblClmnW[i])
+          return
+        $table.before(tblHdr)
+        $table.wrap(tblCntnr)
+        return
       idPnHandle: ()->
         $input = $('input[name*="id_pn"]')
         if Wstm.desk.idPnValidate($input.val())
@@ -53,6 +74,8 @@ define () ->
               Wstm.desk.idPnHandle()
           $('input.focus').focus()
           $('select.focus').focus()
+        if $('table').has('tbody.inner').height() > 450
+          Wstm.desk.scrollHeader($('table'))
         $log 'Wstm.desk.init() Ok...'
         if $('select.wstm, input.select2').length
           require (['wstm/desk_select']), (select)->
