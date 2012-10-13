@@ -18,6 +18,12 @@ ro:
       report:
         desk_report: |
           Configurare &raquo;%{data}&laquo;
+      query_value:
+        desk_freight: |
+          Stocuri valorice - %{data}
+      report:
+        desk_report: |
+          Configurare &raquo;%{data}&laquo;
     intro:
       no_unit: |
         Nu aveţi nici un Punct de lucru selectat!
@@ -25,32 +31,35 @@ ro:
         Punctul de lucru selectat:&nbsp;&nbsp;
       filter:
         desk_cache: |
-          Puteţi modifica "Suma primită" la o &raquo;Dispoziţie de plată&laquo; după ce<br>
-          o alegeţi din listă, sau alegând "Creare" veţi crea una nouă.
+          Puteţi modifica "Suma primită" la o &raquo;Dispoziţie de plată&laquo; după ce
+          o alegeţi din listă, sau alegând <b>Creare</b> veţi crea una nouă.
         desk_delivery_note: |
-          Pentru a crea o &raquo;Anexa3 Aviz de expediţie&laquo; este nevoie să selectaţi un "Destinatar"<br>
-          opţional un "Delegat" ptr. acest "Destinatar", un "Transportator" şi obligatoriu un "Delegat"<br>
+          Pentru a crea o &raquo;Anexa3 Aviz de expediţie&laquo; este nevoie să selectaţi un "Destinatar"
+          opţional un "Delegat" ptr. acest "Destinatar", un "Transportator" şi obligatoriu un "Delegat"
           ptr. "Transportator". "Destinatar"-ul şi "Transportator"-ul pot fi aceeaşi firmă.
         desk_freight: |
-          Puteţi modifica preţul unitar la un &raquo;%{data}&laquo;<br>
-          după ce îl alegeţi din listă!
+          Puteţi modifica preţul unitar la un &raquo;%{data}&laquo; după ce îl alegeţi din listă!
         desk_expenditure: |
-          Pentru a crea o &raquo;Adeverinţă Primire/Plată&laquo; este nevoie să selectaţi un client.<br>
-          Introduceţi min. 3 cifre din CNP sau 3 litere din Nume/Prenume (cu cât mai multe<br>
-          cifre/litere lista care apare va fi mai scurtă), după alegere -> "Creare APP"<br>
-          În cazul în care persoana nu există, întroduceţi 13 cifre şi dacă este un CNP<br>
-          valid se activează butonul "Creare persoană fizică".
+          Pentru a crea o &raquo;Adeverinţă Primire/Plată&laquo; este nevoie să selectaţi un client.
+          Introduceţi min. 3 cifre din <b>CNP</b> sau 3 litere din <b>Nume|Prenume</b> (cu cât mai multe
+          cifre/litere lista care apare va fi mai scurtă), după alegere -> <b>Creare APP!</b>
+          În cazul în care persoana nu există, întroduceţi 13 cifre şi dacă este un CNP
+          valid se activează butonul <b>Creare persoană fizică!</b>.
         desk_grn:
           admin: |
-            Pentru a transfera în gestiunea <b>%{unit}</b>, prima dată<br>
-            trebuie să selectaţi tipul de marfă, cu sau fără 3%, după care veţi putea<br>
+            Pentru a transfera în gestiunea <b>%{unit}</b>, prima dată
+            trebuie să selectaţi tipul de marfă, cu sau fără 3%, după care veţi putea
             selecta <b>Avizele de expediţie</b>, care vă interesează.
           user: |
-            Pentru a transfera în gestiunea <b>%{unit}</b>
+            Pentru a transfera în gestiunea <b>%{unit}</b>, prima dată
+            trebuie să selectaţi tipul de marfă, cu sau fără 3%, după care veţi putea
+            selecta <b>Avizul de expediţie</b>, cu nr. care v-a fost comunicat telefonic.
+            (în principiu care se termină cu <b>%{slug}</b>)
           partner_firm: |
-            Pentru a a crea un &raquo;NIR - Persoane juridice&laquo; este nevoie să selectaţi un "Furnizor"<br>
-            opţional un "Delegat" ptr. acest "Furnizor", un "Transportator" şi obligatoriu un "Delegat"<br>
-            ptr. "Transportator". "Furnizor"-ul şi "Transportator"-ul pot fi aceeaşi firmă.
+            Pentru a a crea un &raquo;NIR - Persoane juridice&laquo; este nevoie să selectaţi un "Furnizor"
+            opţional un "Delegat" ptr. acest "Furnizor", un "Transportator" şi obligatoriu un "Delegat"
+            ptr. "Transportator". "Furnizor"-ul şi "Transportator"-ul pot fi aceeaşi firmă. În cazul în care
+            recepţionaţi pe bază de <b>Factură Fiscală</b> recomandăm să selectaţi şi "Delegat" ptr. "Furnizor"
           no_dln: |
             Nu aveţi nici un Aviz de expediţie!
           legend: |
@@ -59,10 +68,10 @@ ro:
             Ptr.detalii despre aviz poziţionaţi mouse-ul deasupra denumirii...
         desk_invoice:
           main: |
-            Pentru a factura marfă prima dată este nevoie să selectaţi AE,<br>
-            iar pentru aceasta trebuie să specificaţi <b>anul, luna, Tip marfă</b><br>
-            (cu/fără 3%), respectiv <b>Clientul</b> şi <b>Delegat</b> din partea clientului<br>
-            (cine semnează factura) sau Poşta Română dacă este cazul.<br>
+            Pentru a factura marfă prima dată este nevoie să selectaţi AE,
+            iar pentru aceasta trebuie să specificaţi <b>anul, luna, Tip marfă</b>
+            (cu/fără 3%), respectiv <b>Clientul</b> şi <b>Delegat</b> din partea clientului
+            (cine semnează factura) sau Poşta Română dacă este cazul.
             Datele ptr.<b>Transportator</b> se preiau din AE!
           no_dln: |
             Nu aveţi nici un Aviz de expediţie!
@@ -83,22 +92,22 @@ ro:
             puţin una, sau mai multe Puncte de Colectare.
       create:
         desk_expenditure: |
-          S-au primit de la %{name} CNP %{id_pn}<br>
+          S-au primit de la <b>%{name}</b> CNP <b>%{id_pn}</b><br>
           cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}<br>
           legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}<br>
           următoarele deşeuri reciclabile:
         desk_delivery_note: |
-          Firma <b>%{firm}</b> reprezentat de %{firm_d} expediază clientului,<br>
-          <b>%{client}</b> reprezentat de %{client_d}, transportul fiind asigurat de <br>
+          Firma <b>%{firm}</b> reprezentat de %{firm_d} expediază clientului,
+          <b>%{client}</b> reprezentat de %{client_d}, transportul fiind asigurat de
           <b>%{transp}</b> delegat %{transp_d}, următoarele materiale:
         desk_grn:
           id_intern: |
             Transfer în gestiunea <b>%{unit}</b> prin delegatul:
           partner_firm: |
-            În gestiunea <b>%{unit}</b> Dn-ul/Dna <b>%{signed_by}</b> recepţionează<br>
-            de la furnizorul  <b>%{supplr}</b>, în prezenţa delegatului <b>%{transp_d}</b>,<br>
-            în baza actelor(completate mai sus), următoarele materiale:<br>
-            Dacă recepţionaţi pe bază de factură <b>Condiţii plată</b>
+            În gestiunea <b>%{unit}</b> Dn-ul/Dna <b>%{signed_by}</b> recepţionează
+            de la furnizorul  <b>%{supplr}</b>, în prezenţa delegatului <b>%{transp_d}</b>,
+            în baza actelor(completate mai sus), următoarele:<br>
+            *La recepţia pe bază de Factură Fiscală nu uitaţi de <b>Condiţii plată</b>
           pyms_no: |
             Nu este cazul! Numai la recepţii facturi...
           pyms_ok: |
@@ -106,8 +115,8 @@ ro:
             Se completează numai dacă există chitanţă sau OP.<br>
             Se trece suma achitată efectiv (Valoare - Taxă mediu 3%)!
         desk_invoice: |
-            În cazul în care <b>Preţ Vânzare</b> este 0.0000 trebuie să-l completaţi<br>
-            dacă a fost deja completat la <b>Aviz</b> atunci click pe <b>Salvare</b> dacă<br>
+            În cazul în care <b>Preţ Vânzare</b> este 0.0000 trebuie să-l completaţi
+            dacă a fost deja completat la <b>Aviz</b> atunci click pe <b>Salvare</b> dacă
             v-aţi convins că totul este completat corect!
       edit:
         desk_freight: |
@@ -116,43 +125,52 @@ ro:
       query:
         desk_cache:
           all: |
-            În tabelul de mai jos aveţi soldurile "Actuale" conform APP-lor operate.<br>
+            În tabelul de mai jos aveţi soldurile "Actuale" conform APP-lor operate.
             Pentru detalii "click" pe Punctul de lucru care vă interesează.
           one: |
-            În tabelul de mai jos aveţi soldurile "Actuale" conform APP-lor<br>
-            operate. Dacă "Ieşiri" are culoarea roşie, însemnă că aţi făcut şi<br>
+            În tabelul de mai jos aveţi soldurile "Actuale" conform APP-lor
+            operate. Dacă "Ieşiri" are culoarea roşie, însemnă că aţi făcut şi
             alte plăţi în afară de Adeverinţe Primire/Plată!
         desk_freight:
           all: |
-            În tabelul de mai jos aveţi stocurile "Lunare" conform APP/AE-lor operate.<br>
-            Ultimele coloane conţin stocurile punctelor de lucru (componentele stocului).<br/>
+            În tabelul de mai jos aveţi stocurile "Lunare" conform APP/AE-lor operate.
+            Ultimele coloane conţin stocurile punctelor de lucru (componentele stocului).
             Pentru detalii "click" pe titlul coloanei, ce conţine unitatea, care vă interesează.
           one: |
             Pentru fişa de magazie "click" pe denumirea materialului!
           exit_one: |
             Pentru stocuri alegeţi "Toate materialele"!
+      query_value:
+        desk_freight:
+          all: |
+            Nu se pot calcula stocuri valorice pentru toată firma!
+            Alegeţi un punct de colectare şi să luaţi în considerare că
+            atât intrările cât şi ieşirile sunt cumulate! Urmăriţi <b>ultima
+            rubrică</b>, dacă cumva este de culoare <b>roşie</b> însemnă că
+            stocul curent nu coiincide cu stocul calculat! Sunaţi la
+            inginerul de sistem şi nu faceţi închiderea de lună!
       show:
         desk_expenditure: |
-          Adeverinţa Primire/Plată nr.<b>%{enr}</b> din <b>%{eon}</b><br>
-          S-au primit de la %{name} CNP %{id_pn}<br>
+          <b>APP</b> nr.<b>%{enr}</b> din <b>%{eon}</b><br>
+          S-au primit de la <b>%{name}</b> CNP <b>%{id_pn}</b><br>
           cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}<br>
           legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}<br>
           următoarele deşeuri reciclabile:
         desk_delivery_note: |
-          Cu Avizul de expediţie nr.<b>%{doc_name}</b> în data de <b>%{id_date}</b><br>
-          Firma <b>%{firm}</b> reprezentat de %{firm_d} expediază clientului,<br>
-          <b>%{client}</b> reprezentat de %{client_d}, transportul fiind asigurat de <br>
+          Cu Avizul de expediţie nr.<b>%{doc_name}</b> în data de <b>%{id_date}</b>.
+          Firma <b>%{firm}</b> reprezentat de %{firm_d} expediază clientului,
+          <b>%{client}</b> reprezentat de %{client_d}, transportul fiind asigurat de
           <b>%{transp}</b> delegat %{transp_d}, următoarele materiale:
         desk_grn: |
-          În ziua de <b>%{id_date}</b> în gestiunea <b>%{unit}</b> de către<br>
-          <b>%{signed_by}</b> în prezenţa delegatului <b>%{transp_d}</b>, s-au recepţionat următoarele<br>
-          materiale provenind de la <b>%{supplr}</b> :<br>
+          În ziua de <b>%{id_date}</b> în gestiunea <b>%{unit}</b> de către
+          <b>%{signed_by}</b> în prezenţa delegatului <b>%{transp_d}</b>, s-au recepţionat următoarele
+          materiale provenind de la <b>%{supplr}</b> :
         desk_cassation: |
-          În ziua de <b>%{id_date}</b> în gestiunea <b>%{unit}</b> de către<br>
+          În ziua de <b>%{id_date}</b> în gestiunea <b>%{unit}</b> de către
           <b>%{signed_by}</b> s-au casat/degradat următoarele: <br>
           &nbsp;&nbsp;&nbsp;&nbsp;Notă: %{expl}
         desk_invoice: |
-          În ziua de <b>%{id_date}</b> cu Factura nr.<b>%{doc_name}</b> se facturează clientului<br>
+          În ziua de <b>%{id_date}</b> cu Factura nr.<b>%{doc_name}</b> se facturează clientului
           <b>%{client}</b> următoarele materiale:
       delete:
         desk_expenditure: |
@@ -163,7 +181,9 @@ ro:
           Atenţie!!! Se va şterge &raquo;%{data}&laquo;!!!
       repair:
         desk_expenditure: |
-          Puteţi Tipării/Şterge Adeverinţele eliberate azi!<br>
+          Puteţi <b>Tipării|Şterge</b> Adeverinţele eliberate azi!
+        desk_delivery_note: |
+          Puteţi <b>Tipării|Şterge</b> Anexa3 AE eliberate azi!
       pdf:
         desk_expenditure:
           text_01: |
@@ -187,6 +207,8 @@ ro:
     select:
       freight_all: Toate materialele
       unit_all: Toate unităţile
+      desk_partner_person: ['Alegeţi - Partener Persoană Fizică']
+      desk_partner_firm: ['Alegeţi - Partener Persoană Juridică']
       desk_expenditure: ['Alegeţi - Partener Persoană Fizică', 'Selectaţi - Adeverinţă Primire/Plată']
       desk_delivery_note: ['Alegeţi - Destinatar', 'Alegeţi - Delegat (opţional)', 'Alegeţi - Transportator', 'Alegeţi - Delegat', 'Selectaţi - Aviz de expediţie']
       desk_grn: ['Alegeţi - Furnizor', 'Alegeţi - Delegat (opţional)', 'Alegeţi - Transportator', 'Alegeţi - Delegat', 'Selectaţi - Notă de recepţie']
@@ -203,9 +225,9 @@ ro:
       no_matches: Nu există în baza de date...
       no_freight_selected: |
         <br>
-        Hmmm... Se pare că nu aţi ales niciun material!<br>
-        Sau aţi uitat să introduceţi cantitatea!<br>
-        Apăsaţi <b>"Ştergere"</b> şi încercaţi din nou :)<br>
+        Hmmm... Se pare că nu aţi ales niciun material!
+        Sau aţi uitat să introduceţi cantitatea!
+        Apăsaţi <b>"Ştergere"</b> şi încercaţi din nou :)
       no_payments: |
         Nu există nici o plată!
       id_pn:
