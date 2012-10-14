@@ -1,0 +1,28 @@
+:ruby
+  unit_id = @current_user.unit_id || session[:unit_id]
+  to_soon = Date.today != Date.today.end_of_month
+- if to_soon
+  %span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_stock'}}
+  %table{:cellspacing => "0"}
+    %tbody
+      %tr
+        %td
+          %span.warning.width-350.ju= t('intro.create.desk_stock.too_soon', data: mat(@object,'model_name'))
+    %tfoot
+      %tr
+        %td.buttonset.ce
+          %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+- else
+  %span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_stock'}}
+  %form{action: "/sys/#{@path}", method: "post"}
+    %table{:cellspacing => "0"}
+      %thead
+        %tr
+          %th
+            %span.warning.width-350.ju= t('intro.create.main', data: mat(@object,'model_name'))
+      = partial "#{@path}/form"
+      %tfoot
+        %tr
+          %td.buttonset.ce
+            %button{type: "button", data: {action: "save",  icon: "disk",remove: 'false'}}=         t('button.save')
+            %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
