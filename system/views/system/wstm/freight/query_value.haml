@@ -23,19 +23,20 @@
           %option{value: 'null'} Toate unităţile
           - firm.units.asc(:slug).each do |pos|
             %option{value: pos.id, selected: uid.to_s == pos.id.to_s}= pos.name[1]
-  %table{:cellspacing => "0"}
+  %table.scroll{:cellspacing => "0"}
     %tbody.inner
-      %tr
+      %tr.scroll
         - mat(@object,'table_all_with_pu').each do |cn|; cols += 1
           %td
             %span.stats.ce= cn
       - unit.freights.stats_pos_with_pu(y,m).each do |st|
+        - last_pu = Wstm::FreightIn.where(freight_id: st[0]).asc(:id_date).monthly(y,m).last.try(:pu)
         %tr
           %td
             %span.stats.link{id: st.shift}= st.shift
           - key = st.shift; fpu = key.split('_')[1].to_f; check = (st[3] - st.pop).round(2)
           - sum_strt += (fpu * st[0]).round(2); sum_ins += (fpu * st[1]).round(2); sum_outs += (fpu * st[2]).round(2); sum_stks += (fpu * st[3]).round(2)
-          %td
+          %td{style: st[1] != 0 ? last_pu == fpu ? 'color:red' : 'color:green' : nil}
             %span.stats.ri= "%0.2f" % fpu
           %td
             %span.stats.ri= "%0.2f" % st[0]
@@ -49,9 +50,9 @@
             %span.stats.ri= "%0.2f" % st[2]
           %td
             %span.stats.ri= "%0.2f" % (fpu * st[2])
-          %td
+          %td{style: (check != 0) && 'color:red',title: (check != 0) && "Diferenţă: #{"%0.2f" % check} kg"}
             %span.stats.ri= "%0.2f" % st[3]
-          %td{style: (check != 0) && 'color:red',title: (check != 0) && "Diferenţă: #{"%0.2f" % check}"}
+          %td
             %span.stats.ri= "%0.2f" % (fpu * st[3])
       %tr.total
         %td{colspan: '2'}
@@ -75,6 +76,6 @@
           %option{value: i + 1, selected: m == i + 1}= month
       %select#u
         %option{value: 'null'} Toate unităţile
-        - firm.units.each do |pos|
+        - firm.units.asc(:slug).each do |pos|
           %option{value: pos.id, selected: uid.to_s == pos.id.to_s}= pos.name[1]
-    %span.info.width-350.ju= t('intro.query_value.desk_freight.all')
+    %span.info.width-450.ju= t('intro.query_value.desk_freight.all')
