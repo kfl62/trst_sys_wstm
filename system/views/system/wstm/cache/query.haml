@@ -16,10 +16,13 @@
       %select#m
         - t('month')[1..12].each_with_index do |month,i|
           %option{value: i + 1, selected: m == i + 1}= month
-      %select#u
-        %option{value: 'null'} Toate unităţile
-        - firm.units.asc(:slug).each do |pos|
-          %option{value: pos.id, selected: uid.to_s == pos.id.to_s}= pos.name[1]
+      - if @current_user.unit_id
+        %span.stats= l(Date.today,format: :trst)
+      - else
+        %select#u
+          %option{value: 'null'} Toate unităţile
+          - firm.units.asc(:slug).each do |pos|
+            %option{value: pos.id, selected: uid.to_s == pos.id.to_s}= pos.name[1]
   %table{:cellspacing => "0"}
     %tbody.inner
       %tr
