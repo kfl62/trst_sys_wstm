@@ -5,6 +5,7 @@
   uid = @current_user.unit_id ? @current_user.unit_id : params[:uid] == 'null' ? nil : params[:uid]
   firm= Wstm::PartnerFirm.find_by(firm: :true); unit= firm.units.find(uid) if uid
   data= uid ? unit.name[1] : firm.name[2]
+  sum_strt,sum_ins,sum_outs,sum_stks = 0,0,0,0
 %span#hidden_data.hidden{data: {dialog: "query_value",title_data: data,model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_freight'}}
 - if uid
   %div.small
@@ -20,7 +21,7 @@
       - else
         %select#u
           %option{value: 'null'} Toate unităţile
-          - firm.units.each do |pos|
+          - firm.units.asc(:slug).each do |pos|
             %option{value: pos.id, selected: uid.to_s == pos.id.to_s}= pos.name[1]
   %table{:cellspacing => "0"}
     %tbody.inner
@@ -32,7 +33,8 @@
         %tr
           %td
             %span.stats.link{id: st.shift}= st.shift
-          - key = st.shift; fpu = key.split('_')[1].to_f
+          - key = st.shift; fpu = key.split('_')[1].to_f; check = (st[3] - st.pop).round(2)
+          - sum_strt += (fpu * st[0]).round(2); sum_ins += (fpu * st[1]).round(2); sum_outs += (fpu * st[2]).round(2); sum_stks += (fpu * st[3]).round(2)
           %td
             %span.stats.ri= "%0.2f" % fpu
           %td
@@ -49,10 +51,19 @@
             %span.stats.ri= "%0.2f" % (fpu * st[2])
           %td
             %span.stats.ri= "%0.2f" % st[3]
-          %td
+          %td{style: (check != 0) && 'color:red',title: (check != 0) && "Diferenţă: #{"%0.2f" % check}"}
             %span.stats.ri= "%0.2f" % (fpu * st[3])
-      %tr
-        %td{colspan: cols} &nbsp;
+      %tr.total
+        %td{colspan: '2'}
+          %span.name.ce Total
+        %td{colspan: '2'}
+          %span.val.ri= "%0.2f" % sum_strt
+        %td{colspan: '2'}
+          %span.val.ri= "%0.2f" % sum_ins
+        %td{colspan: '2'}
+          %span.val.ri= "%0.2f" % sum_outs
+        %td{colspan: '2'}
+          %span.val.ri= "%0.2f" % sum_stks
 - else
   %div.small
     %p.noFreight
