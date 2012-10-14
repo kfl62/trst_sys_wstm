@@ -23,7 +23,7 @@ module Wstm
       end
       # @todo
       def options_for_dln
-        asc(:name).each_with_object([]){|f,a| a << [f.id,f.name,{key: "#{f.id_stats}-00.00",id_stats: f.id_stats,um: f.um,pu: 0.0,stck: f.stock}]}
+        asc(:name).each_with_object([]){|f,a| a << [f.id,f.name,{key: "#{f.id_stats}-00.00",id_stats: f.id_stats,um: f.um,pu: 0.0,stck: (f.stks_now.sum(:qu) || 0)}]}
       end
       # @todo
       def options_for_dln_with_pu
@@ -127,16 +127,6 @@ module Wstm
     def stats_one(*args)
       args = args.unshift(id)
       self.class.stats_one(*args)
-    end
-    # @todo
-    def stock(*args)
-      opts = args.last.is_a?(Hash) ? {}.merge!(args.pop) : {}
-      y,m = *args; today = Date.today
-      y ||= today.year; m ||= today.month
-      s = stks.sum_stks(y,m,opts)
-      i = ins.sum_ins(y,m,opts)
-      o = outs.sum_outs(y,m,opts)
-      (s + i - o).round(2)
     end
     # @todo
     def stks_now
