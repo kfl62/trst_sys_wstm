@@ -83,12 +83,12 @@ ro:
           cdd: Document cumulativ APP
           grn: Notă de recepţie APP
           unit: |
-            După ce alegeţi data, sau o lăsaţi pe cea de azi<br>
+            După ce alegeţi data, sau o lăsaţi pe cea de azi
             puteţi genera un &raquo;%{data}&laquo; pentru<br>
             <b>%{unit}</b>
           firm: |
-            Se poate tipări &raquo;%{data}&laquo; pe mai multe zile,<br>
-            cu începere din data pe care o selectaţi. Trebuie să alegeţi cel<br>
+            Se poate tipări &raquo;%{data}&laquo; pe mai multe zile,
+            cu începere din data pe care o selectaţi. Trebuie să alegeţi cel
             puţin una, sau mai multe Puncte de Colectare.
       create:
         desk_expenditure: |
