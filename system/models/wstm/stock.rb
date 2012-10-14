@@ -10,10 +10,13 @@ module Wstm
     field :id_date,     type: Date
     field :expl,        type: String,   default: 'Stock initial'
 
-    has_many   :freights,   class_name: "Wstm::FreightStock",   :inverse_of => :doc_stk
+    has_many   :freights,   class_name: "Wstm::FreightStock",   :inverse_of => :doc_stk, dependent: :destroy
     belongs_to :unit,       class_name: "Wstm::PartnerFirmUnit",:inverse_of => :stks
 
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
+
+    accepts_nested_attributes_for :freights,
+      reject_if: ->(attrs){ attrs[:qu].to_i == 0 && attrs[:pu].to_i == 0 }
 
     class << self
       # @todo
