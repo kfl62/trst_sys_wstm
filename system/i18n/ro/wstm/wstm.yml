@@ -143,12 +143,12 @@ ro:
       query_value:
         desk_freight:
           all: |
-            Nu se pot calcula stocuri valorice pentru toată firma!
-            Alegeţi un punct de colectare şi să luaţi în considerare că
-            atât intrările cât şi ieşirile sunt cumulate! Urmăriţi <b>ultima
-            rubrică</b>, dacă cumva este de culoare <b>roşie</b> însemnă că
-            stocul curent nu coiincide cu stocul calculat! Sunaţi la
-            inginerul de sistem şi nu faceţi închiderea de lună!
+            Nu se pot calcula stocuri valorice pentru toată firma!<br>
+            Alegeţi un punct de colectare şi să luaţi în considerare că atât intrările cât şi ieşirile sunt cumulate!<br>
+            Urmăriţi rubrica <b>Stoc</b> (penultima coloană), dacă cumva este de culoare <b>roşie</b> însemnă că
+            stocul curent nu coiincide cu stocul calculat! Sunaţi la inginerul de sistem şi nu faceţi închiderea de lună!<br>
+            La coloana <b>PU</b> culoare roşie este ultimul preţ la care s-a cumpărat, iar verde însemnă că şi la acest preţ
+            s-a cumpărat în luna în cauză!
       show:
         desk_expenditure: |
           <b>APP</b> nr.<b>%{enr}</b> din <b>%{eon}</b><br>
