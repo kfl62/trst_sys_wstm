@@ -18,7 +18,7 @@
           %option{value: i + 1, selected: m == i + 1}= month
       %select#u
         %option{value: 'null'} Toate unităţile
-        - firm.units.each do |pos|
+        - firm.units.asc(:slug).each do |pos|
           %option{value: pos.id, selected: uid.to_s == pos.id.to_s}= pos.name[1]
   %table{:cellspacing => "0"}
     %tbody.inner
