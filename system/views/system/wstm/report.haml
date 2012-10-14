@@ -13,9 +13,9 @@
         %tr
           %th{colspan: "2"}
             - if uid
-              %span.info= t("intro.filter.desk_report.unit",data: data,unit: unit.name[1])
+              %span.info.width-300.ju= t("intro.filter.desk_report.unit",data: data,unit: unit.name[1])
             - else
-              %span.info= t("intro.filter.desk_report.firm",data: data)
+              %span.info.width-350.ju= t("intro.filter.desk_report.firm",data: data)
       %tbody
         %tr
           %td
