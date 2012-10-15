@@ -16,7 +16,8 @@ module Wstm
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
 
     accepts_nested_attributes_for :freights,
-      reject_if: ->(attrs){ attrs[:qu].to_i == 0 && attrs[:pu].to_i == 0 }
+      reject_if: ->(attrs){ attrs[:qu].to_i == 0 && attrs[:pu].to_i == 0 },
+      allow_destroy: true
 
     class << self
       # @todo
