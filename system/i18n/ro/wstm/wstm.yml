@@ -90,6 +90,15 @@ ro:
             Se poate tipări &raquo;%{data}&laquo; pe mai multe zile,
             cu începere din data pe care o selectaţi. Trebuie să alegeţi cel
             puţin una, sau mai multe Puncte de Colectare.
+        desk_stock: |
+            În cazul &raquo;Stocurilor iniţiale lunare&laquo; trebuie să ştiţi următoarele:<br>
+            1.) Crearea unui nou &raquo;Stoc iniţial lunar&laquo; presupune copierea <b>Stocului curent</b> întro
+            nouă înregistrare, datată în prima zi a lunii următoare. Din acest motiv operaţiunea nu este
+            permisă decât în ultima zi a lunii curente şi după ce toţi în cauză au încetat activitatea!<br>
+            2.) Operaţiunea de <b>Editare</b> îşi are rostul numai ptr. <b>Stocul curent</b>.
+            Pentru a modifica alte stocuri sunaţi la inginerul de sistem. Aveţi mare grijă!<br>
+            3.) Operaţiunea de <b>Ştergere</b> este activă numai pentru &raquo;Stocul iniţial lunar&laquo; nou creat
+            şi numai în ziua creării! Pentru a şterge alte stocuri sunaţi la inginerul de sistem. Aveţi mare grijă!
       create:
         desk_expenditure: |
           S-au primit de la <b>%{name}</b> CNP <b>%{id_pn}</b><br>
@@ -118,10 +127,19 @@ ro:
             În cazul în care <b>Preţ Vânzare</b> este 0.0000 trebuie să-l completaţi
             dacă a fost deja completat la <b>Aviz</b> atunci click pe <b>Salvare</b> dacă
             v-aţi convins că totul este completat corect!
+        desk_stock:
+          too_soon: |
+            Crearea unui nou &raquo;Stoc iniţial lunar&laquo; presupune copierea <b>Stocului curent</b> întro
+            nouă înregistrare, datată în prima zi a lunii următoare. Din acest motiv operaţiunea nu este
+            permisă decât în ultima zi a lunii curente şi după ce toţi în cauză au încetat activitatea!<br>
+            Aşteptaţi până în data de %{data}
       edit:
         desk_freight: |
           Puteţi modifica doar câmpul<br>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&raquo;Preţ unitar&laquo;
+        desk_stock:
+          forbidden: |
+            Acest &raquo;Stoc iniţial lunar&laquo; nu se poate edita numai de către inginerul de sistem!
       query:
         desk_cache:
           all: |
@@ -179,6 +197,9 @@ ro:
           Atenţie!!! Se va şterge &raquo;%{data}&laquo;!!!
         desk_grn: |
           Atenţie!!! Se va şterge &raquo;%{data}&laquo;!!!
+        desk_stock:
+          forbidden: |
+            Acest &raquo;Stoc iniţial lunar&laquo; nu se poate şterge numai de către inginerul de sistem!
       repair:
         desk_expenditure: |
           Puteţi <b>Tipării|Şterge</b> Adeverinţele eliberate azi!
