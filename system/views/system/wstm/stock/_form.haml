@@ -1,0 +1,55 @@
+- if @object.new_record?
+  %tbody
+    %tr
+      %td
+        %table.scroll{cellspacing: "0",style: "font-size:12px"}
+          %tbody.inner
+            %tr.scroll
+              - mat(@object,'table_header').each do |label|
+                %td.ce= label
+            - unit.stock_now.freights.where(:qu.ne => 0).asc(:id_stats,:pu).each_with_index do |f,i|
+              - o = @object.freights.new
+              %tr.freight
+                %td
+                  %span.stats= f.freight.name
+                  -input_for   o, 'freight_id', {nested: 'doc_stk',index: i,type: 'hidden',value: f.freight_id}
+                  -input_for   o, 'id_stats',   {nested: 'doc_stk',index: i,type: 'hidden',value: f.id_stats}
+                  -input_for   o, 'id_intern',  {nested: 'doc_stk',index: i,type: 'hidden',value: 'false'}
+                  -input_for   o, 'id_date',    {nested: 'doc_stk',index: i,type: 'hidden',value: Date.today.end_of_month.tomorrow.to_s}
+                %td
+                  %span.stats.ce= f.freight.um
+                  -input_for    o, 'um',        {nested: 'doc_stk',index: i,type: 'hidden',value: f.freight.um}
+                - td_input_for  o, 'pu',        {nested: 'doc_stk',index: i,style: 'pu', value: "%.2f" % f.pu}
+                - td_input_for  o, 'qu',        {nested: 'doc_stk',index: i,style: 'quw',value: "%.2f" % f.qu}
+                %td
+                  %span.stats.ce= "%.2f" % f.val
+                  - input_for  o, 'val',        {nested: 'doc_stk',index: i,type: 'hidden',value: "%.2f" % f.val}
+                %td.action-1
+                  %span.icon-remove-sign{title: t('button.delete')}
+            %tr
+    %tr
+- else
+  %tbody
+    %tr
+      %td
+        %table.scroll{cellspacing: "0",style: "font-size:12px"}
+          %tbody.inner
+            %tr.scroll
+              - mat(@object,'table_header').each do |label|
+                %td.ce= label
+              %td
+                %span &nbsp;
+            - @object.freights.asc(:id_stats,:pu).each_with_index do |o,i|
+              %tr.freight
+                - td_value_for  o, 'freight',   {nested: 'doc_stk',order: 'name',style: 'stats'}
+                - td_value_for  o, 'um',        {nested: 'doc_stk',style: 'stats ce'}
+                - td_input_for  o, 'pu',        {nested: 'doc_stk',index: i,style: 'pu', value: "%.2f" % o.pu}
+                - td_input_for  o, 'qu',        {nested: 'doc_stk',index: i,style: 'quw',value: "%.2f" % o.qu}
+                %td
+                  - value_for  o, 'val',        {nested: 'doc_stk',style: 'stats ri'}
+                  - input_for  o, 'val',        {nested: 'doc_stk',index: i,type: 'hidden',value: "%.2f" % o.val}
+                  - input_for  o, 'id',         {nested: 'doc_stk',index: i,type: 'hidden',value: o.id}
+                %td.action-1
+                  %span.icon-remove-sign{title: t('button.delete')}
+            %tr
+    %tr

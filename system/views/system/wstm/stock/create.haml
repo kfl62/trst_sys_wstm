@@ -1,5 +1,7 @@
 :ruby
+  firm    = Wstm::PartnerFirm.find_by(firm: true)
   unit_id = @current_user.unit_id || session[:unit_id]
+  unit    = firm.units.find(unit_id)
   to_soon = Date.today != Date.today.end_of_month
 - if to_soon
   %span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_stock'}}
@@ -7,7 +9,7 @@
     %tbody
       %tr
         %td
-          %span.warning.width-350.ju= t('intro.create.desk_stock.too_soon', data: mat(@object,'model_name'))
+          %span.warning.width-350.ju= t('intro.create.desk_stock.too_soon', data: l(Date.today.end_of_month,format: :trst))
     %tfoot
       %tr
         %td.buttonset.ce
@@ -18,9 +20,19 @@
     %table{:cellspacing => "0"}
       %thead
         %tr
-          %th
-            %span.warning.width-350.ju= t('intro.create.main', data: mat(@object,'model_name'))
-      = partial "#{@path}/form"
+          %td
+            - label_for @object, 'name',    {style: 'stats'}
+            %span.stats.st= "Stock_#{unit.slug}_#{l(Date.today.end_of_month.tomorrow, format: '%Y-%m')}"
+            - input_for @object, 'name',    {type: 'hidden',value: "Stock_#{unit.slug}_#{l(Date.today.end_of_month.tomorrow, format: '%Y-%m')}"}
+            - label_for @object, 'id_date', {style: 'stats'}
+            %span.stats.width-150.ce.st= Date.today.end_of_month.tomorrow.to_s
+            - input_for @object, 'id_date',  {type: 'hidden',value: Date.today.end_of_month.tomorrow.to_s}
+            - input_for @object, 'unit_id',  {type: 'hidden',value: unit_id}
+        %tr
+          %td
+            %span.stats.width-250= "Stock initial #{l(Date.today.end_of_month.tomorrow, format: '%B, %Y').downcase}"
+            - input_for @object, 'expl',    {type: 'hidden',value: "Stock initial #{l(Date.today.end_of_month.tomorrow, format: '%B, %Y').downcase}"}
+      = partial "#{@path}/form", locals: {unit: unit}
       %tfoot
         %tr
           %td.buttonset.ce

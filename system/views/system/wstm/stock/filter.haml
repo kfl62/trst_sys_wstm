@@ -9,7 +9,7 @@
       %tbody
         %tr
           %td
-            %span.info.width-400.ju= t("intro.filter.main", data: mat(@object,'model_name'))
+            %span.info.width-400.ju= t("intro.filter.desk_stock")
         %tr
           %td
             %select#oid
@@ -19,9 +19,10 @@
       %tfoot
         %tr
           %td.buttonset.ce
-            %button{:type => "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create')
-            %button{:type => "button", data: {action: "show",   icon: "clipboard"}}=    t('button.show')
-            %button{:type => "button", data: {action: "edit",   icon: "document"}}=     t('button.edit')
-            %button{:type => "button", data: {action: "cancel", icon: "circle-close"}}= t('button.cancel')
+            %button{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create')
+            %button{type: "button", data: {action: "show",   icon: "clipboard"}}=    t('button.show')
+            %button{type: "button", data: {action: "edit",   icon: "document"}}=     t('button.edit')
+            %button{type: "button", data: {action: "delete", icon: "circle-minus"}}= t('button.delete')
+            %button{type: "button", data: {action: "cancel", icon: "circle-close"}}= t('button.cancel')
 -else
   = partial 'wstm/shared/select_unit'
