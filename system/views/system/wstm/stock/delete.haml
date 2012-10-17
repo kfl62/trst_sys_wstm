@@ -15,7 +15,7 @@
             - value_for @object, 'name',    {style: 'stats st'}
             - label_for @object, 'id_date', {style: 'stats'}
             %span.stats.width-150.ce.st= @object.id_date.to_s
-        %tr
+        %tr.pdb-05
           %td
             - value_for @object, 'expl',    {style: 'stats width-250'}
       = partial "/#{@path}/show"
@@ -30,6 +30,13 @@
       %thead
         %tr
           %td
+            - label_for @object, 'name',    {style: 'stats'}
+            - value_for @object, 'name',    {style: 'stats st'}
+            - label_for @object, 'id_date', {style: 'stats'}
+            %span.stats.width-150.ce.st= @object.id_date.to_s
+        %tr.pdb-05
+          %td
+            - value_for @object, 'expl',    {style: 'stats width-250'}
       = partial "/#{@path}/show"
       %tfoot
         %tr

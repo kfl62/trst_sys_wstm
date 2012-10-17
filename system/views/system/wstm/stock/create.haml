@@ -7,7 +7,7 @@
   %span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_stock'}}
   %table{:cellspacing => "0"}
     %tbody
-      %tr
+      %tr.pdb-05
         %td
           %span.warning.width-350.ju= t('intro.create.desk_stock.too_soon', data: l(Date.today.end_of_month,format: :trst))
     %tfoot
@@ -15,6 +15,7 @@
         %td.buttonset.ce
           %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
 - else
+  - unit.stock_now.freights.where(:qu.ne => 0).asc(:id_stats,:pu).each{|f| @object.freights << f}
   %span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_stock'}}
   %form{action: "/sys/#{@path}", method: "post"}
     %table{:cellspacing => "0"}
@@ -28,7 +29,7 @@
             %span.stats.width-150.ce.st= Date.today.end_of_month.tomorrow.to_s
             - input_for @object, 'id_date',  {type: 'hidden',value: Date.today.end_of_month.tomorrow.to_s}
             - input_for @object, 'unit_id',  {type: 'hidden',value: unit_id}
-        %tr
+        %tr.pdb-05
           %td
             %span.stats.width-250= "Stock initial #{l(Date.today.end_of_month.tomorrow, format: '%B, %Y').downcase}"
             - input_for @object, 'expl',    {type: 'hidden',value: "Stock initial #{l(Date.today.end_of_month.tomorrow, format: '%B, %Y').downcase}"}

@@ -1,55 +1,68 @@
-- if @object.new_record?
-  %tbody
-    %tr
-      %td
-        %table.scroll{cellspacing: "0",style: "font-size:12px"}
-          %tbody.inner
-            %tr.scroll
-              - mat(@object,'table_header').each do |label|
-                %td.ce= label
-            - unit.stock_now.freights.where(:qu.ne => 0).asc(:id_stats,:pu).each_with_index do |f,i|
-              - o = @object.freights.new
+:ruby
+  freights = @object.new_record? ? @object.freights : @object.freights.asc(:id_stats,:pu)
+%tbody
+  %tr
+    %td
+      %table.scroll{cellspacing: "0",style: "font-size:12px"}
+        %tbody.inner
+          %tr.scroll
+            - mat(@object,'table_header').each do |label|
+              %td.ce= label
+            %td
+              %span &nbsp;
+          - unless  freights.empty?
+            - freights.each_with_index do |o,i|
               %tr.freight
                 %td
-                  %span.stats= f.freight.name
-                  -input_for   o, 'freight_id', {nested: 'doc_stk',index: i,type: 'hidden',value: f.freight_id}
-                  -input_for   o, 'id_stats',   {nested: 'doc_stk',index: i,type: 'hidden',value: f.id_stats}
-                  -input_for   o, 'id_intern',  {nested: 'doc_stk',index: i,type: 'hidden',value: 'false'}
-                  -input_for   o, 'id_date',    {nested: 'doc_stk',index: i,type: 'hidden',value: Date.today.end_of_month.tomorrow.to_s}
+                  %span.stats= o.freight.name
+                  - input_for   o, 'freight_id', {nested: 'doc_stk',index: i,type: 'hidden',value: o.freight_id}
+                  - input_for   o, 'id_stats',   {nested: 'doc_stk',index: i,type: 'hidden',value: o.id_stats}
+                  - input_for   o, 'id_intern',  {nested: 'doc_stk',index: i,type: 'hidden',value: 'false'}
+                  - input_for   o, 'id_date',    {nested: 'doc_stk',index: i,type: 'hidden',value: Date.today.end_of_month.tomorrow.to_s}
                 %td
-                  %span.stats.ce= f.freight.um
-                  -input_for    o, 'um',        {nested: 'doc_stk',index: i,type: 'hidden',value: f.freight.um}
-                - td_input_for  o, 'pu',        {nested: 'doc_stk',index: i,style: 'pu', value: "%.2f" % f.pu}
-                - td_input_for  o, 'qu',        {nested: 'doc_stk',index: i,style: 'quw',value: "%.2f" % f.qu}
+                  %span.stats.ce= o.freight.um
+                  -input_for    o, 'um',         {nested: 'doc_stk',index: i,type: 'hidden',value: o.freight.um}
+                - td_input_for  o, 'pu',         {nested: 'doc_stk',index: i,style: 'pu', value: "%.2f" % o.pu}
+                - td_input_for  o, 'qu',         {nested: 'doc_stk',index: i,style: 'quw',value: "%.2f" % o.qu}
                 %td
-                  %span.stats.ce= "%.2f" % f.val
-                  - input_for  o, 'val',        {nested: 'doc_stk',index: i,type: 'hidden',value: "%.2f" % f.val}
+                  %span.stats.ri= "%.2f" % o.val
+                  - input_for  o, 'val',         {nested: 'doc_stk',index: i,type: 'hidden',value: "%.2f" % o.val}
+                  - unless @object.new_record?
+                    - input_for  o, 'id',        {nested: 'doc_stk',index: i,type: 'hidden',value: o.id}
                 %td.action-1
                   %span.icon-remove-sign{title: t('button.delete')}
-            %tr
-    %tr
-- else
-  %tbody
-    %tr
-      %td
-        %table.scroll{cellspacing: "0",style: "font-size:12px"}
-          %tbody.inner
-            %tr.scroll
-              - mat(@object,'table_header').each do |label|
-                %td.ce= label
+          - else
+            - o = @object.freights.new
+            %tr.freight.hidden
               %td
-                %span &nbsp;
-            - @object.freights.asc(:id_stats,:pu).each_with_index do |o,i|
-              %tr.freight
-                - td_value_for  o, 'freight',   {nested: 'doc_stk',order: 'name',style: 'stats'}
-                - td_value_for  o, 'um',        {nested: 'doc_stk',style: 'stats ce'}
-                - td_input_for  o, 'pu',        {nested: 'doc_stk',index: i,style: 'pu', value: "%.2f" % o.pu}
-                - td_input_for  o, 'qu',        {nested: 'doc_stk',index: i,style: 'quw',value: "%.2f" % o.qu}
-                %td
-                  - value_for  o, 'val',        {nested: 'doc_stk',style: 'stats ri'}
-                  - input_for  o, 'val',        {nested: 'doc_stk',index: i,type: 'hidden',value: "%.2f" % o.val}
-                  - input_for  o, 'id',         {nested: 'doc_stk',index: i,type: 'hidden',value: o.id}
-                %td.action-1
-                  %span.icon-remove-sign{title: t('button.delete')}
-            %tr
-    %tr
+                - value_for   o, 'freight',   {nested: 'doc_stk',order: 'name',style: 'stats'}
+                - input_for   o, 'freight_id',{nested: 'doc_stk',index: 0,type: 'hidden',value: ''}
+                - input_for   o, 'id_stats',  {nested: 'doc_stk',index: 0,type: 'hidden',value: ''}
+                - input_for   o, 'id_intern', {nested: 'doc_stk',index: 0,type: 'hidden',value: ''}
+                - input_for   o, 'id_date',   {nested: 'doc_stk',index: 0,type: 'hidden',value: ''}
+              %td
+                - value_for   o, 'um',        {nested: 'doc_stk',style: 'stats ce'}
+                - input_for   o, 'um',        {nested: 'doc_stk',index: 0,type: 'hidden',value: ''}
+              - td_input_for  o, 'pu',        {nested: 'doc_stk',index: 0,style: 'pu', value: 0}
+              - td_input_for  o, 'qu',        {nested: 'doc_stk',index: 0,style: 'quw',value: 0}
+              %td
+                - value_for  o, 'val',        {nested: 'doc_stk',style: 'stats ri',value: 0}
+                - input_for  o, 'val',        {nested: 'doc_stk',index: 0,type: 'hidden',value: 0}
+              %td.action-1
+                %span.icon-remove-sign{title: t('button.delete')}
+          %tr.plus
+            %td{colspan: '2'}
+              %select.wstm.freight
+                %option{value: 'null',data: {id_stats: 'null',um: 'kg',pu: 0,stck:0}} Adăugare stoc
+                - options = unit.freights.options_for_stk
+                - options.each do |f|
+                  %option{value: f[0], data: f[2]}= f[1]
+            %td
+              %input.pu{placeholder: 'PU'}
+            %td
+              %input.quw{placeholder: 'Cant'}
+            %td
+              %span.stats.ri
+            %td.action-1
+              %span.icon-plus-sign{title: t('button.new_row')}
+          %tr.total
