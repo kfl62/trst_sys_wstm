@@ -34,6 +34,10 @@ module Wstm
         end
       end
       # @todo
+      def options_for_stk
+        asc(:name).each_with_object([]){|f,a| a << [f.id,f.name,{id_stats: f.id_stats,um: f.um,pu: f.pu}]}
+      end
+      # @todo
       def stats_pos(*args)
         opts = args.last.is_a?(Hash) ? {}.merge!(args.pop) : {}
         asc(:id_stats).each_with_object([]) do |f,a|
