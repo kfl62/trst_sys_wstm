@@ -96,7 +96,7 @@ define () ->
             $button.on 'click', ()->
               $tr.before(Wstm.desk.stock.template())
               Wstm.desk.stock.calculate()
-              Wstm.desk.stock.buttons()
+              Wstm.desk.stock.buttons($('button'))
               return
             return
           return
