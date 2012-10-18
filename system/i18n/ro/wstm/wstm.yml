@@ -82,6 +82,8 @@ ro:
         desk_report:
           cdd: Document cumulativ APP
           grn: Notă de recepţie APP
+          stock_stats: Situaţie lunară (Statistică)
+          stock_accounting: Situaţie lunară (Contabilă)
           unit: |
             După ce alegeţi data, sau o lăsaţi pe cea de azi
             puteţi genera un &raquo;%{data}&laquo; pentru<br>
@@ -225,6 +227,10 @@ ro:
               %{firm}%{unit}_DC-
             grn: |
               %{firm}%{unit}_NIR-
+            stock_stats: |
+              %{firm}%{unit}_Luna-
+            stock_accounting: |
+              %{firm}%{unit}_Luna-
     select:
       freight_all: Toate materialele
       unit_all: Toate unităţile
