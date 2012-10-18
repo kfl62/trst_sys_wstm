@@ -1,4 +1,5 @@
 # encoding: utf-8
+# Wstm::Cache.stats_all(2012,10,{mny_all: true})[0..-2].each_with_object({}){|e,h| h[e[0]]=e[-1]}[unit_id]
 module Wstm
   class Cache < Trst::Cache
 
@@ -63,9 +64,9 @@ module Wstm
           sum_e = app.sum_mny(y,m,opts)
           sum_o = opts[:mny_all] ? sum_m[-1] + sum_e[-2] : sum_e[-2]
           sld_f = sum_m[0] + sum_m[1] - sum_o
-          sum_t = [sum_m,sum_e,sld_f].flatten
+          sum_t = [sum_m,sum_e,sld_f.round(2)].flatten
           sum_t.length.times{sum_tot << 0} unless sum_tot.length > 0
-          sum_tot = sum_tot.zip(sum_t).map{|x| x.inject(:+)}
+          sum_tot = sum_tot.zip(sum_t).map{|x| (x.inject(:+)).round(2)}
           retval << [u,Wstm::PartnerFirm.unit_by_unit_id(u).name[1],sum_t].flatten
         end
         retval << ['Id','Total',sum_tot].flatten
