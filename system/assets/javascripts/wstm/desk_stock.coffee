@@ -94,9 +94,10 @@ define () ->
             $tr = $button.parentsUntil('tbody').last()
             $tr.css('background-color','lightYellow')
             $button.on 'click', ()->
-              $tr.before(Wstm.desk.stock.template())
-              Wstm.desk.stock.calculate()
-              Wstm.desk.stock.buttons($('button'))
+              if $tr.find('select').val() isnt 'null'
+                $tr.before(Wstm.desk.stock.template())
+                Wstm.desk.stock.calculate()
+                Wstm.desk.stock.buttons($('button'))
               return
             return
           return
