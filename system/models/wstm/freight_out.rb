@@ -20,7 +20,8 @@ module Wstm
     belongs_to  :doc_dln,  class_name: 'Wstm::DeliveryNote',inverse_of: :freights
     belongs_to  :doc_cas,  class_name: 'Wstm::Cassation',   inverse_of: :freights
 
-    index({ freight_id: 1, id_stats: 1, id_date: 1 })
+    index({ freight_id: 1, id_stats: 1, pu: 1, id_date: 1 })
+    index({ id_stats: 1, pu: 1, id_date: 1 })
     index({ doc_dln_id: 1})
     index({ doc_cas_id: 1})
 

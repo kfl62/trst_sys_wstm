@@ -17,7 +17,8 @@ module Wstm
     belongs_to  :freight,  class_name: 'Wstm::Freight',     inverse_of: :stks
     belongs_to  :doc_stk,  class_name: 'Wstm::Stock',       inverse_of: :freights
 
-    index({ freight_id: 1, id_stats: 1, id_date: 1 })
+    index({ freight_id: 1, id_stats: 1, pu: 1, id_date: 1 })
+    index({ id_stats: 1, pu: 1, id_date: 1 })
     index({ freight_id: 1, doc_stk_id: 1, qu: 1})
     scope :stock_now, where(id_date: Date.new(2000,1,31))
 
