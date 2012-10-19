@@ -92,6 +92,13 @@ ro:
             Se poate tipări &raquo;%{data}&laquo; pe mai multe zile,
             cu începere din data pe care o selectaţi. Trebuie să alegeţi cel
             puţin una, sau mai multe Puncte de Colectare.
+          stats: |
+            Pentru luna curentă datele sunt în funcţie de documentele operate,
+            deoarece se lucrează cu stocul curent. Trebuie să alegeţi cel puţin una,
+            sau mai multe Puncte de Colectare.
+          accounting: |
+            Pentru luna curentă datele sunt în funcţie de documentele operate,
+            deoarece se lucrează cu stocul curent.
         desk_stock: |
             În cazul &raquo;Stocurilor iniţiale lunare&laquo; trebuie să ştiţi următoarele:<br>
             1.) Crearea unui nou &raquo;Stoc iniţial lunar&laquo; presupune copierea <b>Stocului curent</b> întro
