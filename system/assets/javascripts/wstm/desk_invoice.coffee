@@ -22,18 +22,46 @@ define () ->
           return
         validate:
           filter: ()->
-            if $('#client_id').val() isnt '' and $('#client_d_id').val() isnt '' and $('#client_d_id').val() isnt 'new' and $('select.p03').val() isnt 'null'
-              $url = Trst.desk.hdf.attr('action')
-              $url += "/filter?y=#{$('select.y').val()}"
-              $url += "&m=#{$('select.m').val()}"
-              $url += "&p03=#{$('select.p03').val()}"
-              $url += "&client_id=#{$('#client_id').val()}"
-              Wstm.desk.tmp.clear('client').set('client',$('#client_id').select2('data'))
-              Wstm.desk.tmp.clear('client_d').set('client_d',$('#client_d_id').select2('data'))
-              Trst.desk.init($url)
+            if Trst.desk.hdo.title_data?
+              if $('#supplr_id').val() isnt '' and $('#supplr_d_id').val() isnt '' and $('#supplr_d_id').val() isnt 'new' and $('select.p03').val() isnt 'null'
+                $url = Trst.desk.hdf.attr('action')
+                $url += "/filter?grn_ary=true&y=#{$('select.y').val()}"
+                $url += "&m=#{$('select.m').val()}"
+                $url += "&p03=#{$('select.p03').val()}"
+                $url += "&supplr_id=#{$('#supplr_id').val()}"
+                Wstm.desk.tmp.clear('supplr').set('supplr',$('#supplr_id').select2('data'))
+                Wstm.desk.tmp.clear('supplr_d').set('supplr_d',$('#supplr_d_id').select2('data'))
+                Trst.desk.init($url)
+              else
+                $('.grns').hide()
             else
-              $('.dlns').hide()
+              if $('#client_id').val() isnt '' and $('#client_d_id').val() isnt '' and $('#client_d_id').val() isnt 'new' and $('select.p03').val() isnt 'null'
+                $url = Trst.desk.hdf.attr('action')
+                $url += "/filter?y=#{$('select.y').val()}"
+                $url += "&m=#{$('select.m').val()}"
+                $url += "&p03=#{$('select.p03').val()}"
+                $url += "&client_id=#{$('#client_id').val()}"
+                Wstm.desk.tmp.clear('client').set('client',$('#client_id').select2('data'))
+                Wstm.desk.tmp.clear('client_d').set('client_d',$('#client_d_id').select2('data'))
+                Trst.desk.init($url)
+              else
+                $('.dlns').hide()
             return
+        selectedGrns: ()->
+          @grn_ary = []
+          $('input:checked').each ()->
+            Wstm.desk.invoice.grn_ary.push(@id)
+            return
+          $url = Trst.desk.hdf.attr('action')
+          $url += "/filter?y=#{$('select.y').val()}"
+          $url += "&m=#{$('select.m').val()}"
+          $url += "&p03=#{$('select.p03').val()}"
+          $url += "&supplr_id=#{$('#supplr_id').val()}"
+          $url += "&grn_ary=#{Wstm.desk.invoice.grn_ary}" if Wstm.desk.invoice.grn_ary.length
+          Wstm.desk.tmp.clear('supplr').set('supplr',$('#supplr_id').select2('data'))
+          Wstm.desk.tmp.clear('supplr_d').set('supplr_d',$('#supplr_d_id').select2('data'))
+          Trst.desk.init($url)
+          return
         selectedDeliveryNotes: ()->
           @dln_ary = []
           $('input:checked').each ()->
@@ -57,13 +85,23 @@ define () ->
               $input.on 'change', ()->
                 Wstm.desk.invoice.selectedDeliveryNotes()
                 return
-            if $input.attr('name')?.match(/([^\[^\]]+)/g).pop() is 'doc_name'
+            if $input.hasClass 'grn_ary'
               $input.on 'change', ()->
-                if inpts.filter('[name*="pu\]"]:not([type="hidden"])').length
-                  inpts.filter('[name*="pu\]"]:not([type="hidden"])').first().focus()
-                else
-                  $('button[data-action="save"]').button 'option', 'disabled', false
+                Wstm.desk.invoice.selectedGrns()
                 return
+            if $input.attr('name')?.match(/([^\[^\]]+)/g).pop() is 'doc_name'
+              if Trst.desk.hdo.title_data?
+                $input.on 'change', ()->
+                    inpts.filter('[name*="\[name\]"]:not([type="hidden"])').val($(@).val())
+                    $('button[data-action="save"]').button 'option', 'disabled', false
+                  return
+              else
+                $input.on 'change', ()->
+                  if inpts.filter('[name*="pu\]"]:not([type="hidden"])').length
+                    inpts.filter('[name*="pu\]"]:not([type="hidden"])').first().focus()
+                  else
+                    $('button[data-action="save"]').button 'option', 'disabled', false
+                  return
             if $input.attr('name')?.match(/([^\[^\]]+)/g).pop() is 'pu'
               $input.on 'change', ()->
                 Wstm.desk.invoice.calculate()
@@ -78,14 +116,14 @@ define () ->
               if $select.hasClass 'p03'
                 $select.on 'change', ()->
                   if $select.val() is 'null'
-                    slcts.filter('#client_id')
+                    slcts.filter('#client_id,#supplr_id')
                       .select2('data',null)
                       .select2('disable')
                       .next().select2('data',null)
                       .select2('destroy')
-                    slcts.filter('#client_id').next().next().hide()
+                    slcts.filter('#client_id,#supplr_id').next().next().hide()
                   else
-                    slcts.filter('#client_id')
+                    slcts.filter('#client_id,#supplr_id')
                       .select2('enable')
                   Wstm.desk.invoice.validate.filter()
                   return
@@ -127,6 +165,91 @@ define () ->
                       results: (data)->
                         results: data
                   $dlg.select2('data',Wstm.desk.tmp.client_d)
+                  $dlg.unbind()
+                  $dlg.on 'change', ()->
+                    if $dlg.select2('data')
+                      if $dlg.select2('data').id is 'new'
+                        $dlgadd = $dlg.next()
+                        $dlgadd.data('url','/sys/wstm/partner_firm_person')
+                        $dlgadd.data('r_id',$select.select2('val'))
+                        $dlgadd.data('r_mdl','firm')
+                        $dlgadd.show()
+                      else
+                        $dlg.next().hide()
+                    else
+                      $dlg.next().hide()
+                    Wstm.desk.invoice.validate.filter()
+                $select.unbind()
+                $select.on 'change', ()->
+                  if $select.select2('data')
+                    $select.next().select2('data',null)
+                    $select.next().select2('destroy')
+                    $dlg   = $select.next()
+                    $dlgsd = $dlg.data()
+                    $dlgph = Trst.i18n.select[Trst.desk.hdo.js_ext][$dlgsd.ph]
+                    $dlg.select2
+                      placeholder: $dlgph
+                      minimumInputLength: $dlgsd.minlength
+                      allowClear: true
+                      ajax:
+                        url: "/utils/search/#{$sd.search}"
+                        dataType: 'json'
+                        data: (term)->
+                          id: $select.select2('val')
+                        results: (data)->
+                          results: data
+                    $dlg.unbind()
+                    $dlg.on 'change', ()->
+                      if $dlg.select2('data')
+                        if $dlg.select2('data').id is 'new'
+                          $dlgadd = $dlg.next()
+                          $dlgadd.data('url','/sys/wstm/partner_firm_person')
+                          $dlgadd.data('r_id',$select.select2('val'))
+                          $dlgadd.data('r_mdl','firm')
+                          $dlgadd.show()
+                        else
+                          $dlg.next().hide()
+                      else
+                        $dlg.next().hide()
+                      Wstm.desk.invoice.validate.filter()
+                  else
+                    $select.next().select2('data',null)
+                    $select.next().select2('destroy')
+                    $select.next().next().hide()
+                  Wstm.desk.invoice.validate.filter()
+              if $id is 'supplr_id'
+                $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph]
+                $select.select2
+                  placeholder: $ph
+                  minimumInputLength: $sd.minlength
+                  allowClear: true
+                  ajax:
+                    url: "/utils/search/#{$sd.search}"
+                    dataType: 'json'
+                    quietMillis: 100
+                    data: (term)->
+                      w: $id.split('_')[0]
+                      q: term
+                    results: (data)->
+                      results: data
+                $select.select2('disable') if slcts.filter('.p03').val() is 'null'
+                if Wstm.desk.tmp.supplr
+                  $select.select2('data',Wstm.desk.tmp.supplr)
+                  $dlg   = $select.next()
+                  $dlgsd = $dlg.data()
+                  $dlgph = Trst.i18n.select[Trst.desk.hdo.js_ext][$dlgsd.ph]
+                  $dlg.select2
+                    placeholder: $dlgph
+                    minimumInputLength: $dlgsd.minlength
+                    allowClear: true
+                    ajax:
+                      url: "/utils/search/#{$sd.search}"
+                      dataType: 'json'
+                      data: (term)->
+                        id: $select.select2('val')
+                      results: (data)->
+                        results: data
+                  $dlg.select2('data',Wstm.desk.tmp.supplr_d)
                   $dlg.unbind()
                   $dlg.on 'change', ()->
                     if $dlg.select2('data')
@@ -224,7 +347,7 @@ define () ->
             $bd = $button.data()
             $id = $button.attr('id')
             if Trst.desk.hdo.dialog is 'filter'
-              if $id is 'client_d'
+              if $id in ['client_d','supplr_d']
                 $button.hide()
               if $bd.action is 'create'
                 if $('input:checked').length is 0
@@ -235,9 +358,14 @@ define () ->
                   $url += "/create?y=#{$('select.y').val()}"
                   $url += "&m=#{$('select.m').val()}"
                   $url += "&p03=#{$('select.p03').val()}"
-                  $url += "&client_id=#{Wstm.desk.tmp.client.id}"
-                  $url += "&client_d_id=#{Wstm.desk.tmp.client_d.id}"
-                  $url += "&dln_ary=#{Wstm.desk.invoice.dln_ary}" if Wstm.desk.invoice.dln_ary.length
+                  if Wstm.desk.invoice.dln_ary?.length
+                    $url += "&client_id=#{Wstm.desk.tmp.client.id}"
+                    $url += "&client_d_id=#{Wstm.desk.tmp.client_d.id}"
+                    $url += "&dln_ary=#{Wstm.desk.invoice.dln_ary}"
+                  if Wstm.desk.invoice.grn_ary?.length
+                    $url += "&supplr_id=#{Wstm.desk.tmp.supplr.id}"
+                    $url += "&supplr_d_id=#{Wstm.desk.tmp.supplr_d.id}"
+                    $url += "&grn_ary=#{Wstm.desk.invoice.grn_ary}"
                   $bd.url = $url
                   $button.button 'option', 'disabled', false
             else if Trst.desk.hdo.dialog is 'create'
@@ -267,7 +395,7 @@ define () ->
               return
           return
         init: ()->
-          Wstm.desk.tmp.clear() if $('#client_id').val() is '' and $('#client_d_id').val() is '' and $('select.p03').val() is 'null'
+          Wstm.desk.tmp.clear() if $('#client_id,#supplr_id').val() is '' and $('#client_d_id,#supplr_d_id').val() is '' and $('select.p03').val() is 'null'
           if $('#date_show').length
             now = new Date()
             min = if Trst.lst.admin is 'true' then new Date(now.getFullYear(),now.getMonth() - 1,1) else min = new Date(now.getFullYear(),now.getMonth(),1)
