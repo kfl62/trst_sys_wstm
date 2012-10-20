@@ -50,7 +50,7 @@ module Wstm
         y,m,d = *args; today = Date.today
         y,m,d = today.year, today.month, today.day unless ( y || m || d)
         asc(:id_stats).each_with_object([]) do |f,a|
-          keys = (f.ins.monthly(y,m).keys + f.outs.monthly(y,m).keys + f.stks.monthly(y,m).keys + f.stks_now.keys).uniq.sort
+          keys = (f.ins.monthly(y,m).keys + f.outs.monthly(y,m).keys + f.stks.monthly(y,m).where(:qu.ne => 0).keys + f.stks_now.where(:qu.ne => 0).keys).uniq.sort
           keys.each do |key|
             sum = *f.stats_sum(*args,opts.merge(key: key))
             chk = (f.stks_now.by_key(key).sum(:qu) || 0.0).round(2)
