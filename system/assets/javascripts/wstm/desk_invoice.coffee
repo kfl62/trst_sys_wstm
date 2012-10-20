@@ -395,7 +395,10 @@ define () ->
               return
           return
         init: ()->
-          Wstm.desk.tmp.clear() if $('#client_id,#supplr_id').val() is '' and $('#client_d_id,#supplr_d_id').val() is '' and $('select.p03').val() is 'null'
+          if $('#client_id,#supplr_id').val() is '' and $('#client_d_id,#supplr_d_id').val() is '' and $('select.p03').val() is 'null'
+            Wstm.desk.tmp.clear()
+            delete @grn_ary
+            delete @dln_ary
           if $('#date_show').length
             now = new Date()
             min = if Trst.lst.admin is 'true' then new Date(now.getFullYear(),now.getMonth() - 1,1) else min = new Date(now.getFullYear(),now.getMonth(),1)
