@@ -33,7 +33,7 @@
           %td
             %hr
             %span.small{style: 'max-width: 500px'}= mat(@object,'grns_name').concat @object.grns.map(&:doc_name).join(', ')
-        = partial "#{@path}/form", locals: {grns: grn_ary}
+        = partial "#{@path}/form", locals: {grns: grn_ary,dlns: nil}
         %tfoot
           %tr
             %td.buttonset.ce
@@ -72,7 +72,7 @@
           %td
             %hr
             %span.small{style: 'max-width: 500px'}= mat(@object,'dlns_name').concat @object.dlns.map(&:doc_name).join(', ')
-        = partial "#{@path}/form", locals: {dlns: dln_ary}
+        = partial "#{@path}/form", locals: {dlns: dln_ary, grns: nil}
         %tfoot
           %tr
             %td.buttonset.ce
