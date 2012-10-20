@@ -79,6 +79,11 @@ ro:
             Legendă:
           hover: |
             Ptr.detalii despre aviz poziţionaţi mouse-ul deasupra denumirii...
+          grn: |
+            Factură furnizor se operează în cazul în care, în decursul lunii aţi făcut recepţii pe bază de
+            Avize de expediţie.
+          no_grn: |
+            Nu aveţi nici o recepţie!
         desk_report:
           cdd: Document cumulativ APP
           grn: Notă de recepţie APP
@@ -132,10 +137,15 @@ ro:
             Termenul de plată este obligatoriu (aaaa-ll-zz)!<br>
             Se completează numai dacă există chitanţă sau OP.<br>
             Se trece suma achitată efectiv (Valoare - Taxă mediu 3%)!
-        desk_invoice: |
-            În cazul în care <b>Preţ Vânzare</b> este 0.0000 trebuie să-l completaţi
-            dacă a fost deja completat la <b>Aviz</b> atunci click pe <b>Salvare</b> dacă
-            v-aţi convins că totul este completat corect!
+        desk_invoice:
+            main: |
+              În cazul în care <b>Preţ Vânzare</b> este 0.0000 trebuie să-l completaţi
+              dacă a fost deja completat la <b>Aviz</b> atunci click pe <b>Salvare</b> dacă
+              v-aţi convins că totul este completat corect!
+            grn: |
+              Aveţi grijă la <b>Condiţii plată</b> la completarea sumei să luaţi în considerare
+              <b>Taxa de mediu 3%</b>! Se trece suma achitată efectiv (Valoare - Taxă mediu),
+              dacă este cazul!
         desk_stock:
           too_soon: |
             Crearea unui nou &raquo;Stoc iniţial lunar&laquo; presupune copierea <b>Stocului curent</b> întro
@@ -196,9 +206,13 @@ ro:
           În ziua de <b>%{id_date}</b> în gestiunea <b>%{unit}</b> de către
           <b>%{signed_by}</b> s-au casat/degradat următoarele: <br>
           &nbsp;&nbsp;&nbsp;&nbsp;Notă: %{expl}
-        desk_invoice: |
-          În ziua de <b>%{id_date}</b> cu Factura nr.<b>%{doc_name}</b> se facturează clientului
-          <b>%{client}</b> următoarele materiale:
+        desk_invoice:
+          main: |
+            În ziua de <b>%{id_date}</b> cu Factura nr.<b>%{doc_name}</b> se facturează clientului
+            <b>%{client}</b> următoarele materiale:
+          grn: |
+            În ziua de <b>%{id_date}</b> cu Factura nr.<b>%{doc_name}</b> se recepţionează de la furnizorul
+            <b>%{client}</b> următoarele materiale:
       delete:
         desk_expenditure: |
           Atenţie!!! Se va şterge &raquo;Adeverinţa Primire/Plată&laquo;!!!
@@ -246,7 +260,7 @@ ro:
       desk_expenditure: ['Alegeţi - Partener Persoană Fizică', 'Selectaţi - Adeverinţă Primire/Plată']
       desk_delivery_note: ['Alegeţi - Destinatar', 'Alegeţi - Delegat (opţional)', 'Alegeţi - Transportator', 'Alegeţi - Delegat', 'Selectaţi - Aviz de expediţie']
       desk_grn: ['Alegeţi - Furnizor', 'Alegeţi - Delegat (opţional)', 'Alegeţi - Transportator', 'Alegeţi - Delegat', 'Selectaţi - Notă de recepţie']
-      desk_invoice: ['Alegeţi - Client', 'Alegeţi - Delegat', 'Selectaţi - Factură']
+      desk_invoice: ['Alegeţi - Client', 'Alegeţi - Delegat', 'Selectaţi - Factură', 'Alegeţi - Furnizor']
     msg:
       input_too_short_strt: |
         Vă rugăm întroduceţi min. %{nr} caractere!
