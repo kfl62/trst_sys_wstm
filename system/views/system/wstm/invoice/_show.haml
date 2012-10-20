@@ -10,9 +10,9 @@
                 %td.ce= label
             - @object.reload; @object.freights.each do |o|
               %tr
-                - td_value_for  o, 'name',      {style: 'name',nested: 'doc_inv'}
-                - td_value_for  o, 'um',        {style: 'um', nested: 'doc_inv'}
-                - td_value_for  o, 'qu',        {style: 'val',nested: 'doc_inv'}
+                - td_value_for  o, 'name', {style: 'name',nested: 'doc_inv'}
+                - td_value_for  o, 'um',   {style: 'um', nested: 'doc_inv'}
+                - td_value_for  o, 'qu',   {style: 'val',nested: 'doc_inv'}
                 %td
                   %span.val= "%.4f" % o.pu
                 %td
@@ -28,10 +28,10 @@
     %tr
       %td
         - label_for @object, 'payed'
-        - value_for @object, 'payed',{style: 'stats'}
+        - value_for @object, 'payed', {style: 'stats'}
         &nbsp;| &nbsp;
         - label_for @object, 'deadl'
-        - value_for @object, 'deadl',{style: 'stats'}
+        - value_for @object, 'deadl', {style: 'stats'}
     - if @object.pyms.count > 0
       - @object.pyms.each do |o|
         %tr

@@ -3,18 +3,18 @@
   %table{cellspacing: "0"}
     %thead
       - if @current_user.unit_id
-        %tr
+        %tr.pdb-05
           %td{colspan: "4"}
             %span.info= t('intro.repair.desk_invoice')
             %input#date_send{type: 'hidden', value: Date.today.to_s}
       - else
-        %tr
+        %tr.pdb-05
           %td{colspan: "4"}
             %span= mat(@object,'day')
             %input#date_show.ui-state-default{type: 'text',value: l(Date.today,format: :trst)}
             %input#date_send{type: 'hidden', value: Date.today.to_s}
     %tbody
-      %tr
+      %tr.pdb-05
         %td
           %input.repair{type: 'hidden',style: 'width:400px',data: {search: 'Wstm::Invoice',ph: 2}}
     %tfoot

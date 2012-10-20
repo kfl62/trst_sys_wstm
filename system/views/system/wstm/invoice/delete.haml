@@ -1,13 +1,18 @@
 :ruby
   firm = Wstm::PartnerFirm.find_by(firm: true)
-%span#hidden_data.hidden{data: {dialog: "delete",model_name: mat(@object,@object.id_intern == true ? 'model_name_id_intern' : 'model_name'),oid: @object.id,js_ext: 'desk_invoice'}}
+  grns = @object.dlns.empty?
+  tdat = grns ? mat(@object,'model_name_grn') : mat(@object,'model_name')
+%span#hidden_data.hidden{data: {dialog: "delete",title_data: tdat,model_name: mat(@object,@object.id_intern == true ? 'model_name_id_intern' : 'model_name'),oid: @object.id,js_ext: 'desk_invoice'}}
 %form{action: "/sys/#{@path}", method: "delete"}
   %table{cellspacing: "0"}
     %thead
-      %tr
-        %th
+      %tr.pdb-05
+        %td
           %span.warning.width-450.ju= t('intro.delete.main', data: mat(@object,'model_name'))
-          %span.info.width-450.ju= t('intro.show.desk_invoice',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
+          - if grns
+            %span.info.width-450.ju= t('intro.show.desk_invoice.grn',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
+          - else
+            %span.info.width-450.ju= t('intro.show.desk_invoice.main',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
     = partial "/#{@path}/show"
     %tfoot
       %tr
