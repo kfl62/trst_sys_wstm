@@ -53,6 +53,15 @@ module Wstm
         where(id_intern: !nin)
       end
       # @todo
+      def charged(b = true)
+        where(charged: b)
+      end
+      # @todo
+      def by_p03(p03 = true)
+        ids = Wstm::FreightIn.where(:freight_id.in => Wstm::Freight.where(p03: p03).map(&:id), :doc_grn_id.in => all.map(&:id)).map(&:doc_grn_id).uniq
+        where(:id.in => ids)
+      end
+      # @todo
       def auto_search(params)
         unit_id = params[:uid]
         day     = params[:day].split('-').map(&:to_i)
@@ -68,6 +77,20 @@ module Wstm
                         supplier: g.supplr.name[1]}}
         end
       end
+      # @todo
+      def sum_freights_grn
+        all.each_with_object({}) do |grn,s|
+          grn.freights.asc(:id_stats).each_with_object(s) do |f,s|
+            if s[f.key].nil?
+              s[f.key] = [f.freight.name,f.freight.id_stats,f.pu,f.qu,(f.pu * f.qu).round(2)]
+            else
+              s[f.key][3] += f.qu
+              s[f.key][4] += (f.pu * f.qu).round(2)
+            end
+          end
+        end
+      end
+      # @todo
     end # Class methods
 
     # @todo

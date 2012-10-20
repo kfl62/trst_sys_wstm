@@ -84,7 +84,8 @@ module Wstm
     # @todo
     def handle_dlns(add_delete)
       dlns.each{|dln| dln.set(:charged,add_delete)}
-      freights.each do |f|
+      grns.each{|grn| grn.set(:charged,add_delete)}
+     freights.each do |f|
         dlns.each do |dn|
           dn.freights.each do |dnf|
             if add_delete
