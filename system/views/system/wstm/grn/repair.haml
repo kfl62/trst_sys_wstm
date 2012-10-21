@@ -8,23 +8,23 @@
     %table{cellspacing: "0"}
       %thead
         - if @current_user.unit_id
-          %tr
-            %td{colspan: "4"}
+          %tr.pdb-05
+            %td
               %span.info.width-400.ju= t('intro.repair.desk_grn')
               %input#date_send{type: 'hidden', value: Date.today.to_s}
         - else
-          %tr
-            %td{colspan: "4"}
+          %tr.pdb-05
+            %td
               %span= mat(@object,'day')
               %input#date_show.ui-state-default{type: 'text',value: l(Date.today,format: :trst)}
               %input#date_send{type: 'hidden', value: Date.today.to_s}
       %tbody
-        %tr
+        %tr.pdb-05
           %td
             %input.repair{type: 'hidden',style: 'width:400px',data: {search: 'Wstm::Grn',ph: 4,uid: unit_id}}
       %tfoot
         %tr
-          %td.buttonset.ce{colspan: "6"}
+          %td.buttonset.ce
             %button{type: "button", data: {action: "cancel", icon: "circle-close"}}= t('button.cancel')
 -else
   %form{action: "/sys/#{@path}", method: "get"}

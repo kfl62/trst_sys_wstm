@@ -2,7 +2,7 @@
   %tbody
     %tr
       %td
-        %table{cellspacing: "0",style: "width:100%;font-size:1.1em"}
+        %table{cellspacing: "0",style: "width:100%;font-size:12px"}
           %tbody.inner
             %tr
               - mat(@object,'table_header')[0..4].each do |label|
@@ -33,13 +33,11 @@
                 %span.val= "%.2f" % data.values.sum{|r| r[4]}.round(2)
                 - input_for @object, 'sum_100',{type: 'hidden',value: data.values.sum{|r| r[4]}.round(2)}
                 - input_for @object, 'sum_out',{type: 'hidden',value: data.values.sum{|r| r[4]}.round(2)}
-    %tr
-      %td
 -else
   %tbody{id: 'tabs-freights',data: {title: mat(@object,'tabs_freights')}}
     %tr
       %td
-        %table{cellspacing: "0",style: "width:100%;font-size:1.1em"}
+        %table{cellspacing: "0",style: "width:100%;font-size:12px"}
           %tbody.inner
             %tr
               - mat(@object,'table_header').each do |label|
@@ -77,8 +75,6 @@
                 %span.out
                 &nbsp;
                 - input_for @object, 'sum_out',   {type: 'hidden'}
-    %tr
-      %td
   %tbody{id: 'tabs-payments',data: {title: mat(@object,'tabs_payments')}}
     %tr.dn
       %td

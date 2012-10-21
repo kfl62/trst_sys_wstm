@@ -1,5 +1,5 @@
 :ruby
-  firm     = Wstm::PartnerFirm.find_by(firm: true)
+  firm = Wstm::PartnerFirm.find_by(firm: true)
 - if params[:id_intern]
   :ruby
     unit_id  = params[:unit_id]
@@ -27,18 +27,18 @@
             - input_for @object, 'signed_by', {type: 'hidden',value: @current_user.id}
             - dln_ary.each do |dn|
               -input_for @object,'dln_ids',   {type: 'hidden',name: "[#{@path}][dln_ids][]",value: dn}
-        %tr
+        %tr.pdb-05
           %td
             %span= t('intro.create.desk_grn.id_intern',unit: unit.name[1])
-        %tr
+        %tr.pdb-05
           %td
             %input#transp_d_id.select2{type: 'hidden',name: '[wstm/grn][transp_d_id]', style: 'width:200px', data: {minlength: 0,ph: '3',search: 'Wstm::PartnerFirm',noinit: 'true',transp_id: firm.id}}
             - input_for @object, 'doc_plat', {style: 'ui-state-default ce',placeholder: mat(@object,'doc_plat')}
             %button#transp_d{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create') + " Delegat!"
-        %tr
+        %tr.pdb-05
           %td
             %hr
-            %span.small{style: 'max-width: 500px'}= mat(@object,'dlns_name').concat @object.dlns.map(&:doc_name).join(', ')
+            %span.small.width-450{style: 'display:inline-block'}= mat(@object,'dlns_name').concat @object.dlns.map(&:doc_name).join(', ')
       = partial "#{@path}/form", locals: {dlns: dln_ary,id_intern: true,unit: unit}
       %tfoot
         %tr
@@ -72,13 +72,13 @@
               - input_for @object,'supplr_d_id',{type: 'hidden',value: supplr_d.id}
             - input_for @object, 'unit_id',     {type: 'hidden',value: unit.id}
             - input_for @object, 'signed_by',   {type: 'hidden',value: @current_user.id}
-        %tr
+        %tr.pdb-05
           %td
             - select_for @object,'doc_type',    {type: 'enum',style: 'wstm doc_type focus',select_options: %w{null DN INV MIN}}
             - input_for  @object,'doc_name',    {style: 'ui-state-default ce',placeholder: mat(@object,'doc_name')}
             - input_for  @object,'doc_plat',    {style: 'ui-state-default ce',placeholder: mat(@object,'doc_plat')}
             - input_for  @object,'doc_date',    {type: 'hidden',value: 'strip'}
-        %tr
+        %tr.pdb-05
           %td
             %span.info.width-450.ju= t('intro.create.desk_grn.partner_firm',unit: unit.name[1],signed_by: @current_user.name,supplr: supplr.name[2],transp_d: transp_d.name)
       = partial "#{@path}/form", locals: {id_intern: false,unit: unit,freights: freights}
