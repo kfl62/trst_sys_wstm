@@ -1,9 +1,9 @@
 :ruby
   client  = Wstm::PartnerPerson.find(params[:client_id])
-  unit_id = @current_user.unit_id.nil? ? session[:unit_id] : @current_user.unit_id
+  unit_id = @current_user.unit_id || session[:unit_id]
   freights= Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_exp
 %span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_expenditure'}}
-%form{action: "/sys/#{@path}", method: "post"}
+%form{action: "/sys/#{@path}",method: "post"}
   %table{:cellspacing => "0"}
     %thead
       %tr
@@ -16,12 +16,12 @@
           - input_for @object, 'client_id', {type: 'hidden', value: client.id}
           - input_for @object, 'unit_id',   {type: 'hidden', value: unit_id}
           - input_for @object, 'signed_by', {type: 'hidden', value: @current_user.id}
-      %tr
+      %tr.pdb-05
         %td{colspan: "9"}
           %span.info.width-450= t('intro.create.desk_expenditure',client.i18n_hash)
-    = partial "#{@path}/form", locals: {freights: freights, unit_id: unit_id}
+    = partial "#{@path}/form",locals: {freights: freights,unit_id: unit_id}
     %tfoot
       %tr
         %td.buttonset.ce{colspan: "9"}
-          %button{type: "button", data: {action: "save",  icon: "disk",remove: 'false'}}=         t('button.save')
-          %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+          %button{type: "button",data: {action: "save",  icon: "disk",remove: 'false'}}= t('button.save')
+          %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')

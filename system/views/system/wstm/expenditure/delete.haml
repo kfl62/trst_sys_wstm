@@ -1,15 +1,15 @@
 %span#hidden_data.hidden{data: {dialog: "delete",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_expenditure'}}
-%form{action: "/sys/#{@path}", method: "delete"}
+%form{action: "/sys/#{@path}",method: "delete"}
   %table{cellspacing: "0"}
     %thead
-      %tr
-        %th{colspan: "8"}
-          %span.warning.width-450.ju= t('intro.delete.desk_expenditure', data: mat(@object,'model_name'))
+      %tr.pdb-05
+        %td{colspan: "8"}
+          %span.warning.width-450.ju= t('intro.delete.desk_expenditure',data: mat(@object,'model_name'))
           %span.info.width-450.ju= t('intro.show.desk_expenditure',@object.client.i18n_hash.merge(enr: @object.name,eon: l(@object.id_date,format: :trst)))
     = partial "/#{@path}/show"
     %tfoot
       %tr
         %td.buttonset.ce{colspan: "8"}
-          %button{type: "button", data: {action: "delete",icon: "circle-minus"}}= t('button.delete')
-          %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+          %button{type: "button",data: {action: "delete",icon: "circle-minus"}}= t('button.delete')
+          %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
 

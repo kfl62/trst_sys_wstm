@@ -1,24 +1,24 @@
 :ruby
-  unit_id = @current_user.unit_id.nil? ? session[:unit_id] : @current_user.unit_id
+  unit_id = @current_user.unit_id || session[:unit_id]
 %span#hidden_data.hidden{data: {dialog: "filter",title_data: mat(Wstm::PartnerPerson,'model_name'),model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_expenditure'}}
 -if unit_id
   - unless @current_user.unit_id
     = partial 'wstm/shared/select_unit'
-  %form{action: "/sys/#{@path}", method: "get"}
+  %form{action: "/sys/#{@path}",method: "get"}
     %table{cellspacing: "0"}
       %tbody
-        %tr
+        %tr.pdb-05
           %td
-            %span.info.width-450.ju= t("intro.filter.desk_expenditure", data: mat(@object,'model_name'))
-        %tr
+            %span.info.width-450.ju= t("intro.filter.desk_expenditure",data: mat(@object,'model_name'))
+        %tr.pdb-05
           %td
-            %input.select2{type: 'hidden', style: 'width:300px', data: {minlength: 3,ph: 0,search: 'Wstm::PartnerPerson'}}
-            %button.partner-person{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create') + " Persoană fizică!"
+            %input.select2{type: 'hidden',style: 'width:300px',data: {minlength: 3,ph: 0,search: 'Wstm::PartnerPerson'}}
+            %button.partner-person{type: "button",data: {action: "create", icon: "circle-plus"}}= t('button.create') + " Persoană fizică!"
       %tfoot
         %tr
           %td.buttonset.ce
-            %button.expenditure{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create') + " APP!"
-            %button{type: "button", data: {action: "cancel", icon: "circle-close"}}= t('button.cancel')
+            %button.expenditure{type: "button",data: {action: "create",icon: "circle-plus"}}= t('button.create') + " APP!"
+            %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
 -else
   %form{action: "/sys/#{@path}", method: "get"}
     = partial 'wstm/shared/select_unit'
