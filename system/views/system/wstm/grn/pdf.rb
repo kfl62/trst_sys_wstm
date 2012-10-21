@@ -94,11 +94,11 @@ else
                :at => [100.mm, pdf.bounds.top - 30.mm], :width => 37.mm, :align => :center, :size => 10
 end
 pdf.text_box supplier.name[2],
-             :at => [138.mm, pdf.bounds.top - 30.mm], :width => 45.mm, :align => :center, :size => 10
+             :at => [140.mm, pdf.bounds.top - 30.mm], :width => 44.mm, :align => :center, :size => 9
 pdf.text_box "#{supplier.identities["fiscal"] rescue '-'}",
-             :at => [183.mm, pdf.bounds.top - 30.mm], :width => 38.mm, :align => :center, :size => 10
-pdf.text_box "#{@object.doc_paym rescue '-'}",
-             :at => [220.mm, pdf.bounds.top - 30.mm], :width => 63.mm, :align => :center, :size => 10
+             :at => [183.mm, pdf.bounds.top - 30.mm], :width => 38.mm, :align => :center, :size => 9
+# pdf.text_box "#{@object.doc_paym rescue '-'}",
+#              :at => [220.mm, pdf.bounds.top - 30.mm], :width => 63.mm, :align => :center, :size => 9
 pdf.text_box delegate.name,
              :at => [43.mm, pdf.bounds.top - 48.mm], :width => 92.mm, :align => :center, :size => 10
 pdf.text_box "#{@object.doc_plat.upcase rescue '-'}",
