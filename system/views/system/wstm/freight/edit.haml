@@ -1,16 +1,16 @@
 %span#hidden_data.hidden{data: {dialog: "edit",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_freight'}}
-%form{action: "/sys/#{@path}", method: "put"}
+%form{action: "/sys/#{@path}",method: "put"}
   %table{cellspacing: "0"}
     %thead
-      %tr
-        %th{colspan: "3"}
+      %tr.pdb-05
+        %td{colspan: "3"}
           - unless @current_user.admin?
             %span.info= t('intro.edit.desk_freight')
     = partial "#{@path}/form"
     %tfoot
       %tr
         %td.buttonset.ce{colspan: "3"}
-          %button{type: "button", data: {action: "save",   icon: "disk",remove: 'false'}}=         t('button.save')
+          %button{type: "button",data: {action: "save",icon: "disk",remove: 'false'}}= t('button.save')
           - if @current_user.admin?
-            %button{type: "button", data: {action: "delete", icon: "circle-minus",remove: 'false'}}= t('button.delete')
-          %button{type: "button", data: {action: "cancel", icon: "circle-close"}}= t('button.cancel')
+            %button{type: "button",data: {action: "delete",icon: "circle-minus",remove: 'false'}}= t('button.delete')
+          %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
