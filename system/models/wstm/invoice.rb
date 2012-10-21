@@ -80,6 +80,12 @@ module Wstm
         r << "#{f.name}: #{"%.2f" % f.qu} kg ( #{"%.2f" % f.pu} )"
       end
     end
+    # @todo
+    def pyms_list
+      pyms.asc(:id_date).each_with_object([]) do |p,r|
+        r << "#{p.id_date.to_s}: #{p.text}, #{"%.2f" % p.val}"
+      end.unshift("Termen: #{deadl.to_s}")
+    end
     protected
     # @todo
     def handle_dlns(add_delete)
