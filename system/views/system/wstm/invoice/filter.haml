@@ -37,7 +37,7 @@
               %td
                 %span.info.width-250= t('intro.filter.desk_invoice.no_grn')
           - else
-            %tr.grns
+            %tr.grns.pdb-05
               %td
                 %span.width-500{style: 'display:inline-block'}
                   - grns.each_with_index do |grn,i|
@@ -112,7 +112,7 @@
               %td
                 %span.info.width-250= t('intro.filter.desk_invoice.no_dln')
           - else
-            %tr.dlns
+            %tr.dlns.pdb-05
               %td
                 %span.width-500{style: 'display:inline-block'}
                   - dlns.each_with_index do |dln,i|
@@ -120,12 +120,11 @@
                            title: "#{dln.id_date}\n#{dln.name}\n#{dln.freights_list.join("\n")}"}
                       %input.dln_ary{id:dln.id,type: 'checkbox',checked: dln_ary.include?(dln.id.to_s)}
                       = dln.doc_name
-            %tr.dlns
+            %tr.dlns.pdb-05
               %td
-                %br
                 %span.small= t('intro.filter.desk_invoice.legend')
                 - firm.units.asc(:slug).each do |u|
-                  %span.small{:style => "border: solid 1px #333333; background-color: #{bckgrnd[u.name[0].downcase]}"}= u.name[1]
+                  %span.small{style: "background-color: #{bckgrnd[u.name[0].downcase]}",title: "#{u.name[1]}"}= u.name[0]
                 %br
                 %span.small= t('intro.filter.desk_invoice.hover')
         %tbody
