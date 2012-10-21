@@ -9,7 +9,7 @@
       [Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln_with_pu,true] : \
       [Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln,false]
 %span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_delivery_note'}}
-%form{action: "/sys/#{@path}", method: "post"}
+%form{action: "/sys/#{@path}",method: "post"}
   %table{:cellspacing => "0"}
     %thead
       %tr
@@ -19,26 +19,26 @@
           - label_for @object, 'id_date'
           - input_for @object, 'id_date',      {id: 'date_show',name: 'strip'}
           - input_for @object, 'id_date',      {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
-          - input_for @object, 'client_id',    {type: 'hidden', value: client.id}
-          - input_for @object, 'transp_id',    {type: 'hidden', value: transp.id}
-          - input_for @object, 'transp_d_id',  {type: 'hidden', value: transp_d.id}
-          - input_for @object, 'unit_id',      {type: 'hidden', value: unit_id}
-          - input_for @object, 'id_intern',    {type: 'hidden', value: client.firm.to_s}
-          - input_for @object, 'signed_by',    {type: 'hidden', value: @current_user.id}
+          - input_for @object, 'client_id',    {type: 'hidden',value: client.id}
+          - input_for @object, 'transp_id',    {type: 'hidden',value: transp.id}
+          - input_for @object, 'transp_d_id',  {type: 'hidden',value: transp_d.id}
+          - input_for @object, 'unit_id',      {type: 'hidden',value: unit_id}
+          - input_for @object, 'id_intern',    {type: 'hidden',value: client.firm.to_s}
+          - input_for @object, 'signed_by',    {type: 'hidden',value: @current_user.id}
           - if client_d
-            - input_for @object, 'client_d_id',{type: 'hidden', value: client_d.id}
-      %tr
+            - input_for @object, 'client_d_id',{type: 'hidden',value: client_d.id}
+      %tr.pdb-05
         %td.ce{colspan: with_pu ? 8 : 6}
           - label_for @object, 'doc_name'
           - input_for @object, 'doc_name',     {style: 'ui-state-default focus', value: "#{firm.name[0][0..2].upcase}-"}
           - label_for @object, 'doc_plat'
           - input_for @object, 'doc_plat'
-      %tr
+      %tr.pdb-05
         %td{colspan: with_pu ? 8 : 6}
-          %span.info.width-500.ju= t('intro.create.desk_delivery_note', firm: firm.name[2],firm_d: @current_user.name, client: client.name[2], client_d: (client_d.name rescue 'Anonymous'), transp: transp.name[2], transp_d: transp_d.name)
-    = partial "#{@path}/form", locals: {freights: freights,client: client,with_pu: with_pu}
+          %span.info.width-500.ju= t('intro.create.desk_delivery_note',firm: firm.name[2],firm_d: @current_user.name,client: client.name[2],client_d: (client_d.name rescue 'Anonymous'),transp: transp.name[2],transp_d: transp_d.name)
+    = partial "#{@path}/form",locals: {freights: freights,client: client,with_pu: with_pu}
     %tfoot
       %tr
         %td.buttonset.ce{colspan: with_pu ? 8 : 6}
-          %button{type: "button", data: {action: "save",  icon: "disk",remove: 'false'}}=         t('button.save')
-          %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+          %button{type: "button",data: {action: "save",icon: "disk",remove: 'false'}}= t('button.save')
+          %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
