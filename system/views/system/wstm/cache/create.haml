@@ -1,13 +1,13 @@
 %span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_cache'}}
-%form{action: "/sys/#{@path}", method: "post"}
+%form{action: "/sys/#{@path}",method: "post"}
   %table{:cellspacing => "0"}
     %thead
-      %tr
-        %th{colspan: "3"}
-          %span.warning.width-350.ju= t('intro.create.main', data: mat(@object,'model_name'))
+      %tr.pdb-05
+        %td{colspan: "3"}
+          %span.warning.width-350.ju= t('intro.create.main',data: mat(@object,'model_name'))
     = partial "#{@path}/form"
     %tfoot
       %tr
         %td.buttonset.ce{colspan: "3"}
-          %button{type: "button", data: {action: "save",  icon: "disk",remove: 'false'}}=         t('button.save')
-          %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+          %button{type: "button",data: {action: "save",icon: "disk",remove: 'false'}}= t('button.save')
+          %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')

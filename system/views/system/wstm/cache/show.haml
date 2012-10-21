@@ -1,15 +1,15 @@
 %span#hidden_data.hidden{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_cache'}}
-%form{action: "/sys/#{@path}", method: "get"}
+%form{action: "/sys/#{@path}",method: "get"}
   %table{cellspacing: "0"}
     %thead
-      %tr
-        %th{colspan: "2"}
+      %tr.pdb-05
+        %td{colspan: "2"}
     = partial "#{@path}/show"
     %tfoot
       %tr
         %td.buttonset.ce{colspan: "2"}
-          %button{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create')
-          %button{type: "button", data: {action: "edit",   icon: "document",remove: 'false'}}=     t('button.edit')
+          %button{type: "button",data: {action: "create",icon: "circle-plus"}}= t('button.create')
+          %button{type: "button",data: {action: "edit",icon: "document",remove: 'false'}}= t('button.edit')
           - if @current_user.admin?
-            %button{type: "button", data: {action: "delete", icon: "circle-minus",remove: 'false'}}= t('button.delete')
-          %button{type: "button", data: {action: "cancel", icon: "circle-close"}}= t('button.cancel')
+            %button{type: "button",data: {action: "delete",icon: "circle-minus",remove: 'false'}}= t('button.delete')
+          %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
