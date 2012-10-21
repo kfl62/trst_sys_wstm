@@ -14,7 +14,7 @@
         %tr.pdb-05
           %td
             %span.info.width-500.ju= t('intro.filter.desk_invoice.grn')
-        %tr
+        %tr.pdb-05
           %td
             %select.wstm.y
               - [2011,2012].each do |year|
@@ -25,7 +25,6 @@
             %select.wstm.p03
               - mat(@object,'p03').each do |o|
                 %option{value: o[0], selected: o[0] == params[:p03]}= o[1]
-            %span= "  (#{Wstm::Grn.monthly(y,m).where(doc_type: 'DN',charged: false).count})"
         %tr.pdb-05
           %td
             %input#supplr_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: 2,ph: 3,search: 'Wstm::PartnerFirm'}}
@@ -40,22 +39,20 @@
           - else
             %tr.grns
               %td
-                - grns.each_with_index do |grn,i|
-                  - if i != 0 && i % 6 == 0
-                    %br
-                  %label{style: "border-right: solid 1px #333333;padding-right: 3px;cursor: pointer;background-color: #e6e6e6",
-                         title: "#{grn.id_date}\n#{grn.name}\n#{grn.freights_list.join("\n")}"}
-                    %input.grn_ary{id:grn.id,type: 'checkbox',checked: grn_ary.include?(grn.id.to_s)}
-                    = grn.doc_name
+                %span.width-500{style: 'display:inline-block'}
+                  - grns.each_with_index do |grn,i|
+                    %label{style: "border-right: solid 1px #333333;padding-right: 3px;cursor: pointer;background-color: #e6e6e6;display: inline-block",
+                           title: "#{grn.id_date}\n#{grn.name}\n#{grn.freights_list.join("\n")}"}
+                      %input.grn_ary{id:grn.id,type: 'checkbox',checked: grn_ary.include?(grn.id.to_s)}
+                      = grn.doc_name
             %tr.grns.pdb-05
               %td
-                %br
                 %span.small= t('intro.filter.desk_invoice.hover')
         %tbody
           - unless grn_ary.empty?
             %tr.grns
               %td
-                %table{:style => "width:90%;margin:auto;font-size:1.1em"}
+                %table{:style => "width:90%;margin:auto;font-size:12px"}
                   %tbody.inner
                     %tr
                       - mat(@object,'table_header_grn').each do |label|
@@ -79,8 +76,6 @@
                         %span.val= "%.2f" % data.values.sum{|r| r[3]}
                       %td
                         %span.val= "%.2f" % data.values.sum{|r| r[4]}
-            %tr.grns
-              %td
       %tfoot
         %tr
           %td.buttonset.ce
@@ -94,7 +89,7 @@
         %tr.pdb-05
           %td
             %span.info.width-500.ju= t('intro.filter.desk_invoice.main')
-        %tr
+        %tr.pdb-05
           %td
             %select.wstm.y
               - [2011,2012].each do |year|
@@ -105,7 +100,7 @@
             %select.wstm.p03
               - mat(@object,'p03').each do |o|
                 %option{value: o[0], selected: o[0] == params[:p03]}= o[1]
-        %tr
+        %tr.pdb-05
           %td
             %input#client_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: 2,ph: 0,search: 'Wstm::PartnerFirm'}}
             %input#client_d_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: 0,ph: 1,search: 'Wstm::PartnerFirm'}}
@@ -119,13 +114,12 @@
           - else
             %tr.dlns
               %td
-                - dlns.each_with_index do |dln,i|
-                  - if i != 0 && i % 6 == 0
-                    %br
-                  %label{style: "border-right: solid 1px #333333;padding-right: 3px;cursor: pointer;background-color: #{bckgrnd[dln.name.split('_')[1].downcase]}",
-                         title: "#{dln.id_date}\n#{dln.name}\n#{dln.freights_list.join("\n")}"}
-                    %input.dln_ary{id:dln.id,type: 'checkbox',checked: dln_ary.include?(dln.id.to_s)}
-                    = dln.doc_name
+                %span.width-500{style: 'display:inline-block'}
+                  - dlns.each_with_index do |dln,i|
+                    %label{style: "border-right: solid 1px #333333;padding-right: 3px;cursor: pointer;background-color: #{bckgrnd[dln.name.split('_')[1].downcase]};display:inline-block",
+                           title: "#{dln.id_date}\n#{dln.name}\n#{dln.freights_list.join("\n")}"}
+                      %input.dln_ary{id:dln.id,type: 'checkbox',checked: dln_ary.include?(dln.id.to_s)}
+                      = dln.doc_name
             %tr.dlns
               %td
                 %br
@@ -138,7 +132,7 @@
           - unless dln_ary.empty?
             %tr.dlns
               %td
-                %table{:style => "width:90%;margin:auto;font-size:1.1em"}
+                %table{:style => "width:90%;margin:auto;font-size:12px"}
                   %tbody.inner
                     %tr
                       - mat(@object,'table_header').each do |label|
@@ -167,8 +161,6 @@
                         %span
                       %td
                         %span.val= "%.2f" % data.values.sum{|r| r[5]}
-            %tr.dlns
-              %td
       %tfoot
         %tr
           %td.buttonset.ce

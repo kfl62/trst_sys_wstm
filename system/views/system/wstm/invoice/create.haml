@@ -23,7 +23,7 @@
             - input_for @object, 'signed_by',   {type: 'hidden',value: @current_user.id}
             - grn_ary.each do |grn|
               -input_for @object,'grn_ids',     {type: 'hidden',name: "[#{@path}][grn_ids][]",value: grn}
-        %tr
+        %tr.pdb-05
           %td
             - input_for  @object,'doc_name',    {placeholder: mat(@object,'doc_name'), style: 'ui-state-default focus'}
         %tr.pdb-05
@@ -32,7 +32,7 @@
         %tr.pdb-05
           %td
             %hr
-            %span.small{style: 'max-width: 500px'}= mat(@object,'grns_name').concat @object.grns.map(&:doc_name).join(', ')
+            %span.small.width-450{style: 'display:inline-block'}= mat(@object,'grns_name').concat @object.grns.map(&:doc_name).join(', ')
         = partial "#{@path}/form", locals: {grns: grn_ary,dlns: nil}
         %tfoot
           %tr
@@ -71,7 +71,7 @@
         %tr.pdb-05
           %td
             %hr
-            %span.small{style: 'max-width: 500px'}= mat(@object,'dlns_name').concat @object.dlns.map(&:doc_name).join(', ')
+            %span.small.width-450{style: 'display:inline-block'}= mat(@object,'dlns_name').concat @object.dlns.map(&:doc_name).join(', ')
         = partial "#{@path}/form", locals: {dlns: dln_ary, grns: nil}
         %tfoot
           %tr

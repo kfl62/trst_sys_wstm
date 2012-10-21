@@ -3,7 +3,7 @@
   %tbody{id: 'tabs-freights',data: {title: mat(@object,'tabs_freights')}}
     %tr
       %td
-        %table{:style => "width:100%;font-size:1.1em"}
+        %table{:style => "width:100%;font-size:12px"}
           %tbody.inner
             %tr
               - mat(@object,'table_header_show').each do |label|
@@ -14,7 +14,10 @@
                 - td_value_for  o, 'um',   {style: 'um', nested: 'doc_inv'}
                 - td_value_for  o, 'qu',   {style: 'val',nested: 'doc_inv'}
                 %td
-                  %span.val= "%.4f" % o.pu
+                  - if @object.id_intern
+                    %span.val= "%.2f" % o.pu
+                  -else
+                    %span.val= "%.4f" % o.pu
                 %td
                   %span.res= "%.2f" % (o.qu * o.pu).round(2)
             %tr
@@ -42,11 +45,11 @@
             &nbsp;| &nbsp;
             - value_for o, 'val',     {style: 'name'}
     - else
-      %tr
+      %tr.pdb-05
         %td
           %span.info.width-450.ju= t('msg.no_payments')
 - else
   %tbody
-    %tr
+    %tr.pdb-05
       %td
         %span.warning= t('msg.no_freight_selected')
