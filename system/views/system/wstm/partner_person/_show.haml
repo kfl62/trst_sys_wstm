@@ -11,7 +11,7 @@
   - tr_show_for @object,  'created_at'
   - tr_show_for @object,  'updated_at'
 - if @object.has_address?; o = @object.address
-  %tbody{id: "tabs-person-address", data: {title: "#{mat(o,'model_name')} #{o.name}"}}
+  %tbody{id: "tabs-person-address",data: {title: "#{mat(o,'model_name')} #{o.name}"}}
     - tr_show_for o,  'id'
     - tr_show_for o,  'name'
     - tr_show_for o,  'city'

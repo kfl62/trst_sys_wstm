@@ -1,4 +1,4 @@
-%tbody#tabs-1{data: {title: mat(@object, :tab_title)}}
+%tbody#tabs-1{data: {title: mat(@object,:tab_title)}}
   - tr_input_for @object, 'id_pn',   {value: params[:id_pn]}
   - tr_input_for @object, 'name_last'
   - tr_input_for @object, 'name_frst'
@@ -8,7 +8,7 @@
   - tr_input_for @object, 'id_doc',  {order: 'by'}
   - tr_input_for @object, 'id_doc',  {order: 'on'}
 - if @object.has_address? ; o = @object.address
-  %tbody{id: "tabs-person-adress", data: {title: "#{mat(o,'model_name')} #{o.name}"}}
+  %tbody{id: "tabs-person-adress",data: {title: "#{mat(o,'model_name')} #{o.name}"}}
     - tr_input_for o,  'name',    {nested: 'partner_person'}
     - tr_input_for o,  'city',    {nested: 'partner_person'}
     - tr_input_for o,  'street',  {nested: 'partner_person'}
@@ -21,7 +21,7 @@
     - tr_input_for o,  'zip',     {nested: 'partner_person'}
     %tr
       %td{colspan: '3'}
-        %input{type: 'hidden', name: "[#{@path}][address_attributes][id]", value: o.id}
+        %input{type: 'hidden',name: "[#{@path}][address_attributes][id]",value: o.id}
 - else
   - o = @object.build_address
   %tbody{id: "tabs-person-address-new",data: {title: mat(o, 'model_name')}}
