@@ -29,11 +29,11 @@ ro:
         p03: Se reţine 3%
         tab_notes_title: Alte date
         tab_notes_content: |
-          Pentru a modifica/adăuga Adresă/Persoană/Unitate la <br>
-          acest Partener (Firmă) alegeţi opţiunea &raquo;Detalii&laquo; după<br>
+          Pentru a modifica/adăuga Adresă/Persoană/Unitate la
+          acest Partener (Firmă) alegeţi opţiunea &raquo;Detalii&laquo; după
           selectarea Partenerului (Firmă).<br>
-          În cazul în care aţi făcut modificări la &raquo;Date Firmă&laquo; <br>
-          apăsând butonul &raquo;Salvare&laquo; veţi fi automat redirecţionat<br>
+          În cazul în care aţi făcut modificări la &raquo;Date Firmă&laquo;
+          apăsând butonul &raquo;Salvare&laquo; veţi fi automat redirecţionat
           la ecranul în cauză.
         tab_addresses_title: Adrese firmă
         tab_addresses_exists: |
