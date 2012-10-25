@@ -71,10 +71,9 @@
               %td
                 %span.p03 0.00
                 - input_for @object, 'sum_003',   {type: 'hidden'}
-              %td
-                %span.out
-                &nbsp;
                 - input_for @object, 'sum_out',   {type: 'hidden'}
+              %td.action-1
+                %span.icon-plus-sign{title: t('button.new_row')}
   %tbody{id: 'tabs-payments',data: {title: mat(@object,'tabs_payments')}}
     %tr.dn
       %td
