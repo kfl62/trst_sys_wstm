@@ -229,12 +229,10 @@ define () ->
               ###
               Buttons default handler Trst.desk.buttons
               ###
-          $('span.icon-remove-sign').each ()->
+          $('tbody').on 'click', 'span.icon-remove-sign', ()->
             $button = $(@)
-            $button.on 'click', ()->
-              $button.parentsUntil('tbody').last().remove()
-              Wstm.desk.delivery_note.calculate()
-              return
+            $button.parentsUntil('tbody').last().remove()
+            Wstm.desk.delivery_note.calculate()
             return
           $('span.icon-plus-sign').on 'click', ()->
             $('tr.total').before(Wstm.desk.tmp.newRow.clone())
