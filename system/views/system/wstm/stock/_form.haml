@@ -1,5 +1,5 @@
 :ruby
-  freights = @object.new_record? ? @object.freights : @object.freights.asc(:id_stats,:pu)
+  freights = @object.new_record? ? @object.freights : @object.freights.where(:qu.ne => 0).asc(:id_stats,:pu)
 %tbody
   %tr
     %td
