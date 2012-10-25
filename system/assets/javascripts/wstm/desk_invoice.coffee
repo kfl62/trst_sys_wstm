@@ -383,6 +383,8 @@ define () ->
                       Trst.msgHide()
                       Trst.desk.downloadError Trst.desk.hdo.model_name
                   false
+            else if Trst.desk.hdo.dialog is 'repair'
+              $button.focus()
             else
               ###
               Buttons default handler Trst.desk.buttons
