@@ -47,6 +47,7 @@ define () ->
             if $('select.doc_type').length
               if $('select.doc_type').val() isnt 'null' and $('input[name*="doc_name"]').val() isnt '' and $('input[name*="doc_plat"]').val() isnt ''
                 $('button[data-action="save"]').button 'option', 'disabled', false
+                $('span.icon-plus-sign').show()
                 return true
             return
           pyms: ()->
@@ -116,6 +117,7 @@ define () ->
               if $select.hasClass 'freight'
                 $select.on 'change', ()->
                   if Wstm.desk.grn.validate.create()
+                    Wstm.desk.tmp.set('newRow',$('tr.freight').last())
                     $sod = $select.find('option:selected').data()
                     $inp = $select.parentsUntil('tbody').last().find('input')
                     $inp.filter('[name*="freight_id"]').val($select.val())
@@ -302,12 +304,20 @@ define () ->
               ###
               Buttons default handler Trst.desk.buttons
               ###
-          $('span.icon-remove-sign').each ()->
+          $('tbody').on 'click','span.icon-remove-sign', ()->
             $button = $(@)
-            $button.on 'click', ()->
-              $button.parentsUntil('tbody').last().remove()
-              Wstm.desk.grn.calculate()
+            $button.parentsUntil('tbody').last().remove()
+            Wstm.desk.grn.calculate()
+            return
+          $('span.icon-plus-sign').on 'click', ()->
+            $('tr.total').before(Wstm.desk.tmp.newRow.clone())
+            $('tr.freight').last().find('input').each ()->
+              $(@).attr('name',$(@).attr('name').replace(/\d/,$('tr.freight').length - 1))
               return
+            Wstm.desk.grn.selects($('tr.freight').last().find('select'))
+            Wstm.desk.grn.calculate()
+            return
+          $('span.icon-plus-sign').hide()
           return
         init: ()->
           if $('#date_show').length
