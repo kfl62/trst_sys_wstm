@@ -22,7 +22,7 @@ def freights
   @object.freights.each_with_object({}) do |f,h|
     key = f.id_stats
     if h[key].nil?
-      h[key] = [f.freight.name, f.freight.descript[0], f.qu]
+      h[key] = [f.freight.name, f.freight.code[0], f.qu]
     else
       h[key][2] += f.qu
     end
