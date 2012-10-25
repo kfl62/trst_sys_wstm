@@ -94,7 +94,7 @@ unit_ids.each do |uid|
       d = pdf.make_table(n, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485]) do
         row(row_length - 1).style(:background_color => "e6e6e6")
       end
-      if pdf.y - d.height < 10.mm
+      if pdf.y - d.height < 20.mm
         pdf.start_new_page(:template => "public/images/wstm/pdf/stock_stats_#{firm.name[0].downcase}_1.pdf")
         pdf.move_up 22.mm
       end
