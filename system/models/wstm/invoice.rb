@@ -40,17 +40,17 @@ module Wstm
       end
       # @todo
       def auto_search(params)
-        day     = params[:day].split('-').map(&:to_i)
+        day = params[:day].split('-').map(&:to_i)
         where(id_date: Date.new(*day))
         .or(doc_name: /#{params[:q]}/i)
         .or(:client_id.in => Wstm::PartnerFirm.only(:id).where(name: /#{params[:q]}/i).map(&:id))
-        .each_with_object([]) do |d,a|
-          a << {id: d.id,
+        .each_with_object([]) do |i,a|
+          a << {id: i.id,
                 text: {
-                        name:  d.name,
-                        title: d.freights_list.join("\n"),
-                        doc_name: d.doc_name,
-                        client:   d.client.name[1]}}
+                        name:  i.name,
+                        title: i.freights_list.join("\n"),
+                        doc_name: i.doc_name,
+                        client:   i.client.name[1]}}
         end
       end
     end # Class methods
