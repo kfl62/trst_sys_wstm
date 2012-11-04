@@ -17,7 +17,7 @@
           %td
             %select#oid
               %option{value: "null"}= t("select.option",data: mat(@object,'model_name'))
-              - @object.where(unit_id: unit_id).default_sort.each do |o|
+              - @object.where(unit_id: unit_id).desc(:id_date).each do |o|
                 %option{value: o.view_filter.first}= o.view_filter.last
       %tfoot
         %tr
