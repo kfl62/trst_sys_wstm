@@ -12,7 +12,7 @@
         - td_value_for  o, 'qu',        {style: 'qu', nested: 'doc_exp'}
         - td_value_for  o, 'val',       {style: 'val',nested: 'doc_exp'}
         %td
-          - p03 = (o.val * 0.03).round(2)
+          - p03 = o.freight.p03 ? (o.val * 0.03).round(2) : 0
           %span.p03= "%.2f" % p03
         %td
           - p16 = (o.val * 0.16).round(2)
