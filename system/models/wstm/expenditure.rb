@@ -71,6 +71,14 @@ module Wstm
           ary.each_with_object([]){|v,a| a << (yearly(y).sum(v)    || 0.0).round(2)}
         end
       end
+      # @todo
+      def check_sum
+        r = all.asc(:name).each_with_object([]) do |e,a|
+          sum = e.freights.sum(:val).round(2)
+          a << "#{e.id_date.to_s} -  #{e.name} - Dif. #{(e.sum_100 - sum).round(2)}" if e.sum_100 != sum
+        end
+        r.length > 0 ? r.join("\n") : "Ok"
+      end
     end # Class methods
 
     # @todo
