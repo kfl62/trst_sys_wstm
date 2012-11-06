@@ -27,7 +27,7 @@ module Wstm
     # @todo validate id_date (min -> Date.today.month - 1)
 
     accepts_nested_attributes_for :freights,
-      reject_if: ->(attrs){ attrs[:qu].to_i == 0 }
+      reject_if: ->(attrs){ attrs[:qu].to_f == 0 }
 
     class << self
       # @todo
