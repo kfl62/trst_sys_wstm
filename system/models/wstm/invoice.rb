@@ -29,7 +29,7 @@ module Wstm
 
     accepts_nested_attributes_for :dlns, :grns
     accepts_nested_attributes_for :freights,
-      reject_if: ->(attrs){ attrs[:qu].to_i == 0 }
+      reject_if: ->(attrs){ attrs[:qu].to_f == 0 }
     accepts_nested_attributes_for :pyms,
       reject_if: ->(attrs){ attrs[:val].empty? }
 
