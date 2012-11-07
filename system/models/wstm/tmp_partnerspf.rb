@@ -29,7 +29,7 @@ class TrstPartnersPf
       sc:     address['sc'],
       et:     address['et'],
       ap:     address['ap']
-    )
+    ).save(validate: false)
     wpf.save
   end
 end
