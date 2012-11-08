@@ -24,8 +24,8 @@ ro:
         model_name: Partener Firmă
         tab_title: Date firmă
         client: Client
-        supplier: Furnizor
-        transporter: Transportator
+        supplr: Furnizor
+        transp: Transportator
         p03: Se reţine 3%
         tab_notes_title: Alte date
         tab_notes_content: |
