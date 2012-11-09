@@ -3,7 +3,7 @@ ro:
     attributes:
       'wstm/invoice':
         model_name: Factură client
-        p03: [['null', 'Tip marfă'], ['true', 'DA se reţine 3%'], ['false', 'NU se reţine 3%']]
+        p03: [['null', 'Tip marfă'], ['true', 'DA se reţine 3%'], ['false', 'NU se reţine 3%'], ['mixt', 'Mixt (Toate avizele)']]
         table_header: ['Material', 'UM', 'Cantitate', 'Valoare<br>Cump.', 'Preţ<br>Vânz.', 'Valoare<br>Vânz.']
         table_header_show: ['Material', 'UM', 'Cantitate', 'Preţ', 'Valoare']
         name: 'Nr. intern '
