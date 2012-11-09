@@ -23,7 +23,7 @@ define () ->
                 $tr.find('input[name*="\[pu\]"]').val(0).decFixed(4)
                 $tr.find('select').focus()
             Wstm.desk.tmp[$sd.key] = res
-            if puf > 0
+            if puf >= 0
               valf = (puf * qu).round(2)
               vali = (pui * qu).round(2)
               $tr.find('input[name*="\[val\]"]').val(valf)
