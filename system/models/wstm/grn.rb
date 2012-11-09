@@ -166,7 +166,7 @@ module Wstm
         set(:charged,true)
         set(:doc_inv_id,inv.id)
       else
-        doc_inv.destroy
+        doc_inv.delete
       end if doc_type == 'INV'
     end
   end # Grn
