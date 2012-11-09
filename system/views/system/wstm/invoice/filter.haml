@@ -31,7 +31,10 @@
             %input#supplr_d_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: 0,ph: 1,search: 'Wstm::PartnerFirm'}}
             %button#supplr_d{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create') + " Delegat!"
         - if params[:p03] && params[:supplr_id]
-          - grns = Wstm::Grn.monthly(y,m).charged(false).by_p03(params[:p03].to_bool).where(supplr_id: params[:supplr_id],doc_type: 'DN').asc(:doc_name)
+          - if params[:p03] == 'mixt'
+            - grns = Wstm::Grn.monthly(y,m).charged(false).where(supplr_id: params[:supplr_id],doc_type: 'DN').asc(:doc_name)
+          - else
+            - grns = Wstm::Grn.monthly(y,m).charged(false).by_p03(params[:p03].to_bool).where(supplr_id: params[:supplr_id],doc_type: 'DN').asc(:doc_name)
           - if grns.empty?
             %tr.grns
               %td
@@ -98,7 +101,7 @@
               - t('month')[1..12].each_with_index do |month,i|
                 %option{value: i + 1, selected: m == i + 1}= month
             %select.wstm.p03
-              - mat(@object,'p03').each do |o|
+              - mat(@object,'p03')[0..2].each do |o|
                 %option{value: o[0], selected: o[0] == params[:p03]}= o[1]
         %tr.pdb-05
           %td
