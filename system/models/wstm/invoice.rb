@@ -19,7 +19,7 @@ module Wstm
     embeds_many :freights,     class_name: "Wstm::InvoiceFreight",   inverse_of: :doc_inv, cascade_callbacks: true
     has_many    :dlns,         class_name: "Wstm::DeliveryNote",     inverse_of: :doc_inv
     has_many    :grns,         class_name: "Wstm::Grn",              inverse_of: :doc_inv
-    has_many    :pyms,         class_name: "Wstm::Payment",          inverse_of: :doc_inv
+    has_many    :pyms,         class_name: "Wstm::Payment",          inverse_of: :doc_inv, dependent: :delete
     belongs_to  :client,       class_name: "Wstm::PartnerFirm",      inverse_of: :invs_client
     belongs_to  :client_d,     class_name: "Wstm::PartnerFirmPerson",inverse_of: :invs_client
     belongs_to  :signed_by,    class_name: "Wstm::User",             inverse_of: :invs
@@ -91,7 +91,7 @@ module Wstm
     def handle_dlns(add_delete)
       dlns.each{|dln| dln.set(:charged,add_delete)}
       grns.each{|grn| grn.set(:charged,add_delete)}
-     freights.each do |f|
+      freights.each do |f|
         dlns.each do |dn|
           dn.freights.each do |dnf|
             if add_delete
