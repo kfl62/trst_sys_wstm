@@ -21,6 +21,23 @@ def delegate(o = nil)
   o ||= @object
   Wstm::PartnerFirm.find(o.transp_id).people.find(o.transp_d_id) rescue 'Anonymous'
 end
+def payment(o = nil)
+  o ||= @object
+  if o.id_intern
+    r = ['Nu este cazul.','Transfer intern!']
+  else
+    if o.doc_type == 'MIN'
+      r = ['Nu este cazul.','PV fără valoare!']
+    elsif o.doc_type == 'DN'
+      r = ['Nu este cazul.','Se va completa la facturare!']
+    elsif o.doc_type == 'INV'
+      r = o.doc_inv.pyms_list
+    else
+      r = ['-']
+    end
+  end
+  r.join("\n")
+end
 def table_data(o = nil)
   o ||= @object
   data, sum_100 = {}, o.sum_100
@@ -97,8 +114,8 @@ pdf.text_box supplier.name[2],
              :at => [140.mm, pdf.bounds.top - 30.mm], :width => 44.mm, :align => :center, :size => 9
 pdf.text_box "#{supplier.identities["fiscal"] rescue '-'}",
              :at => [183.mm, pdf.bounds.top - 30.mm], :width => 38.mm, :align => :center, :size => 9
-# pdf.text_box "#{@object.doc_paym rescue '-'}",
-#              :at => [220.mm, pdf.bounds.top - 30.mm], :width => 63.mm, :align => :center, :size => 9
+pdf.text_box payment(@object),
+             :at => [222.mm, pdf.bounds.top - 29.mm], :width => 63.mm, :align => :left, :size => 8
 pdf.text_box delegate.name,
              :at => [43.mm, pdf.bounds.top - 48.mm], :width => 92.mm, :align => :center, :size => 10
 pdf.text_box "#{@object.doc_plat.upcase rescue '-'}",
