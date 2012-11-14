@@ -109,8 +109,8 @@ module Wstm
               f.qu -= out
               f.val = (f.pu * f.qu).round(2)
               f.save
-              pu = f.pu
-              val= (pu * qu).round(2)
+              self.set(:pu, f.pu)
+              self.set(:val, (pu * qu).round(2))
             else
               fspus = fs.where(:qu.ne => 0).asc(:pu).map(&:pu)
               fspus.delete(lpu).nil? ? fspus : fspus.push(lpu)
