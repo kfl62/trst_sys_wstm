@@ -204,6 +204,24 @@ unit_ids.each do |uid|
         row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
       end
     end
+    v = r_gt.values_at('5001').compact
+    unless v.empty?
+      names = v.each_with_object([]){|a,n| n << a.shift}
+      names.push('Total')
+      v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
+      v.each{|a| a.map!{|e| "%.2f" % e}}
+      names.each_with_index{|n,i| v[i].unshift(n)}
+      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485]) do
+        row(row_length - 1).style(:background_color => "e6e6e6")
+      end
+      data =  [
+                ["Categoria: DEEE"],
+                [d]
+              ]
+      pdf.table(data, :cell_style => {:border_width => 0.1}) do
+        row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
+      end
+    end
     v = r_gt.values
     v.each{|a| a.shift}
     v.each{|a| a.map!{|e| e.to_f}}
@@ -289,9 +307,9 @@ unit_ids.each do |uid|
     pdf.text "%.2f" % ins.where(:doc_exp.ne => nil).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.16)}.sum, :align => :right
     pdf.text "<b>#{"%.2f" % mny[uid][4]}</b>", :align => :right, :inline_format => true
   end
-  pdf.bounding_box([pdf.bounds.left, pdf.bounds.bottom + 15.mm], :width => pdf.bounds.width) do
+  pdf.bounding_box([pdf.bounds.left, pdf.bounds.bottom + 10.mm], :width => pdf.bounds.width) do
     pdf.font_size 7 do
-      pdf.text "Notă:\nÎn tabel coloana preţ conţine codurile interne a materialelor! Ele sunt în ordinea înşirată din capul de tabel.\nValorile calculate se calculează la sume şi sunt doar cu caracter informativ!\nCele efectiv reţinute, deci sumele de virat, sunt cele îngroşate. Suma lor trebuie să fie egală cu diferenţa între 'Intrări achiziţii' şi 'Plătit achiziţii'!"
+      pdf.text "Notă:\nÎn tabel coloana preţ conţine codurile interne a materialelor! Ele sunt în ordinea înşirată din capul de tabel."
     end
   end
 end
