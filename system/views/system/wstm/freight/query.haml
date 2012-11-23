@@ -97,6 +97,12 @@
           - dif = st.pop
           - st.each_with_index do |c,i|
             %td
-              %span.stats.ri{:class => (i == 3) && 'st', :title => (i == 3 && dif != 0) &&  "Transfer intern neoperat:\n\t%0.2f kg\nlipseşte la stoc DPOA!" % dif, :style =>  (i == 3 && dif != 0) && 'color:red;cursor:pointer'}= "%0.2f" % c
+              - if i == 3
+                - if firm.name[0] == 'Diren'
+                  %span.stats.ri.st{:title => dif != 0 &&  "Transfer intern neoperat:\n\t%0.2f kg\nlipseşte la stoc DPOA!" % dif, :style =>  dif != 0 && 'color:red;cursor:pointer'}= "%0.2f" % c
+                - else
+                  %span.stats.ri.st= "%0.2f" % (c - dif)
+              - else
+                %span.stats.ri=  "%0.2f" % c
       %tr
         %td{colspan: cols} &nbsp;
