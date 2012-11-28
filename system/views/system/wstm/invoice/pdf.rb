@@ -61,8 +61,8 @@ if @object.dlns.empty?
   pdf.font 'Verdana'
   pdf.text_box firm.name[2],
                :at => [33.mm, pdf.bounds.top - 8.mm], :style => :bold
-  pdf.text_box "Nr.intern #{@object.name}",
-               :at => [175.mm, pdf.bounds.top - 13.mm], :size => 8
+  # pdf.text_box "Nr.intern #{@object.name}",
+  #              :at => [175.mm, pdf.bounds.top - 13.mm], :size => 8
   pdf.text_box @object.id_date.to_s,
                :at => [230.mm, pdf.bounds.top - 8.mm], :size => 10, :style => :bold
   pdf.text_box "AE nr: #{@object.grns.map(&:doc_name).join(', ')}",
