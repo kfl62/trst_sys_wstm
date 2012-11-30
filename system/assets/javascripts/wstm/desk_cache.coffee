@@ -6,7 +6,7 @@ define () ->
           if $('#date_show').length
             now = new Date()
             min = if Trst.lst.admin is 'true' then new Date(now.getFullYear(),now.getMonth() - 1,1) else new Date(now.getFullYear(),now.getMonth(),1)
-            $('#date_show').datepicker 'option', 'maxDate', '+0'
+            $('#date_show').datepicker 'option', 'maxDate', if Trst.lst.admin is 'true' then '+1' else '+0'
             $('#date_show').datepicker 'option', 'minDate', min
           if Trst.desk.hdo.dialog is 'query'
             $sy = $('#y')
