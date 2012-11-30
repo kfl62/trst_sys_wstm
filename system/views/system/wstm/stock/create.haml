@@ -15,7 +15,7 @@
         %td.buttonset.ce
           %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
 - else
-  - unit.stock_now.freights.where(:qu.ne => 0).asc(:id_stats,:pu).each{|f| @object.freights << f}
+  - unit.stock_now.freights.where(:qu.ne => 0).asc(:id_stats,:pu).each{|f| @object.freights << f.clone}
   %span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_stock'}}
   %form{action: "/sys/#{@path}", method: "post"}
     %table{:cellspacing => "0"}
