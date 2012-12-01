@@ -3,9 +3,9 @@
   today   = Date.today
   y       = params[:y].nil? ? today.year  : params[:y].to_i
   m       = params[:m].nil? ? today.month : params[:m].to_i
-  dln_ary = params[:dln_ary].nil? ? [] : params[:dln_ary].split(',')
-  bckgrnd = {"afdv" => "#FFBFF0","dpoa" => "#FFBFF0","ca21" => "#DDDDDD","cb25" => "#DDDDDD","sa57" => "#FFFF99","o139" => "#FFFF99","r25b" => "#BFFFBF","rafn" => "#BFFFBF"}
+  dln_ary = params[:dln_ary] == 'true' ? [] : params[:dln_ary].split(',') if params[:dln_ary]
   grn_ary = params[:grn_ary] == 'true' ? [] : params[:grn_ary].split(',') if params[:grn_ary]
+  bckgrnd = {"afdv" => "#FFBFF0","dpoa" => "#FFBFF0","ca21" => "#DDDDDD","cb25" => "#DDDDDD","sa57" => "#FFFF99","o139" => "#FFFF99","r25b" => "#BFFFBF","rafn" => "#BFFFBF"}
 - if params[:grn_ary]
   %span#hidden_data.hidden{data: {dialog: "filter",title_data: mat(@object,'model_name_grn'),model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_invoice'}}
   %form{action: "/sys/#{@path}", method: 'get'}
@@ -84,7 +84,7 @@
           %td.buttonset.ce
             %button.inv{type: 'button', data: {action: 'create', icon: 'circle-plus'}}=  t('button.create') + " Factură!"
             %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')
-- else
+- elsif params[:dln_ary]
   %span#hidden_data.hidden{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_invoice'}}
   %form{action: "/sys/#{@path}", method: 'get'}
     %table{cellspacing: "0"}
@@ -168,3 +168,17 @@
           %td.buttonset.ce
             %button.inv{type: 'button', data: {action: 'create', icon: 'circle-plus'}}=  t('button.create') + " Factură!"
             %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')
+- else
+  %span#hidden_data.hidden{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_invoice'}}
+  %form{action: "/sys/#{@path}", method: 'get'}
+    %table{cellspacing: "0"}
+      %thead
+        %tr.pdb-05
+          %td
+            %span.info.width-500.ju= t('intro.filter.desk_invoice.main')
+      %tbody
+      %tfoot
+        %tr
+          %td.buttonset.ce
+            %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')
+
