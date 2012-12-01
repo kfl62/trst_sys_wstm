@@ -37,7 +37,7 @@ define () ->
             else
               if $('#client_id').val() isnt '' and $('#client_d_id').val() isnt '' and $('#client_d_id').val() isnt 'new' and $('select.p03').val() isnt 'null'
                 $url = Trst.desk.hdf.attr('action')
-                $url += "/filter?y=#{$('select.y').val()}"
+                $url += "/filter?dln_ary=true&y=#{$('select.y').val()}"
                 $url += "&m=#{$('select.m').val()}"
                 $url += "&p03=#{$('select.p03').val()}"
                 $url += "&client_id=#{$('#client_id').val()}"
