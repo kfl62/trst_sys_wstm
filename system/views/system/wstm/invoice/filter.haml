@@ -168,17 +168,42 @@
           %td.buttonset.ce
             %button.inv{type: 'button', data: {action: 'create', icon: 'circle-plus'}}=  t('button.create') + " Factură!"
             %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')
-- else
-  %span#hidden_data.hidden{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_invoice'}}
+- elsif params[:inv_ary] == 'payable'
+  %span#hidden_data.hidden{data: {dialog: "filter",title_data:mat(@object,'title_data_payable'),model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_payment'}}
   %form{action: "/sys/#{@path}", method: 'get'}
     %table{cellspacing: "0"}
       %thead
         %tr.pdb-05
           %td
-            %span.info.width-500.ju= t('intro.filter.desk_invoice.main')
+            %span.info.width-500.ju= t('intro.filter.not_ready')
       %tbody
       %tfoot
         %tr
           %td.buttonset.ce
             %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')
-
+- elsif params[:inv_ary] == 'receivable'
+  %span#hidden_data.hidden{data: {dialog: "filter",title_data:mat(@object,'title_data_receivable'),model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_payment'}}
+  %form{action: "/sys/#{@path}", method: 'get'}
+    %table{cellspacing: "0"}
+      %thead
+        %tr.pdb-05
+          %td
+            %span.info.width-500.ju= t('intro.filter.not_ready')
+      %tbody
+      %tfoot
+        %tr
+          %td.buttonset.ce
+            %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')
+- else
+  %span#hidden_data.hidden{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_payment'}}
+  %form{action: "/sys/#{@path}", method: 'get'}
+    %table{cellspacing: "0"}
+      %thead
+        %tr.pdb-05
+          %td
+            %span.info.width-500.ju= t('intro.filter.not_ready')
+      %tbody
+      %tfoot
+        %tr
+          %td.buttonset.ce
+            %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')
