@@ -10,6 +10,10 @@ ro:
           Selectare &raquo;%{data}&laquo; ptr. a crea un APP
         desk_grn: |
           Configurare &raquo;%{data}&laquo;
+        desk_invoice: |
+          Configurare &raquo;%{data}&laquo;
+        desk_payment: |
+          Configurare &raquo;%{data}&laquo;
       query:
         desk_cache: |
           Situaţie monetar - %{data}

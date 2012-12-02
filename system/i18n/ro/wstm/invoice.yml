@@ -21,3 +21,5 @@ ro:
         model_name_grn: Factură furnizor
         table_header_grn: ['Material', 'UM', 'PU', 'Cant.', 'Valoare']
         grns_name: 'Avize recepţionate nr:'
+        title_data_payable: 'Facturi - Plăţi'
+        title_data_receivable: 'Facturi - Încasări'
