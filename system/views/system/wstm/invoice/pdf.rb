@@ -18,7 +18,7 @@ if @object.dlns.empty?
   end
   def delegate(o = nil)
     o ||= @object
-    supplier(o).people.find(o.client_d_id) rescue 'Anonymous'
+    supplier(o).people.find(o.client_d_id)
   end
   def table_data(o = nil)
     o ||= @object
@@ -73,7 +73,7 @@ if @object.dlns.empty?
                :at => [183.mm, pdf.bounds.top - 30.mm], :width => 38.mm, :align => :center, :size => 9
   pdf.text_box @object.pyms_list.join("\n"),
                 :at => [222.mm, pdf.bounds.top - 29.mm], :width => 63.mm, :align => :left, :size => 8
-  pdf.text_box delegate.name,
+  pdf.text_box "#{delegate.name rescue 'Fără delegat'}",
                :at => [43.mm, pdf.bounds.top - 48.mm], :width => 92.mm, :align => :center, :size => 10
   pdf.text_box "Nu este cazul (document cumulat)",
                :at => [175.mm, pdf.bounds.top - 48.mm], :width => 105.mm, :align => :center, :size => 9
