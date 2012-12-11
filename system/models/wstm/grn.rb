@@ -142,7 +142,7 @@ module Wstm
           id_date:      doc_date,
           id_intern:    true,
           doc_name:     doc_name,
-          sum_100:      sum_out,
+          sum_100:      sum_100,
           deadl:        self[:deadl] || Date.today + 30.days,
           payed:        false,
           client_id:    supplr_id,
