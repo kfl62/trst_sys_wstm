@@ -19,7 +19,7 @@ def signed_by(o = nil)
 end
 def delegate(o = nil)
   o ||= @object
-  Wstm::PartnerFirm.find(o.transp_id).people.find(o.transp_d_id) rescue 'Anonymous'
+  Wstm::PartnerFirm.find(o.transp_id).people.find(o.transp_d_id)
 end
 def payment(o = nil)
   o ||= @object
@@ -116,7 +116,7 @@ pdf.text_box "#{supplier.identities["fiscal"] rescue '-'}",
              :at => [183.mm, pdf.bounds.top - 30.mm], :width => 38.mm, :align => :center, :size => 9
 pdf.text_box payment(@object),
              :at => [222.mm, pdf.bounds.top - 29.mm], :width => 63.mm, :align => :left, :size => 8
-pdf.text_box delegate.name,
+pdf.text_box "#{delegate.name rescue 'Fără delegat'}",
              :at => [43.mm, pdf.bounds.top - 48.mm], :width => 92.mm, :align => :center, :size => 10
 pdf.text_box "#{@object.doc_plat.upcase rescue '-'}",
              :at => [175.mm, pdf.bounds.top - 48.mm], :width => 105.mm, :align => :center, :size => 10
