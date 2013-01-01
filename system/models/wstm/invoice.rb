@@ -66,7 +66,8 @@ module Wstm
       else
         invs = Wstm::Invoice.nonin
         if invs.count > 0
-          prefix = invs.asc(:name).last.name.split('_').last[0].next
+          #prefix = invs.asc(:name).last.name.split('_').last[0].next
+          prefix = '2'
           name = "#{unit.firm.name[0][0..2].upcase}_INV-#{prefix}00001"
         else
           name = "#{unit.firm.name[0][0..2].upcase}_INV-000001"
