@@ -114,7 +114,7 @@ module Wstm
         apps = Wstm::Grn.by_unit_id(unit_id)
         unit = Wstm::PartnerFirm.unit_by_unit_id(unit_id)
         if apps.count > 0
-          prefix = apps.asc(:name).last.name.split('-').last[0].next
+          prefix = apps.asc(:name).last.name.split('_').last[0].next
           name = "#{unit.firm.name[0][0..2].upcase}_#{unit.slug}_NIR-#{prefix}00001"
         else
           name = "#{unit.firm.name[0][0..2].upcase}_#{unit.slug}_NIR-000001"
