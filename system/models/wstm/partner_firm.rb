@@ -113,7 +113,12 @@ module Wstm
     end
     # @todo
     def stock_monthly(y,m)
-      stks.find_by(id_date: Date.new(y,m + 1,1))
+      if m == 12
+        y,m = y + 1, 1
+      else
+        m = m + 1
+      end
+      stks.find_by(id_date: Date.new(y,m,1))
     end
   end # FirmUnit
 end # Wstm
