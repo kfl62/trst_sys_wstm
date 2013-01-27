@@ -1,0 +1,46 @@
+ro:
+  mongoid:
+    attributes:
+      'trst/person': &trst_person
+        tab_title: Date personale
+      'trst/address': &trst_address
+        model_name: Adresă
+      'wstm/hmrs/employee':
+        model_name: Angajat / Salariat
+        name: Nume salariat
+        tab_notes_title: Alte date
+        tab_notes_content:
+          'Alte date precum CIM, Decizii, Evaluări etc.<br>
+          le puteţi consulta, crea, edita accesând "Detalii"<br>
+          după selectarea Angajatului!'
+        tab_ilc_title: CIM
+        tab_ilc_not_exists:
+          'Angajatul nu are Contract de Muncă!'
+        tab_ilc_create:
+          'Creare CIM!'
+        tab_addendums_title: Acte Adiţionale
+        tab_addendums_not_exists:
+          'Angajatul nu are Acte Adiţionale!'
+        tab_addendums_create:
+          'Creare Act Adiţional!'
+        << : *trst_person
+      'wstm/hmrs/employee_ilc':
+        model_name: Contract de Muncă
+        name: Nr. înregistrare
+        objct: Obiectul contractului
+        start: Începe activitate în
+        drtn: 'Durata (luni, 0 = Nedeterminată)'
+        wrkplc: Locul de muncă
+        cor: Cod COR
+        wrkhrs: Ore (8|4|2)
+        wrkprg: Program lucru
+        lieve: Zile concediu
+        slry: Salar brut
+        pydys: Zile plată
+        prbtn: Perioada de probă (zile)
+        pdmss: Preaviz concediere (zile)
+        prsgn: Preaviz demisie (zile)
+        ccm: Contract Colectiv de Muncă
+      'wstm/hmrs/employee_addendum':
+        model_name: Act Adiţional
+        name: Nr. înregistrare
