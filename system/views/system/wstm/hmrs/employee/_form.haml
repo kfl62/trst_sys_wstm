@@ -1,0 +1,41 @@
+%tbody#tabs-1{data: {title: mat(@object,:tab_title)}}
+  - tr_input_for @object, 'id_pn',   {value: params[:id_pn]}
+  - tr_input_for @object, 'name_last'
+  - tr_input_for @object, 'name_frst'
+  - tr_input_for @object, 'id_doc',  {order: 'type'}
+  - tr_input_for @object, 'id_doc',  {order: 'sr'}
+  - tr_input_for @object, 'id_doc',  {order: 'nr'}
+  - tr_input_for @object, 'id_doc',  {order: 'by'}
+  - tr_input_for @object, 'id_doc',  {order: 'on'}
+- if @object.has_address? ; o = @object.address
+  %tbody{id: "tabs-employee-adress",data: {title: "#{mat(o,'model_name')} #{o.name}"}}
+    - tr_input_for o,  'name',    {nested: 'employee',disabled: true}
+    - tr_input_for o,  'city',    {nested: 'employee',style: 'ui-state-default focus'}
+    - tr_input_for o,  'street',  {nested: 'employee'}
+    - tr_input_for o,  'nr',      {nested: 'employee'}
+    - tr_input_for o,  'bl',      {nested: 'employee'}
+    - tr_input_for o,  'sc',      {nested: 'employee'}
+    - tr_input_for o,  'ap',      {nested: 'employee'}
+    - tr_input_for o,  'state',   {nested: 'employee'}
+    - tr_input_for o,  'country', {nested: 'employee'}
+    - tr_input_for o,  'zip',     {nested: 'employee'}
+    %tr
+      %td{colspan: '3'}
+        %input{type: 'hidden',name: "[#{@path}][address_attributes][id]",value: o.id}
+- else
+  - o = @object.build_address
+  %tbody{id: "tabs-employee-address-new",data: {title: mat(o, 'model_name')}}
+    - tr_input_for o,  'name',    {nested:  'employee',disabled: true}
+    - tr_input_for o,  'city',    {nested:  'employee',style: 'ui-state-default focus'}
+    - tr_input_for o,  'street',  {nested:  'employee'}
+    - tr_input_for o,  'nr',      {nested:  'employee'}
+    - tr_input_for o,  'bl',      {nested:  'employee'}
+    - tr_input_for o,  'sc',      {nested:  'employee'}
+    - tr_input_for o,  'ap',      {nested:  'employee'}
+    - tr_input_for o,  'state',   {nested:  'employee'}
+    - tr_input_for o,  'country', {nested:  'employee'}
+    - tr_input_for o,  'zip',     {nested:  'employee'}
+%tbody#tabs-3{data: {title: mat(@object, :tab_notes_title)}}
+  %tr
+    %td
+      %span.info.width-350.ju= mat(@object,'tab_notes_content')

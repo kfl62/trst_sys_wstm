@@ -1,0 +1,84 @@
+%tbody#tabs-0{data: {title: mat(@object, :tab_title)}}
+  - tr_show_for @object,  'id'
+  - tr_show_for @object,  'id_pn'
+  - tr_show_for @object,  'name_last'
+  - tr_show_for @object,  'name_frst'
+  - tr_show_for @object,  'id_doc',  {order: 'type'}
+  - tr_show_for @object,  'id_doc',  {order: 'sr'}
+  - tr_show_for @object,  'id_doc',  {order: 'nr'}
+  - tr_show_for @object,  'id_doc',  {order: 'by'}
+  - tr_show_for @object,  'id_doc',  {order: 'on'}
+  - tr_show_for @object,  'created_at'
+  - tr_show_for @object,  'updated_at'
+- if @object.has_address?; o = @object.address
+  %tbody#tabs-1{data: {title: "#{mat(o,'model_name')} #{o.name}"}}
+    - tr_show_for o,  'id'
+    - tr_show_for o,  'name'
+    - tr_show_for o,  'city'
+    - tr_show_for o,  'street'
+    - tr_show_for o,  'nr'
+    - tr_show_for o,  'bl'
+    - tr_show_for o,  'sc'
+    - tr_show_for o,  'ap'
+    - tr_show_for o,  'state'
+    - tr_show_for o,  'country'
+    - tr_show_for o,  'zip'
+    - tr_show_for o,  'created_at'
+    - tr_show_for o,  'updated_at'
+- else
+  %tbody#tabs-1{data: {title: "#{mat(o,'model_name')} #{o.name}"}}
+    %tr.pdb-05
+      %td{colspan: '2'}
+        %span.info= mat(@object,'tab_address_not_exists')
+- if @object.has_ilc?; o = @object.ilc
+  %tbody#tabs-2{data: {title: "#{mat(@object,'tab_ilc_title')}"}}
+    %tr.pdb-05
+      %td{colspan: '2'}
+        %span.info= mat(@object,'tab_ilc_exists')
+    %tr
+      %td
+        %span.value.ui-state-default= o.name
+      %td.buttonset
+        %button{type: "button",title: "#{t('button.show')}",  data: {url: "/sys/#{@path}_ilc",oid: o.id,r_id: @object.id,r_path: "/sys/#{@path}/#{@object.id}",tab: 2,r_mdl: 'employee',action: "show",text: 'hidden',  icon: "clipboard"}}= t('button.show')
+        %button{type: "button",title: "#{t('button.edit')}",  data: {url: "/sys/#{@path}_ilc",oid: o.id,r_id: @object.id,r_path: "/sys/#{@path}/#{@object.id}",tab: 2,r_mdl: 'employee',action: "edit",text: 'hidden',  icon: "document"}}= t('button.edit')
+        %button{type: "button",title: "#{t('button.print')}", data: {fn: "CIM_#{@object.id_pn}",action: "print",text: 'hidden', icon: "print"}}= t('button.print')
+        %button{type: "button",title: "#{t('button.delete')}",data: {url: "/sys/#{@path}_ilc",oid: o.id,r_id: @object.id,r_path: "/sys/#{@path}/#{@object.id}",tab: 2,r_mdl: 'employee',action: "delete",text: 'hidden',icon: "circle-minus"}}= t('button.delete')
+- else
+  %tbody#tabs-2{data: {title: "#{mat(@object,'tab_ilc_title')}"}}
+    %tr.pdb-05
+      %td{colspan: '2'}
+        %span.info= mat(@object,'tab_ilc_not_exists')
+    %tr
+      %td
+        %span.value.ui-state-default= mat(@object,'tab_ilc_create')
+      %td.buttonset
+        %button{type: "button",title: "#{t('button.create')}",data: {url: "/sys/#{@path}_ilc",r_id: @object.id,r_path: "/sys/#{@path}/#{@object.id}",tab: 2,r_mdl: 'employee',action: "create",text: 'hidden',  icon: "circle-plus"}}= t('button.create')
+- if @object.addendums.empty?
+  %tbody#tabs-3{data: {title: "#{mat(@object,'tab_addendums_title')}"}}
+    %tr.pdb-05
+      %td{colspan: '2'}
+        %span.info= mat(@object,'tab_addendums_not_exists')
+    %tr
+      %td
+        %span.value.ui-state-default= mat(@object,'tab_addendums_create')
+      %td.buttonset
+        %button{type: "button",title: "#{t('button.create')}",data: {url: "/sys/#{@path}_addendum",r_id: @object.id,r_path: "/sys/#{@path}/#{@object.id}",tab: 3,r_mdl: 'employee',action: "create",text: 'hidden',  icon: "circle-plus"}}= t('button.create')
+- else
+  %tbody#tabs-3{data: {title: "#{mat(@object,'tab_addendums_title')}"}}
+    %tr.pdb-05
+      %td{colspan: '2'}
+        %span.info= mat(@object,'tab_addendums_exists')
+    - @object.addendums.each do |o|
+      %tr
+        %td
+          %span.value.ui-state-default= o.name
+        %td.buttonset
+          %button{type: "button",title: "#{t('button.show')}",  data: {url: "/sys/#{@path}_addendum",oid: o.id,r_id: @object.id,r_path: "/sys/#{@path}/#{@object.id}",tab: 3,r_mdl: 'employee',action: "show",text: 'hidden',  icon: "clipboard"}}= t('button.show')
+          %button{type: "button",title: "#{t('button.edit')}",  data: {url: "/sys/#{@path}_addendum",oid: o.id,r_id: @object.id,r_path: "/sys/#{@path}/#{@object.id}",tab: 3,r_mdl: 'employee',action: "edit",text: 'hidden',  icon: "document"}}= t('button.edit')
+          %button{type: "button",title: "#{t('button.print')}", data: {ch_id: o.id,fn: "CIM-AA_#{@object.id_pn}",action: "print",text: 'hidden', icon: "print"}}= t('button.print')
+          %button{type: "button",title: "#{t('button.delete')}",data: {url: "/sys/#{@path}_addendum",oid: o.id,r_id: @object.id,r_path: "/sys/#{@path}/#{@object.id}",tab: 3,r_mdl: 'employee',action: "delete",text: 'hidden',icon: "circle-minus"}}= t('button.delete')
+    %tr
+      %td
+        %span.value.ui-state-default= mat(@object,'tab_addendums_create')
+      %td.buttonset
+        %button{type: "button",title: "#{t('button.create')}",data: {url: "/sys/#{@path}_addendum",r_id: @object.id,r_path: "/sys/#{@path}/#{@object.id}",tab: 3,r_mdl: 'employee',action: "create",text: 'hidden',  icon: "circle-plus"}}= t('button.create')
