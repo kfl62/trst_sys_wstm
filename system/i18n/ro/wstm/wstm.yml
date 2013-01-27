@@ -265,6 +265,7 @@ ro:
       desk_delivery_note: ['Alegeţi - Destinatar', 'Alegeţi - Delegat (opţional)', 'Alegeţi - Transportator', 'Alegeţi - Delegat', 'Selectaţi - Aviz de expediţie']
       desk_grn: ['Alegeţi - Furnizor', 'Alegeţi - Delegat (opţional)', 'Alegeţi - Transportator', 'Alegeţi - Delegat', 'Selectaţi - Notă de recepţie']
       desk_invoice: ['Alegeţi - Client', 'Alegeţi - Delegat', 'Selectaţi - Factură', 'Alegeţi - Furnizor']
+      desk_hmrs_employee: ['Alegeţi - Angajat / Salariat']
     msg:
       input_too_short_strt: |
         Vă rugăm întroduceţi min. %{nr} caractere!
