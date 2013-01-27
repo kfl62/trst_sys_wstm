@@ -67,7 +67,7 @@ if @object.dlns.empty?
                :at => [230.mm, pdf.bounds.top - 8.mm], :size => 10, :style => :bold
   pdf.text_box "AE nr: #{@object.grns.map(&:doc_name).join(', ')}",
                :at => [16.mm, pdf.bounds.top - 30.mm], :width => 91.mm, :size => 8
-  pdf.text_box supplier.name[1],
+  pdf.text_box supplier.name[2],
                :at => [140.mm, pdf.bounds.top - 30.mm], :width => 44.mm, :align => :center, :size => 9
   pdf.text_box "#{supplier.identities["fiscal"] rescue '-'}",
                :at => [183.mm, pdf.bounds.top - 30.mm], :width => 38.mm, :align => :center, :size => 9
