@@ -13,7 +13,7 @@
   %table{:cellspacing => "0"}
     %thead
       %tr
-        %td.ce{colspan: with_pu ? 8 : 6}
+        %td.ce
           - label_for @object, 'name'
           - input_for @object, 'name', {value: @object.increment_name(unit_id),style: 'ui-state-default ce id_intern'}
           - label_for @object, 'id_date'
@@ -28,17 +28,21 @@
           - if client_d
             - input_for @object, 'client_d_id',{type: 'hidden',value: client_d.id}
       %tr.pdb-05
-        %td.ce{colspan: with_pu ? 8 : 6}
+        %td.ce
           - label_for @object, 'doc_name'
           - input_for @object, 'doc_name',     {style: 'ui-state-default focus', value: "#{firm.name[0][0..2].upcase}-"}
           - label_for @object, 'doc_plat'
           - input_for @object, 'doc_plat'
       %tr.pdb-05
-        %td{colspan: with_pu ? 8 : 6}
+        %td
           %span.info.width-500.ju= t('intro.create.desk_delivery_note',firm: firm.name[2],firm_d: @current_user.name,client: client.name[2],client_d: (client_d.name rescue 'Anonymous'),transp: transp.name[2],transp_d: transp_d.name)
-    = partial "#{@path}/form",locals: {freights: freights,client: client,with_pu: with_pu}
+    %tbody
+      %tr
+        %td
+          %table.scroll{:cellspacing => "0", style: "font-size:12px"}
+            = partial "#{@path}/form",locals: {freights: freights,client: client,with_pu: with_pu}
     %tfoot
       %tr
-        %td.buttonset.ce{colspan: with_pu ? 8 : 6}
+        %td.buttonset.ce
           %button{type: "button",data: {action: "save",icon: "disk",remove: 'false'}}= t('button.save')
           %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')

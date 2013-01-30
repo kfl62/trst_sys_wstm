@@ -1,6 +1,6 @@
 - if with_pu
   %tbody.inner
-    %tr
+    %tr.scroll
       - mat(@object,'table_header_form_with_pu').each do |label|
         %td.ce= label
     - if @object.freights.empty?
@@ -48,7 +48,7 @@
           %span.warning Editing not allowed!
 - else
   %tbody.inner
-    %tr
+    %tr.scroll
       - mat(@object,'table_header_form').each do |label|
         %td.ce= label
     - if @object.freights.empty?
