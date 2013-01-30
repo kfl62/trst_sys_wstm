@@ -236,6 +236,7 @@ define () ->
             return
           $('span.icon-plus-sign').on 'click', ()->
             $('tr.total').before(Wstm.desk.tmp.newRow.clone())
+            (Wstm.desk.scrollHeader($('table.scroll'),308) if $('table.scroll').height() > 320) unless $('#scroll-container').length
             $('tr.freight').last().find('input').each ()->
               $(@).attr('name',$(@).attr('name').replace(/\d/,$('tr.freight').length - 1))
               return

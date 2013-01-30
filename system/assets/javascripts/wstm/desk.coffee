@@ -10,10 +10,10 @@ define () ->
               delete @[k] if k in [what...]
             else
               delete @[k] unless k in ['set','clear']
-      scrollHeader: (tbl)->
+      scrollHeader: (tbl,h=450)->
         $table = $(tbl)
-        tblHdr   = $('<table style="width:auto;font-size:12px"><tbody class="inner"><tr></tr><tr></tr></tbody></table>')
-        tblCntnr = $('<div style="height:450px;overflow-x:hidden;overflow-y:scroll"></div>')
+        tblHdr   = $("<table style='width:auto;font-size:12px'><tbody class='inner'><tr></tr><tr></tr></tbody></table>")
+        tblCntnr = $("<div id='scroll-container' style='height:#{h}px;overflow-x:hidden;overflow-y:scroll'></div>")
         tblClmnW = []
         $table.find('tr.scroll td').each (i)->
           tblClmnW[i] = $(this).width()
