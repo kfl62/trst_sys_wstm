@@ -14,9 +14,30 @@ module Wstm
     class << self
     end # Class methods
 
-    #todo
+    # @todo
     def unit
       Wstm::PartnerFirm.unit_by_unit_id(unit_id) rescue nil
+    end
+    # @todo
+    def work_stats(y = nil,m = nil,daily = false)
+      y ||= Date.today.year
+      m ||= Date.today.month
+      a, h = [], {}
+      if has_unit?
+        (1..Time.days_in_month(m,y)).each do |d|
+          day = Date.new(y,m,d)
+          exp = apps.daily(y,m,d)
+          sum = exp.sum(:sum_out)
+          a << sum if exp.count > 0
+          if daily
+            h[day.to_s] = [exp.count, sum.round(2)] if exp.count > 0
+          end
+        end
+        h['TOTAL'] = h.values.transpose.map{|x| x.reduce(:+)} unless h.empty?
+      end
+      retval = [a.length, a.sum.round(2), (a.sum / a.length rescue 0).round(2)]
+      retval << h if daily
+      retval
     end
   end # User
 end # Wstm
