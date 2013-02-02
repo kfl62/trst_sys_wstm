@@ -1,0 +1,12 @@
+%span#hidden_data.hidden{data: {dialog: "query",title_data: "Client",model_name: mat(@object,'model_name'),oid: "null"}}
+%form{action: "/sys/#{@path}", method: 'get'}
+  %table{cellspacing: "0"}
+    %thead
+      %tr.pdb-05
+        %td
+          %span.info.width-300.ju= t('intro.filter.not_ready')
+    %tbody
+    %tfoot
+      %tr
+        %td.buttonset.ce
+          %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')
