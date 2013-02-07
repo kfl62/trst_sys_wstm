@@ -33,22 +33,30 @@ module Wstm
     def work_stats(y = nil,m = nil)
       y ||= Date.today.year
       m ||= Date.today.month
-      a, h = [], {}
+      wdy,out = 0.0,0.0
       if has_unit?
-        (1..Time.days_in_month(m,y)).each do |d|
-          day = Date.new(y,m,d)
-          exp = apps.daily(y,m,d)
-          sum = exp.sum(:sum_out)
-          a << sum if exp.count > 0
-          if daily
-            h[day.to_s] = [exp.count, sum.round(2)] if exp.count > 0
+        s = stats.find_by(id_date: Date.new(y,m,1))
+        if s && m != Date.today.month && s.created_at > Date.new(s.id_date.year,s.id_date.month,Time.days_in_month(s.id_date.month,s.id_date.year))
+          return s
+        else
+          s = stats.find_or_create_by(id_date: Date.new(y,m,1))
+          (1..Time.days_in_month(m,y)).each do |d|
+            day = Date.new(y,m,d)
+            exp = apps.daily(y,m,d)
+            sum = exp.sum(:sum_out)
+            if exp.count > 0
+              s.day[day.to_s] = [exp.count, sum.round(2)]
+              wdy += 1
+              out += sum
+            end
           end
+          s.wdy = wdy; s.out = out.round(2); s.avg = (out / wdy).nan? ? 0.0 : (out / wdy).round(2)
+          s.save
         end
-        h['TOTAL'] = h.values.transpose.map{|x| x.reduce(:+)} unless h.empty?
+        return s
+      else
+        return nil
       end
-      retval = [a.length, a.sum.round(2), (a.sum / a.length rescue 0).round(2)]
-      retval << h if daily
-      retval
     end
   end # User
 
