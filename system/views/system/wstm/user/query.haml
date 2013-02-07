@@ -23,13 +23,13 @@
           %td
             %span.pdl-05= u.unit.name[0]
           %td
-            - sday += d[0]
-            %span.flri.pdr-05= "%.2f" % d[0]
+            - sday += d.wdy
+            %span.flri.pdr-05= "%.2f" % d.wdy
           %td
-            - sout += d[1]
-            %span.flri.pdr-05= "%.2f" % d[1]
+            - sout += d.out
+            %span.flri.pdr-05= "%.2f" % d.out
           %td
-            %span.flri.pdr-05= "%.2f" % d[2]
+            %span.flri.pdr-05= "%.2f" % d.avg
       %tr
         %td.ce= 'Total'
         %td= ''
@@ -60,7 +60,7 @@
                   %option{value: year, selected: y == year}= year
               %select#m
                 - t('month')[1..12].each_with_index do |month,i|
-                  %option{value: i + 1, selected: m == i + 1}= month
+                  %option{value: i + 1, selected: m == i + 2}= month
         %tr.pdb-05
           %td
             %input#user_ids.ui-state-default{type: 'hidden',style: 'width:300px',data: {data: s2dt}}
