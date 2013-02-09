@@ -17,11 +17,12 @@ define () ->
         handleNoFreight: ()->
           $sy = $('#y')
           $sm = $('#m')
+          $sd = $('#d')
           $su = $('#u')
           $('select').each ()->
             $select = $(@)
             $select.on 'change', ()->
-              $url  = "sys/wstm/freight/query?y=#{$sy.val()}&m=#{$sm.val()}"
+              $url  = "sys/wstm/freight/query?y=#{$sy.val()}&m=#{$sm.val()}&d=#{$sd.val()}"
               $url += "#{$url}&uid=#{$su.val()}" if $su.length
               Trst.desk.init($url)
               return
