@@ -2,6 +2,7 @@
   today = Date.today;   cols = 0
   y   = params[:y].nil? ? today.year  : params[:y].to_i
   m   = params[:m].nil? ? today.month : params[:m].to_i
+  d   = params[:d].nil? ? 0 : params[:d].to_i
   uid = @current_user.unit_id ? @current_user.unit_id : params[:uid] == 'null' ? nil : params[:uid]
   fid = params[:fid] ? params[:fid] == 'null' ? nil : params[:fid] : nil
   firm= Wstm::PartnerFirm.find_by(firm: :true); unit= firm.units.find(uid) if uid; freight = Wstm::Freight.find(fid) if fid
@@ -16,9 +17,10 @@
       %select#m
         - t('month')[1..12].each_with_index do |month,i|
           %option{value: i + 1, selected: m == i + 1}= month
-      - if @current_user.unit_id
-        %span= l(today, format: :trst) if m == today.month
-      - else
+      %select#d{style: 'font-family:Courier'}
+        - (0..Time.days_in_month(m,y)).each do |day|
+          %option{value: day, selected: d == day}= l(Date.new(y,m,day), format: "%a, %Y-%m-%d") rescue 'Intrări zilnice'
+      - unless @current_user.unit_id
         %select#u
           %option{value: 'null'} Toate unităţile
           - firm.units.asc(:slug).each do |pos|
@@ -30,13 +32,21 @@
         - mat(@object,'table_all').each do |cn|; cols += 1
           %td
             %span.stats.ce= cn
+        - if d > 0; cols += 1
+          %td
+            %span.stats.ce= Date.new(y,m,d).to_s
       - unit.freights.stats_pos(y,m).each do |st|
         %tr
           %td
-            %span.stats.link{id: st.shift}= st.shift
+            - id = st.shift
+            %span.stats.link{id: id}= st.shift
           - st.each do |s|
             %td
               %span.stats.ri= "%0.2f" % s
+          - if d > 0
+            - ins = Wstm::Freight.find(id).ins.daily(y,m,d).sum(:qu)
+            %td
+              %span.stats.ri= "%0.2f" % ins
       %tr
         %td{colspan: cols} &nbsp;
 - elsif freight
