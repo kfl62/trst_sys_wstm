@@ -44,7 +44,7 @@
             %td
               %span.stats.ri= "%0.2f" % s
           - if d > 0
-            - ins = Wstm::Freight.find(id).ins.daily(y,m,d).sum(:qu)
+            - ins = Wstm::Freight.find(id).ins.nonin.daily(y,m,d).sum(:qu)
             %td
               %span.stats.ri= "%0.2f" % ins
       %tr
