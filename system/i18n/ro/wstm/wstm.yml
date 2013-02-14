@@ -239,8 +239,20 @@ ro:
             cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}
             legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}
             mijloc de transport _________________, următoarele deşeuri reciclabile:
+          text_empty_01: |
+            S-au primit de la %{name} CNP %{id_pn}
+            cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}
+            legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}
+            mijloc de transport _________________, următoarele deşeuri reciclabile:
           text_02: |
             Subsemnatul <b>%{name}</b> declar următoarele:
+            1.) Cunosc faptul că falsul în declaraţie constituie infracţiune, se pedepseşte
+            #####conform Codului Penal;
+            2.) Materialele pe care le predau provin din:
+            #####a.) Gospodărie proprie;
+            #####b.) Alte surse.
+          text_empty_02: |
+            Subsemnatul %{name} declar următoarele:
             1.) Cunosc faptul că falsul în declaraţie constituie infracţiune, se pedepseşte
             #####conform Codului Penal;
             2.) Materialele pe care le predau provin din:
