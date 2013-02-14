@@ -8,6 +8,14 @@ end
 def address
   firm.addresses.first
 end
+def client_hash
+  if @object.name == 'EMPTY'
+    data = {id_pn: "_"*18, name: "_"*23,city: "_"*10,street: "_"*20,nr: "_"*3,bl: "_"*3,sc: "_"*3,et: "_"*3,ap: "_"*3,dsr: "_"*3,dnr: "_"*8,dby: "_"*8,don: "_"*8}
+  else
+    data = @object.client.i18n_hash
+  end
+  data
+end
 def freight_name(name)
   ary = name.split(" ")
   case ary.length
@@ -28,28 +36,52 @@ def table_freight_data
     p16 = (val * 16 / 100).round(2)
     out = val - (p03 + p16)
     data[i + 1] = [i +1 , freight_name(f.freight.name), f.um, "%.2f" % f.pu, "%.2f" % f.qu, "%.2f" % val, "%.2f" % p03, "%.2f" % p16, "%.2f" % out]
-  end
+  end unless @object.name == 'EMPTY'
   for i in data.length..5 do
     data[i] = [i, "","","","","","","",""]
   end
-  data[6] = ["","TOTAL","","","", "%.2f" % @object.sum_100, "%.2f" % @object.sum_003, "%.2f" % @object.sum_016, "%.2f" % @object.sum_out]
+  if @object.name == 'EMPTY'
+    data[6] = ["","TOTAL","","","","","","",""]
+  else
+    data[6] = ["","TOTAL","","","", "%.2f" % @object.sum_100, "%.2f" % @object.sum_003, "%.2f" % @object.sum_016, "%.2f" % @object.sum_out]
+  end
   data
 end
 def table_recap_data
-  data = [
-    ["Din valoarea totala de","%.2f" % @object.sum_100, "RON s-au reţinut:"],
-    ["Taxă mediu (3%) în valoare de","%.2f" % @object.sum_003,"RON"],
-    ["Impozit  (16%) în valoare de","%.2f" % @object.sum_016,"RON"],
-    [Prawn::Text::NBSP,Prawn::Text::NBSP,Prawn::Text::NBSP],
-    ["S-a achitat suma de","%.2f" % @object.sum_out, "RON"]
-  ]
+  if @object.name == 'EMPTY'
+    data = [
+      ["Din valoarea totala de","_"*8,"RON s-au reţinut:"],
+      ["Taxă mediu (3%) în valoare de","_"*8,"RON"],
+      ["Impozit  (16%) în valoare de","_"*8,"RON"],
+      [Prawn::Text::NBSP,Prawn::Text::NBSP,Prawn::Text::NBSP],
+      ["S-a achitat suma de","_"*8,"RON"]
+    ]
+  else
+    data = [
+      ["Din valoarea totala de","%.2f" % @object.sum_100, "RON s-au reţinut:"],
+      ["Taxă mediu (3%) în valoare de","%.2f" % @object.sum_003,"RON"],
+      ["Impozit  (16%) în valoare de","%.2f" % @object.sum_016,"RON"],
+      [Prawn::Text::NBSP,Prawn::Text::NBSP,Prawn::Text::NBSP],
+      ["S-a achitat suma de","%.2f" % @object.sum_out, "RON"]
+    ]
+  end
+  data
 end
 def table_sign_data
-  data = [
-    ["Gestionar","Primitor"],
-    [@object.signed_by.name,@object.client.name],
-    ["_"*25,"_"*25]
-  ]
+  if @object.name == 'EMPTY'
+    data = [
+      ["Gestionar","Primitor"],
+      [@object.signed_by.name,""],
+      ["_"*25,"_"*25]
+    ]
+  else
+    data = [
+      ["Gestionar","Primitor"],
+      [@object.signed_by.name,@object.client.name],
+      ["_"*25,"_"*25]
+    ]
+  end
+  data
 end
 def box_content(pdf)
   pdf.font_size 8 do
@@ -67,11 +99,20 @@ def box_content(pdf)
   pdf.text 'ADEVERINŢĂ DE PRIMIRE ŞI PLATĂ',
     :align => :center, :size => 12, :style => :bold
   pdf.move_down 5.mm
-  pdf.text "Nr. #{@object.name} din #{@object.id_date.strftime('%Y-%m-%d')}",
-    :align => :center, :size => 10, :style => :bold
+  if @object.name == 'EMPTY'
+    pdf.text "Nr. #{'_'*5} din #{'_'*15}",
+      :align => :center, :size => 10, :style => :bold
+  else
+    pdf.text "Nr. #{@object.name} din #{@object.id_date.strftime('%Y-%m-%d')}",
+      :align => :center, :size => 10, :style => :bold
+  end
   pdf.move_down 5.mm
   pdf.font_size 9 do
-    pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_01', @object.client.i18n_hash),:leading => 2, :inline_format => true
+    if @object.name == 'EMPTY'
+      pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_empty_01',client_hash),:leading => 2, :inline_format => true
+    else
+      pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_01',client_hash),:leading => 2, :inline_format => true
+    end
     pdf.move_down 10.mm
     pdf.table(table_freight_data) do
       style(row(0..7), :padding => [1,3])
@@ -93,12 +134,23 @@ def box_content(pdf)
       style(row(6), :background_color => 'dddddd', :align => :center)
     end
     pdf.move_down 10.mm
-    pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_02', @object.client.i18n_hash).gsub('#',"#{Prawn::Text::NBSP}"),:leading => 2, :inline_format => true
+    if @object.name == 'EMPTY'
+      pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_empty_02',client_hash).gsub('#',"#{Prawn::Text::NBSP}"),:leading => 2, :inline_format => true
+    else
+      pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_02',client_hash).gsub('#',"#{Prawn::Text::NBSP}"),:leading => 2, :inline_format => true
+    end
     pdf.draw_text('Semnătura (amprenta) ________________', :at  => [50.mm,pdf.y - 25])
     pdf.move_down 5.mm
-    pdf.table(table_recap_data) do
-      cells.style(:borders => [], :padding => [1,3])
-      column(1).style(:align => :right, :font_style => :bold, :width => 25.mm)
+    if @object.name == 'EMPTY'
+      pdf.table(table_recap_data) do
+        cells.style(:borders => [], :padding => [1,3])
+        column(1).style(:align => :right,:width => 25.mm)
+      end
+    else
+      pdf.table(table_recap_data) do
+        cells.style(:borders => [], :padding => [1,3])
+        column(1).style(:align => :right,:width => 25.mm,:font_style => :bold)
+      end
     end
     pdf.move_down 10.mm
     pdf.table(table_sign_data) do
