@@ -1,5 +1,5 @@
 :ruby
-  unit_id = @current_user.unit_id.nil? ? session[:unit_id] : @current_user.unit_id
+  unit_id = @current_user.unit_id || session[:unit_id]
 %span#hidden_data.hidden{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_cache'}}
 -if unit_id
   - unless @current_user.unit_id
