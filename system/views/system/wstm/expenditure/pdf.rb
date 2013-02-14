@@ -10,7 +10,7 @@ def address
 end
 def client_hash
   if @object.name == 'EMPTY'
-    data = {id_pn: "_"*18, name: "_"*23,city: "_"*10,street: "_"*20,nr: "_"*3,bl: "_"*3,sc: "_"*3,et: "_"*3,ap: "_"*3,dsr: "_"*3,dnr: "_"*8,dby: "_"*8,don: "_"*8}
+    data = {id_pn: "_"*18, name: "_"*23,city: "_"*10,street: "_"*20,nr: "_"*3,bl: "_"*3,sc: "_"*3,et: "_"*3,ap: "_"*3,dsr: "_"*3,dnr: "_"*12,dby: "_"*8,don: "_"*8}
   else
     data = @object.client.i18n_hash
   end
