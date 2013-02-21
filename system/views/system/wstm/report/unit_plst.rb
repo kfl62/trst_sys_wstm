@@ -64,7 +64,8 @@ unit_ids.each_with_index do |unit_id,next_unit|
   tbl = pdf.make_table(data,cell_style: {border_width: 0.1, inline_format: true}) do
     pdf.font_size 24
     row(0).style(:background_color => "f9f9f9",:padding => [2,5,2,5], align: :center)
-    column(1).rows(1..100).style(:align => :right)
+    column(0).style(width: 120.mm)
+    column(1).rows(1..100).style(align: :right)
   end
   pdf.bounding_box([0,pdf.bounds.top - 75], width: pdf.bounds.width) do
     pdf.text 'Listă prețuri',
@@ -77,14 +78,14 @@ unit_ids.each_with_index do |unit_id,next_unit|
     tbl.draw
   end
   _y -= (tbl.height + 27)
-  pdf.bounding_box([_x,_y], width: pdf.bounds.width) do
+  pdf.bounding_box([_x,_y], width: tbl.width) do
     pdf.font_size 9 do
       pdf.text "<b><sup>(1)</sup></b> La aceste tipuri de deșeuri prețul poate varia în funcție de culoare, calitate, tip etc.",inline_format: true
-      pdf.text "<b><sup>(2)</sup></b> La deșeurile de fier prețul poate varia în funcție de sortiment (tablă, fier brut, amestecat etc.).",inline_format: true
+      pdf.text "<b><sup>(2)</sup></b> La deșeurile de fier prețul poate varia în funcție de sortiment (tablă, fier brut etc.).",inline_format: true
       pdf.text "Pentru detalii întrebați gestionarul!"
     end
   end
-  pdf.bounding_box([_x,60], width: pdf.bounds.width) do
+  pdf.bounding_box([0,60], width: pdf.bounds.width) do
     pdf.font_size 10 do
       pdf.text "<b>Important:</b>",inline_format: true
       pdf.text "La primirea banilor solicitați gestionarului <b>Adeverința de Primire/Plată</b>!", inline_format: true

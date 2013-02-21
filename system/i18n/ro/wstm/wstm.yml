@@ -91,16 +91,24 @@ ro:
         desk_report:
           cdd: Document cumulativ APP
           grn: Notă de recepţie APP
+          plst: Listă preț
           stock_stats: Situaţie lunară (Statistică)
           stock_accounting: Situaţie lunară (Contabilă)
           unit: |
             După ce alegeţi data, sau o lăsaţi pe cea de azi
             puteţi genera un &raquo;%{data}&laquo; pentru<br>
             <b>%{unit}</b>
+          unit_plst: |
+            Dacă ați modificat prețul la materiale,
+            puteţi genera o nouă &raquo;%{data}&laquo; pentru<br>
+            <b>%{unit}</b>
           firm: |
             Se poate tipări &raquo;%{data}&laquo; pe mai multe zile,
             cu începere din data pe care o selectaţi. Trebuie să alegeţi cel
             puţin una, sau mai multe Puncte de Colectare.
+          firm_plst: |
+            Pentru a tipări &raquo;%{data}&laquo; trebuie să alegeţi cel puţin una,
+            sau mai multe Puncte de Colectare.
           stats: |
             Pentru luna curentă datele sunt în funcţie de documentele operate,
             deoarece se lucrează cu stocul curent. Trebuie să alegeţi cel puţin una,
@@ -264,6 +272,8 @@ ro:
               %{firm}%{unit}_DC-
             grn: |
               %{firm}%{unit}_NIR-
+            plst: |
+              %{firm}%{unit}_ListaPret-
             stock_stats: |
               %{firm}%{unit}_Luna-
             stock_accounting: |
