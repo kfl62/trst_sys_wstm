@@ -47,6 +47,7 @@ pdf.font_families.update(
 unit_ids.each_with_index do |unit_id,next_unit|
   unit = Wstm::PartnerFirm.unit_by_unit_id(unit_id)
   data = unit.freights.asc(:id_stats).each_with_object([['Deșeu','Preț']]){|f,a| a << ["#{f.name}#{superscript(f.id_stats)}", "%0.2f" % f.pu] }
+  fs = data.length > 15 ? 22 : 24
   # @todo
   pdf.start_new_page
   pdf.font 'Verdana'
@@ -62,17 +63,17 @@ unit_ids.each_with_index do |unit_id,next_unit|
     pdf.text 'Cluj-Napoca, judeţul Cluj'
   end
   tbl = pdf.make_table(data,cell_style: {border_width: 0.1, inline_format: true}) do
-    pdf.font_size 24
+    pdf.font_size fs
     row(0).style(:background_color => "f9f9f9",:padding => [2,5,2,5], align: :center)
     column(0).style(width: 120.mm)
     column(1).rows(1..100).style(align: :right)
   end
-  pdf.bounding_box([0,pdf.bounds.top - 75], width: pdf.bounds.width) do
+  pdf.bounding_box([0,pdf.bounds.top - 65], width: pdf.bounds.width) do
     pdf.text 'Listă prețuri',
       align: :center,size: 24,style: :bold
   end
   _x = (pdf.bounds.width - tbl.width)/2
-  _y = (pdf.bounds.top - 120)
+  _y = (pdf.bounds.top - 100)
   pdf.bounding_box([_x,_y], :width => tbl.width) do
     pdf.text "[lei/kg]", align: :right, size: 9
     tbl.draw
