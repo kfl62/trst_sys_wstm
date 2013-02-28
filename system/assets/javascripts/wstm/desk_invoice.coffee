@@ -330,6 +330,7 @@ define () ->
                   Trst.i18n.msg.searching
                 formatNoMatches: (t)->
                   Trst.i18n.msg.no_matches
+              $select.off()
               $select.on 'change', ()->
                 if $select.select2('val') isnt ''
                   $url  = Trst.desk.hdf.attr('action')
@@ -382,7 +383,8 @@ define () ->
                     failCallback: ()->
                       Trst.msgHide()
                       Trst.desk.downloadError Trst.desk.hdo.model_name
-                  false
+                  return
+                return
             else if Trst.desk.hdo.dialog is 'repair'
               $button.focus()
             else
