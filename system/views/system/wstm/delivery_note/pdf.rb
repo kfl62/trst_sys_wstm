@@ -64,8 +64,9 @@ def box_content(pdf,top,left)
     # Freight
     pdf.move_down 4
     pdf.indent 10.mm do
+      fsize = freights.count > 6 ? 6 : 8
       freights.values.each_with_index do |f,i|
-        pdf.text "#{i + 1}.) Deşeuri #{f[0].downcase}", :style => :bold, :size => 8
+        pdf.text "#{i + 1}.) Deşeuri #{f[0].downcase}",:style => :bold,:size => fsize
       end
     end
     pdf.stroke_bounds
@@ -73,8 +74,9 @@ def box_content(pdf,top,left)
   pdf.bounding_box([left + 80.mm,top], :width => 30.mm, :height => 56) do
     # Cod
     pdf.move_down 4
+    fsize = freights.count > 6 ? 6 : 8
     freights.values.each_with_index do |f,i|
-      pdf.text "-#{f[1]}-", :style => :bold, :size => 8, :align => :center
+      pdf.text "-#{f[1]}-", :style => :bold,:align => :center,:size => fsize
     end
     pdf.stroke_bounds
   end
@@ -82,8 +84,9 @@ def box_content(pdf,top,left)
     # Quantity
     pdf.move_down 4
     pdf.indent 0,3.mm do
+      fsize = freights.count > 6 ? 6 : 8
       freights.values.each_with_index do |f,i|
-        pdf.text "%.2f" % f[2].round(2), :style => :bold, :size => 8, :align => :right
+        pdf.text "%.2f" % f[2].round(2), :style => :bold,:align => :right,:size => fsize
       end
     end
     pdf.stroke_bounds
