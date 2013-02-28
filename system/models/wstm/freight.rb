@@ -11,6 +11,7 @@ module Wstm
     has_many    :stks,     class_name: "Wstm::FreightStock",    inverse_of: :freight
 
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
+    before_save :handle_code
 
     class << self
       # @todo
@@ -139,6 +140,12 @@ module Wstm
     # @todo
     def stock_by_key(key)
       stks_now.by_key(key).sum(:qu) || 0
+    end
+
+    protected
+
+    def handle_code
+      self.code = code.split(',')
     end
   end # Freight
 end # Wstm
