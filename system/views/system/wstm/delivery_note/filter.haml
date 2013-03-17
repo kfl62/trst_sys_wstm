@@ -12,13 +12,13 @@
             %span.info.width-550.ju= t("intro.filter.desk_delivery_note",data: mat(@object,'model_name'))
         %tr.pdb-05
           %td
-            %input#client_id.select2{type: 'hidden',style: 'width:200px',data: {minlength: 2,ph: 0,search: 'Wstm::PartnerFirm'}}
-            %input#client_d_id.select2{type: 'hidden',style: 'width:200px',data: {minlength: 0,ph: 1,search: 'Wstm::PartnerFirmPerson'}}
+            %input#client_id.select2{type: 'hidden',style: 'width:200px',data: {minlength: '2',ph: '0',search: 'Wstm::PartnerFirm'}}
+            %input#client_d_id.select2{type: 'hidden',style: 'width:200px',data: {minlength: '0',ph: '1',search: 'Wstm::PartnerFirmPerson'}}
             %button#client_d{type: "button",data: {action: "create", icon: "circle-plus"}}= t('button.create') + " Delegat!"
         %tr.pdb-05
           %td
-            %input#transp_id.select2{type: 'hidden',style: 'width:200px',data: {minlength: 2,ph: 2,search: 'Wstm::PartnerFirm'}}
-            %input#transp_d_id.select2{type: 'hidden',style: 'width:200px',data: {minlength: 0,ph: 3,search: 'Wstm::PartnerFirmPerson'}}
+            %input#transp_id.select2{type: 'hidden',style: 'width:200px',data: {minlength: '2',ph: '2',search: 'Wstm::PartnerFirm'}}
+            %input#transp_d_id.select2{type: 'hidden',style: 'width:200px',data: {minlength: '0',ph: '3',search: 'Wstm::PartnerFirmPerson'}}
             %button#transp_d{type: "button",data: {action: "create",icon: "circle-plus"}}= t('button.create') + " Delegat!"
       %tfoot
         %tr
