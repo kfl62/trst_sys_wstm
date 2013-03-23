@@ -24,5 +24,29 @@ define () ->
               Trst.desk.hdo.oid = if $select.select2('val') is '' then null else $select.select2('val')
               return
             return
+          $('select#y')?.each ()->
+            $select = $(@)
+            $select.unbind()
+            $select.on 'change', ()->
+              $url = "/sys/wstm/partner_firm/query?y=#{$select.val()}"
+              Trst.desk.init($url)
+              return
+            return
           $log 'Wstm.desk.partner_firm.init() OK...'
+          $('button').each ()->
+            $button = $(@)
+            $bd = $button.data()
+            if $bd.action is 'print'
+              $button.on 'click', ()->
+                Trst.msgShow Trst.i18n.msg.report.start
+                $url  = "/sys/wstm/report/print?rb=yearly_stats"
+                $url += "&fn=#{$bd.fn}" if $bd.fn
+                $url += "&uid=#{$bd.uid}" if $bd.uid
+                $.fileDownload $url,
+                  successCallback: ()->
+                    Trst.msgHide()
+                  failCallback: ()->
+                    Trst.msgHide()
+                    Trst.desk.downloadError Trst.desk.hdo.model_name
+                false
   Wstm.desk.partner_firm
