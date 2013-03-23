@@ -120,5 +120,22 @@ module Wstm
       end
       stks.find_by(id_date: Date.new(y,m,1))
     end
+    # @todo
+    def yearly_stats(y)
+      s = freights.asc(:id_stats).each_with_object({}){|f,h| h[f.id_stats] = [f.name]}
+      (1..12).each do |i|
+        data  = apps.monthly(y,i).pluck(:_id)
+        Wstm::FreightIn.where(:doc_exp_id.in => data).asc(:id_stats).each do |f|
+          s[f.id_stats][i].nil? ? s[f.id_stats][i] = f.qu : s[f.id_stats][i] += f.qu
+        end
+      end
+      s.each_pair do |k,v|
+        v.count < 13 ? v[12] = 0 : v
+        v.map! { |x| x || 0 }
+        v[13] = v[1..13].inject(:+)
+        v[14] = v[13] / v[1..12].count{|x| x != 0}.to_f
+        v.map! { |x| x.round(2) rescue x}
+      end
+    end
   end # FirmUnit
 end # Wstm
