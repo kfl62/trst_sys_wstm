@@ -7,7 +7,7 @@
           %span.info.width-400.ju= t("intro.filter.main",data: mat(@object,'model_name'))
       %tr.pdb-05
         %td
-          %input.select2{type: 'hidden',style: 'width:300px',data: {minlength: '2',ph: '0',search: @path.classify}}
+          %input.select2{type: 'hidden',autofocus: true,style: 'width:300px',data: {minlength: '2',ph: '0',search: @path.classify}}
     %tfoot
       %tr
         %td.buttonset.ce
