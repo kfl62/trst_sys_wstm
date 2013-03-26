@@ -10,19 +10,23 @@ define () ->
             minimumInputLength: 0
             multiple: true
             data: $('#unit_ids').data('data')
-          $('button').first().on 'click', ()->
-            $form  = $('form')
-            $file  = "#{$file_name}#{$('#date_send').val()}"
-            $file += "##{$('#period').val()}" if $('#period').val() > 1
-            $('#file_name').val($file)
-            Trst.msgShow Trst.i18n.msg.report.start
-            $.fileDownload $form.attr('action'),
-              data: $form.serialize()
-              successCallback: ()->
-                Trst.msgHide()
-              failCallback: ()->
-                Trst.msgHide()
-                Trst.desk.downloadError Trst.desk.hdo.title_data
+          $('button').each ()->
+            $button = $(@)
+            $bd = $button.data()
+            if $bd.action is 'print'
+              $button.on 'click', ()->
+                $form  = $('form')
+                $file  = "#{$file_name}#{$('#date_send').val()}"
+                $file += "##{$('#period').val()}" if $('#period').val() > 1
+                $('#file_name').val($file)
+                Trst.msgShow Trst.i18n.msg.report.start
+                $.fileDownload $form.attr('action'),
+                  data: $form.serialize()
+                  successCallback: ()->
+                    Trst.msgHide()
+                  failCallback: ()->
+                    Trst.msgHide()
+                    Trst.desk.downloadError Trst.desk.hdo.title_data
           $('button').last().focus()
           $log 'Wstm.desk.report.init() OK...'
   Wstm.desk.report
