@@ -213,10 +213,19 @@ unit_ids.each_with_index do |unit_id,next_unit|
         end
         pdf.move_down 5.mm
         if hl.length > 17
+          table_sum = pdf.make_table(data_sum, :header => true) do
+            pdf.font_size 6
+            [15.mm, *[13.mm]*data_sum[0].length].each_with_index do |w,i|
+              column(i).width = w
+            end
+            row(0).style(:align => :center)
+            column(0).rows(1..5).style(:padding => [3,5])
+            column(1..(data_sum[0].length)).rows(1..5).style(:align => :right, :padding => [3,3])
+          end
         else
           table_sum = pdf.make_table(data_sum, :header => true) do
             pdf.font_size 7
-            [25.mm, *[14.mm]*data_sum[0].length].each_with_index do |w,i|
+            [16.mm, *[14.mm]*data_sum[0].length].each_with_index do |w,i|
               column(i).width = w
             end
             row(0).style(:align => :center)
