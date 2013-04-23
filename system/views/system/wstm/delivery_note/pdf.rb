@@ -14,9 +14,11 @@ def firm_unit_details
   [name,enva]
 end
 def client_unit_details
-  name = @object.client.units.first.name[1]  rescue missing
-  enva = @object.client.units.first.env_auth rescue missing
-  [name,enva]
+  unit = @object.client.units.find_by(main: true) || @object.client.units.first
+  name = unit.name[1]  rescue missing
+  enva = unit.env_auth rescue missing
+  trna = unit.trn_auth rescue ''
+  [name,enva,trna]
 end
 def freights
   @object.freights.each_with_object({}) do |f,h|
@@ -208,7 +210,7 @@ def box_content(pdf,top,left)
       pdf.text @object.transp_d.name, :style => :bold, :size => 8,:leading => 2
       pdf.text @object.transp_d.id_pn, :style => :bold, :size => 8,:leading => 2
       pdf.text @object.doc_plat.upcase, :style => :bold, :size => 8,:leading => 2
-      pdf.text "sport expiră la date de:", :style => :bold, :size => 8,:leading => 2
+      pdf.text "sport expiră la date de: #{client_unit_details[2]}", :style => :bold, :size => 8,:leading => 2
     end
     pdf.stroke_bounds
     top -= 56
