@@ -91,6 +91,7 @@ module Wstm
     field :slug,      type: String
     field :chief,     type: String,       default: 'Lastname Firstname'
     field :env_auth,  type: String
+    field :trn_auth,  type: String
     field :main,      type: Boolean,      default: false
 
     embedded_in :firm,      class_name: 'Wstm::PartnerFirm',  inverse_of: :units
