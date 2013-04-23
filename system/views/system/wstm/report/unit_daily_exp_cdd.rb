@@ -215,7 +215,7 @@ unit_ids.each_with_index do |unit_id,next_unit|
         if hl.length > 17
           table_sum = pdf.make_table(data_sum, :header => true) do
             pdf.font_size 6
-            [15.mm, *[13.mm]*data_sum[0].length].each_with_index do |w,i|
+            [15.mm, *[12.mm]*data_sum[0].length].each_with_index do |w,i|
               column(i).width = w
             end
             row(0).style(:align => :center)
