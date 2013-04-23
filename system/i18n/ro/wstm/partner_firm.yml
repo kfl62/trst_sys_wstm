@@ -19,6 +19,7 @@ ro:
         slug: Cod intern
         chief: Responsabil
         env_auth: Autorizaţie mediu
+        trn_auth: Autorizaţie trans
         main: Principală?
       'wstm/partner_firm':
         model_name: Partener Firmă
