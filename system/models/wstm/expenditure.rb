@@ -47,7 +47,7 @@ module Wstm
       def auto_search(params)
         unit_id = params[:uid]
         day     = params[:day].split('-').map(&:to_i)
-        where(unit_id: unit_id,id_date: Date.new(*day),name: /#{params[:q]}/i).each_with_object([]) do |e,a|
+        where(unit_id: unit_id,id_date: Date.new(*day),name: /#{params[:q]}/i).asc(:name).each_with_object([]) do |e,a|
           a << {id: e.id,
                 text: {
                         name:  e.name,
