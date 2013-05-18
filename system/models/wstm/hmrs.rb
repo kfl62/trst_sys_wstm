@@ -8,13 +8,11 @@ module Wstm
       embeds_one  :ilc,       class_name: 'Wstm::Hmrs::EmployeeIlc', cascade_callbacks: true
       embeds_many :addendums, class_name: 'Wstm::Hmrs::EmployeeAddendum', cascade_callbacks: true
 
+      validates_uniqueness_of :id_pn, :unless => Proc.new{|p| p.id_pn == '-'}
+
       accepts_nested_attributes_for :address, :ilc, :addendums
 
       class << self
-        # @todo
-        def default_sort
-          asc(:name_last,:name_frst)
-        end
         # @todo
         def auto_search(params)
           default_sort.only(:id,:id_pn,:name_last,:name_frst)

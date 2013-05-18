@@ -5,13 +5,11 @@ module Wstm
     embeds_one  :address,   class_name: 'Wstm::PartnerPersonAddress', cascade_callbacks: true
     has_many    :apps,      class_name: 'Wstm::Expenditure',          inverse_of: :client
 
+    validates_uniqueness_of :id_pn, :unless => Proc.new{|p| p.id_pn == '-'}
+
     accepts_nested_attributes_for :address
 
     class << self
-      # @todo
-      def default_sort
-        asc(:name_last,:name_frst)
-      end
       # @todo
       def auto_search(params)
         default_sort.only(:id,:id_pn,:name_last,:name_frst)
