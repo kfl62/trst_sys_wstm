@@ -168,7 +168,7 @@ unit_ids.each do |uid|
         row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
       end
     end
-    v = r_gt.values_at('3101','3201','3202','3301','3401','3501','3601','3602').compact
+    v = r_gt.values_at('3101','3201','3202','3301','3401','3501','3601','3602','3701').compact
     unless v.empty?
       names = v.each_with_object([]){|a,n| n << a.shift}
       names.push('Total')
@@ -179,7 +179,7 @@ unit_ids.each do |uid|
         row(row_length - 1).style(:background_color => "e6e6e6")
       end
       data =  [
-                ["Categoria: Metale neferoase (Alamă, Aluminiu, Doze aluminiu, Cupru, Inox, Plumb, Radiatoare alamă şi Radiatoare aluminiu)"],
+                ["Categoria: Metale neferoase (Alamă, Aluminiu, Doze aluminiu, Cupru, Inox, Plumb, Radiatoare alamă, Radiatoare aluminiu și Zamac)"],
                 [d]
               ]
       pdf.table(data, :cell_style => {:border_width => 0.1}) do
@@ -216,6 +216,24 @@ unit_ids.each do |uid|
       end
       data =  [
                 ["Categoria: DEEE"],
+                [d]
+              ]
+      pdf.table(data, :cell_style => {:border_width => 0.1}) do
+        row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
+      end
+    end
+    v = r_gt.values_at('6001').compact
+    unless v.empty?
+      names = v.each_with_object([]){|a,n| n << a.shift}
+      names.push('Total')
+      v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
+      v.each{|a| a.map!{|e| "%.2f" % e}}
+      names.each_with_index{|n,i| v[i].unshift(n)}
+      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+        row(row_length - 1).style(:background_color => "e6e6e6")
+      end
+      data =  [
+                ["Categoria: Motor electric"],
                 [d]
               ]
       pdf.table(data, :cell_style => {:border_width => 0.1}) do
@@ -307,9 +325,9 @@ unit_ids.each do |uid|
     pdf.text "%.2f" % ins.where(:doc_exp.ne => nil).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.16)}.sum, :align => :right
     pdf.text "<b>#{"%.2f" % mny[uid][4]}</b>", :align => :right, :inline_format => true
   end
-  pdf.bounding_box([pdf.bounds.left, pdf.bounds.bottom + 10.mm], :width => pdf.bounds.width) do
-    pdf.font_size 7 do
-      pdf.text "Notă:\nÎn tabel coloana preţ conţine codurile interne a materialelor! Ele sunt în ordinea înşirată din capul de tabel."
+  pdf.bounding_box([pdf.bounds.left, pdf.bounds.bottom + 8], :width => pdf.bounds.width) do
+    pdf.font_size 6 do
+      pdf.text "Notă: În tabel coloana preţ conţine codurile interne a materialelor! Ele sunt în ordinea înşirată din capul de tabel."
     end
   end
 end
