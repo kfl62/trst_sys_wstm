@@ -1,4 +1,5 @@
 .*
 !.gitignore
 public/stylesheets/*
+public/images/wstm/pdf/src/*
 tmp/*
