@@ -5,8 +5,8 @@ require 'prawn/measurement_extensions'
 def firm
   Wstm::PartnerFirm.find_by(firm: true)
 end
-def missing(length = 20, whit = '_')
-  '_'.ljust(length,whit)
+def missing(length = 20, with = '_')
+  '_'.ljust(length,with)
 end
 def firm_unit_details
   name = @object.unit.name[1]  rescue missing
