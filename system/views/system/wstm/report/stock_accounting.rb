@@ -18,6 +18,9 @@ end
 def firm
   Wstm::PartnerFirm.find_by(:firm => true)
 end
+def address
+  firm.addresses.first
+end
 def main_data
   ins,outs,stks = Wstm::FreightIn,Wstm::FreightOut,Wstm::FreightStock
   keys = (ins.monthly(*date_strt).keys + outs.monthly(*date_strt).keys + stks.monthly(*date_strt).where(:qu.ne => 0.0).keys + stks.stock_now.where(:qu.ne => 0.0).keys).uniq.sort
@@ -67,13 +70,18 @@ pdf.font_families.update(
                 :normal => 'public/stylesheets/fonts/verdana.ttf'}
 )
 rows,r_gt = main_data, {}
-pdf.start_new_page(:template => "public/images/wstm/pdf/stock_stats_#{firm.name[0].gsub(' ','').downcase}_0.pdf")
+pdf.start_new_page(:template => "public/images/wstm/pdf/stock_stats_0.pdf")
 pdf.font 'Verdana'
 pdf.font_size = 8
-pdf.move_down 8.mm
+pdf.text firm.name[2]
+pdf.text "Nr. înreg. R.C. : #{firm.identities['chambcom']}"
+pdf.text "Cod Fiscal (C.U.I.) : #{firm.identities['fiscal']}"
+pdf.text "Str. #{address.street},nr.#{address.nr rescue '-'},bl.#{address.bl rescue '-'},sc.#{address.sc rescue '-'},et.#{address.et rescue '-'},ap.#{address.ap rescue '-'}"
+pdf.text "#{address.city rescue '-'}, județul #{address.state rescue '-'}"
+pdf.move_up 30
 pdf.text "Situaţie lunară: #{I18n.l(Date.new(*date_strt,1),format: '%B')} - #{firm.name[1]} -",
   :align => :center, :size => 12, :style => :bold
-pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 82], :width => pdf.bounds.width) do
+pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 80], :width => pdf.bounds.width) do
   rows.each_pair do |k,v|
     r_gt[k.split('_')[1]] = v.transpose.map {|x| (x.reduce(:+)).round(2)}
     r_gt[k.split('_')[1]][0] = k.split('_')[1]
@@ -81,12 +89,12 @@ pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 82], :width => pdf.bou
     n.push(n.transpose.map {|x| (x.reduce(:+)).round(2)})
     n.each{|a| a.map!{|e| "%.2f" % e}}
     n.last[0] = 'Total'
-    d = pdf.make_table(n, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+    d = pdf.make_table(n, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
       row(row_length - 1).style(:background_color => "e6e6e6")
     end
     if pdf.y - d.height < 20.mm
-      pdf.start_new_page(:template => "public/images/wstm/pdf/stock_stats_#{firm.name[0].gsub(' ','').downcase}_1.pdf")
-      pdf.move_up 22.mm
+      pdf.start_new_page(:template => "public/images/wstm/pdf/stock_stats_1.pdf")
+      pdf.move_up 21.5.mm
     end
     data =  [
               ["Sortiment: #{k.split('_')[0]}"],
@@ -98,9 +106,16 @@ pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 82], :width => pdf.bou
     end
   end
 end
-pdf.start_new_page(:template => "public/images/wstm/pdf/stock_stats_#{firm.name[0].gsub(' ','').downcase}_0.pdf")
-pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 82], :width => pdf.bounds.width) do
-  pdf.move_up 23.mm
+pdf.start_new_page(:template => "public/images/wstm/pdf/stock_stats_0.pdf")
+pdf.font_size = 8
+pdf.text firm.name[2]
+pdf.text "Nr. înreg. R.C. : #{firm.identities['chambcom']}"
+pdf.text "Cod Fiscal (C.U.I.) : #{firm.identities['fiscal']}"
+pdf.text "Str. #{address.street},nr.#{address.nr rescue '-'},bl.#{address.bl rescue '-'},sc.#{address.sc rescue '-'},et.#{address.et rescue '-'},ap.#{address.ap rescue '-'}"
+pdf.text "#{address.city rescue '-'}, județul #{address.state rescue '-'}"
+pdf.font_size = 6
+pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 80], :width => pdf.bounds.width) do
+  pdf.move_up 23.5.mm
   pdf.text "Centralizator: #{I18n.l(Date.new(*date_strt,1),format: '%B')} - #{firm.name[1]} -",
     :align => :center, :size => 12, :style => :bold
   pdf.move_down 52.5
@@ -111,7 +126,7 @@ pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 82], :width => pdf.bou
     v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
     v.each{|a| a.map!{|e| "%.2f" % e}}
     names.each_with_index{|n,i| v[i].unshift(n)}
-    d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+    d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
       row(row_length - 1).style(:background_color => "e6e6e6")
     end
     data =  [
@@ -129,7 +144,7 @@ pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 82], :width => pdf.bou
     v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
     v.each{|a| a.map!{|e| "%.2f" % e}}
     names.each_with_index{|n,i| v[i].unshift(n)}
-    d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+    d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
       row(row_length - 1).style(:background_color => "e6e6e6")
     end
     data =  [
@@ -147,7 +162,7 @@ pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 82], :width => pdf.bou
     v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
     v.each{|a| a.map!{|e| "%.2f" % e}}
     names.each_with_index{|n,i| v[i].unshift(n)}
-    d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+    d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
       row(row_length - 1).style(:background_color => "e6e6e6")
     end
     data =  [
@@ -165,7 +180,7 @@ pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 82], :width => pdf.bou
     v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
     v.each{|a| a.map!{|e| "%.2f" % e}}
     names.each_with_index{|n,i| v[i].unshift(n)}
-    d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+    d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
       row(row_length - 1).style(:background_color => "e6e6e6")
     end
     data =  [
@@ -183,7 +198,7 @@ pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 82], :width => pdf.bou
     v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
     v.each{|a| a.map!{|e| "%.2f" % e}}
     names.each_with_index{|n,i| v[i].unshift(n)}
-    d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+    d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
       row(row_length - 1).style(:background_color => "e6e6e6")
     end
     data =  [
@@ -201,7 +216,7 @@ pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 82], :width => pdf.bou
     v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
     v.each{|a| a.map!{|e| "%.2f" % e}}
     names.each_with_index{|n,i| v[i].unshift(n)}
-    d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+    d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
       row(row_length - 1).style(:background_color => "e6e6e6")
     end
     data =  [
@@ -219,7 +234,7 @@ pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 82], :width => pdf.bou
     v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
     v.each{|a| a.map!{|e| "%.2f" % e}}
     names.each_with_index{|n,i| v[i].unshift(n)}
-    d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+    d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
       row(row_length - 1).style(:background_color => "e6e6e6")
     end
     data =  [
@@ -234,7 +249,7 @@ pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 82], :width => pdf.bou
   v.each{|a| a.shift}
   v.each{|a| a.map!{|e| e.to_f}}
   sum = v.transpose.map{|x| "%.2f" % (x.reduce(:+)).round(2)}
-  d = pdf.make_table([sum.unshift(' ')], :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+  d = pdf.make_table([sum.unshift(' ')], :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
     row(row_length - 1).style(:background_color => "e6e6e6")
   end
   data =  [
@@ -301,30 +316,29 @@ pdf.bounding_box([155.mm, top], :width => 55.mm) do
   pdf.text "Taxă mediu 3% (fier)"
   pdf.text "Taxă mediu 3% (neferoase)"
   pdf.text "Taxă mediu 3% (baterii)"
-  pdf.text "Total 3% calculat"
-  pdf.text "Total 3% de virat"
-  pdf.text "Impozit venit 16% calculat"
+  pdf.text "Total 3% pe surse"
+  pdf.text " "
+  pdf.text "Taxă mediu 3% de virat"
   pdf.text "Impozit venit 16% de virat"
 end
 pdf.bounding_box([210.mm, top], :width => 25.mm) do
   pdf.text "APP",:align => :right
   ins = Wstm::FreightIn.where(:doc_exp.ne => nil).monthly(*date_strt)
   pdf.text "%.2f" % (ins.by_key('3011').each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03)}.sum || 0), :align => :right
-  pdf.text "%.2f" % (ins.where(:id_stats.in => ['3101','3201','3202','3401','3301','3501','3601','3602']).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03)}.sum || 0), :align => :right
+  pdf.text "%.2f" % (ins.where(:id_stats.in => ['3101','3201','3202','3401','3301','3501','3601','3602,3701']).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03)}.sum || 0), :align => :right
   pdf.text "%.2f" % (ins.by_key('4001').where(:doc_exp.ne => nil).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03)}.sum || 0), :align => :right
-  pdf.text "%.2f" % (ins.where(:id_stats.in => ['3011','3101','3201','3202','3401','3301','3501','3601','3602','4001']).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03)}.sum || 0), :align => :right
   pdf.text "<b>#{"%.2f" % mny['Id'][3]}</b>", :align => :right, :inline_format => true
-  pdf.text "%.2f" % ins.each_with_object([]){|f,a| a << (f.pu * f.qu * 0.16)}.sum, :align => :right
+  pdf.text " "
+  pdf.text "<b>#{"%.2f" % (mny['Id'][3] + Wstm::Grn.nonin.monthly(*date_strt).sum(:sum_003))}</b>", :align => :right, :inline_format => true
   pdf.text "<b>#{"%.2f" % mny['Id'][4]}</b>", :align => :right, :inline_format => true
 end
 pdf.bounding_box([235.mm, top], :width => 25.mm) do
   ins = Wstm::FreightIn.where(:doc_grn.ne => nil).monthly(*date_strt).nonin
   pdf.text "Firme",:align => :right
   pdf.text "%.2f" % (ins.by_key('3011').each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03) if f.doc.supplr.p03}.sum || 0), :align => :right
-  pdf.text "%.2f" % (ins.where(:id_stats.in => ['3101','3201','3202','3401','3301','3501','3601','3602']).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03) if f.doc.supplr.p03}.sum || 0), :align => :right
+  pdf.text "%.2f" % (ins.where(:id_stats.in => ['3101','3201','3202','3401','3301','3501','3601','3602,3701']).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03) if f.doc.supplr.p03}.sum || 0), :align => :right
   pdf.text "%.2f" % (ins.by_key('4001').where(:doc_exp.ne => nil).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03) if f.doc.supplr.p03}.sum || 0), :align => :right
-  pdf.text "%.2f" % (ins.where(:id_stats.in => ['3011','3101','3201','3202','3401','3301','3501','3601','3602','4001']).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03) if f.doc.supplr.p03}.sum || 0), :align => :right
-  pdf.text "<b><u>#{"%.2f" % (Wstm::Grn.nonin.monthly(*date_strt).sum(:sum_003) || 0)}</u></b>", :align => :right, :inline_format => true
+  pdf.text "<b>#{"%.2f" % (Wstm::Grn.nonin.monthly(*date_strt).sum(:sum_003) || 0)}</b>", :align => :right, :inline_format => true
 end
 pdf.bounding_box([pdf.bounds.left, pdf.bounds.bottom + 8], :width => pdf.bounds.width) do
   pdf.font_size 6 do

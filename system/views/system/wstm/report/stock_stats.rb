@@ -21,6 +21,9 @@ end
 def firm
   Wstm::PartnerFirm.find_by(:firm => true)
 end
+def address
+  firm.addresses.first
+end
 def unit(id)
   firm.units.find(id)
 end
@@ -77,13 +80,18 @@ unit_ids.each do |uid|
   unit = unit(uid)
   rows = main_data(uid)
   r_gt = {}
-  pdf.start_new_page(:template => "public/images/wstm/pdf/stock_stats_#{firm.name[0].gsub(' ','').downcase}_0.pdf")
+  pdf.start_new_page(:template => "public/images/wstm/pdf/stock_stats_0.pdf")
   pdf.font 'Verdana'
   pdf.font_size = 8
-  pdf.move_down 8.mm
+  pdf.text firm.name[2]
+  pdf.text "Nr. înreg. R.C. : #{firm.identities['chambcom']}"
+  pdf.text "Cod Fiscal (C.U.I.) : #{firm.identities['fiscal']}"
+  pdf.text "Str. #{address.street},nr.#{address.nr rescue '-'},bl.#{address.bl rescue '-'},sc.#{address.sc rescue '-'},et.#{address.et rescue '-'},ap.#{address.ap rescue '-'}"
+  pdf.text "#{address.city rescue '-'}, județul #{address.state rescue '-'}"
+  pdf.move_up 30
   pdf.text "Situaţie lunară: #{I18n.l(Date.new(*date_strt,1),format: '%B')} - #{unit.name[1]} -",
     :align => :center, :size => 12, :style => :bold
-  pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 82], :width => pdf.bounds.width) do
+  pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 80], :width => pdf.bounds.width) do
     rows.each_pair do |k,v|
       r_gt[k.split('_')[1]] = v.transpose.map {|x| (x.reduce(:+)).round(2)}
       r_gt[k.split('_')[1]][0] = k.split('_')[1]
@@ -91,12 +99,12 @@ unit_ids.each do |uid|
       n.push(n.transpose.map {|x| (x.reduce(:+)).round(2)})
       n.each{|a| a.map!{|e| "%.2f" % e}}
       n.last[0] = 'Total'
-      d = pdf.make_table(n, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+      d = pdf.make_table(n, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
         row(row_length - 1).style(:background_color => "e6e6e6")
       end
       if pdf.y - d.height < 20.mm
-        pdf.start_new_page(:template => "public/images/wstm/pdf/stock_stats_#{firm.name[0].gsub(' ','').downcase}_1.pdf")
-        pdf.move_up 22.mm
+        pdf.start_new_page(:template => "public/images/wstm/pdf/stock_stats_1.pdf")
+        pdf.move_up 21.5.mm
       end
       data =  [
                 ["Sortiment: #{k.split('_')[0]}"],
@@ -108,9 +116,16 @@ unit_ids.each do |uid|
       end
     end
   end
-  pdf.start_new_page(:template => "public/images/wstm/pdf/stock_stats_#{firm.name[0].gsub(' ','').downcase}_0.pdf")
+  pdf.start_new_page(:template => "public/images/wstm/pdf/stock_stats_0.pdf")
+  pdf.font_size = 8
+  pdf.text firm.name[2]
+  pdf.text "Nr. înreg. R.C. : #{firm.identities['chambcom']}"
+  pdf.text "Cod Fiscal (C.U.I.) : #{firm.identities['fiscal']}"
+  pdf.text "Str. #{address.street},nr.#{address.nr rescue '-'},bl.#{address.bl rescue '-'},sc.#{address.sc rescue '-'},et.#{address.et rescue '-'},ap.#{address.ap rescue '-'}"
+  pdf.text "#{address.city rescue '-'}, județul #{address.state rescue '-'}"
+  pdf.font_size = 6
   pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 82], :width => pdf.bounds.width) do
-    pdf.move_up 23.mm
+    pdf.move_up 23.5.mm
     pdf.text "Centralizator: #{I18n.l(Date.new(*date_strt,1),format: '%B')} - #{unit.name[1]} -",
       :align => :center, :size => 12, :style => :bold
     pdf.move_down 52.5
@@ -121,7 +136,7 @@ unit_ids.each do |uid|
       v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
       v.each{|a| a.map!{|e| "%.2f" % e}}
       names.each_with_index{|n,i| v[i].unshift(n)}
-      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
         row(row_length - 1).style(:background_color => "e6e6e6")
       end
       data =  [
@@ -139,7 +154,7 @@ unit_ids.each do |uid|
       v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
       v.each{|a| a.map!{|e| "%.2f" % e}}
       names.each_with_index{|n,i| v[i].unshift(n)}
-      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
         row(row_length - 1).style(:background_color => "e6e6e6")
       end
       data =  [
@@ -157,7 +172,7 @@ unit_ids.each do |uid|
       v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
       v.each{|a| a.map!{|e| "%.2f" % e}}
       names.each_with_index{|n,i| v[i].unshift(n)}
-      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
         row(row_length - 1).style(:background_color => "e6e6e6")
       end
       data =  [
@@ -175,7 +190,7 @@ unit_ids.each do |uid|
       v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
       v.each{|a| a.map!{|e| "%.2f" % e}}
       names.each_with_index{|n,i| v[i].unshift(n)}
-      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
         row(row_length - 1).style(:background_color => "e6e6e6")
       end
       data =  [
@@ -193,7 +208,7 @@ unit_ids.each do |uid|
       v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
       v.each{|a| a.map!{|e| "%.2f" % e}}
       names.each_with_index{|n,i| v[i].unshift(n)}
-      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
         row(row_length - 1).style(:background_color => "e6e6e6")
       end
       data =  [
@@ -211,7 +226,7 @@ unit_ids.each do |uid|
       v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
       v.each{|a| a.map!{|e| "%.2f" % e}}
       names.each_with_index{|n,i| v[i].unshift(n)}
-      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
         row(row_length - 1).style(:background_color => "e6e6e6")
       end
       data =  [
@@ -229,7 +244,7 @@ unit_ids.each do |uid|
       v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
       v.each{|a| a.map!{|e| "%.2f" % e}}
       names.each_with_index{|n,i| v[i].unshift(n)}
-      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
         row(row_length - 1).style(:background_color => "e6e6e6")
       end
       data =  [
@@ -244,7 +259,7 @@ unit_ids.each do |uid|
     v.each{|a| a.shift}
     v.each{|a| a.map!{|e| e.to_f}}
     sum = v.transpose.map{|x| "%.2f" % (x.reduce(:+)).round(2)}
-    d = pdf.make_table([sum.unshift(' ')], :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,43.485,44.5]) do
+    d = pdf.make_table([sum.unshift(' ')], :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
       row(row_length - 1).style(:background_color => "e6e6e6")
     end
     data =  [
