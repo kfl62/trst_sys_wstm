@@ -333,9 +333,9 @@ unit_ids.each do |uid|
   pdf.bounding_box([235.mm, top], :width => 25.mm) do
     ins = Wstm::FreightIn.pos(unit.slug).monthly(*date_strt)
     pdf.text "%.2f" % (ins.by_key('3011').where(:doc_exp.ne => nil).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03)}.sum || 0), :align => :right
-    pdf.text "%.2f" % (ins.where(:id_stats.in => ['3101','3201','3202','3401','3301','3501','3601','3602'],:doc_exp.ne => nil).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03)}.sum || 0), :align => :right
+    pdf.text "%.2f" % (ins.where(:id_stats.in => ['3101','3201','3202','3401','3301','3501','3601','3602','3701'],:doc_exp.ne => nil).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03)}.sum || 0), :align => :right
     pdf.text "%.2f" % (ins.by_key('4001').where(:doc_exp.ne => nil).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03)}.sum || 0), :align => :right
-    pdf.text "%.2f" % (ins.where(:id_stats.in => ['3011','3101','3201','3202','3401','3301','3501','3601','3602','4001'],:doc_exp.ne => nil).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03)}.sum || 0), :align => :right
+    pdf.text "%.2f" % (ins.where(:id_stats.in => ['3011','3101','3201','3202','3401','3301','3501','3601','3602','3701','4001'],:doc_exp.ne => nil).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03)}.sum || 0), :align => :right
     pdf.text "<b>#{"%.2f" % mny[uid][3]}</b>", :align => :right, :inline_format => true
     pdf.text "%.2f" % ins.where(:doc_exp.ne => nil).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.16)}.sum, :align => :right
     pdf.text "<b>#{"%.2f" % mny[uid][4]}</b>", :align => :right, :inline_format => true
