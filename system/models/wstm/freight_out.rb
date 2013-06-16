@@ -19,11 +19,13 @@ module Wstm
     belongs_to  :freight,  class_name: 'Wstm::Freight',     inverse_of: :outs
     belongs_to  :doc_dln,  class_name: 'Wstm::DeliveryNote',inverse_of: :freights
     belongs_to  :doc_cas,  class_name: 'Wstm::Cassation',   inverse_of: :freights
+    belongs_to  :doc_sor,  class_name: 'Wstm::Sorting',     inverse_of: :from_freights
 
     index({ freight_id: 1, id_stats: 1, pu: 1, id_date: 1 })
     index({ id_stats: 1, pu: 1, id_date: 1 })
     index({ doc_dln_id: 1})
     index({ doc_cas_id: 1})
+    index({ doc_sor_id: 1})
 
     after_save    :'handle_stock(false)'
     after_destroy :'handle_stock(true)'
@@ -70,7 +72,7 @@ module Wstm
     end
     # @todo
     def doc
-      doc_dln || doc_cas
+      doc_dln || doc_cas || doc_sor
     end
     # @todo
     def key

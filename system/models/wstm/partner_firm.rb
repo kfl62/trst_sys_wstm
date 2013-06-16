@@ -103,6 +103,7 @@ module Wstm
     has_many    :dlns,      class_name: 'Wstm::DeliveryNote', inverse_of: :unit
     has_many    :grns,      class_name: 'Wstm::Grn',          inverse_of: :unit
     has_many    :csss,      class_name: 'Wstm::Cassation',    inverse_of: :unit
+    has_many    :srts,      class_name: 'Wstm::Sorting',      inverse_of: :unit
 
     # @todo
     def view_filter
