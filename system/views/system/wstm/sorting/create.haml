@@ -25,19 +25,21 @@
       %tr.pdb-05
         - o_from = @object.from_freights.new
         %td.select-freight{colspan: '4'}
-          %select.wstm.from_freight
-            %option{value: 'null'} Material sortat
+          %select.wstm.from-freight
+            %option{value: 'null', data: {pu: 0.00, stck: 0.00}} Material sortat
             - from_freights.each do |f|
               %option{value: f[0], data: f[2]}= f[1]
           Sortat/kg &nbsp;
-          %span.qu.ui-state-default 0.00
+          %span#from-freight-qu.qu.ui-state-default 0.00
           &nbsp;&nbsp;Stoc rămas/kg &nbsp;
-          %span.qu.ui-state-default 0.00
+          %span#from-freight-stock.qu.ui-state-default 0.00
       %tr
         %td{colspan: '4'}
           - input_for   o_from, 'id_date',   {type: 'hidden',nested: 'doc_sor',value: 'strip',index: 0}
           - input_for   o_from, 'id_stats',  {type: 'hidden',nested: 'doc_sor',value: 'strip',index: 0}
           - input_for   o_from, 'um',        {type: 'hidden',nested: 'doc_sor',value: 'strip',index: 0}
+          - input_for   o_from, 'pu',        {type: 'hidden',nested: 'doc_sor',value: 'strip',index: 0}
+          - input_for   o_from, 'qu',        {id: 'from-freight-qu-submit',type: 'hidden',nested: 'doc_sor',value: 'strip',index: 0}
           - input_for   o_from, 'freight_id',{type: 'hidden',nested: 'doc_sor',value: 'strip',index: 0}
     = partial "#{@path}/form", locals: {resl_freights: resl_freights}
     %tfoot
