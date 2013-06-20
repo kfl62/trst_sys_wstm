@@ -3,7 +3,7 @@ ro:
     attributes:
       'wstm/sorting':
         model_name: PV Sortare
-        table_header_show: ['Material', 'UM', 'PU', 'Se casează', 'Valoare', 'Stock(kg)']
+        table_header_show: ['Material', 'UM', 'PU', 'Sortat(kg)', 'Valoare', 'Stock(kg)']
         table_header_form: ['Material', 'UM', 'Cant. din sortare', ' ']
         text: 'Explicaţii'
-        text_default: 'PV din data de '
+        text_default: 'PV sortare nr.'
