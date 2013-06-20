@@ -18,6 +18,7 @@ define () ->
               tot_qu += qu
               $('#from-freight-qu').text(tot_qu.toFixed(2))
               $('#from-freight-qu-submit').val(tot_qu.toFixed(2))
+          $('#from-freight-stock').text(($('select.from-freight').find('option:selected').data().stck - parseFloat($('#from-freight-qu-submit').decFixed(2).val())).toFixed(2))
           $total.find('span.res').text(tot_qu.toFixed(2))
           if tot_qu > 0
             $('button[data-action="save"]').button 'option', 'disabled', false
