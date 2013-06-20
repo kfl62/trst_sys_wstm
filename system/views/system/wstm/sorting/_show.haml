@@ -6,13 +6,14 @@
         %td.ce= label
     - @object.reload; @object.resl_freights.each do |o|
       %tr
+        - o.set(:val, (o.pu * o.qu).round(2)) unless o.val > 0
         - td_value_for  o, 'freight',   {order: 'name',style: 'name',nested: 'doc_cas'}
         - td_value_for  o, 'um',        {style: 'um', nested: 'doc_cas'}
         - td_value_for  o, 'pu',        {style: 'pu', nested: 'doc_cas'}
         - td_value_for  o, 'qu',        {style: 'val',nested: 'doc_cas'}
         - td_value_for  o, 'val',       {style: 'val',nested: 'doc_cas'}
         %td
-          -#%span.res= "%.2f" % o.resl_freight.stock_by_key(o.resl_freight.key(o.pu))
+          %span.res= "%.2f" % o.freight.stock_by_key(o.freight.key(o.pu))
     %tr
       %td.ce.st{colspan: '3'}
         %span Total
