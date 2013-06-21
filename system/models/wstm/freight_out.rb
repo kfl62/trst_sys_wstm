@@ -95,7 +95,7 @@ module Wstm
         end
       else
         stock_to_handle.each_with_index do |stck,i|
-          if pu > 0 or pu_invoice > 0
+          if pu > 0 or pu_invoice > 0 or doc_sor_id != nil or doc_cas_id != nil
             f = stck.freights.find_or_create_by(id_stats: id_stats, pu: pu)
             f.qu -= qu
             f.freight_id= freight_id
