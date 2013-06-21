@@ -8,7 +8,7 @@ module Wstm
 
     field :name,        type: String
     field :id_date,     type: Date,     default: -> {Date.today}
-    field :id_intern,   type: Boolean,  default: false
+    field :id_intern,   type: Boolean,  default: true
     field :text,        type: String
     field :val,         type: Float,    default: 0.00
 
