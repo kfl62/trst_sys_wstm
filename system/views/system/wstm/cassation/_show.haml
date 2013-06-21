@@ -6,6 +6,7 @@
         %td.ce= label
     - @object.reload; @object.freights.each do |o|
       %tr
+        - o.set(:val, (o.pu * o.qu).round(2)) unless o.val > 0
         - td_value_for  o, 'freight',   {order: 'name',style: 'name',nested: 'doc_cas'}
         - td_value_for  o, 'um',        {style: 'um', nested: 'doc_cas'}
         - td_value_for  o, 'pu',        {style: 'pu', nested: 'doc_cas'}

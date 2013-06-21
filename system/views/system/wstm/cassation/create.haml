@@ -1,6 +1,6 @@
 :ruby
   unit_id = @current_user.unit_id || session[:unit_id]
-  freights= Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln
+  freights= Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln_with_pu
 %span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_cassation'}}
 %form{action: "/sys/#{@path}",method: "post"}
   %table{:cellspacing => "0"}
