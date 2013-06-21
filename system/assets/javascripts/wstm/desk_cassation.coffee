@@ -54,6 +54,7 @@ define () ->
                 $inp.filter('[name*="id_date"]').val($('#date_send').val())
                 $inp.filter('[name*="id_stats"]').val($sod.id_stats)
                 $inp.filter('[name*="um"]').val($sod.um)
+                $inp.filter('[name*="pu"]').val(parseFloat($sod.pu).toFixed(2))
                 $stck.text(parseFloat($sod.stck).toFixed(2))
                 qu = $inp.filter('[name*="qu"]').val('0.00')
                 qu.on 'change', ()->
