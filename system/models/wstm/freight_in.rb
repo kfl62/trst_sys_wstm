@@ -42,7 +42,7 @@ module Wstm
       end
       # @todo
       def nonin(nin = true)
-        where(id_intern: !nin)
+        self.or({id_intern: !nin},{:doc_sor_id.ne => nil})
       end
       # @todo
       def pos(s)
