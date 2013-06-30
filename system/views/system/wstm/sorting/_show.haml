@@ -1,12 +1,13 @@
 - @object.reload
+- @object.from_freights.each{|f| f.set(:id_intern,true); f.set(:val,(f.pu*f.qu).round(2))}
+- @object.resl_freights.each{|f| f.set(:id_intern,true); f.set(:val,(f.pu*f.qu).round(2))}
 - if @object.resl_freights.count > 0
   %tbody.inner
     %tr
       - mat(@object,'table_header_show').each do |label|
         %td.ce= label
-    - @object.reload; @object.resl_freights.each do |o|
+    - @object.resl_freights.each do |o|
       %tr
-        - o.set(:val, (o.pu * o.qu).round(2)) unless o.val > 0
         - td_value_for  o, 'freight',   {order: 'name',style: 'name',nested: 'doc_cas'}
         - td_value_for  o, 'um',        {style: 'um', nested: 'doc_cas'}
         - td_value_for  o, 'pu',        {style: 'pu', nested: 'doc_cas'}
