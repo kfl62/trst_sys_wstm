@@ -39,12 +39,16 @@ def main_data(uid)
         f.stks.by_key(k).sum_stks(*date_strt,{what: :val}),
         f.ins.by_key(k).where(:doc_grn.ne => nil).nonin.sum_ins(*date_strt,{what: :qu}),
         f.ins.by_key(k).where(:doc_grn.ne => nil).nonin.sum_ins(*date_strt,{what: :val}),
-        f.ins.by_key(k).where(:doc_grn.ne => nil).nonin(false).sum_ins(*date_strt,{what: :qu}),
-        f.ins.by_key(k).where(:doc_grn.ne => nil).nonin(false).sum_ins(*date_strt,{what: :val}),
+        #f.ins.by_key(k).where(:doc_grn.ne => nil).nonin(false).sum_ins(*date_strt,{what: :qu}),
+        #f.ins.by_key(k).where(:doc_grn.ne => nil).nonin(false).sum_ins(*date_strt,{what: :val}),
+        f.ins.by_key(k).or({:doc_grn.ne => nil},{:doc_sor.ne => nil}).nonin(false).sum_ins(*date_strt,{what: :qu}),
+        f.ins.by_key(k).or({:doc_grn.ne => nil},{:doc_sor.ne => nil}).nonin(false).sum_ins(*date_strt,{what: :val}),
         f.ins.by_key(k).where(:doc_exp.ne => nil).sum_ins(*date_strt,{what: :qu}),
         f.ins.by_key(k).where(:doc_exp.ne => nil).sum_ins(*date_strt,{what: :val}),
-        f.outs.by_key(k).where(:doc_dln.ne => nil).nonin(false).sum_outs(*date_strt,{what: :qu}),
-        f.outs.by_key(k).where(:doc_dln.ne => nil).nonin(false).sum_outs(*date_strt,{what: :val}),
+        #f.outs.by_key(k).where(:doc_dln.ne => nil).nonin(false).sum_outs(*date_strt,{what: :qu}),
+        #f.outs.by_key(k).where(:doc_dln.ne => nil).nonin(false).sum_outs(*date_strt,{what: :val}),
+        f.outs.by_key(k).or({:doc_dln.ne => nil},{:doc_sor.ne => nil}).nonin(false).sum_outs(*date_strt,{what: :qu}),
+        f.outs.by_key(k).or({:doc_dln.ne => nil},{:doc_sor.ne => nil}).nonin(false).sum_outs(*date_strt,{what: :val}),
         f.outs.by_key(k).where(:doc_dln.ne => nil).nonin.sum_outs(*date_strt,{what: :qu}),
         f.outs.by_key(k).where(:doc_dln.ne => nil).nonin.sum_outs(*date_strt,{what: :val}),
         f.outs.by_key(k).where(:doc_dln.ne => nil).nonin.sum_outs(*date_strt,{what: :val_invoice}),
@@ -313,9 +317,11 @@ unit_ids.each do |uid|
     stks= Wstm::FreightStock.pos(unit.slug)
     pdf.text "%.2f" % stks.sum_stks(*date_strt,{what: :val}), :align => :right
     pdf.text "%.2f" % ins.where(:doc_grn.ne => nil).nonin.sum_ins(*date_strt,{what: :val}), :align => :right
-    pdf.text "%.2f" % ins.where(:doc_grn.ne => nil).nonin(false).sum_ins(*date_strt,{what: :val}), :align => :right
+    #pdf.text "%.2f" % ins.where(:doc_grn.ne => nil).nonin(false).sum_ins(*date_strt,{what: :val}), :align => :right
+    pdf.text "%.2f" % ins.or({:doc_grn.ne => nil},{:doc_sor.ne => nil}).nonin(false).sum_ins(*date_strt,{what: :val}), :align => :right
     pdf.text "%.2f" % ins.where(:doc_exp.ne => nil).sum_ins(*date_strt,{what: :val}), :align => :right
-    pdf.text "%.2f" % outs.where(:doc_dln.ne => nil).nonin(false).sum_outs(*date_strt,{what: :val}), :align => :right
+    #pdf.text "%.2f" % outs.where(:doc_dln.ne => nil).nonin(false).sum_outs(*date_strt,{what: :val}), :align => :right
+    pdf.text "%.2f" % outs.or({:doc_dln.ne => nil},{:doc_sor.ne => nil}).nonin(false).sum_outs(*date_strt,{what: :val}), :align => :right
     pdf.text "%.2f" % outs.where(:doc_dln.ne => nil).nonin.sum_outs(*date_strt,{what: :val}), :align => :right
     pdf.text "%.2f" % outs.where(:doc_dln.ne => nil).nonin.sum_outs(*date_strt,{what: :val_invoice}), :align => :right
     pdf.text "%.2f" % outs.where(:doc_cas.ne => nil).sum_outs(*date_strt,{what: :val}), :align => :right
