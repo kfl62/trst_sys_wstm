@@ -198,17 +198,22 @@ unit_ids.each_with_index do |unit_id,next_unit|
         end
         unless header_extra.empty?
           pdf.move_down 5.mm
-          unless data.length == 25
+          if data_extra[0].length > 21
             pdf.text "Numărul de sortimente depăşeşte lăţimea max. a tabelului! Continuare în pg. urmatoare..."
-            pdf.start_new_page
-            pdf.stamp("pg_header_#{next_unit}_#{next_day}")
-          end
-          pdf.table(data_extra, :header => true,:column_widths => [7.mm, 53.mm, 20.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 14.mm, 14.mm]) do
-            pdf.font_size 7
-            row(0).style(:align => :center)
-            column(0).rows(1..100).style(:align => :right, :padding => [6,3,4,2])
-            column(1..2).rows(1..100).style(:padding => [2,0,2,5])
-            column(3..21).rows(1..100).style(:align => :right,:padding => [6,2,0,0])
+            pdf.text "Din păcate numărul de sortimente depăşeşte lăţimea max. și a tabelului extins! Pentru a tipării tabelul sunați la inginerul de sistem!"
+          else
+            unless data.length == 25
+              pdf.text "Numărul de sortimente depăşeşte lăţimea max. a tabelului! Continuare în pg. urmatoare..."
+              pdf.start_new_page
+              pdf.stamp("pg_header_#{next_unit}_#{next_day}")
+            end
+            pdf.table(data_extra, :header => true,:column_widths => [7.mm, 53.mm, 20.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 14.mm, 14.mm]) do
+              pdf.font_size 7
+              row(0).style(:align => :center)
+              column(0).rows(1..100).style(:align => :right, :padding => [6,3,4,2])
+              column(1..2).rows(1..100).style(:padding => [2,0,2,5])
+              column(3..21).rows(1..100).style(:align => :right,:padding => [6,2,0,0])
+            end
           end
         end
         pdf.move_down 5.mm
