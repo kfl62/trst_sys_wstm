@@ -118,8 +118,8 @@ module Wstm
         s = stks.by_key(key).sum_stks(*args,opts)
         i = ins.by_key(key).sum_ins(*args,opts)
         o = outs.by_key(key).sum_outs(*args,opts)
-        i_nin = ins.by_key(key).nonin.sum_ins(*args,opts)
-        o_nin = outs.by_key(key).nonin.sum_outs(*args,opts)
+        i_nin = ins.by_key(key).nonin.sum_ins(*args,opts) + ins.by_key(key).sorted.sum_ins(*args,opts)
+        o_nin = outs.by_key(key).nonin.sum_outs(*args,opts) + outs.by_key(key).sorted.sum_outs(*args,opts)
         [s,i_nin,o_nin,(s + i_nin - o_nin).round(2), (s + i - o).round(2)]
       else
         s = stks.by_key(key).sum_stks(*args,opts)
