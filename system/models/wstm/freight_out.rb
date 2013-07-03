@@ -44,7 +44,11 @@ module Wstm
       end
       # @todo
       def nonin(nin = true)
-        self.or({id_intern: !nin},{:doc_sor_id.ne => nil})
+        where(id_intern: !nin)
+      end
+      # @todo
+      def sorted
+        where(:doc_sor_id.ne => nil)
       end
       # @todo
       def pos(s)
