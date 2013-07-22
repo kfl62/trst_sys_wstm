@@ -1,3 +1,9 @@
+## v0.2.1
+
+release date: **2013-07-22**
+
+* hotfix v0.2.1: I forgot to update version :)
+
 ## v0.2.0
 
 release date: **2013-07-20**
