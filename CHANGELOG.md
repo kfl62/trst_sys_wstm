@@ -1,3 +1,9 @@
+## v0.2.2
+
+release date: **2013-07-24**
+
+* views: update according patched main.js in TrustSys v0.2.4 (select2 $ui.dialog issue)
+
 ## v0.2.1
 
 release date: **2013-07-22**
