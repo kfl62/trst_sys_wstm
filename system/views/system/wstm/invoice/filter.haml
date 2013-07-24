@@ -27,7 +27,7 @@
                 %option{value: o[0], selected: o[0] == params[:p03]}= o[1]
         %tr.pdb-05
           %td
-            %input#supplr_id.select2{type: 'hidden',autofocus: true, style: 'width:200px', data: {minlength: '2',ph: '3',search: 'Wstm::PartnerFirm'}}
+            %input#supplr_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: '2',ph: '3',search: 'Wstm::PartnerFirm'}}
             %input#supplr_d_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: '0',ph: '1',search: 'Wstm::PartnerFirm'}}
             %button#supplr_d{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create') + " Delegat!"
         - if params[:p03] && params[:supplr_id]
@@ -105,7 +105,7 @@
                 %option{value: o[0], selected: o[0] == params[:p03]}= o[1]
         %tr.pdb-05
           %td
-            %input#client_id.select2{type: 'hidden',autofocus: true, style: 'width:200px', data: {minlength: '2',ph: '0',search: 'Wstm::PartnerFirm'}}
+            %input#client_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: '2',ph: '0',search: 'Wstm::PartnerFirm'}}
             %input#client_d_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: '0',ph: '1',search: 'Wstm::PartnerFirm'}}
             %button#client_d{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create') + " Delegat!"
         - if params[:p03] && params[:client_id]
