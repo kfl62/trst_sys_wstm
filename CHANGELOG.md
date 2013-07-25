@@ -1,3 +1,9 @@
+## v0.2.3
+
+release date: **2013-07-25**
+
+* hotfix v0.2.3: expenditure on create, no freight selected issue 
+
 ## v0.2.2
 
 release date: **2013-07-24**
