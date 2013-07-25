@@ -1,5 +1,4 @@
 (function() {
-
   define(function() {
     $.extend(true, Wstm, {
       desk: {
@@ -36,12 +35,18 @@
               var $sd, $tr, p03, p16, pu, qu, res, val;
               $tr = $(this);
               $sd = $tr.find('select').find('option:selected').data();
-              pu = $tr.find('input[name*="pu"]').decFixed(2);
-              qu = $tr.find('input[name*="qu"]').decFixed(2);
-              val = (parseFloat(pu.val()) * parseFloat(qu.val())).round(2);
-              p03 = $sd.p03 ? (val * 0.03).round(2) : 0;
-              p16 = (val * 0.16).round(2);
-              res = (val - p03 - p16).round(2);
+              if ($sd.id_stats) {
+                pu = $tr.find('input[name*="pu"]').decFixed(2);
+                qu = $tr.find('input[name*="qu"]').decFixed(2);
+                val = (parseFloat(pu.val()) * parseFloat(qu.val())).round(2);
+                p03 = $sd.p03 ? (val * 0.03).round(2) : 0;
+                p16 = (val * 0.16).round(2);
+                res = (val - p03 - p16).round(2);
+              } else {
+                pu = qu = val = p03 = p16 = res = 0;
+                $tr.find('input[name*="pu"]').val('0.00');
+                $tr.find('input[name*="qu"]').val('0.00');
+              }
               tot_val += val;
               tot_p03 += p03;
               tot_p16 += p16;
@@ -77,6 +82,10 @@
                   if (Trst.desk.hdo.dialog === 'repair') {
                     return Wstm.desk.expenditure.selects($('input.repair'));
                   }
+                });
+              } else if ($input.hasClass('pu') || $input.hasClass('qu')) {
+                $input.on('change', function() {
+                  return Wstm.desk.expenditure.calculate();
                 });
               }
             });
@@ -182,12 +191,6 @@
                   $inp.filter('[name*="um"]').val($sod.um);
                   pu = $inp.filter('[name*="pu"]').val($sod.pu).decFixed(2);
                   qu = $inp.filter('[name*="qu"]').val('0.00');
-                  pu.on('change', function() {
-                    return Wstm.desk.expenditure.calculate();
-                  });
-                  qu.on('change', function() {
-                    return Wstm.desk.expenditure.calculate();
-                  });
                   Wstm.desk.expenditure.calculate();
                   return qu.focus().select();
                 });
