@@ -118,13 +118,13 @@ define () ->
                   if $select.val() is 'null'
                     slcts.filter('#client_id,#supplr_id')
                       .select2('data',null)
-                      .select2('disable')
+                      .select2('enable',false)
                       .next().select2('data',null)
                       .select2('destroy')
                     slcts.filter('#client_id,#supplr_id').next().next().hide()
                   else
                     slcts.filter('#client_id,#supplr_id')
-                      .select2('enable')
+                      .select2('enable',true)
                   Wstm.desk.invoice.validate.filter()
                   return
               else
@@ -147,7 +147,7 @@ define () ->
                       q: term
                     results: (data)->
                       results: data
-                $select.select2('disable') if slcts.filter('.p03').val() is 'null'
+                $select.select2('enable',false) if slcts.filter('.p03').val() is 'null'
                 if Wstm.desk.tmp.client
                   $select.select2('data',Wstm.desk.tmp.client)
                   $dlg   = $select.next()
@@ -232,7 +232,7 @@ define () ->
                       q: term
                     results: (data)->
                       results: data
-                $select.select2('disable') if slcts.filter('.p03').val() is 'null'
+                $select.select2('enable',false) if slcts.filter('.p03').val() is 'null'
                 if Wstm.desk.tmp.supplr
                   $select.select2('data',Wstm.desk.tmp.supplr)
                   $dlg   = $select.next()

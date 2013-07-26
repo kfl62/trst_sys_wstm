@@ -1,5 +1,4 @@
 (function() {
-
   define(function() {
     $.extend(true, Wstm, {
       desk: {
@@ -143,10 +142,10 @@
                 if ($select.hasClass('p03')) {
                   $select.on('change', function() {
                     if ($select.val() === 'null') {
-                      slcts.filter('#client_id,#supplr_id').select2('data', null).select2('disable').next().select2('data', null).select2('destroy');
+                      slcts.filter('#client_id,#supplr_id').select2('data', null).select2('enable', false).next().select2('data', null).select2('destroy');
                       slcts.filter('#client_id,#supplr_id').next().next().hide();
                     } else {
-                      slcts.filter('#client_id,#supplr_id').select2('enable');
+                      slcts.filter('#client_id,#supplr_id').select2('enable', true);
                     }
                     Wstm.desk.invoice.validate.filter();
                   });
@@ -181,7 +180,7 @@
                     }
                   });
                   if (slcts.filter('.p03').val() === 'null') {
-                    $select.select2('disable');
+                    $select.select2('enable', false);
                   }
                   if (Wstm.desk.tmp.client) {
                     $select.select2('data', Wstm.desk.tmp.client);
@@ -304,7 +303,7 @@
                     }
                   });
                   if (slcts.filter('.p03').val() === 'null') {
-                    $select.select2('disable');
+                    $select.select2('enable', false);
                   }
                   if (Wstm.desk.tmp.supplr) {
                     $select.select2('data', Wstm.desk.tmp.supplr);
