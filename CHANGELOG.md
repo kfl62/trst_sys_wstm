@@ -1,3 +1,9 @@
+## v0.2.4
+
+release date: **2013-07-26**
+
+* hotfix v0.2.4: `Wstm.desk.invoice` select2 v3.4.1 `select2('disabled')` -> `select2('enable',false)`
+
 ## v0.2.3
 
 release date: **2013-07-25**
