@@ -27,6 +27,8 @@ module Wstm
     accepts_nested_attributes_for :resl_freights,
       reject_if: ->(attrs){ attrs[:qu].to_f == 0 }
 
+    after_save :handle_freights
+
     class << self
       # @todo
       def nonin(nin = true)
@@ -56,5 +58,12 @@ module Wstm
       end
       name
     end
-  end
-end
+
+    protected
+
+    def handle_freights
+      self.from_freights.each{|f| f.set(:id_intern,true); f.set(:val,(f.pu * f.qu).round(2))}
+      self.resl_freights.each{|f| f.set(:id_intern,true); f.set(:val,(f.pu * f.qu).round(2))}
+    end
+  end # Sorting
+end # Wstm
