@@ -1,3 +1,11 @@
+## v0.2.5
+
+release date: **2013-08-02**
+
+* hotfix v0.2.5: `Wstm::Sorting` model issue:
+  ensure that associated `from_freights` and `resl_freight`,
+  has `id_intern: true` and `val: updated`
+
 ## v0.2.4
 
 release date: **2013-07-26**
