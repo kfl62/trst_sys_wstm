@@ -34,14 +34,14 @@
           %span.stats.ce= mat(@object,'stock_start')
         %td
           %span.stats.ri= "%0.2f" % @object.by_unit_id(uid).sum_mny(y,m,mny: [:money_stock]).first
-      - @object.stats_pos(uid,y,m,exp_all: false).each do |r|
+      - @object.stats_pos(uid,y,m,mny_all:true,exp_all: false).each do |r|
         - dif = r.delete_at(2); r.delete_at(-2)
         %tr
           %td
             %span.stats= r.shift
-          - r.each_with_index do |c|
+          - r.each_with_index do |c,i|
             %td
-              %span.stats.ri= "%0.2f" % c
+              %span.stats.ri= "%0.2f" % (i == 1 ?  c + dif : c)
 - else
   %div.small
     %span.info.width-450.ju= t('intro.query.desk_cache.all')
@@ -58,11 +58,11 @@
         - mat(@object,'table_all').each do |cn|
           %td
             %span.stats.ce= cn
-      - @object.stats_all(y,m,mny_all: false,ext_all: false).each do |r|
-        - r.delete_at(-2)
+      - @object.stats_all(y,m,mny_all: true,ext_all: false).each do |r|
+        - dif = r.delete_at(4); r.delete_at(-2)
         %tr
           %td
             %span.stats{id: (r[0] != 'Total') && r.shift, class: (r[0] != 'Total') && 'link'}= r.shift
-          - r.each do |c|
+          - r.each_with_index do |c,i|
             %td
-              %span.stats.ri= "%0.2f" % c
+              %span.stats.ri= "%0.2f" % (i == 2 ?  c + dif : c)

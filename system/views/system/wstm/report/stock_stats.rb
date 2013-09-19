@@ -120,158 +120,160 @@ unit_ids.each do |uid|
       end
     end
   end
-  pdf.start_new_page(:template => "public/images/wstm/pdf/stock_stats_0.pdf")
-  pdf.font_size = 8
-  pdf.text firm.name[2]
-  pdf.text "Nr. înreg. R.C. : #{firm.identities['chambcom']}"
-  pdf.text "Cod Fiscal (C.U.I.) : #{firm.identities['fiscal']}"
-  pdf.text "Str. #{address.street},nr.#{address.nr rescue '-'},bl.#{address.bl rescue '-'},sc.#{address.sc rescue '-'},et.#{address.et rescue '-'},ap.#{address.ap rescue '-'}"
-  pdf.text "#{address.city rescue '-'}, județul #{address.state rescue '-'}"
-  pdf.font_size = 6
-  pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 82], :width => pdf.bounds.width) do
-    pdf.move_up 23.5.mm
-    pdf.text "Centralizator: #{I18n.l(Date.new(*date_strt,1),format: '%B')} - #{unit.name[1]} -",
-      :align => :center, :size => 12, :style => :bold
-    pdf.move_down 52.5
-    v = r_gt.values_at('1101','1201').compact
-    unless v.empty?
-      names = v.each_with_object([]){|a,n| n << a.shift}
-      names.push('Total')
-      v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
-      v.each{|a| a.map!{|e| "%.2f" % e}}
-      names.each_with_index{|n,i| v[i].unshift(n)}
-      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
+  unless rows.empty?
+    pdf.start_new_page(:template => "public/images/wstm/pdf/stock_stats_0.pdf")
+    pdf.font_size = 8
+    pdf.text firm.name[2]
+    pdf.text "Nr. înreg. R.C. : #{firm.identities['chambcom']}"
+    pdf.text "Cod Fiscal (C.U.I.) : #{firm.identities['fiscal']}"
+    pdf.text "Str. #{address.street},nr.#{address.nr rescue '-'},bl.#{address.bl rescue '-'},sc.#{address.sc rescue '-'},et.#{address.et rescue '-'},ap.#{address.ap rescue '-'}"
+    pdf.text "#{address.city rescue '-'}, județul #{address.state rescue '-'}"
+    pdf.font_size = 6
+    pdf.bounding_box([pdf.bounds.left - 0.5, pdf.bounds.top - 82], :width => pdf.bounds.width) do
+      pdf.move_up 23.5.mm
+      pdf.text "Centralizator: #{I18n.l(Date.new(*date_strt,1),format: '%B')} - #{unit.name[1]} -",
+        :align => :center, :size => 12, :style => :bold
+      pdf.move_down 52.5
+      v = r_gt.values_at('1101','1201').compact
+      unless v.empty?
+        names = v.each_with_object([]){|a,n| n << a.shift}
+        names.push('Total')
+        v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
+        v.each{|a| a.map!{|e| "%.2f" % e}}
+        names.each_with_index{|n,i| v[i].unshift(n)}
+        d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
+          row(row_length - 1).style(:background_color => "e6e6e6")
+        end
+        data =  [
+                  ["Categoria: Hârtie şi Carton"],
+                  [d]
+                ]
+        pdf.table(data, :cell_style => {:border_width => 0.1}) do
+          row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
+        end
+      end
+      v = r_gt.values_at('2101','2102','2201').compact
+      unless v.empty?
+        names = v.each_with_object([]){|a,n| n << a.shift}
+        names.push('Total')
+        v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
+        v.each{|a| a.map!{|e| "%.2f" % e}}
+        names.each_with_index{|n,i| v[i].unshift(n)}
+        d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
+          row(row_length - 1).style(:background_color => "e6e6e6")
+        end
+        data =  [
+                  ["Categoria: Folie, PET şi PVC"],
+                  [d]
+                ]
+        pdf.table(data, :cell_style => {:border_width => 0.1}) do
+          row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
+        end
+      end
+      v = r_gt.values_at('3011').compact
+      unless v.empty?
+        names = v.each_with_object([]){|a,n| n << a.shift}
+        names.push('Total')
+        v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
+        v.each{|a| a.map!{|e| "%.2f" % e}}
+        names.each_with_index{|n,i| v[i].unshift(n)}
+        d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
+          row(row_length - 1).style(:background_color => "e6e6e6")
+        end
+        data =  [
+                  ["Categoria: Fier"],
+                  [d]
+                ]
+        pdf.table(data, :cell_style => {:border_width => 0.1}) do
+          row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
+        end
+      end
+      v = r_gt.values_at('3101','3201','3202','3301','3401','3501','3601','3602','3701').compact
+      unless v.empty?
+        names = v.each_with_object([]){|a,n| n << a.shift}
+        names.push('Total')
+        v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
+        v.each{|a| a.map!{|e| "%.2f" % e}}
+        names.each_with_index{|n,i| v[i].unshift(n)}
+        d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
+          row(row_length - 1).style(:background_color => "e6e6e6")
+        end
+        data =  [
+                  ["Categoria: Metale neferoase (Alamă, Aluminiu, Doze aluminiu, Cupru, Inox, Plumb, Radiatoare alamă, Radiatoare aluminiu și Zamac)"],
+                  [d]
+                ]
+        pdf.table(data, :cell_style => {:border_width => 0.1}) do
+          row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
+        end
+      end
+      v = r_gt.values_at('4001').compact
+      unless v.empty?
+        names = v.each_with_object([]){|a,n| n << a.shift}
+        names.push('Total')
+        v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
+        v.each{|a| a.map!{|e| "%.2f" % e}}
+        names.each_with_index{|n,i| v[i].unshift(n)}
+        d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
+          row(row_length - 1).style(:background_color => "e6e6e6")
+        end
+        data =  [
+                  ["Categoria: Baterii auto"],
+                  [d]
+                ]
+        pdf.table(data, :cell_style => {:border_width => 0.1}) do
+          row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
+        end
+      end
+      v = r_gt.values_at('5001').compact
+      unless v.empty?
+        names = v.each_with_object([]){|a,n| n << a.shift}
+        names.push('Total')
+        v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
+        v.each{|a| a.map!{|e| "%.2f" % e}}
+        names.each_with_index{|n,i| v[i].unshift(n)}
+        d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
+          row(row_length - 1).style(:background_color => "e6e6e6")
+        end
+        data =  [
+                  ["Categoria: DEEE"],
+                  [d]
+                ]
+        pdf.table(data, :cell_style => {:border_width => 0.1}) do
+          row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
+        end
+      end
+      v = r_gt.values_at('6001').compact
+      unless v.empty?
+        names = v.each_with_object([]){|a,n| n << a.shift}
+        names.push('Total')
+        v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
+        v.each{|a| a.map!{|e| "%.2f" % e}}
+        names.each_with_index{|n,i| v[i].unshift(n)}
+        d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
+          row(row_length - 1).style(:background_color => "e6e6e6")
+        end
+        data =  [
+                  ["Categoria: Motor electric"],
+                  [d]
+                ]
+        pdf.table(data, :cell_style => {:border_width => 0.1}) do
+          row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
+        end
+      end
+      v = r_gt.values
+      v.each{|a| a.shift}
+      v.each{|a| a.map!{|e| e.to_f}}
+      sum = v.transpose.map{|x| "%.2f" % (x.reduce(:+)).round(2)}
+      d = pdf.make_table([sum.unshift(' ')], :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
         row(row_length - 1).style(:background_color => "e6e6e6")
       end
       data =  [
-                ["Categoria: Hârtie şi Carton"],
+                ["Total general"],
                 [d]
               ]
       pdf.table(data, :cell_style => {:border_width => 0.1}) do
         row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
       end
-    end
-    v = r_gt.values_at('2101','2102','2201').compact
-    unless v.empty?
-      names = v.each_with_object([]){|a,n| n << a.shift}
-      names.push('Total')
-      v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
-      v.each{|a| a.map!{|e| "%.2f" % e}}
-      names.each_with_index{|n,i| v[i].unshift(n)}
-      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
-        row(row_length - 1).style(:background_color => "e6e6e6")
-      end
-      data =  [
-                ["Categoria: Folie, PET şi PVC"],
-                [d]
-              ]
-      pdf.table(data, :cell_style => {:border_width => 0.1}) do
-        row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
-      end
-    end
-    v = r_gt.values_at('3011').compact
-    unless v.empty?
-      names = v.each_with_object([]){|a,n| n << a.shift}
-      names.push('Total')
-      v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
-      v.each{|a| a.map!{|e| "%.2f" % e}}
-      names.each_with_index{|n,i| v[i].unshift(n)}
-      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
-        row(row_length - 1).style(:background_color => "e6e6e6")
-      end
-      data =  [
-                ["Categoria: Fier"],
-                [d]
-              ]
-      pdf.table(data, :cell_style => {:border_width => 0.1}) do
-        row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
-      end
-    end
-    v = r_gt.values_at('3101','3201','3202','3301','3401','3501','3601','3602','3701').compact
-    unless v.empty?
-      names = v.each_with_object([]){|a,n| n << a.shift}
-      names.push('Total')
-      v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
-      v.each{|a| a.map!{|e| "%.2f" % e}}
-      names.each_with_index{|n,i| v[i].unshift(n)}
-      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
-        row(row_length - 1).style(:background_color => "e6e6e6")
-      end
-      data =  [
-                ["Categoria: Metale neferoase (Alamă, Aluminiu, Doze aluminiu, Cupru, Inox, Plumb, Radiatoare alamă, Radiatoare aluminiu și Zamac)"],
-                [d]
-              ]
-      pdf.table(data, :cell_style => {:border_width => 0.1}) do
-        row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
-      end
-    end
-    v = r_gt.values_at('4001').compact
-    unless v.empty?
-      names = v.each_with_object([]){|a,n| n << a.shift}
-      names.push('Total')
-      v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
-      v.each{|a| a.map!{|e| "%.2f" % e}}
-      names.each_with_index{|n,i| v[i].unshift(n)}
-      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
-        row(row_length - 1).style(:background_color => "e6e6e6")
-      end
-      data =  [
-                ["Categoria: Baterii auto"],
-                [d]
-              ]
-      pdf.table(data, :cell_style => {:border_width => 0.1}) do
-        row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
-      end
-    end
-    v = r_gt.values_at('5001').compact
-    unless v.empty?
-      names = v.each_with_object([]){|a,n| n << a.shift}
-      names.push('Total')
-      v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
-      v.each{|a| a.map!{|e| "%.2f" % e}}
-      names.each_with_index{|n,i| v[i].unshift(n)}
-      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
-        row(row_length - 1).style(:background_color => "e6e6e6")
-      end
-      data =  [
-                ["Categoria: DEEE"],
-                [d]
-              ]
-      pdf.table(data, :cell_style => {:border_width => 0.1}) do
-        row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
-      end
-    end
-    v = r_gt.values_at('6001').compact
-    unless v.empty?
-      names = v.each_with_object([]){|a,n| n << a.shift}
-      names.push('Total')
-      v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
-      v.each{|a| a.map!{|e| "%.2f" % e}}
-      names.each_with_index{|n,i| v[i].unshift(n)}
-      d = pdf.make_table(v, :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
-        row(row_length - 1).style(:background_color => "e6e6e6")
-      end
-      data =  [
-                ["Categoria: Motor electric"],
-                [d]
-              ]
-      pdf.table(data, :cell_style => {:border_width => 0.1}) do
-        row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
-      end
-    end
-    v = r_gt.values
-    v.each{|a| a.shift}
-    v.each{|a| a.map!{|e| e.to_f}}
-    sum = v.transpose.map{|x| "%.2f" % (x.reduce(:+)).round(2)}
-    d = pdf.make_table([sum.unshift(' ')], :cell_style => {:padding => [2,3,2,0], :align => :right, :border_width => 0.1}, :column_widths => [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
-      row(row_length - 1).style(:background_color => "e6e6e6")
-    end
-    data =  [
-              ["Total general"],
-              [d]
-            ]
-    pdf.table(data, :cell_style => {:border_width => 0.1}) do
-      row(0).style(:background_color => "f9f9f9", :padding => [2,5,2,5])
     end
   end
   top =  pdf.y - 20.mm
