@@ -1,6 +1,6 @@
 ## v0.2.6
 
-release date: **2013-09-XX**
+release date: **2013-09-19**
 
 * hotfix v0.2.5: `Trst::Cache#money_out` issue:
   `money_out` not properly handled in views
