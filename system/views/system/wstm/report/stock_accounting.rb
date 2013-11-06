@@ -343,7 +343,7 @@ pdf.bounding_box([235.mm, top], :width => 25.mm) do
   pdf.text "Firme",:align => :right
   pdf.text "%.2f" % (ins.by_key('3011').each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03) if f.doc.supplr.p03}.sum || 0), :align => :right
   pdf.text "%.2f" % (ins.where(:id_stats.in => ['3101','3201','3202','3401','3301','3501','3601','3602,3701']).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03) if f.doc.supplr.p03}.sum || 0), :align => :right
-  pdf.text "%.2f" % (ins.by_key('4001').where(:doc_exp.ne => nil).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03) if f.doc.supplr.p03}.sum || 0), :align => :right
+  pdf.text "%.2f" % (ins.by_key('4001').each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03) if f.doc.supplr.p03}.sum || 0), :align => :right
   pdf.text "<b>#{"%.2f" % (Wstm::Grn.nonin.monthly(*date_strt).sum(:sum_003) || 0)}</b>", :align => :right, :inline_format => true
 end
 pdf.bounding_box([pdf.bounds.left, pdf.bounds.bottom + 8], :width => pdf.bounds.width) do
