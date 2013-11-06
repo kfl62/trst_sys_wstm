@@ -1,10 +1,17 @@
+## v0.2.7
+
+release date: **2013-11-06**
+
+* hotfix v0.2.7: `stock_accounting.rb` report firms p03 issue:
+  `report/stock_accounting` firms p03 issue
+
 ## v0.2.6
 
 release date: **2013-09-19**
 
-* hotfix v0.2.5: `Trst::Cache#money_out` issue:
+* hotfix v0.2.6: `Trst::Cache#money_out` issue:
   `money_out` not properly handled in views
-  `reprt/stock_stats` no data issue
+  `report/stock_stats` no data issue
 
 ## v0.2.5
 
