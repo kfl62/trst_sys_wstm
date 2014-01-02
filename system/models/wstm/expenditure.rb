@@ -24,11 +24,10 @@ module Wstm
     index({ unit_id: 1, id_date: 1 })
     # index({ client_id: 1, id_date: 1 }) # Just when Decl-205
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
-
-    # @todo validate id_date (min -> Date.today.month - 1)
+    after_save :'handle_empty_expenditure_error'
 
     accepts_nested_attributes_for :freights,
-      reject_if: ->(attrs){ attrs[:qu].to_f == 0 }
+      reject_if: ->(attrs){ attrs[:qu].to_f == 0 || attrs[:id_date].empty?}
 
     class << self
       # @todo
@@ -92,15 +91,9 @@ module Wstm
       if apps.count > 0
         name = apps.asc(:name).last.name.next
       else
-        apps = Wstm::Expenditure.by_unit_id(unit_id)
         unit = Wstm::PartnerFirm.unit_by_unit_id(unit_id)
-        if apps.count > 0
-          #prefix = apps.asc(:name).last.name.split('-').last[0].next
-          prefix = '2'
-          name = "#{unit.firm.name[0][0..2].upcase}_#{unit.slug}-#{prefix}00001"
-        else
-          name = "#{unit.firm.name[0][0..2].upcase}_#{unit.slug}-000001"
-        end
+        prfx = Date.today.year.to_s[-2..-1]
+        name = "#{unit.firm.name[0][0..2].upcase}_#{unit.slug}-#{prfx}00001"
       end
       name
     end
@@ -109,6 +102,12 @@ module Wstm
       freights.asc(:id_stats).each_with_object([]) do |f,r|
         r << "#{f.freight.name}: #{"%.2f" % f.qu} kg ( #{"%.2f" % f.pu} )"
       end
+    end
+
+    protected
+
+    def handle_empty_expenditure_error
+      delete if freights.count == 0
     end
   end # Expenditure
 end #Wstm

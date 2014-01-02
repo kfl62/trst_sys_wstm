@@ -123,6 +123,20 @@ module Wstm
       stks.find_by(id_date: Date.new(y,m,1))
     end
     # @todo
+    def stock_create(y,m)
+      stk_new = stks.create(
+        id_date: Date.new(y,m,1),
+        name: "Stock_#{slug}_#{I18n.localize(Date.new(y,m,1), format: '%Y-%m')}",
+        expl: "Stoc initial #{I18n.localize(Date.new(y,m,1), format: '%B, %Y').downcase}"
+      )
+      self.stock_now.freights.where(:qu.ne => 0).each{|f| stk_new.freights << f.clone}
+      stk_new
+    end
+    # @todo
+    def active?(y,m)
+      stks.monthly(y,m).first.freights.sum(:qu).round(2) > 0 rescue false
+    end
+    # @todo
     def yearly_stats(y)
       s = freights.asc(:id_stats).each_with_object({}){|f,h| h[f.id_stats] = [f.name]}
       (1..12).each do |i|

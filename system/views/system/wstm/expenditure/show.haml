@@ -10,7 +10,7 @@
       %tr
         %td.buttonset.ce{colspan: "8"}
           - if @object.freights.count == 0
-            %button{type: "button",data: {action: "delete",icon: "circle-minus",type: 'delete'}}= t('button.delete')
+            %button{type: "button",data: {action: "cancel",icon: "circle-close",type: 'cancel'}}= t('button.cancel')
           - else
             %button{type: "button",data: {action: "print", icon: "print"}}= t('button.print')
             %button{type: "button",data: {action: "delete",icon: "circle-minus",remove: 'false'}}= t('button.delete')

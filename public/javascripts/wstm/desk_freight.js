@@ -1,5 +1,4 @@
 (function() {
-
   define(function() {
     $.extend(true, Wstm, {
       desk: {
@@ -32,7 +31,7 @@
                 var $url;
                 $url = "sys/wstm/freight/query?y=" + ($sy.val()) + "&m=" + ($sm.val()) + "&d=" + ($sd.val());
                 if ($su.length) {
-                  $url += "" + $url + "&uid=" + ($su.val());
+                  $url += "&uid=" + ($su.val());
                 }
                 Trst.desk.init($url);
               });
@@ -45,9 +44,9 @@
                   var $url;
                   $url = "sys/wstm/freight/query?y=" + ($sy.val()) + "&m=" + ($sm.val());
                   if ($su.length) {
-                    $url += "" + $url + "&uid=" + ($su.val()) + "&fid=" + ($link.attr('id'));
+                    $url += "&uid=" + ($su.val()) + "&fid=" + ($link.attr('id'));
                   } else {
-                    $url += $link.hasClass('uid') ? "" + $url + "&uid=" + ($link.attr('id')) : "" + $url + "&fid=" + ($link.attr('id'));
+                    $url += $link.hasClass('uid') ? "&uid=" + ($link.attr('id')) : "&fid=" + ($link.attr('id'));
                   }
                   Trst.desk.init($url);
                 });

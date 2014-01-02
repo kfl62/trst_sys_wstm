@@ -46,15 +46,9 @@ module Wstm
       if sorts.count > 0
         name = sorts.asc(:name).last.name.next
       else
-        sorts = Wstm::Sorting.by_unit_id(unit_id)
         unit = Wstm::PartnerFirm.unit_by_unit_id(unit_id)
-        if sorts.count > 0
-          #prefix = sorts.asc(:name).last.name.split('_').last[0].next
-          prefix = '2'
-          name = "#{unit.firm.name[0][0..2].upcase}_#{unit.slug}_PVST-#{prefix}00001"
-        else
-          name = "#{unit.firm.name[0][0..2].upcase}_#{unit.slug}_PVST-000001"
-        end
+        prfx = Date.today.year.to_s[-2..-1]
+        name = "#{unit.firm.name[0][0..2].upcase}_#{unit.slug}_PVST-#{prfx}00001"
       end
       name
     end

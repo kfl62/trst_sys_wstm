@@ -23,7 +23,7 @@ define () ->
             $select = $(@)
             $select.on 'change', ()->
               $url  = "sys/wstm/freight/query?y=#{$sy.val()}&m=#{$sm.val()}&d=#{$sd.val()}"
-              $url += "#{$url}&uid=#{$su.val()}" if $su.length
+              $url += "&uid=#{$su.val()}" if $su.length
               Trst.desk.init($url)
               return
             return
@@ -33,9 +33,9 @@ define () ->
               $link.on 'click', ()->
                 $url = "sys/wstm/freight/query?y=#{$sy.val()}&m=#{$sm.val()}"
                 if $su.length
-                  $url += "#{$url}&uid=#{$su.val()}&fid=#{$link.attr('id')}"
+                  $url += "&uid=#{$su.val()}&fid=#{$link.attr('id')}"
                 else
-                  $url += if $link.hasClass('uid') then "#{$url}&uid=#{$link.attr('id')}" else "#{$url}&fid=#{$link.attr('id')}"
+                  $url += if $link.hasClass('uid') then "&uid=#{$link.attr('id')}" else "&fid=#{$link.attr('id')}"
                 Trst.desk.init($url)
                 return
               return

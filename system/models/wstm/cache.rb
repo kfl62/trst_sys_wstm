@@ -67,7 +67,7 @@ module Wstm
           sum_t = [sum_m,sum_e,sld_f.round(2)].flatten
           sum_t.length.times{sum_tot << 0} unless sum_tot.length > 0
           sum_tot = sum_tot.zip(sum_t).map{|x| (x.inject(:+)).round(2)}
-          retval << [u,Wstm::PartnerFirm.unit_by_unit_id(u).name[1],sum_t].flatten
+          retval << [u,Wstm::PartnerFirm.unit_by_unit_id(u).name[1],sum_t].flatten unless sum_t.sum == 0
         end
         retval << ['Id','Total',sum_tot].flatten
       end
