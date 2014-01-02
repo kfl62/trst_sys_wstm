@@ -11,7 +11,7 @@
     %span.info.width-400.ju= t('intro.query.desk_cache.one')
     %p
       %select#y
-        - [2011,2012,2013].each do |year|
+        - [2011,2012,2013,2014].each do |year|
           %option{value: year, selected: y == year}= year
       %select#m
         - t('month')[1..12].each_with_index do |month,i|
@@ -47,7 +47,7 @@
     %span.info.width-450.ju= t('intro.query.desk_cache.all')
     %p
       %select#y
-        - [2011,2012,2013].each do |year|
+        - [2011,2012,2013,2014].each do |year|
           %option{value: year, selected: y == year}= year
       %select#m
         - t('month')[1..12].each_with_index do |month,i|
