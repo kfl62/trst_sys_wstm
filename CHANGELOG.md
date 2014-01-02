@@ -1,3 +1,19 @@
+## v0.3.0
+
+release date: **2014-xx-xx**
+
+* **feature v0.2.7.1**, mew year settings
+   - feature date: **2014-01-02**
+   - bump version v0.2.7.1
+   - update CHANGELOG
+   - update `config.yml`
+   - views add 2014, ignore inactive units
+   - assets js, `Trst.desk.freight` typo, duplicate in url
+   - models improve `increment_name` method, where appropriate
+   - models `Wstm::ParnerFirm::Unit` new methods `stock_create(y,m)`, `active?`
+   - models `Wstm::Cache` ignore unit without cache
+   - models `Wstm::Freight` some bugfixes, on query
+
 ## v0.2.7
 
 release date: **2013-11-06**
