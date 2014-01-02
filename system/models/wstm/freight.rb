@@ -55,7 +55,7 @@ module Wstm
           keys.each do |key|
             sum = *f.stats_sum(*args,opts.merge(key: key))
             chk = (f.stks_now.by_key(key).sum(:qu) || 0.0).round(2)
-            m == today.month ? sum.push(chk) : sum.push(sum.last)
+            m == today.month && y == today.year ? sum.push(chk) : sum.push(sum.last)
             a << [f.id,f.name,key,*sum] unless sum.sum == 0
           end
         end
@@ -71,11 +71,11 @@ module Wstm
             f = find_by(unit_id: u, id_stats: ids)
             if f
               sum_pos = f.stats_sum(*args,opts)
-              part[i] << sum_pos.pop
+              part[i] << sum_pos.pop if Wstm::PartnerFirm.unit_by_unit_id(u).active?(*args)
               sum_tot = sum_tot.zip(sum_pos).map{|x| x.inject(:+)}
               fname = f.name
             else
-              part[i] << 0
+              part[i] << 0 if Wstm::PartnerFirm.unit_by_unit_id(u).active?(*args)
             end
           end
           retval << [fname,sum_tot,part[i],(sum_tot.last - part[i].sum).round(2)].flatten
