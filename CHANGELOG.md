@@ -2,6 +2,14 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.2**, `Wstm::Freights` query, daily analytic
+   - feature date: **2014-01-03**
+   - bump version v0.2.7.2
+   - update CHANGELOG
+   - assets js, `Trst.desk.freight` prepare for daily analytic
+   - views `query.haml`, add daily analytic TODO extract logic from view
+   - i18n `freight.yml` add table header for daily analytic
+
 * **feature v0.2.7.1**, mew year settings
    - feature date: **2014-01-02**
    - bump version v0.2.7.1

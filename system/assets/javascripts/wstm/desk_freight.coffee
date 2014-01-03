@@ -5,11 +5,12 @@ define () ->
         handleFreight: ()->
           $sy = $('#y')
           $sm = $('#m')
+          $sd = $('#d')
           $sf = $('#f')
           $('select').each ()->
             $select = $(@)
             $select.on 'change', ()->
-              $url  = "sys/wstm/freight/query?y=#{$sy.val()}&m=#{$sm.val()}&uid=#{$sf.data('uid')}&fid=#{$sf.val()}"
+              $url  = "sys/wstm/freight/query?y=#{$sy.val()}&m=#{$sm.val()}&d=#{$sd.val()}&uid=#{$sf.data('uid')}&fid=#{$sf.val()}"
               Trst.desk.init($url)
               return
             return
