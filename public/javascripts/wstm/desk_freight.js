@@ -4,16 +4,17 @@
       desk: {
         freight: {
           handleFreight: function() {
-            var $sf, $sm, $sy;
+            var $sd, $sf, $sm, $sy;
             $sy = $('#y');
             $sm = $('#m');
+            $sd = $('#d');
             $sf = $('#f');
             $('select').each(function() {
               var $select;
               $select = $(this);
               $select.on('change', function() {
                 var $url;
-                $url = "sys/wstm/freight/query?y=" + ($sy.val()) + "&m=" + ($sm.val()) + "&uid=" + ($sf.data('uid')) + "&fid=" + ($sf.val());
+                $url = "sys/wstm/freight/query?y=" + ($sy.val()) + "&m=" + ($sm.val()) + "&d=" + ($sd.val()) + "&uid=" + ($sf.data('uid')) + "&fid=" + ($sf.val());
                 Trst.desk.init($url);
               });
             });
