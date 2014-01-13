@@ -2,6 +2,15 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.3**, `Wstm::PartnerFirm` query, client, supplier, unit expenditures
+   - feature date: **2014-01-13**
+   - bump version v0.2.7.3
+   - update CHANGELOG
+   - views add partials for queries
+   - assets css, `_dialog.sass` some styling
+   - assets js, `Trst.desk.partner_firm` add client, supplier query related
+   - i18n `partner_firm.yml` add table headers for queries
+
 * **feature v0.2.7.2**, `Wstm::Freights` query, daily analytic
    - feature date: **2014-01-03**
    - bump version v0.2.7.2
