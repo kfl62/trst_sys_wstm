@@ -75,6 +75,7 @@
       - stk_day = freight.stks.sum_stks(y,m) + freight.ins.period(y,m,1,d - 1).sum(:qu) - freight.outs.period(y,m,1,d - 1).sum(:qu); stock = stk_day
       - ins_exp = freight.ins.daily(y,m,d).where(:doc_exp.ne => nil).sum(:qu)
       - ins_int = freight.ins.daily(y,m,d).where(:doc_grn.ne => nil).nonin(false).sum(:qu)
+      - ins_sor = freight.ins.daily(y,m,d).where(:doc_sor.ne => nil).sum(:qu)
       - ins_grn = freight.ins.daily(y,m,d).where(:doc_grn.ne => nil).nonin.sum(:qu)
       - out_cas = freight.outs.daily(y,m,d).where(:doc_cas.ne => nil).sum(:qu)
       - out_sor = freight.outs.daily(y,m,d).where(:doc_sor.ne => nil).sum(:qu)
@@ -102,6 +103,13 @@
           %tr{style: 'color:blue'}
             %td= 'Transfer gestiune'
             %td.stats.ri= "%0.2f" % ins_int
+            %td &nbsp;
+            %td.stats.ri= "%0.2f" % stock
+        - if ins_sor > 0
+          - stock += ins_sor
+          %tr{style: 'color:blue'}
+            %td= 'Intrări sortare'
+            %td.stats.ri= "%0.2f" % ins_sor
             %td &nbsp;
             %td.stats.ri= "%0.2f" % stock
         - if ins_grn > 0
