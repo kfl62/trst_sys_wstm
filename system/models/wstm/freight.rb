@@ -145,7 +145,7 @@ module Wstm
     protected
 
     def handle_code
-      self.code = code.split(',')
+      self.code = code.split(',').flatten
     end
   end # Freight
 end # Wstm
