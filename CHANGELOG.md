@@ -2,6 +2,14 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.4**, `Wstm::PartnerFirm` query, client, supplier, unit expenditures
+   - feature date: **2014-01-23**
+   - bump version v0.2.7.4
+   - update CHANGELOG
+   - views `Wstm::Freight` `query.haml` missing data, bugfix
+   - models `Wstm::ParnerFirm` `active?`, bugfix
+   - models `Wstm::Freight` `handle_code`, bugfix 
+
 * **feature v0.2.7.3**, `Wstm::PartnerFirm` query, client, supplier, unit expenditures
    - feature date: **2014-01-13**
    - bump version v0.2.7.3
