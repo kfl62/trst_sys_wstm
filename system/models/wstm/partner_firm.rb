@@ -134,7 +134,13 @@ module Wstm
     end
     # @todo
     def active?(y,m)
-      stks.monthly(y,m).first.freights.sum(:qu).round(2) > 0 rescue false
+      a = apps.monthly(y,m).first.freights.sum(:qu).round(2) > 0 rescue false
+      s = stks.monthly(y,m).first.freights.sum(:qu).round(2) > 0 rescue false
+      d = dlns.monthly(y,m).first.freights.sum(:qu).round(2) > 0 rescue false
+      g = grns.monthly(y,m).first.freights.sum(:qu).round(2) > 0 rescue false
+      c = csss.monthly(y,m).first.freights.sum(:qu).round(2) > 0 rescue false
+      o = srts.monthly(y,m).first.freights.sum(:qu).round(2) > 0 rescue false
+      a || s || d || g || c || o
     end
     # @todo
     def yearly_stats(y)
