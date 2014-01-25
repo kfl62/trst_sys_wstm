@@ -1,0 +1,65 @@
+:ruby
+  p_y = params[:p_y].to_i
+  p_m = params[:p_m].to_i
+  ta,sa,tc,sc  = Wstm::PartnerPerson.apps_for_stats(params[:p_oid],params[:p_y],params[:p_m])
+- if ta
+  - doc_ary = params[:doc_ary].blank? ? ta.pluck(:id).map(&:to_s) : params[:doc_ary].split(',')
+  %table{cellspacing: "0",style: "font-size:12px"}
+    %thead
+      - if tc == 0
+        %tr.pdb-05
+          %td
+            %span.info= t('intro.query.desk_partner_person.exp_0')
+      - else
+        - if tc == 1
+          - app = ta.first
+          %tr.pdb-05
+            %td
+              %span.info= t('intro.query.desk_partner_person.exp_1',doc_name: app.name, doc_date: app.id_date.to_s)
+        - else
+          %tr.pdb-05
+            %td
+              %span.info.width-550= t('intro.query.desk_partner_person.exp_m',doc_date_start: l(ta.min(:id_date), format: "%b %Y"),doc_date_end: l(ta.max(:id_date), format: "%b %Y"),doc_count: tc,sum_100: "%.2f" % ta.sum(:sum_100),sum_016: "%.2f" % ta.sum(:sum_016),sum_003: "%.2f" % ta.sum(:sum_003),sum_out: "%.2f" % ta.sum(:sum_out))
+        - if tc > 1
+          %input.param.doc_ary{type: 'hidden',name: 'doc_ary', value: params[:doc_ary]}
+          - if sc > 30
+            %tr.pdb-05
+              %td
+                %span.warning= t('intro.query.desk_partner_person.exp_tme',doc_count: sc)
+            %tr.pdb-05
+              %td
+                %select.param{name: 'p_y'}
+                  %option{value: 0, selected: p_y == 0}= 'Toată perioada'
+                  - (2011..Date.today.year).each do |year|
+                    %option{value: year, selected: p_y == year}= year
+                - if p_y != 0
+                  %select.param{name: 'p_m'}
+                    %option{value: 0, selected: p_m == 0}= 'Tot anul'
+                    - t('month')[1..12].each_with_index do |month,i|
+                      %option{value: i + 1, selected: p_m == i + 1}= month
+          - else
+            - if tc != sc
+              %tr.pdb-05
+                %td
+                  %select.param{name: 'p_y'}
+                    %option{value: 0, selected: p_y == 0}= 'Toată perioada'
+                    - (2011..Date.today.year).each do |year|
+                      %option{value: year, selected: p_y == year}= year
+                  - if p_y != 0
+                    %select.param{name: 'p_m'}
+                      %option{value: 0, selected: p_m == 0}= 'Tot anul'
+                      - t('month')[1..12].each_with_index do |month,i|
+                        %option{value: i + 1, selected: p_m == i + 1}= month
+            %tr.pdb-05
+              %td
+                %span.doc-ary-name
+                  - unless sa.blank?
+                    -l = sa.pluck(:name).max_by(&:length).length; sa.asc(:id_date, :name)[0..47].each_with_index do |app,i|
+                      %label.doc-ary-name{style: "max-heght:100px",title: "#{app.id_date}\n#{app.name}\n#{app.freights_list.join("\n")}"}
+                        %input.doc_ary{id: app.id,type: 'checkbox',checked: doc_ary.include?(app.id.to_s)}
+                        = app.name.rjust(l,"\u00a0")
+    %tbody
+      %tr.pdb-05
+        = partial "wstm/partner_person/query_freights", locals: {ta: ta,sa: sa,tc: tc,sc: sc,doc_ary: doc_ary}
+- else
+  %span.info Selectați clientul!
