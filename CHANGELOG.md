@@ -2,7 +2,17 @@
 
 release date: **2014-xx-xx**
 
-* **feature v0.2.7.4**, `Wstm::PartnerFirm` query, client, supplier, unit expenditures
+* **feature v0.2.7.5**, `Wstm::PartnerPerson` query partner, regarding expenditures
+   - feature date: **2014-01-25**
+   - bump version v0.2.7.5
+   - update CHANGELOG
+   - views `Wstm::PartnerPerson` add partials for queries
+   - assets js, `Wstm.desk.partner_person` query related, rewrite 
+   - assets js, `Wstm.desk.template` finally, a template, hopefully useful
+   - i18n `wstm,yml` new translation
+   - models `Wstm::PartnerPerson|Expenditures` query partner related changes
+
+* **feature v0.2.7.4**, mostly bugfixes
    - feature date: **2014-01-23**
    - bump version v0.2.7.4
    - update CHANGELOG
