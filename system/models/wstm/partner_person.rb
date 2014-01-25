@@ -18,6 +18,25 @@ module Wstm
         .or(name_frst: /\A#{params[:q]}/i)
         .each_with_object([]){|pf,a| a << {id: pf.id.to_s,text: "#{pf.id_pn.ljust(18)} #{pf.name}"}}
       end
+      # @todo
+      def apps_for_stats(*args)
+        pid,y,m = *args
+        if pid.blank?
+          return [nil,nil,0,0]
+        else
+          ta = find(pid).apps
+          if ta.count <= 1
+            sa = ta
+          else
+            if m.to_i == 0
+              sa = y.to_i == 0 ? ta : ta.yearly(y.to_i)
+            else
+              sa = y.to_i == 0 ? ta : ta.monthly(y.to_i,m.to_i)
+            end
+          end
+        end
+        [ta,sa,ta.try(:count) || 0,sa.try(:count) || 0]
+      end
     end # Class methods
     # @todo
     def view_filter

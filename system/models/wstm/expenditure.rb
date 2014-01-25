@@ -72,6 +72,20 @@ module Wstm
         end
       end
       # @todo
+      def sum_freights_exp
+        all.each_with_object({}) do |app,s|
+          app.freights.asc(:id_stats).each_with_object(s) do |f,s|
+            key = f.id_stats
+            if s[key].nil?
+              s[key] = [f.freight.name,f.freight.id_stats,f.pu,f.qu,f.val,f.freight.p03]
+            else
+              s[key][3] += f.qu
+              s[key][4] += f.val
+            end
+          end
+        end
+      end
+      # @todo
       def check_sum
         r = all.asc(:name).each_with_object([]) do |e,a|
           sum = e.freights.sum(:val).round(2)
