@@ -189,6 +189,22 @@ ro:
             Pentru fişa de magazie "click" pe denumirea materialului!
           exit_one: |
             Pentru stocuri alegeţi "Toate materialele"!
+        desk_partner_person:
+          exp_0: |
+            Pentru acest partener nu s-a întocmit nicio Adeverință de Primire / Plată!
+          exp_1: |
+            Pentru acest partener s-a întocmit o Adeverință de Primire / Plată, cu nr. <b>%{doc_name}</b>
+            în data de <b>%{doc_date}</b>.
+          exp_m: |
+            În perioda <b>%{doc_date_start} - %{doc_date_end}</b> s-au întocmit (<b>%{doc_count}</b>)
+            APP-uri, în valoare totală de <b>%{sum_100} RON</b>, din care s-au reținut <b>%{sum_016} RON</b>
+            (impozit 16%) respectiv <b>%{sum_003} RON</b> (taxă mediu 3%) și s-au plătit în numerar <b>%{sum_out} RON</b>.
+          exp_tme: |
+            Prea multe (<b>%{doc_count}</b>) APP-uri! Nu se pot afișa! Încercați să alegeți o periaodă mai scurtă!<br>
+            În tabel sunt cuprinse <b>toate</b> APP-urile, din perioda selectată.
+          exp_noe: |
+            În perioda selectată, nu sunt APP-uri!
+
       query_value:
         desk_freight:
           all: |
