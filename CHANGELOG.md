@@ -2,6 +2,15 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.6**, bugfix, update prawn, `Wstm::Expenditure` all in one daily report
+   - feature date: **2014-02-28**
+   - bump version v0.2.7.6
+   - update CHANGELOG
+   - views reports pdf templates, ruby 2 hash syntax, updated prawn caused modifications
+   - i18n, views `Wstm::Expenditure` all in one daily report, related changes
+   - templates, backgrounds cleanup, new ones
+   - models `Wstm::PartnerFirmUnit` create_stock, id_date bugfix 
+
 * **feature v0.2.7.5**, `Wstm::PartnerPerson` query partner, regarding expenditures
    - feature date: **2014-01-25**
    - bump version v0.2.7.5

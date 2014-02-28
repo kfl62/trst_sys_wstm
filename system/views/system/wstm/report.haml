@@ -6,8 +6,8 @@
   s2dt = firm.units.asc(:slug).map{|u| {id: u.id,text: u.slug}}.to_json if firm
   data = t("intro.filter.desk_report.#{ext}")
 %span#hidden_data.hidden{data: {dialog: 'report',title_data: data,model_name: mat(@object,'model_name'),oid: nil,js_ext: 'desk_report'}}
-- if ['cdd','grn'].include? ext
-  %form{action: "/sys/wstm/report/print?rb=unit_daily_exp_#{ext}"}
+- if ['cdd','grn','all'].include? ext
+  %form{action: "/sys/wstm/report/print?rb=unit_daily_exp&ext=#{ext}"}
     %table{cellspacing: "0"}
       %thead
         %tr.pdb-05
