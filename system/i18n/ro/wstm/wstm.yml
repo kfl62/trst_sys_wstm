@@ -91,6 +91,7 @@ ro:
         desk_report:
           cdd: Document cumulativ APP
           grn: Notă de recepţie APP
+          all: NIR și DC
           plst: Listă preț
           stock_stats: Situaţie lunară (Statistică)
           stock_accounting: Situaţie lunară (Contabilă)
@@ -292,6 +293,8 @@ ro:
               %{firm}%{unit}_DC-
             grn: |
               %{firm}%{unit}_NIR-
+            all: |
+              %{firm}%{unit}_NIR-DC-
             plst: |
               %{firm}%{unit}_ListaPret-
             stock_stats: |
