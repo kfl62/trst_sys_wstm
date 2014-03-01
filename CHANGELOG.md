@@ -2,6 +2,12 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.7**, monthly reports, recap.
+   - feature date: **2014-03-01**
+   - bump version v0.2.7.7
+   - update CHANGELOG
+   - monthly reports, recap. starts on new page
+
 * **feature v0.2.7.6**, bugfix, update prawn, `Wstm::Expenditure` all in one daily report
    - feature date: **2014-02-28**
    - bump version v0.2.7.6

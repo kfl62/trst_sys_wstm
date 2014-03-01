@@ -124,7 +124,7 @@ pdf.bounding_box([pdf.bounds.left - 0.3, pdf.bounds.top - 81], width: pdf.bounds
   pdf.text "Centralizator: #{I18n.l(Date.new(*date_strt,1),format: '%B')} - #{firm.name[1]} -",
     align: :center, size: 12, style: :bold
   pdf.move_down 52.5
-  v = r_gt.values_at('1101','1201').compact
+  v = r_gt.values_at('1101','1202','1201').compact
   unless v.empty?
     names = v.each_with_object([]){|a,n| n << a.shift}
     names.push('Total')
@@ -250,6 +250,24 @@ pdf.bounding_box([pdf.bounds.left - 0.3, pdf.bounds.top - 81], width: pdf.bounds
       row(0).style(background_color: "f9f9f9", padding: [2,5,2,5])
     end
   end
+  v = r_gt.values_at('7001').compact
+  unless v.empty?
+    names = v.each_with_object([]){|a,n| n << a.shift}
+    names.push('Total')
+    v.push(v.transpose.map {|x| (x.reduce(:+)).round(2)})
+    v.each{|a| a.map!{|e| "%.2f" % e}}
+    names.each_with_index{|n,i| v[i].unshift(n)}
+    d = pdf.make_table(v, cell_style: {padding: [2,3,2,0], align: :right, border_width: 0.1}, column_widths: [29,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm,15.46.mm]) do
+      row(row_length - 1).style(background_color: "e6e6e6")
+    end
+    data =  [
+              ["Categoria: Deșeu lemn"],
+              [d]
+            ]
+    pdf.table(data, cell_style: {border_width: 0.1}) do
+      row(0).style(background_color: "f9f9f9", padding: [2,5,2,5])
+    end
+  end
   v = r_gt.values
   v.each{|a| a.shift}
   v.each{|a| a.map!{|e| e.to_f}}
@@ -265,8 +283,22 @@ pdf.bounding_box([pdf.bounds.left - 0.3, pdf.bounds.top - 81], width: pdf.bounds
     row(0).style(background_color: "f9f9f9", padding: [2,5,2,5])
   end
 end
-top =  pdf.y - 20.mm
+pdf.bounding_box([pdf.bounds.left, pdf.bounds.bottom + 8], width: pdf.bounds.width) do
+  pdf.font_size 6 do
+    pdf.text "Notă: În tabel coloana preţ conţine codurile interne a materialelor! Ele sunt în ordinea înşirată din capul de tabel."
+  end
+end
+pdf.start_new_page(size: "A4", layout: :landscape, margins: [10.mm])
 pdf.font_size = 8
+pdf.text firm.name[2]
+pdf.text "Nr. înreg. R.C. : #{firm.identities['chambcom']}"
+pdf.text "Cod Fiscal (C.U.I.) : #{firm.identities['fiscal']}"
+pdf.text "Str. #{address.street},nr.#{address.nr rescue '-'},bl.#{address.bl rescue '-'},sc.#{address.sc rescue '-'},et.#{address.et rescue '-'},ap.#{address.ap rescue '-'}"
+pdf.text "#{address.city rescue '-'}, județul #{address.state rescue '-'}"
+pdf.move_up 30
+pdf.text "Centralizator: #{I18n.l(Date.new(*date_strt,1),format: '%B')} - #{firm.name[1]} - (recapitulare)",
+  align: :center, size: 12, style: :bold
+top = pdf.bounds.top - 25.mm
 pdf.bounding_box([5.mm, top], width: 60.mm) do
   pdf.text "Monetar puncte de colectare", align: :center
 end
@@ -346,10 +378,5 @@ pdf.bounding_box([235.mm, top], width: 25.mm) do
   pdf.text "%.2f" % (ins.where(:id_stats.in => ['3101','3201','3202','3401','3301','3501','3601','3602,3701']).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03) if f.doc.supplr.p03}.sum || 0), align: :right
   pdf.text "%.2f" % (ins.by_key('4001').each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03) if f.doc.supplr.p03}.sum || 0), align: :right
   pdf.text "<b>#{"%.2f" % (Wstm::Grn.nonin.monthly(*date_strt).sum(:sum_003) || 0)}</b>", align: :right, inline_format: true
-end
-pdf.bounding_box([pdf.bounds.left, pdf.bounds.bottom + 8], width: pdf.bounds.width) do
-  pdf.font_size 6 do
-    pdf.text "Notă: În tabel coloana preţ conţine codurile interne a materialelor! Ele sunt în ordinea înşirată din capul de tabel."
-  end
 end
 pdf.render()
