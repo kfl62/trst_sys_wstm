@@ -135,7 +135,7 @@ unit_ids.each do |uid|
       pdf.text "Centralizator: #{I18n.l(Date.new(*date_strt,1),format: '%B')} - #{unit.name[1]} -",
         align: :center, size: 12, style: :bold
       pdf.move_down 52.5
-      v = r_gt.values_at('1101','1202','1201').compact
+      v = r_gt.values_at('1101','1102','1201').compact
       unless v.empty?
         names = v.each_with_object([]){|a,n| n << a.shift}
         names.push('Total')

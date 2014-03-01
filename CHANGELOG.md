@@ -2,6 +2,12 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.8**, monthly reports wrong id_stats, bugfix
+   - feature date: **2014-03-01**
+   - bump version v0.2.7.8
+   - update CHANGELOG
+   - monthly reports reports wrong id_stats :(, bugfix
+
 * **feature v0.2.7.7**, monthly reports, recap.
    - feature date: **2014-03-01**
    - bump version v0.2.7.7
