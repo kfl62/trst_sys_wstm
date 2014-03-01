@@ -124,7 +124,7 @@ pdf.bounding_box([pdf.bounds.left - 0.3, pdf.bounds.top - 81], width: pdf.bounds
   pdf.text "Centralizator: #{I18n.l(Date.new(*date_strt,1),format: '%B')} - #{firm.name[1]} -",
     align: :center, size: 12, style: :bold
   pdf.move_down 52.5
-  v = r_gt.values_at('1101','1202','1201').compact
+  v = r_gt.values_at('1101','1102','1201').compact
   unless v.empty?
     names = v.each_with_object([]){|a,n| n << a.shift}
     names.push('Total')
