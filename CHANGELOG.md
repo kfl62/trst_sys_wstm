@@ -2,6 +2,13 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.9**,legea 38/2014, bugfix
+   - feature date: **2014-04-12**
+   - bump version v0.2.7.9
+   - update CHANGELOG
+   - views,i18n `Wstm::Expenditure` Legea 38/2014
+   - reports `unit_daily_exp` template, layout, stamp bugfix
+
 * **feature v0.2.7.8**, monthly reports wrong id_stats, bugfix
    - feature date: **2014-03-01**
    - bump version v0.2.7.8
