@@ -287,6 +287,23 @@ ro:
             2.) Materialele pe care le predau provin din:
             #####a.) Gospodărie proprie;
             #####b.) Alte surse.
+          text_03: |
+            S-au primit de la (deținător) <b>%{name}</b> CNP <b>%{id_pn}</b>
+            cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}
+            legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}
+            mijloc de transport _________________, următoarele deşeuri metalice:
+          text_empty_03: |
+            S-au primit de la (deținător) %{name} CNP %{id_pn}
+            cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}
+            legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}
+            mijloc de transport _________________, următoarele deşeuri metalice:
+          text_04: |
+            Se achită suma de <b>%{val}</b> lei, reprezentând contravaloarea deşeurilor metalice feroase şi neferoase şi a aliajelor acestora achiziţionate cu APP nr. <b>%{name}</b>, sau în termen de maximum 3 zile lucrătoare de la data prezentei, prin virament bancar în contul deţinătorului nr. ____________________, deschis la ____________
+          text_05: |
+            Impozitul pe venit de 16% şi contribuţia de 3% la Administraţia Fondului pentru Mediu (conform Ordonanţei de urgenţă a Guvernului nr. 196/2005 privind Fondul pentru mediu, aprobată cu modificări şi completări prin Legea nr. 105/2006, cu modificările şi completările ulterioare) din contravaloarea deşeurilor predate au fost reţinute la sursă din valoarea brută.
+          text_06: |
+            1. Cunosc faptul că falsul în declaraţie constituie infracţiune şi se pedepseşte conform Codului penal.
+            2. Declar pe propria răspundere că deşeurile pe care le predau provin din gospodăria proprie.
         desk_report:
           file_name:
             cdd: |
