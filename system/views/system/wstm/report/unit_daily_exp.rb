@@ -47,10 +47,7 @@ def check_header(hl,fs)
 end
 
 pdf = Prawn::Document.new(
-  page_size: 'A4',
-  page_layout: :landscape,
   skip_page_creation: true,
-  margin: [0.mm],
   info: {
     Title: "Notă de recepţie APP",
     Author: "kfl62",
@@ -104,7 +101,7 @@ unit_ids.each_with_index do |unit_id,next_unit|
           data_grn    = data_grn[0..16]
         end unless data_grn.length == 17
         # @todo
-        pdf.start_new_page(template: "public/images/wstm/pdf/grn.pdf")
+        pdf.start_new_page(size: 'A4', layout: :landscape, margin:0, template: "public/images/wstm/pdf/grn.pdf")
         pdf.font 'Verdana'
         pdf.text_box unit.firm.name[2],
           at: [33.mm, pdf.bounds.top - 8.mm], size: 12, style: :bold
@@ -136,7 +133,9 @@ unit_ids.each_with_index do |unit_id,next_unit|
           end
         end
         if data_grn_ext.length > 0
-          pdf.start_new_page(template: "public/images/wstm/pdf/grn.pdf",template_page: 2)
+          pdf.start_new_page(size: 'A4', layout: :landscape, margin:0, template: "public/images/wstm/pdf/grn.pdf",template_page: 2)
+          pdf.text_box signed_by, at: [195.mm, 12.mm], size: 10
+          pdf.text_box signed_by, at: [250.mm, 12.mm], size: 10
           pdf.bounding_box([15.mm, pdf.bounds.top - 30.mm], :width  => pdf.bounds.width) do
             pdf.table(data_grn_ext, cell_style: {borders: []}, column_widths: [12.mm,60.mm,12.mm,25.mm,25.mm,25.mm]) do
               pdf.font_size = 9
@@ -251,9 +250,18 @@ unit_ids.each_with_index do |unit_id,next_unit|
             end
           end
         end
-        pdf.start_new_page(template: "public/images/wstm/pdf/grn.pdf",template_page: 3)
-        pdf.font 'Verdana'
-        pdf.stamp("pg_header_#{next_unit}_#{next_day}")
+        pdf.start_new_page(size: 'A4', layout: :landscape, margin: [0,0,10.mm,0])
+        pdf.bounding_box([pdf.bounds.left + 7.mm, pdf.bounds.top - 10.mm], :width  => pdf.bounds.width) do
+          pdf.font 'Verdana'
+          pdf.font_size 8 do
+            pdf.text unit.firm.name[2]
+            pdf.text unit.name[1]
+          end
+          pdf.move_up 12
+          pdf.font_size 12 do
+            pdf.text "Document cumulativ nr.______ din #{Date.new(y,m,d).to_s}", align: :center, style: :bold
+          end
+        end
         pdf.bounding_box([pdf.bounds.left + 7.mm, pdf.bounds.top - 20.mm], :width  => pdf.bounds.width) do
           pdf.table(data_cdd, header: true,column_widths: [7.mm, 53.mm, 20.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 14.mm, 14.mm]) do
             pdf.font_size 7
@@ -268,11 +276,8 @@ unit_ids.each_with_index do |unit_id,next_unit|
               pdf.text "Numărul de sortimente depăşeşte lăţimea max. a tabelului! Continuare în pg. urmatoare..."
               pdf.text "Din păcate numărul de sortimente depăşeşte lăţimea max. și a tabelului extins! Pentru a tipării tabelul sunați la inginerul de sistem!"
             else
-              unless data_cdd.length == 25
-                pdf.text "Numărul de sortimente depăşeşte lăţimea max. a tabelului! Continuare în pg. urmatoare..."
-                pdf.start_new_page(template: "public/images/wstm/pdf/grn.pdf",template_page: 3)
-                pdf.stamp("pg_header_#{next_unit}_#{next_day}")
-              end
+              pdf.text "Numărul de sortimente depăşeşte lăţimea max. a tabelului! Continuare în pg. urmatoare..."
+              pdf.start_new_page(size: 'A4', layout: :landscape, margin: [0,0,10.mm,0])
               pdf.table(data_cdd_ext, header: true,column_widths: [7.mm, 53.mm, 20.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 11.mm, 14.mm, 14.mm]) do
                 pdf.font_size 7
                 row(0).style(align: :center)
@@ -305,9 +310,7 @@ unit_ids.each_with_index do |unit_id,next_unit|
             end
           end
           if pdf.y - table_sum.height < 30.mm
-            pdf.start_new_page(template: "public/images/wstm/pdf/grn.pdf",template_page: 3)
-            pdf.font 'Verdana'
-            pdf.stamp("pg_header_#{next_unit}_#{next_day}")
+            pdf.start_new_page(size: 'A4', layout: :landscape, margin: [0,0,10.mm,0])
           end
           table_sum.draw
           pdf.move_down 5.mm
