@@ -2,6 +2,14 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.10**, bugfix
+   - feature date: **2014-04-14**
+   - bump version v0.2.7.10
+   - update CHANGELOG
+   - views `Wstm::Expenditure` pdf template, justify paragraph, bugfix
+   - reports `unit_plst` more than 15 lines, bugfix
+   - i18n `wstm.yml` typo
+
 * **feature v0.2.7.9**,legea 38/2014, bugfix
    - feature date: **2014-04-12**
    - bump version v0.2.7.9
