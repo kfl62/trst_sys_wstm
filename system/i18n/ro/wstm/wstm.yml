@@ -298,7 +298,7 @@ ro:
             legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}
             mijloc de transport _________________, următoarele deşeuri metalice:
           text_04: |
-            Se achită suma de <b>%{val}</b> lei, reprezentând contravaloarea deşeurilor metalice feroase şi neferoase şi a aliajelor acestora achiziţionate cu APP nr. <b>%{name}</b>, sau în termen de maximum 3 zile lucrătoare de la data prezentei, prin virament bancar în contul deţinătorului nr. ____________________, deschis la ____________
+            Se achită suma de <b>%{val}</b> lei, reprezentând contravaloarea deşeurilor metalice feroase şi neferoase şi a aliajelor acestora achiziţionate cu chitanța / APP <b>%{name}</b>, sau în termen de maximum 3 zile lucrătoare de la data prezentei, prin virament bancar în contul deţinătorului nr. ____________________, deschis la ____________
           text_05: |
             Impozitul pe venit de 16% şi contribuţia de 3% la Administraţia Fondului pentru Mediu (conform Ordonanţei de urgenţă a Guvernului nr. 196/2005 privind Fondul pentru mediu, aprobată cu modificări şi completări prin Legea nr. 105/2006, cu modificările şi completările ulterioare) din contravaloarea deşeurilor predate au fost reţinute la sursă din valoarea brută.
           text_06: |
