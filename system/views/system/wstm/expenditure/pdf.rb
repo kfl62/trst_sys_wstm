@@ -240,7 +240,7 @@ def box_content_frr(pdf)
     pdf.move_down 10.mm
     pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_04', val: "%.2f" % (frr_freights.sum(:val) - frr_freights.sum(:val)*0.19), name: @object.name), inline_format: true, align: :justify
     pdf.move_down 3.mm
-    pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_05'), size: 6
+    pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_05'), size: 6, inline_format: true, align: :justify
     pdf.move_down 3.mm
     pdf.text "Gestionar primitor (Semnătuta)", align: :center
     pdf.text @object.signed_by.name, align: :center
