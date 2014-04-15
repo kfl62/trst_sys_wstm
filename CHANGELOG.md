@@ -2,6 +2,13 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.11**, bugfix
+   - feature date: **2014-04-15**
+   - bump version v0.2.7.11
+   - update CHANGELOG
+   - views `Wstm::Expenditure` pdf template, EMPTY document, bugfix
+   - i18n `wstm.yml` typo
+
 * **feature v0.2.7.10**, bugfix
    - feature date: **2014-04-14**
    - bump version v0.2.7.10
