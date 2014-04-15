@@ -293,7 +293,7 @@ ro:
             legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}
             mijloc de transport _________________, următoarele deşeuri metalice:
           text_empty_03: |
-            S-au primit de la (deținător) %{name} CNP %{id_pn}
+            S-au primit de la %{name} CNP %{id_pn}
             cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}
             legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}
             mijloc de transport _________________, următoarele deşeuri metalice:
