@@ -71,7 +71,7 @@ def table_sign_data
   if @object.name == 'EMPTY'
     data = [
       ["Gestionar","Primitor"],
-      [@object.signed_by.name,""],
+      ["",""],
       ["_"*25,"_"*25]
     ]
   else
@@ -86,11 +86,15 @@ end
 def box_content_app(pdf)
   pdf.font_size 8 do
     pdf.text "#{firm.name[2]}"
-    pdf.move_up 9
-    pdf.text "Punct de lucru: #{@object.unit.name[1]}", align: :right
+    unless @object.name == 'EMPTY'
+      pdf.move_up 9
+      pdf.text "Punct de lucru: #{@object.unit.name[1]}", align: :right
+    end
     pdf.text "Nr.înreg.R.C. : #{firm.identities['chambcom']}"
-    pdf.move_up 9
-    pdf.text "Gestionar: #{@object.signed_by.name}", align: :right
+    unless @object.name == 'EMPTY'
+      pdf.move_up 9
+      pdf.text "Gestionar: #{@object.signed_by.name}", align: :right
+    end
     pdf.text "Cod fiscal (C.U.I) : #{firm.identities['fiscal']}"
     pdf.text "Str.#{address.street} nr.#{address.nr},bl.#{address.bl},sc.#{address.sc},ap.#{address.ap},"
     pdf.text 'Cluj-Napoca, judeţul Cluj'
@@ -165,7 +169,8 @@ def frr_id_stats
 end
 
 def frr_freights
-  @object.freights.where(:freight_id.in =>Wstm::Freight.where(:id_stats.in => frr_id_stats).map(&:id))
+  #@object.freights.where(:freight_id.in =>Wstm::Freight.where(:id_stats.in => frr_id_stats).map(&:id))
+  @object.freights.where(:freight_id.in =>Wstm::Freight.where(p03: true).map(&:id))
 end
 
 def frr?
@@ -193,14 +198,18 @@ end
 def box_content_frr(pdf)
   pdf.font_size 8 do
     pdf.text "#{firm.name[2]}"
-    pdf.move_up 9
-    pdf.text "Punct de lucru: #{@object.unit.name[1]}", align: :right
+    unless @object.name == 'EMPTY'
+      pdf.move_up 9
+      pdf.text "Punct de lucru: #{@object.unit.name[1]}", align: :right
+    end
     pdf.text "Nr.înreg.R.C. : #{firm.identities['chambcom']}"
     pdf.move_up 9
     pdf.text "Aut. de mediu: #{@object.unit.env_auth.split(" ")[0]}", align: :right
     pdf.text "Cod fiscal (C.U.I) : #{firm.identities['fiscal']}"
-    pdf.move_up 9
-    pdf.text "Gestionar: #{@object.signed_by.name}", align: :right
+    unless @object.name == 'EMPTY'
+      pdf.move_up 9
+      pdf.text "Gestionar: #{@object.signed_by.name}", align: :right
+    end
     pdf.text "Str.#{address.street} nr.#{address.nr},bl.#{address.bl},sc.#{address.sc},ap.#{address.ap},"
     pdf.text 'Cluj-Napoca, judeţul Cluj'
   end
@@ -216,7 +225,7 @@ def box_content_frr(pdf)
   pdf.move_down 5.mm
   pdf.font_size 9 do
     if @object.name == 'EMPTY'
-      pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_empty_03',client_hash),leading: 2, inline_format: true
+      pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_empty_03',client_hash).gsub('#',"#{Prawn::Text::NBSP}"),leading: 2, inline_format: true
     else
       pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_03',client_hash),leading: 2, inline_format: true
     end
@@ -237,20 +246,20 @@ def box_content_frr(pdf)
       row(6).column(1..4).borders = [:top,:bottom]
       style(row(6), background_color: 'dddddd', align: :center)
     end
-    pdf.move_down 10.mm
-    pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_04', val: "%.2f" % (frr_freights.sum(:val) - frr_freights.sum(:val)*0.19), name: @object.name), inline_format: true, align: :justify
+    pdf.move_down 7.mm
+    pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_04', val: @object.name == "EMPTY" ? "__________" : @object.name == "EMPTY" ? "______________" : "%.2f" % (frr_freights.sum(:val) - frr_freights.sum(:val)*0.19), name: @object.name == "EMPTY" ? "______________" : @object.name), inline_format: true, align: :justify
     pdf.move_down 3.mm
-    pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_05'), size: 6, inline_format: true, align: :justify
+    pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_05'), inline_format: true, align: :justify
     pdf.move_down 3.mm
     pdf.text "Gestionar primitor (Semnătuta)", align: :center
-    pdf.text @object.signed_by.name, align: :center
+    pdf.text @object.name == "EMPTY" ? "" : @object.signed_by.name, align: :center
     pdf.move_down 10.mm
     pdf.text "Deţinător de deşeuri - persoană fizică", align: :center
     pdf.move_down 3.mm
     pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_06')
     pdf.move_down 3.mm
     pdf.text "Deținător (Semnătuta)", align: :center
-    pdf.text @object.client.name, align: :center
+    pdf.text @object.name == "EMPTY" ? "" : @object.client.name, align: :center
   end
 end
 
