@@ -2,6 +2,12 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.12**, bugfix
+   - feature date: **2014-04-16**
+   - bump version v0.2.7.12
+   - update CHANGELOG
+   - views `Wstm::Expenditure` pdf template, CNP on new line, bugfix
+
 * **feature v0.2.7.11**, bugfix
    - feature date: **2014-04-15**
    - bump version v0.2.7.11

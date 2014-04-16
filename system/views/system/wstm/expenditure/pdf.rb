@@ -246,15 +246,15 @@ def box_content_frr(pdf)
       row(6).column(1..4).borders = [:top,:bottom]
       style(row(6), background_color: 'dddddd', align: :center)
     end
-    pdf.move_down 7.mm
+    pdf.move_down 5.mm
     pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_04', val: @object.name == "EMPTY" ? "__________" : @object.name == "EMPTY" ? "______________" : "%.2f" % (frr_freights.sum(:val) - frr_freights.sum(:val)*0.19), name: @object.name == "EMPTY" ? "______________" : @object.name), inline_format: true, align: :justify
     pdf.move_down 3.mm
     pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_05'), inline_format: true, align: :justify
     pdf.move_down 3.mm
     pdf.text "Gestionar primitor (Semnătuta)", align: :center
     pdf.text @object.name == "EMPTY" ? "" : @object.signed_by.name, align: :center
-    pdf.move_down 10.mm
-    pdf.text "Deţinător de deşeuri - persoană fizică", align: :center
+    pdf.move_down 5.mm
+    pdf.text "Deţinător de deşeuri - persoană fizică", align: :center, style: :bold
     pdf.move_down 3.mm
     pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_06')
     pdf.move_down 3.mm
