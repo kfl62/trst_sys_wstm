@@ -252,7 +252,7 @@ def box_content_frr(pdf)
     pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_05'), inline_format: true, align: :justify
     pdf.move_down 3.mm
     pdf.text "Gestionar primitor (Semnătuta)", align: :center
-    pdf.text @object.name == "EMPTY" ? "" : @object.signed_by.name, align: :center
+    pdf.text @object.name == "EMPTY" ? "" : "#{@object.signed_by.name} ( #{@object.signed_by.id_pn.gsub(/\d{4}$/,'****')} )", align: :center
     pdf.move_down 5.mm
     pdf.text "Deţinător de deşeuri - persoană fizică", align: :center, style: :bold
     pdf.move_down 3.mm
