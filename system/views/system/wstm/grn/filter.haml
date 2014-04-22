@@ -19,7 +19,7 @@
         %tr.pdb-05
           %td
             %select.wstm.p03
-              - mat(@object,'p03').each do |o|
+              - mat(@object,'p03_select').each do |o|
                 %option{value: o[0], selected: o[0] == params[:p03]}= o[1]
         - if params[:p03]
           - dlns = Wstm::DeliveryNote.nonin(false).charged(false).by_p03(params[:p03].to_bool).where(:unit_id.ne  => to_unit)

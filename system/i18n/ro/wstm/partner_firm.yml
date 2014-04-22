@@ -56,6 +56,6 @@ ro:
           Ptr. a crea o &raquo;Unitate&laquo; apăsaţi butonul din dreapta!
         table_header_grn: ['Material', 'UM', 'PU', 'Cant.', 'Valoare']
         table_header_inv: ['Material', 'UM', 'Cantitate', 'Valoare<br>Cump.', 'Preţ<br>Vânz.', 'Valoare<br>Vânz.']
-        p03: [['null', 'Toate avizele'], ['true', 'DA se reţine 3%'], ['false', 'NU se reţine 3%']]
+        p03_select: [['null', 'Toate avizele'], ['true', 'DA se reţine 3%'], ['false', 'NU se reţine 3%']]
 
         <<: *trst_firm

@@ -23,7 +23,7 @@
               - t('month')[1..12].each_with_index do |month,i|
                 %option{value: i + 1, selected: m == i + 1}= month
             %select.wstm.p03
-              - mat(@object,'p03').each do |o|
+              - mat(@object,'p03_select').each do |o|
                 %option{value: o[0], selected: o[0] == params[:p03]}= o[1]
         %tr.pdb-05
           %td
@@ -101,7 +101,7 @@
               - t('month')[1..12].each_with_index do |month,i|
                 %option{value: i + 1, selected: m == i + 1}= month
             %select.wstm.p03
-              - mat(@object,'p03')[0..2].each do |o|
+              - mat(@object,'p03_select')[0..2].each do |o|
                 %option{value: o[0], selected: o[0] == params[:p03]}= o[1]
         %tr.pdb-05
           %td
