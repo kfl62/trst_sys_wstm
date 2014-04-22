@@ -2,8 +2,15 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.14**, 
+   - feature date: **2014-04-22** bugfix
+   - bump version v0.2.7.14
+   - update CHANGELOG
+   - views pdf template related to model `Trst::User#id_pn` in main module
+   - i18n, views `partner_firm.yml` p03 duplicate, bugfix
+
 * **feature v0.2.7.13**, `Wstm::CacheBook` CRUD
-   - feature date: **2014-04-26**
+   - feature date: **2014-04-22**
    - bump version v0.2.7.13
    - update CHANGELOG
    - assets js, `Wstm.desk.cache_book` skeleton

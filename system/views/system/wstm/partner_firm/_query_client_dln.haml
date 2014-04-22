@@ -25,7 +25,7 @@
     - t('month')[1..12].each_with_index do |month,i|
       %option{value: i + 1, selected: m == i + 1}= month
   %select.param{name: 'p03'}
-    - mat(@object,'p03').each do |o|
+    - mat(@object,'p03_select').each do |o|
       %option{value: o[0], selected: o[0] == params[:p03]}= o[1]
 - unless dlns.try(:count) == 0 || dlns.try(:count).nil?
   %table{cellspacing: "0"}
