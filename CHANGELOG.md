@@ -2,6 +2,17 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.13**, `Wstm::CacheBook` CRUD
+   - feature date: **2014-04-26**
+   - bump version v0.2.7.13
+   - update CHANGELOG
+   - assets js, `Wstm.desk.cache_book` skeleton
+   - assets js, `Wstm.desk.scrollHeader` reset functionality
+   - assets css, font-awesome bugfix, base completions
+   - views `Wstm::CacheBook` CRUD skeleton, for testing
+   - i18n `cache_book.yml` initial translation
+   - model `Wstm::CacheBook` and embedded model, skeleton
+
 * **feature v0.2.7.12**, bugfix
    - feature date: **2014-04-16**
    - bump version v0.2.7.12
