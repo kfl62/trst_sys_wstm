@@ -4,7 +4,7 @@ ro:
       'wstm/grn':
         model_name_id_intern: NIR - Transfer gestiune
         model_name: NIR - Notă de recepţie
-        p03: [['null', 'Tip marfă'], ['true', 'DA se reţine 3%'], ['false', 'NU se reţine 3%']]
+        p03_select: [['null', 'Tip marfă'], ['true', 'DA se reţine 3%'], ['false', 'NU se reţine 3%']]
         table_header: ['Material', 'UM', 'Preţ', 'Cantitate', 'Valoare', '3%', '']
         tabs_freights: 'Materiale recepţionate'
         tabs_payments: 'Condiţii plată'
