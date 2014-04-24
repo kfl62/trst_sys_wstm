@@ -2,6 +2,12 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.16**, bugfix
+   - feature date: **2014-04-24** bugfix
+   - bump version v0.2.7.16
+   - update CHANGELOG
+   - views `Wstm::CacheBook` partial `_form.haml` ordering lines issue
+
 * **feature v0.2.7.15**, bugfix
    - feature date: **2014-04-24** bugfix
    - bump version v0.2.7.15
