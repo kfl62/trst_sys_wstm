@@ -2,6 +2,12 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.15**, bugfix
+   - feature date: **2014-04-24** bugfix
+   - bump version v0.2.7.15
+   - update CHANGELOG
+   - i18n `grn|invoice.yml` p03_select, bugfix
+   
 * **feature v0.2.7.14**, 
    - feature date: **2014-04-22** bugfix
    - bump version v0.2.7.14
