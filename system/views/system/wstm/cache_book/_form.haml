@@ -23,7 +23,7 @@
       - mat(@object,'tbl_lines_hdr').each do |label|
         %td.ce= label
     - unless create
-      - @object.lines.each do |l|
+      - @object.lines.asc(:order).each do |l|
         - unless l.new_record?
           %tr.lines
             %td
