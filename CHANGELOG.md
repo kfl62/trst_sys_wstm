@@ -2,14 +2,23 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.17**, `Wstm::CacheBook` pdf template
+   - feature date: **2014-04-25**
+   - bump version v0.2.7.17
+   - update CHANGELOG
+   - assets js, printing functionality
+   - views `pdf.rb` Prawn skeleton, templte
+   - views , partials printing related changes
+   - models `Wstm::CacheBook` alias name to pdf file_name
+
 * **feature v0.2.7.16**, bugfix
-   - feature date: **2014-04-24** bugfix
+   - feature date: **2014-04-24**
    - bump version v0.2.7.16
    - update CHANGELOG
    - views `Wstm::CacheBook` partial `_form.haml` ordering lines issue
 
 * **feature v0.2.7.15**, bugfix
-   - feature date: **2014-04-24** bugfix
+   - feature date: **2014-04-24**
    - bump version v0.2.7.15
    - update CHANGELOG
    - i18n `grn|invoice.yml` p03_select, bugfix
