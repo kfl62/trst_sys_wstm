@@ -8,12 +8,15 @@
             next = $('tr.lines').not('.hidden').length + 1;
             if (next === 1) {
               $('tr.lines-header, tr.lines-total').addClass('hidden');
+              $('button.cb').button('option', 'disabled', true);
             } else {
               $('tr.lines-header, tr.lines-total').removeClass('hidden');
+              $('button.cb').button('option', 'disabled', false);
             }
             $('span.lines').text(next - 1);
             $('span.add-line').text(next + '.');
             $('input.add-line').val('');
+            $('input.add-line.doc').focus();
           },
           linesNewData: function() {
             var doc, exp, ins, ord, out, v;
@@ -108,6 +111,20 @@
               var $ind, $input;
               $input = $(this);
               $ind = $input.data();
+              if ($input.hasClass('add-line')) {
+                $input.on('keyup', function() {
+                  if ($input.val() !== '') {
+                    $('button.cb').button('option', 'disabled', true);
+                  }
+                });
+                if ($input.hasClass('ins') || $input.hasClass('out')) {
+                  $input.on('keypress', function(e) {
+                    if (e.which === 13) {
+                      return Wstm.desk.cache_book.linesInsert();
+                    }
+                  });
+                }
+              }
             });
           },
           selects: function(slcts) {
@@ -137,7 +154,7 @@
                     if ($bd.oid === 'nil') {
                       $url = "sys/wstm/cache_book/create?id_date=" + $bd.id_date;
                     } else {
-                      $url = "sys/wstm/cache_book/edit/" + $bd.oid;
+                      $url = "sys/wstm/cache_book/" + $bd.oid;
                     }
                     Trst.desk.init($url);
                   });
@@ -150,7 +167,7 @@
               } else if ($button.hasClass('icon-refresh')) {
                 $button.off('click');
                 $button.on('click', function() {
-                  Wstm.desk.cache_book.calculate();
+                  Wstm.desk.cache_book.linesNewReset();
                 });
               } else if ($button.hasClass('icon-minus-sign')) {
                 $tr = $button.parentsUntil('tbody').last();
@@ -181,6 +198,21 @@
                     Wstm.desk.cache_book.linesNewReset();
                   }
                 });
+              } else if (Trst.desk.hdo.dialog === 'show') {
+                if ($bd.action === 'print') {
+                  $button.on('click', function() {
+                    Trst.msgShow(Trst.i18n.msg.report.start);
+                    $.fileDownload("/sys/wstm/cache_book/print?id=" + Trst.desk.hdo.oid, {
+                      successCallback: function() {
+                        return Trst.msgHide();
+                      },
+                      failCallback: function() {
+                        Trst.msgHide();
+                        return Trst.desk.downloadError(Trst.desk.hdo.model_name);
+                      }
+                    });
+                  });
+                }
               }
             });
           },
@@ -190,6 +222,7 @@
             Wstm.desk.cache_book.selects($('select.param, input.select2, input.repair'));
             Wstm.desk.cache_book.inputs($('input'));
             Wstm.desk.cache_book.template = (_ref = $('tr.template')) != null ? _ref.remove() : void 0;
+            Wstm.desk.cache_book.linesNewReset();
             $log('Wstm.desk.cache_book.init() OK...');
           }
         }
