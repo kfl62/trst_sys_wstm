@@ -3,7 +3,7 @@
     %tr.lines-header.scroll{class: @object.lines.count == 0 && 'hidden'}
       - mat(@object,'tbl_lines_hdr')[0..4].each do |label|
         %td.ce= label
-    - @object.lines.each do |l|
+    - @object.lines.asc(:order).each do |l|
       %tr.lines
         %td
           %span.ord.width-20.ce=  "#{l.order}."

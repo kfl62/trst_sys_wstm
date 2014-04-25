@@ -24,7 +24,7 @@
               - cb = Wstm::CacheBook.daily(y,m,day); cbc = cb.count > 0
               %tr
                 %td
-                  %span.link{data: {oid: cbc ? cb.first.id : 'nil', id_date: Date.new(y,m,day).to_s}}= cbc ? cb.first.id_date.to_s : "* #{Date.new(y,m,day).to_s}"
+                  %span.link{data: {oid: cbc ? cb.first.id : 'nil', action: cbc && (cb.first.lines.count > 0 ? 'show' : 'edit'), id_date: Date.new(y,m,day).to_s}}= cbc ? cb.first.id_date.to_s : "* #{Date.new(y,m,day).to_s}"
                 %td
                   %span.val= cbc ? "%.2f" % cb.first.ib : "-"
                 %td
