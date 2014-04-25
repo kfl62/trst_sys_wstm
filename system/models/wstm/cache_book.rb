@@ -11,6 +11,8 @@ module Wstm
     field :ib,          type: Float,    default: 0.00
     field :fb,          type: Float,    default: 0.00
 
+    alias :file_name :name
+
     embeds_many :lines, class_name: 'Wstm::CacheBookLine', cascade_callbacks: true
 
     accepts_nested_attributes_for :lines,
