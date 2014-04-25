@@ -4,10 +4,16 @@ define () ->
       cache_book:
         linesNewReset: ()->
           next = $('tr.lines').not('.hidden').length + 1
-          if next is 1 then $('tr.lines-header, tr.lines-total').addClass('hidden') else $('tr.lines-header, tr.lines-total').removeClass('hidden')
+          if next is 1
+            $('tr.lines-header, tr.lines-total').addClass('hidden')
+            $('button.cb').button 'option', 'disabled', true
+          else
+            $('tr.lines-header, tr.lines-total').removeClass('hidden')
+            $('button.cb').button 'option', 'disabled', false
           $('span.lines').text(next - 1)
           $('span.add-line').text(next + '.')
           $('input.add-line').val('')
+          $('input.add-line.doc').focus()
           return
         linesNewData: ()->
           v   = $('.add-line')
@@ -64,6 +70,14 @@ define () ->
           inpts.each ()->
             $input = $(@)
             $ind = $input.data()
+            if $input.hasClass('add-line')
+              $input.on 'keyup', ()->
+                $('button.cb').button 'option', 'disabled', true if $input.val() isnt ''
+                return
+              if $input.hasClass('ins') or $input.hasClass('out')
+                $input.on 'keypress', (e)->
+                  if e.which is 13
+                    Wstm.desk.cache_book.linesInsert()
             return
           return
         selects: (slcts)->
@@ -88,7 +102,7 @@ define () ->
                   if $bd.oid is 'nil'
                     $url = "sys/wstm/cache_book/create?id_date=#{$bd.id_date}"
                   else
-                    $url = "sys/wstm/cache_book/edit/#{$bd.oid}"
+                    $url = "sys/wstm/cache_book/#{$bd.oid}"
                   Trst.desk.init($url)
                   return
             else if $button.hasClass('icon-plus-sign')
@@ -99,7 +113,7 @@ define () ->
             else if $button.hasClass('icon-refresh')
               $button.off 'click'
               $button.on 'click', ()->
-                Wstm.desk.cache_book.calculate()
+                Wstm.desk.cache_book.linesNewReset()
                 return
             else if $button.hasClass('icon-minus-sign')
               $tr = $button.parentsUntil('tbody').last()
@@ -124,6 +138,17 @@ define () ->
                   Wstm.desk.cache_book.calculate()
                   Wstm.desk.cache_book.linesNewReset()
                 return
+            else if Trst.desk.hdo.dialog is 'show'
+              if $bd.action is 'print'
+                $button.on 'click', ()->
+                  Trst.msgShow Trst.i18n.msg.report.start
+                  $.fileDownload "/sys/wstm/cache_book/print?id=#{Trst.desk.hdo.oid}",
+                    successCallback: ()->
+                      Trst.msgHide()
+                    failCallback: ()->
+                      Trst.msgHide()
+                      Trst.desk.downloadError Trst.desk.hdo.model_name
+                  return
             return
           return
         init: ()->
@@ -131,6 +156,7 @@ define () ->
           Wstm.desk.cache_book.selects($('select.param, input.select2, input.repair'))
           Wstm.desk.cache_book.inputs($('input'))
           Wstm.desk.cache_book.template = $('tr.template')?.remove()
+          Wstm.desk.cache_book.linesNewReset()
           $log 'Wstm.desk.cache_book.init() OK...'
           return
   Wstm.desk.cache_book
