@@ -2,6 +2,16 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.18**, `Wstm::CacheBook` monthly report
+   - feature date: **2014-04-30**
+   - bump version v0.2.7.18
+   - update CHANGELOG
+   - rename `lib/version.rb` :(
+   - views `report/cb_monthly.rb` skeleton
+   - views `report.haml` handle `cb_monthly`
+   - views `Cache::Book` pdf template, typo
+   - i18n `wstm.yml` add translation
+
 * **feature v0.2.7.17**, `Wstm::CacheBook` pdf template
    - feature date: **2014-04-25**
    - bump version v0.2.7.17
@@ -22,8 +32,8 @@ release date: **2014-xx-xx**
    - bump version v0.2.7.15
    - update CHANGELOG
    - i18n `grn|invoice.yml` p03_select, bugfix
-   
-* **feature v0.2.7.14**, 
+
+* **feature v0.2.7.14**,
    - feature date: **2014-04-22** bugfix
    - bump version v0.2.7.14
    - update CHANGELOG
@@ -88,14 +98,14 @@ release date: **2014-xx-xx**
    - views reports pdf templates, ruby 2 hash syntax, updated prawn caused modifications
    - i18n, views `Wstm::Expenditure` all in one daily report, related changes
    - templates, backgrounds cleanup, new ones
-   - models `Wstm::PartnerFirmUnit` create_stock, id_date bugfix 
+   - models `Wstm::PartnerFirmUnit` create_stock, id_date bugfix
 
 * **feature v0.2.7.5**, `Wstm::PartnerPerson` query partner, regarding expenditures
    - feature date: **2014-01-25**
    - bump version v0.2.7.5
    - update CHANGELOG
    - views `Wstm::PartnerPerson` add partials for queries
-   - assets js, `Wstm.desk.partner_person` query related, rewrite 
+   - assets js, `Wstm.desk.partner_person` query related, rewrite
    - assets js, `Wstm.desk.template` finally, a template, hopefully useful
    - i18n `wstm,yml` new translation
    - models `Wstm::PartnerPerson|Expenditures` query partner related changes
@@ -106,7 +116,7 @@ release date: **2014-xx-xx**
    - update CHANGELOG
    - views `Wstm::Freight` `query.haml` missing data, bugfix
    - models `Wstm::ParnerFirm` `active?`, bugfix
-   - models `Wstm::Freight` `handle_code`, bugfix 
+   - models `Wstm::Freight` `handle_code`, bugfix
 
 * **feature v0.2.7.3**, `Wstm::PartnerFirm` query, client, supplier, unit expenditures
    - feature date: **2014-01-13**
@@ -170,7 +180,7 @@ release date: **2013-07-26**
 
 release date: **2013-07-25**
 
-* hotfix v0.2.3: expenditure on create, no freight selected issue 
+* hotfix v0.2.3: expenditure on create, no freight selected issue
 
 ## v0.2.2
 
