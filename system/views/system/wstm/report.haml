@@ -67,6 +67,25 @@
           %td.buttonset.ce{colspan: "2"}
             %button{type: "button",data: {action: "print", icon: "print"}}= t('button.print')
             %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+- elsif ext == 'cb_monthly'
+  %form{action: "/sys/wstm/report/print?rb=#{ext}"}
+    %table{cellspacing: "0"}
+      %thead
+        %tr.pdb-05
+          %td{colspan: "2"}
+            %span.info.width-300.ju= t("intro.filter.desk_report.#{ext}")
+      %tbody
+        %tr.pdb-05
+          %td
+            %span Alegeţi luna:
+          %td
+            %input#date_send.ui-state-default.ce{name: 'date',value: l(Date.today,format: '%Y-%m')}
+            %input#file_name{type: 'hidden',name: 'fn',value: "#{firm.name[0][0..2].upcase}_RC-"}
+      %tfoot
+        %tr
+          %td.buttonset.ce{colspan: "2"}
+            %button{type: "button",data: {action: "print", icon: "print"}}= t('button.print')
+            %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
 - else
   - type = ext.split('_')[1]
   %form{action: "/sys/wstm/report/print?rb=#{ext}"}
