@@ -39,7 +39,7 @@ module Wstm
       wdy,out = 0.0,0.0
       if has_unit?
         s = stats.find_by(id_date: Date.new(y,m,1))
-        if s && m != Date.today.month && s.created_at > Date.new(s.id_date.year,s.id_date.month,Time.days_in_month(s.id_date.month,s.id_date.year))
+        if s && Time.parse(s.id_date.to_s) < s.updated_at.beginning_of_month && Time.parse(s.id_date.to_s) < Time.now.beginning_of_month
           return s
         else
           s = stats.find_or_create_by(id_date: Date.new(y,m,1))
@@ -48,13 +48,16 @@ module Wstm
             exp = apps.daily(y,m,d)
             sum = exp.sum(:sum_out)
             if exp.count > 0
-              s.day[day.to_s] = [exp.count, sum.round(2)]
+              hc = (6..18).step(2).each_with_object([]) do |h,a|
+                a << exp.where(created_at: Time.new(y,m,d,h)..Time.new(y,m,d,h+2)).count
+              end
+              s.day[day.to_s] = [(logins.find_by(id_date: Date.new(y,m,d)).login.first.localtime.strftime("%H:%M:%S") rescue "00:ERROR"), exp.count, sum.round(2), *hc]
               wdy += 1
               out += sum
             end
           end
           s.wdy = wdy; s.out = out.round(2); s.avg = (out / wdy).nan? ? 0.0 : (out / wdy).round(2)
-          s.save
+          s.save; s.touch
         end
         return s
       else
