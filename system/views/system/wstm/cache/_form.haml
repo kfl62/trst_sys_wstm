@@ -41,7 +41,7 @@
           - input_for @object,       'id_date', {id: 'date_send',type: 'hidden',value: (Date.today.end_of_month + 1).to_s}
       - tr_input_for @object,        'money_in'
       - tr_input_for @object,        'money_out'
-      - tr_input_for @object,        'money_stock',{style: 'ui-state-default focus',value: "%.2f" % Wstm::Cache.stats_all(Date.today.year,Date.today.month,mny_all: false,ext_all: false).each_with_object({}){|e,h| h[e[0].to_s]=e[-1]}[session[:unit_id]]}
+      - tr_input_for @object,        'money_stock',{style: 'ui-state-default focus',value: "%.2f" % (Wstm::Cache.stats_all(Date.today.year,Date.today.month,mny_all: false,ext_all: false).each_with_object({}){|e,h| h[e[0].to_s]=e[-1]}[session[:unit_id]] || 0.0)}
       - tr_input_for @object,        'expl',{value: "Sold iniţial, #{l(Date.today.end_of_month + 1, format: '%B')}"}
       %tr
         %td{colspan: 3}
