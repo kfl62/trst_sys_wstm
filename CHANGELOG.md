@@ -2,6 +2,16 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.19**, Storekeeper statistics, bugfix
+   - feature date: **2014-05-01**
+   - bump version v0.2.7.19
+   - update CHANGELOG
+   - views `Wstm::User` pdf skeleton
+   - views `Wstm::User` query bugfix, add print functionality
+   - assets js, `Trst.desk.user`, rewrite
+   - models `Wstm::User` statistics related...
+   - views `Wstm::Cache` partial `_form`, nil value, bugfix
+
 * **feature v0.2.7.18**, `Wstm::CacheBook` monthly report
    - feature date: **2014-04-30**
    - bump version v0.2.7.18
