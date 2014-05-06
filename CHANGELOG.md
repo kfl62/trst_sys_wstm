@@ -2,7 +2,15 @@
 
 release date: **2014-xx-xx**
 
-* **feature v0.2.7.20**,
+* **feature v0.2.7.21**, duplicates, issue #2
+   - feature date: **2014-05-06**
+   - bump version v0.2.7.21
+   - update CHANGELOG
+   - i18n `wstm.yml` translate duplicate document warnings
+   - views `Wstm::DeliveryNote` check for duplicate documents
+   - views `Wstm::Grn` check for duplicate documents
+
+* **feature v0.2.7.20**, issue #1
    - feature date: **2014-05-06**
    - bump version v0.2.7.20
    - update CHANGELOG
