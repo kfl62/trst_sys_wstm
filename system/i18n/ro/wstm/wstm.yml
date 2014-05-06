@@ -228,10 +228,18 @@ ro:
           Firma <b>%{firm}</b> reprezentat de %{firm_d} expediază clientului,
           <b>%{client}</b> reprezentat de %{client_d}, transportul fiind asigurat de
           <b>%{transp}</b> delegat %{transp_d}, următoarele materiale:
+        desk_delivery_note_dups: |
+          Atenție posibil duplicat!<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Către firma <b>%{client}</b> în data de <b>%{id_date}</b>
+          s-a eliberat un document cu același număr: <b>%{doc_name}</b>
         desk_grn: |
           În ziua de <b>%{id_date}</b> în gestiunea <b>%{unit}</b> de către
           <b>%{signed_by}</b> în prezenţa delegatului <b>%{transp_d}</b>, s-au recepţionat următoarele
           materiale provenind de la <b>%{supplr}</b> :
+        desk_grn_dups: |
+          Atenție posibil duplicat!<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;De la firma <b>%{supplr}</b> în data de <b>%{id_date}</b>
+          s-a înregistrat un document cu același număr: <b>%{doc_name}</b>
         desk_cassation: |
           În ziua de <b>%{id_date}</b> în gestiunea <b>%{unit}</b> de către
           <b>%{signed_by}</b> s-au casat/degradat următoarele: <br>
