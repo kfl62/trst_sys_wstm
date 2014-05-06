@@ -318,9 +318,9 @@ define () ->
                     results: data
                 formatResult: (d)->
                   $markup  = "<div title='#{d.text.title}'>"
-                  $markup += "<span>Doc: </span>"
+                  $markup += "<span class='repair'>Doc: </span>"
                   $markup += "<span class='truncate-70'>#{d.text.doc_name}</span>"
-                  $markup += "<span> - Firma: </span>"
+                  $markup += "<span class='repair'> - Firma: </span>"
                   $markup += "<span class='truncate-200'>#{d.text.client}</span>"
                   $markup += "</div>"
                   $markup

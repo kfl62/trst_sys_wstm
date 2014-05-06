@@ -1,5 +1,4 @@
 (function() {
-
   define(function() {
     $.extend(true, Wstm, {
       desk: {
@@ -231,9 +230,9 @@
                   formatResult: function(d) {
                     var $markup;
                     $markup = "<div title='" + d.text.title + "'>";
-                    $markup += "<span>Doc: </span>";
+                    $markup += "<span class='repair'>Doc: </span>";
                     $markup += "<span class='truncate-70'>" + d.text.doc_name + "</span>";
-                    $markup += "<span> - Firma: </span>";
+                    $markup += "<span class='repair'> - Firma: </span>";
                     $markup += "<span class='truncate-200'>" + d.text.client + "</span>";
                     $markup += "</div>";
                     return $markup;
@@ -259,10 +258,10 @@
                   }
                 });
               } else if ($select.hasClass('wstm')) {
+
                 /*
                 Handled by Wstm.desk.select
-                */
-
+                 */
               } else {
                 return $log('Select not handled!');
               }
@@ -307,10 +306,10 @@
                   });
                 }
               } else {
+
                 /*
                 Buttons default handler Trst.desk.buttons
-                */
-
+                 */
               }
             });
             $('tbody').on('click', 'span.icon-remove-sign', function() {

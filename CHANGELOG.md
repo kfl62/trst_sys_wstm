@@ -2,6 +2,14 @@
 
 release date: **2014-xx-xx**
 
+* **feature v0.2.7.20**,
+   - feature date: **2014-05-06**
+   - bump version v0.2.7.20
+   - update CHANGELOG
+   - assets js, `Wstm.desk.delivery_note` ugly result for select2 formatResult #1
+   - assets js, `Wstm.desk.grn` ugly result for select2 formatResult #1
+   - assets js, `Wstm.desk.invoice` ugly result for select2 formatResult #1
+
 * **feature v0.2.7.19**, Storekeeper statistics, bugfix
    - feature date: **2014-05-01**
    - bump version v0.2.7.19
