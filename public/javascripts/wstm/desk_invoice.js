@@ -150,10 +150,10 @@
                     Wstm.desk.invoice.validate.filter();
                   });
                 } else {
+
                   /*
                   Just for params no special treatment
-                  */
-
+                   */
                 }
               } else if ($select.hasClass('select2')) {
                 if ($id === 'client_id') {
@@ -426,9 +426,9 @@
                   formatResult: function(d) {
                     var $markup;
                     $markup = "<div title='" + d.text.title + "'>";
-                    $markup += "<span>Doc: </span>";
+                    $markup += "<span class='repair'>Doc: </span>";
                     $markup += "<span class='truncate-70'>" + d.text.doc_name + "</span>";
-                    $markup += "<span> - Firma: </span>";
+                    $markup += "<span class='repair'> - Firma: </span>";
                     $markup += "<span class='truncate-200'>" + d.text.client + "</span>";
                     $markup += "</div>";
                     return $markup;
@@ -516,10 +516,10 @@
               } else if (Trst.desk.hdo.dialog === 'repair') {
                 return $button.focus();
               } else {
+
                 /*
                 Buttons default handler Trst.desk.buttons
-                */
-
+                 */
               }
             });
             $('span.icon-remove-sign').each(function() {
