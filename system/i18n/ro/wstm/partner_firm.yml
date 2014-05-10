@@ -21,6 +21,11 @@ ro:
         env_auth: Autorizaţie mediu
         trn_auth: Autorizaţie trans
         main: Principală?
+      'wstm/partner_firm/bank':
+        name: Banca
+        name_ph: "00#Banca"
+        swift: Cont
+        swift_ph: "0000 0000 0000 0000 0000 0000"
       'wstm/partner_firm':
         model_name: Partener Firmă
         tab_title: Date firmă
@@ -54,6 +59,14 @@ ro:
           Viziona/Edita/Şterge folosiţi butoanele din dreapta!
         tab_units_create: |
           Ptr. a crea o &raquo;Unitate&laquo; apăsaţi butonul din dreapta!
+        tab_banks_title: Conturi bancare
+        tab_banks_not_exists: |
+          Partener (Firmă) nu are cont bancar definit!
+        tab_banks_exists: |
+          Mai jos aveţi Conturile asociate Partenerului (Firmă), pentru a le <br>
+          Viziona/Edita/Şterge folosiţi butoanele din dreapta!
+        tab_banks_create: |
+          Ptr. a crea o &raquo;Cont bancar&laquo; apăsaţi butonul din dreapta!
         table_header_grn: ['Material', 'UM', 'PU', 'Cant.', 'Valoare']
         table_header_inv: ['Material', 'UM', 'Cantitate', 'Valoare<br>Cump.', 'Preţ<br>Vânz.', 'Valoare<br>Vânz.']
         p03_select: [['null', 'Toate avizele'], ['true', 'DA se reţine 3%'], ['false', 'NU se reţine 3%']]
