@@ -2,7 +2,21 @@
 
 release date: **2014-xx-xx**
 
-* **feature v0.2.7.21**, duplicates, issue #2
+
+* **feature v0.2.7.22**, `Clns::PartnerFirm::Bank`,  [issue #4][#4],  [issue #5][#5]
+   - feature date: **2014-05-10**
+   - bump version v0.2.7.22
+   - update CHANGELOG
+   - views `Wstm::PartnerFirm::Unit` rearrange CRUD, [issue #5][#5]
+   - views `Wstm::PartnerFirm::Person` rearrange CRUD, [issue #5][#5]
+   - views `Wstm::PartnerFirm::Address` rearrange CRUD, [issue #5][#5]
+   - views `Wstm::PartnerFirm::Bank` CRUD, [issue #4][#4]
+   - views `Wstm::PartnerFirm` partial `_show.haml` add tab for banks
+   - i18n `partner_firm.yml` translationa related to [issue #4][#4]
+   - models `Wstm::PartnerFirm` embed `Wstm::PartnerFirm::Bank`, fix [issue #4][#4], rename embeddeds fix [issue #5][#5]
+
+
+* **feature v0.2.7.21**, duplicates, [issue #2][#2]
    - feature date: **2014-05-06**
    - bump version v0.2.7.21
    - update CHANGELOG
@@ -10,13 +24,15 @@ release date: **2014-xx-xx**
    - views `Wstm::DeliveryNote` check for duplicate documents
    - views `Wstm::Grn` check for duplicate documents
 
-* **feature v0.2.7.20**, issue #1
+
+* **feature v0.2.7.20**, [issue #1][#1]
    - feature date: **2014-05-06**
    - bump version v0.2.7.20
    - update CHANGELOG
-   - assets js, `Wstm.desk.delivery_note` ugly result for select2 formatResult #1
-   - assets js, `Wstm.desk.grn` ugly result for select2 formatResult #1
-   - assets js, `Wstm.desk.invoice` ugly result for select2 formatResult #1
+   - assets js, `Wstm.desk.delivery_note` ugly result for select2 formatResult [issue #1][#1]
+   - assets js, `Wstm.desk.grn` ugly result for select2 formatResult [issue #1][#1]
+   - assets js, `Wstm.desk.invoice` ugly result for select2 formatResult [issue #1][#1]
+
 
 * **feature v0.2.7.19**, Storekeeper statistics, bugfix
    - feature date: **2014-05-01**
@@ -28,6 +44,7 @@ release date: **2014-xx-xx**
    - models `Wstm::User` statistics related...
    - views `Wstm::Cache` partial `_form`, nil value, bugfix
 
+
 * **feature v0.2.7.18**, `Wstm::CacheBook` monthly report
    - feature date: **2014-04-30**
    - bump version v0.2.7.18
@@ -38,6 +55,7 @@ release date: **2014-xx-xx**
    - views `Cache::Book` pdf template, typo
    - i18n `wstm.yml` add translation
 
+
 * **feature v0.2.7.17**, `Wstm::CacheBook` pdf template
    - feature date: **2014-04-25**
    - bump version v0.2.7.17
@@ -47,11 +65,13 @@ release date: **2014-xx-xx**
    - views , partials printing related changes
    - models `Wstm::CacheBook` alias name to pdf file_name
 
+
 * **feature v0.2.7.16**, bugfix
    - feature date: **2014-04-24**
    - bump version v0.2.7.16
    - update CHANGELOG
    - views `Wstm::CacheBook` partial `_form.haml` ordering lines issue
+
 
 * **feature v0.2.7.15**, bugfix
    - feature date: **2014-04-24**
@@ -59,12 +79,14 @@ release date: **2014-xx-xx**
    - update CHANGELOG
    - i18n `grn|invoice.yml` p03_select, bugfix
 
+
 * **feature v0.2.7.14**,
    - feature date: **2014-04-22** bugfix
    - bump version v0.2.7.14
    - update CHANGELOG
    - views pdf template related to model `Trst::User#id_pn` in main module
    - i18n, views `partner_firm.yml` p03 duplicate, bugfix
+
 
 * **feature v0.2.7.13**, `Wstm::CacheBook` CRUD
    - feature date: **2014-04-22**
@@ -77,11 +99,13 @@ release date: **2014-xx-xx**
    - i18n `cache_book.yml` initial translation
    - model `Wstm::CacheBook` and embedded model, skeleton
 
+
 * **feature v0.2.7.12**, bugfix
    - feature date: **2014-04-16**
    - bump version v0.2.7.12
    - update CHANGELOG
    - views `Wstm::Expenditure` pdf template, CNP on new line, bugfix
+
 
 * **feature v0.2.7.11**, bugfix
    - feature date: **2014-04-15**
@@ -89,6 +113,7 @@ release date: **2014-xx-xx**
    - update CHANGELOG
    - views `Wstm::Expenditure` pdf template, EMPTY document, bugfix
    - i18n `wstm.yml` typo
+
 
 * **feature v0.2.7.10**, bugfix
    - feature date: **2014-04-14**
@@ -98,6 +123,7 @@ release date: **2014-xx-xx**
    - reports `unit_plst` more than 15 lines, bugfix
    - i18n `wstm.yml` typo
 
+
 * **feature v0.2.7.9**,legea 38/2014, bugfix
    - feature date: **2014-04-12**
    - bump version v0.2.7.9
@@ -105,17 +131,20 @@ release date: **2014-xx-xx**
    - views,i18n `Wstm::Expenditure` Legea 38/2014
    - reports `unit_daily_exp` template, layout, stamp bugfix
 
+
 * **feature v0.2.7.8**, monthly reports wrong id_stats, bugfix
    - feature date: **2014-03-01**
    - bump version v0.2.7.8
    - update CHANGELOG
    - monthly reports reports wrong id_stats :(, bugfix
 
+
 * **feature v0.2.7.7**, monthly reports, recap.
    - feature date: **2014-03-01**
    - bump version v0.2.7.7
    - update CHANGELOG
    - monthly reports, recap. starts on new page
+
 
 * **feature v0.2.7.6**, bugfix, update prawn, `Wstm::Expenditure` all in one daily report
    - feature date: **2014-02-28**
@@ -125,6 +154,7 @@ release date: **2014-xx-xx**
    - i18n, views `Wstm::Expenditure` all in one daily report, related changes
    - templates, backgrounds cleanup, new ones
    - models `Wstm::PartnerFirmUnit` create_stock, id_date bugfix
+
 
 * **feature v0.2.7.5**, `Wstm::PartnerPerson` query partner, regarding expenditures
    - feature date: **2014-01-25**
@@ -136,6 +166,7 @@ release date: **2014-xx-xx**
    - i18n `wstm,yml` new translation
    - models `Wstm::PartnerPerson|Expenditures` query partner related changes
 
+
 * **feature v0.2.7.4**, mostly bugfixes
    - feature date: **2014-01-23**
    - bump version v0.2.7.4
@@ -143,6 +174,7 @@ release date: **2014-xx-xx**
    - views `Wstm::Freight` `query.haml` missing data, bugfix
    - models `Wstm::ParnerFirm` `active?`, bugfix
    - models `Wstm::Freight` `handle_code`, bugfix
+
 
 * **feature v0.2.7.3**, `Wstm::PartnerFirm` query, client, supplier, unit expenditures
    - feature date: **2014-01-13**
@@ -153,6 +185,7 @@ release date: **2014-xx-xx**
    - assets js, `Trst.desk.partner_firm` add client, supplier query related
    - i18n `partner_firm.yml` add table headers for queries
 
+
 * **feature v0.2.7.2**, `Wstm::Freights` query, daily analytic
    - feature date: **2014-01-03**
    - bump version v0.2.7.2
@@ -160,6 +193,7 @@ release date: **2014-xx-xx**
    - assets js, `Trst.desk.freight` prepare for daily analytic
    - views `query.haml`, add daily analytic TODO extract logic from view
    - i18n `freight.yml` add table header for daily analytic
+
 
 * **feature v0.2.7.1**, mew year settings
    - feature date: **2014-01-02**
@@ -172,6 +206,7 @@ release date: **2014-xx-xx**
    - models `Wstm::ParnerFirm::Unit` new methods `stock_create(y,m)`, `active?`
    - models `Wstm::Cache` ignore unit without cache
    - models `Wstm::Freight` some bugfixes, on query
+
 
 ## v0.2.7
 
@@ -237,3 +272,24 @@ release date: **2013-07-18**
 * Added **CHANGELOG**
 
 * Add version `lib/demo/version.rb`
+
+[#1]: https://github.com/kfl62/trst_sys_wstm/issues/1
+[#2]: https://github.com/kfl62/trst_sys_wstm/issues/2
+[#3]: https://github.com/kfl62/trst_sys_wstm/issues/3
+[#4]: https://github.com/kfl62/trst_sys_wstm/issues/4
+[#5]: https://github.com/kfl62/trst_sys_wstm/issues/5
+[#6]: https://github.com/kfl62/trst_sys_wstm/issues/6
+[#7]: https://github.com/kfl62/trst_sys_wstm/issues/7
+[#8]: https://github.com/kfl62/trst_sys_wstm/issues/8
+[#9]: https://github.com/kfl62/trst_sys_wstm/issues/9
+[#10]: https://github.com/kfl62/trst_sys_wstm/issues/10
+[#11]: https://github.com/kfl62/trst_sys_wstm/issues/11
+[#12]: https://github.com/kfl62/trst_sys_wstm/issues/12
+[#13]: https://github.com/kfl62/trst_sys_wstm/issues/13
+[#14]: https://github.com/kfl62/trst_sys_wstm/issues/14
+[#15]: https://github.com/kfl62/trst_sys_wstm/issues/15
+[#16]: https://github.com/kfl62/trst_sys_wstm/issues/16
+[#17]: https://github.com/kfl62/trst_sys_wstm/issues/17
+[#18]: https://github.com/kfl62/trst_sys_wstm/issues/18
+[#19]: https://github.com/kfl62/trst_sys_wstm/issues/19
+[#20]: https://github.com/kfl62/trst_sys_wstm/issues/20
