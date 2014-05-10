@@ -8,16 +8,17 @@ module Wstm
     field :p03,                 type: Boolean,       default: true
     field :firm,                type: Boolean,       default: false
 
-    embeds_many :addresses,   class_name: "Wstm::PartnerFirmAddress", cascade_callbacks: true
-    embeds_many :people,      class_name: "Wstm::PartnerFirmPerson",  cascade_callbacks: true
-    embeds_many :units,       class_name: "Wstm::PartnerFirmUnit",    cascade_callbacks: true
+    embeds_many :addresses,   class_name: "Wstm::PartnerFirm::Address", cascade_callbacks: true
+    embeds_many :people,      class_name: "Wstm::PartnerFirm::Person",  cascade_callbacks: true
+    embeds_many :units,       class_name: "Wstm::PartnerFirm::Unit",    cascade_callbacks: true
+    embeds_many :banks,       class_name: "Wstm::PartnerFirm::Bank",    cascade_callbacks: true
     has_many    :dlns_client, class_name: "Wstm::DeliveryNote",       inverse_of: :client
     has_many    :dlns_transp, class_name: "Wstm::DeliveryNote",       inverse_of: :transp
     has_many    :grns_supplr, class_name: "Wstm::Grn",                inverse_of: :supplr
     has_many    :grns_transp, class_name: "Wstm::Grn",                inverse_of: :transp
     has_many    :invs_client, class_name: "Wstm::Invoice",            inverse_of: :client
 
-    accepts_nested_attributes_for :addresses, :people, :units
+    accepts_nested_attributes_for :addresses, :people, :units, :banks
 
     class << self
       # @todo
@@ -60,15 +61,16 @@ module Wstm
     end
   end # PartnerFirm
 
-  class PartnerFirmAddress < Trst::Address
+  class PartnerFirm::Address < Trst::Address
 
     field :name,    type: String,   default: 'Main Address'
 
     embedded_in :firm, class_name: 'Wstm::PartnerFirm', inverse_of: :addresses
 
   end # FirmAddress
+  PartnerFirmAddress = PartnerFirm::Address
 
-  class PartnerFirmPerson < Trst::Person
+  class PartnerFirm::Person < Trst::Person
 
     field :role,    type: String
 
@@ -80,8 +82,9 @@ module Wstm
     has_many    :invs_client,   class_name: 'Wstm::Invoice',      inverse_of: :client_d
 
   end # FirmPerson
+  PartnerFirmPerson = PartnerFirm::Person
 
-  class PartnerFirmUnit
+  class PartnerFirm::Unit
     include Mongoid::Document
     include Mongoid::Timestamps
     include Trst::ViewHelpers
@@ -161,4 +164,22 @@ module Wstm
       end
     end
   end # FirmUnit
+  PartnerFirmUnit = PartnerFirm::Unit
+
+  class PartnerFirm::Bank
+    include Mongoid::Document
+    include Mongoid::Timestamps
+    include Trst::ViewHelpers
+
+    field :name,      type: String
+    field :swift,     type: String
+
+    embedded_in :firm,      class_name: 'Wstm::PartnerFirm',  inverse_of: :banks
+
+    # @todo
+    # def view_filter
+    #   [id, name[1]]
+    # end
+  end # FirmBank
+  PartnerFirmBank = PartnerFirm::Bank
 end # Wstm
