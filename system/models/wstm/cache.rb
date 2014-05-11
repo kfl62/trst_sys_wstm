@@ -7,7 +7,7 @@ module Wstm
     field :expl,        type: String,     default: 'Vasy Ildiko'
     field :id_intern,   type: Boolean,    default: false
 
-    belongs_to  :unit,     class_name: 'Wstm::PartnerFirmUnit', inverse_of: :dps
+    belongs_to  :unit,     class_name: 'Wstm::PartnerFirm::Unit', inverse_of: :dps
 
     index({ unit_id: 1, id_date: 1 })
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}

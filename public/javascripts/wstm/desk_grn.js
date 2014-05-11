@@ -137,6 +137,11 @@
                 if ($select.hasClass('doc_type')) {
                   $('tr.inv').hide();
                   $select.on('change', function() {
+                    if ($select.val() === 'DN') {
+                      $('input[name*="charged"]').val('false');
+                    } else {
+                      $('input[name*="charged"]').val('true');
+                    }
                     $('input[name*="doc_date"]').val($('#date_send').val());
                     if ($select.val() === 'INV') {
                       $('tr.dn').hide();

@@ -15,7 +15,7 @@ module Wstm
     alias :file_name :name
 
     has_many   :freights,   class_name: "Wstm::FreightOut",      inverse_of: :doc_cas, dependent: :destroy
-    belongs_to :unit,       class_name: "Wstm::PartnerFirmUnit", inverse_of: :csss
+    belongs_to :unit,       class_name: "Wstm::PartnerFirm::Unit", inverse_of: :csss
     belongs_to :signed_by,  class_name: "Wstm::User",            inverse_of: :csss
 
     index({ unit_id: 1, id_date: 1 })

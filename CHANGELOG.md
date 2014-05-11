@@ -3,6 +3,15 @@
 release date: **2014-xx-xx**
 
 
+* **feature v0.2.7.23**,
+   - feature date: **2014-05-11**
+   - bump version v0.2.7.23
+   - update CHANGELOG
+   - assets js, `Wstm.desk.delivery_note` modified, [issue #6][#6]
+   - views `Wstm::Grn` CRUD `create` modified, fix [issue #6][#6]
+   - models: all relevant, modify considering [issue #5][#5]
+
+
 * **feature v0.2.7.22**, `Clns::PartnerFirm::Bank`,  [issue #4][#4],  [issue #5][#5]
    - feature date: **2014-05-10**
    - bump version v0.2.7.22

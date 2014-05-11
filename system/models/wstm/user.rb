@@ -2,7 +2,7 @@
 module Wstm
   class User < Trst::User
 
-    belongs_to    :unit,   class_name: 'Wstm::PartnerFirmUnit',  inverse_of: :users
+    belongs_to    :unit,   class_name: 'Wstm::PartnerFirm::Unit',inverse_of: :users
     has_many      :apps,   class_name: 'Wstm::Expenditure',      inverse_of: :signed_by
     has_many      :dlns,   class_name: 'Wstm::DeliveryNote',     inverse_of: :signed_by
     has_many      :grns,   class_name: 'Wstm::Grn',              inverse_of: :signed_by
