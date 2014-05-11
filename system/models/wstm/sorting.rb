@@ -14,10 +14,10 @@ module Wstm
 
     alias :file_name :name
 
-    has_many   :from_freights,  class_name: "Wstm::FreightOut",      inverse_of: :doc_sor, dependent: :destroy
-    has_many   :resl_freights,  class_name: "Wstm::FreightIn",       inverse_of: :doc_sor, dependent: :destroy
-    belongs_to :unit,           class_name: "Wstm::PartnerFirmUnit", inverse_of: :srts
-    belongs_to :signed_by,      class_name: "Wstm::User",            inverse_of: :srts
+    has_many   :from_freights,  class_name: "Wstm::FreightOut",       inverse_of: :doc_sor, dependent: :destroy
+    has_many   :resl_freights,  class_name: "Wstm::FreightIn",        inverse_of: :doc_sor, dependent: :destroy
+    belongs_to :unit,           class_name: "Wstm::PartnerFirm::Unit",inverse_of: :srts
+    belongs_to :signed_by,      class_name: "Wstm::User",             inverse_of: :srts
 
     index({ unit_id: 1, id_date: 1 })
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}

@@ -15,15 +15,15 @@ module Wstm
 
     alias :file_name :name
 
-    has_many   :freights,     class_name: "Wstm::FreightOut",       inverse_of: :doc_dln, dependent: :destroy
-    belongs_to :doc_grn,      class_name: "Wstm::Grn",              inverse_of: :dlns
-    belongs_to :doc_inv,      class_name: "Wstm::Invoice",          inverse_of: :dlns
-    belongs_to :client,       class_name: "Wstm::PartnerFirm",      inverse_of: :dlns_client
-    belongs_to :transp,       class_name: "Wstm::PartnerFirm",      inverse_of: :dlns_transp
-    belongs_to :client_d,     class_name: "Wstm::PartnerFirmPerson",inverse_of: :dlns_client
-    belongs_to :transp_d,     class_name: "Wstm::PartnerFirmPerson",inverse_of: :dlns_transp
-    belongs_to :unit,         class_name: "Wstm::PartnerFirmUnit",  inverse_of: :dlns
-    belongs_to :signed_by,    class_name: "Wstm::User",             inverse_of: :dlns
+    has_many   :freights,     class_name: "Wstm::FreightOut",         inverse_of: :doc_dln, dependent: :destroy
+    belongs_to :doc_grn,      class_name: "Wstm::Grn",                inverse_of: :dlns
+    belongs_to :doc_inv,      class_name: "Wstm::Invoice",            inverse_of: :dlns
+    belongs_to :client,       class_name: "Wstm::PartnerFirm",        inverse_of: :dlns_client
+    belongs_to :transp,       class_name: "Wstm::PartnerFirm",        inverse_of: :dlns_transp
+    belongs_to :client_d,     class_name: "Wstm::PartnerFirm::Person",inverse_of: :dlns_client
+    belongs_to :transp_d,     class_name: "Wstm::PartnerFirm::Person",inverse_of: :dlns_transp
+    belongs_to :unit,         class_name: "Wstm::PartnerFirm::Unit",  inverse_of: :dlns
+    belongs_to :signed_by,    class_name: "Wstm::User",               inverse_of: :dlns
 
     index({ unit_id: 1, id_date: 1 })
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}

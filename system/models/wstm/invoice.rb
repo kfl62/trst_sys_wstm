@@ -16,13 +16,13 @@ module Wstm
 
     alias :file_name :name
 
-    embeds_many :freights,     class_name: "Wstm::InvoiceFreight",   inverse_of: :doc_inv, cascade_callbacks: true
-    has_many    :dlns,         class_name: "Wstm::DeliveryNote",     inverse_of: :doc_inv
-    has_many    :grns,         class_name: "Wstm::Grn",              inverse_of: :doc_inv
-    has_many    :pyms,         class_name: "Wstm::Payment",          inverse_of: :doc_inv, dependent: :delete
-    belongs_to  :client,       class_name: "Wstm::PartnerFirm",      inverse_of: :invs_client
-    belongs_to  :client_d,     class_name: "Wstm::PartnerFirmPerson",inverse_of: :invs_client
-    belongs_to  :signed_by,    class_name: "Wstm::User",             inverse_of: :invs
+    embeds_many :freights,     class_name: "Wstm::InvoiceFreight",      inverse_of: :doc_inv, cascade_callbacks: true
+    has_many    :dlns,         class_name: "Wstm::DeliveryNote",        inverse_of: :doc_inv
+    has_many    :grns,         class_name: "Wstm::Grn",                 inverse_of: :doc_inv
+    has_many    :pyms,         class_name: "Wstm::Payment",             inverse_of: :doc_inv, dependent: :delete
+    belongs_to  :client,       class_name: "Wstm::PartnerFirm",         inverse_of: :invs_client
+    belongs_to  :client_d,     class_name: "Wstm::PartnerFirm::Person", inverse_of: :invs_client
+    belongs_to  :signed_by,    class_name: "Wstm::User",                inverse_of: :invs
 
     after_save    :'handle_dlns(true)'
     after_destroy :'handle_dlns(false)'

@@ -10,8 +10,8 @@ module Wstm
     field :id_date,     type: Date
     field :expl,        type: String,   default: 'Stock initial'
 
-    has_many   :freights,   class_name: "Wstm::FreightStock",   :inverse_of => :doc_stk, dependent: :destroy
-    belongs_to :unit,       class_name: "Wstm::PartnerFirmUnit",:inverse_of => :stks
+    has_many   :freights,   class_name: "Wstm::FreightStock",     :inverse_of => :doc_stk, dependent: :destroy
+    belongs_to :unit,       class_name: "Wstm::PartnerFirm::Unit",:inverse_of => :stks
 
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
 

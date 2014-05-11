@@ -5,10 +5,10 @@ module Wstm
     field :code,    type: Array,        default: []
     field :p03,     type: Boolean,      default: false
 
-    belongs_to  :unit,     class_name: 'Wstm::PartnerFirmUnit', inverse_of: :freights
-    has_many    :ins,      class_name: "Wstm::FreightIn",       inverse_of: :freight
-    has_many    :outs,     class_name: "Wstm::FreightOut",      inverse_of: :freight
-    has_many    :stks,     class_name: "Wstm::FreightStock",    inverse_of: :freight
+    belongs_to  :unit,     class_name: 'Wstm::PartnerFirm::Unit', inverse_of: :freights
+    has_many    :ins,      class_name: "Wstm::FreightIn",         inverse_of: :freight
+    has_many    :outs,     class_name: "Wstm::FreightOut",        inverse_of: :freight
+    has_many    :stks,     class_name: "Wstm::FreightStock",      inverse_of: :freight
 
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
     before_save :handle_code
