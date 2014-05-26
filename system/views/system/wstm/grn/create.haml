@@ -73,7 +73,7 @@
               - input_for @object,'supplr_d_id',{type: 'hidden',value: supplr_d.id}
             - input_for @object, 'unit_id',     {type: 'hidden',value: unit.id}
             - input_for @object, 'signed_by',   {type: 'hidden',value: @current_user.id}
-            - input_for @object, 'charged',   {type: 'hidden',value: 'true'}
+            - input_for @object, 'charged',     {type: 'hidden',value: 'true'}
         %tr.pdb-05
           %td
             - select_for @object,'doc_type',    {type: 'enum',style: 'wstm doc_type focus',select_options: %w{null DN INV MIN}}
