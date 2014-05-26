@@ -3,11 +3,18 @@
 release date: **2014-xx-xx**
 
 
-* **feature v0.2.7.23**,
+* **feature v0.2.7.24**, bugfix [issue #7][#7]
+   - feature date: **2014-05-26**
+   - bump version v0.2.7.24
+   - update CHANGELOG
+   - assets js, `Trst.desk.delivery_note|grn|invoice` fix [issue #7][#7]
+
+
+* **feature v0.2.7.23**, `Wstm::Grn` [issue #6][#6]
    - feature date: **2014-05-11**
    - bump version v0.2.7.23
    - update CHANGELOG
-   - assets js, `Wstm.desk.delivery_note` modified, [issue #6][#6]
+   - assets js, `Wstm.desk.grn` modified, [issue #6][#6]
    - views `Wstm::Grn` CRUD `create` modified, fix [issue #6][#6]
    - models: all relevant, modify considering [issue #5][#5]
 
