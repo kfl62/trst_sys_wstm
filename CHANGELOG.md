@@ -3,6 +3,14 @@
 release date: **2014-xx-xx**
 
 
+* **feature v0.2.7.25**, bugfix [issue #8][#8], optimizations
+   - feature date: **2014-05-29**
+   - bump version v0.2.7.25
+   - update CHANGELOG
+   - views: report, fix [issue #8][#8]
+   - models `Wstm::PartnerFirm|Freight` optimizations
+
+
 * **feature v0.2.7.24**, bugfix [issue #7][#7]
    - feature date: **2014-05-26**
    - bump version v0.2.7.24
