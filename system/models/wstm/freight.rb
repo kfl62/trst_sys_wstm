@@ -68,14 +68,16 @@ module Wstm
         keys(false).each_with_index do |ids,i|
           part[i] = []
           units.each do |u|
-            f = find_by(unit_id: u, id_stats: ids)
-            if f
-              sum_pos = f.stats_sum(*args,opts)
-              part[i] << sum_pos.pop if Wstm::PartnerFirm.unit_by_unit_id(u).active?(*args)
-              sum_tot = sum_tot.zip(sum_pos).map{|x| x.inject(:+)}
-              fname = f.name
-            else
-              part[i] << 0 if Wstm::PartnerFirm.unit_by_unit_id(u).active?(*args)
+            if Wstm::PartnerFirm.unit_by_unit_id(u).active?(*args)
+              f = find_by(unit_id: u, id_stats: ids)
+              if f
+                sum_pos = f.stats_sum(*args,opts)
+                part[i] << sum_pos.pop
+                sum_tot = sum_tot.zip(sum_pos).map{|x| x.inject(:+)}
+                fname = f.name
+              else
+                part[i] << 0
+              end
             end
           end
           retval << [fname,sum_tot,part[i],(sum_tot.last - part[i].sum).round(2)].flatten
