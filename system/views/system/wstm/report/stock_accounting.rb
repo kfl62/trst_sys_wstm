@@ -178,7 +178,7 @@ pdf.bounding_box([pdf.bounds.left - 0.3, pdf.bounds.top - 81], width: pdf.bounds
       row(0).style(background_color: "f9f9f9", padding: [2,5,2,5])
     end
   end
-  v = r_gt.values_at('3101','3201','3202','3301','3401','3501','3601','3602','3701').compact
+  v = r_gt.values_at('3101','3201','3202','3203','3204','3301','3302','3401','3501','3601','3602','3701').compact
   unless v.empty?
     names = v.each_with_object([]){|a,n| n << a.shift}
     names.push('Total')
@@ -189,7 +189,7 @@ pdf.bounding_box([pdf.bounds.left - 0.3, pdf.bounds.top - 81], width: pdf.bounds
       row(row_length - 1).style(background_color: "e6e6e6")
     end
     data =  [
-              ["Categoria: Metale neferoase (Alamă, Aluminiu, Doze aluminiu, Cupru, Inox, Plumb, Radiatoare alamă, Radiatoare aluminiu și Zamac)"],
+              ["Categoria: Metale neferoase (Alamă, Aluminiu, Doze Al, Cablu Al, Cupru, Cablu Cu, Inox, Plumb, Radiatoare alamă, Radiatoare aluminiu și Zamac)"],
               [d]
             ]
     pdf.table(data, cell_style: {border_width: 0.1}) do
@@ -364,7 +364,7 @@ pdf.bounding_box([210.mm, top], width: 25.mm) do
   pdf.text "APP",align: :right
   ins = Wstm::FreightIn.where(:doc_exp.ne => nil).monthly(*date_strt)
   pdf.text "%.2f" % (ins.by_key('3011').each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03)}.sum || 0), align: :right
-  pdf.text "%.2f" % (ins.where(:id_stats.in => ['3101','3201','3202','3401','3301','3501','3601','3602,3701']).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03)}.sum || 0), align: :right
+  pdf.text "%.2f" % (ins.where(:id_stats.in => ['3101','3201','3202','3203','3204','3301','3302','3401','3501','3601','3602,3701']).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03)}.sum || 0), align: :right
   pdf.text "%.2f" % (ins.by_key('4001').where(:doc_exp.ne => nil).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03)}.sum || 0), align: :right
   pdf.text "<b>#{"%.2f" % mny['Id'][3]}</b>", align: :right, inline_format: true
   pdf.text " "
@@ -375,7 +375,7 @@ pdf.bounding_box([235.mm, top], width: 25.mm) do
   ins = Wstm::FreightIn.where(:doc_grn.ne => nil).monthly(*date_strt).nonin
   pdf.text "Firme",align: :right
   pdf.text "%.2f" % (ins.by_key('3011').each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03) if f.doc.supplr.p03}.sum || 0), align: :right
-  pdf.text "%.2f" % (ins.where(:id_stats.in => ['3101','3201','3202','3401','3301','3501','3601','3602,3701']).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03) if f.doc.supplr.p03}.sum || 0), align: :right
+  pdf.text "%.2f" % (ins.where(:id_stats.in => ['3101','3201','3202','3203','3204','3301','3302','3401','3501','3601','3602,3701']).each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03) if f.doc.supplr.p03}.sum || 0), align: :right
   pdf.text "%.2f" % (ins.by_key('4001').each_with_object([]){|f,a| a << (f.pu * f.qu * 0.03) if f.doc.supplr.p03}.sum || 0), align: :right
   pdf.text "<b>#{"%.2f" % (Wstm::Grn.nonin.monthly(*date_strt).sum(:sum_003) || 0)}</b>", align: :right, inline_format: true
 end
