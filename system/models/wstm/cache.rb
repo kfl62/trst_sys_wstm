@@ -7,16 +7,17 @@ module Wstm
     field :expl,        type: String,     default: 'Vasy Ildiko'
     field :id_intern,   type: Boolean,    default: false
 
-    belongs_to  :unit,     class_name: 'Wstm::PartnerFirm::Unit', inverse_of: :dps
+    belongs_to  :unit,     class_name: 'Wstm::PartnerFirm::Unit', inverse_of: :dps, index: true
 
     index({ unit_id: 1, id_date: 1 })
+
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
 
     class << self
       # @todo
       def pos(s)
-        s = s.upcase
-        where(unit_id: Wstm::PartnerFirm.pos(s).id)
+        uid = Clns::PartnerFirm.pos(s).id
+        by_unit_id(uid)
       end
       # @todo
       def nonin(nin = true)
