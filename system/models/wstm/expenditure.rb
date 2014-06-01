@@ -17,22 +17,25 @@ module Wstm
     alias :file_name :name
 
     has_many   :freights,   class_name: "Wstm::FreightIn",        inverse_of: :doc_exp, dependent: :destroy
-    belongs_to :client,     class_name: "Wstm::PartnerPerson",    inverse_of: :apps
-    belongs_to :unit,       class_name: "Wstm::PartnerFirm::Unit",inverse_of: :apps
+    belongs_to :unit,       class_name: "Wstm::PartnerFirm::Unit",inverse_of: :apps, index: true
+    belongs_to :client,     class_name: "Wstm::PartnerPerson",    inverse_of: :apps, index: true
     belongs_to :signed_by,  class_name: "Wstm::User",             inverse_of: :apps
 
     index({ unit_id: 1, id_date: 1 })
     # index({ client_id: 1, id_date: 1 }) # Just when Decl-205
+
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
-    after_save :'handle_empty_expenditure_error'
 
     accepts_nested_attributes_for :freights,
       reject_if: ->(attrs){ attrs[:qu].to_f == 0 || attrs[:id_date].empty?}
 
+    after_save  :'handle_empty_expenditure_error'
+
     class << self
       # @todo
       def pos(s)
-        where(unit_id: Wstm::PartnerFirm.pos(s).id)
+        uid = Clns::PartnerFirm.pos(s).id
+        by_unit_id(uid)
       end
       # @todo
       def to_txt
@@ -117,9 +120,8 @@ module Wstm
         r << "#{f.freight.name}: #{"%.2f" % f.qu} kg ( #{"%.2f" % f.pu} )"
       end
     end
-
     protected
-
+    # @todo
     def handle_empty_expenditure_error
       delete if freights.count == 0
     end
