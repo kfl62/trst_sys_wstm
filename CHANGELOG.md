@@ -3,6 +3,22 @@
 release date: **2014-xx-xx**
 
 
+* **feature v0.2.7.26**,
+   - feature date: **2014-06-01**
+   - bump version v0.2.7.26
+   - update CHANGELOG
+   - models `Wstm::FreightIn|Out|Stock` cleanup, fix [issue #10][#10]
+   - models `Wstm::PartnerFirm::Unit` add relations [issue #10][#10], `#validate?` [issue #9][#9]
+   - models `Wstm::Stock` cleanup, index
+   - models `Wstm::Sorting` cleanup, index
+   - models `Wstm::Grn` cleanup, index
+   - models `Wstm::Expenditure` cleanup, index
+   - models `Wstm::DeliveryNote` cleanup, index
+   - models `Wstm::Cassation` cleanup, index
+   - models `Wstm::Cache` cleanup, index
+   - models `Wstm::PartnerPerson` move validation [kfl62/trst_sys_sinatra#6][trst_main#6]
+
+
 * **feature v0.2.7.25**, bugfix [issue #8][#8], optimizations
    - feature date: **2014-05-29**
    - bump version v0.2.7.25
@@ -297,6 +313,7 @@ release date: **2013-07-18**
 
 * Add version `lib/demo/version.rb`
 
+[trst_main#6]: https://github.com/kfl62/trst_sys_sinatra/issues/6
 [#1]: https://github.com/kfl62/trst_sys_wstm/issues/1
 [#2]: https://github.com/kfl62/trst_sys_wstm/issues/2
 [#3]: https://github.com/kfl62/trst_sys_wstm/issues/3

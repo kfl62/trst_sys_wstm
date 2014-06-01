@@ -5,18 +5,20 @@ module Wstm
     field :code,    type: Array,        default: []
     field :p03,     type: Boolean,      default: false
 
-    belongs_to  :unit,     class_name: 'Wstm::PartnerFirm::Unit', inverse_of: :freights
+    belongs_to  :unit,     class_name: 'Wstm::PartnerFirm::Unit', inverse_of: :freights, index: true
     has_many    :ins,      class_name: "Wstm::FreightIn",         inverse_of: :freight
     has_many    :outs,     class_name: "Wstm::FreightOut",        inverse_of: :freight
     has_many    :stks,     class_name: "Wstm::FreightStock",      inverse_of: :freight
 
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
+
     before_save :handle_code
 
     class << self
       # @todo
       def pos(s)
-        where(unit_id: Wstm::PartnerFirm.pos(s).id)
+        uid = Clns::PartnerFirm.pos(s).id
+        by_unit_id(uid)
       end
       # @todo
       def options_for_exp
@@ -143,9 +145,8 @@ module Wstm
     def stock_by_key(key)
       stks_now.by_key(key).sum(:qu) || 0
     end
-
     protected
-
+    # @todo
     def handle_code
       self.code = code.split(',').flatten
     end

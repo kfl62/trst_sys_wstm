@@ -22,20 +22,15 @@ module Wstm
 
     has_many   :freights,     class_name: "Wstm::FreightIn",          inverse_of: :doc_grn, dependent: :destroy
     has_many   :dlns,         class_name: "Wstm::DeliveryNote",       inverse_of: :doc_grn
-    belongs_to :supplr,       class_name: "Wstm::PartnerFirm",        inverse_of: :grns_supplr
+    belongs_to :unit,         class_name: "Wstm::PartnerFirm::Unit",  inverse_of: :grns, index: true
+    belongs_to :supplr,       class_name: "Wstm::PartnerFirm",        inverse_of: :grns_supplr, index: true
     belongs_to :transp,       class_name: "Wstm::PartnerFirm",        inverse_of: :grns_transp
     belongs_to :supplr_d,     class_name: "Wstm::PartnerFirm::Person",inverse_of: :grns_supplr
     belongs_to :transp_d,     class_name: "Wstm::PartnerFirm::Person",inverse_of: :grns_transp
     belongs_to :doc_inv,      class_name: "Wstm::Invoice",            inverse_of: :grns
-    belongs_to :unit,         class_name: "Wstm::PartnerFirm::Unit",  inverse_of: :grns
     belongs_to :signed_by,    class_name: "Wstm::User",               inverse_of: :grns
 
     index({ unit_id: 1, id_date: 1 })
-
-    after_save    :'handle_dlns(true)'
-    after_save    :'handle_invs(true)'
-    after_destroy :'handle_dlns(false)'
-    after_destroy :'handle_invs(false)'
 
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
 
@@ -43,10 +38,16 @@ module Wstm
     accepts_nested_attributes_for :freights,
       reject_if: ->(attrs){ attrs[:qu].to_f == 0 }
 
+    after_save    :'handle_dlns(true)'
+    after_save    :'handle_invs(true)'
+    after_destroy :'handle_dlns(false)'
+    after_destroy :'handle_invs(false)'
+
     class << self
       # @todo
       def pos(s)
-        where(unit_id: Wstm::PartnerFirm.pos(s).id)
+        uid = Clns::PartnerFirm.pos(s).id
+        by_unit_id(uid)
       end
       # @todo
       def nonin(nin = true)

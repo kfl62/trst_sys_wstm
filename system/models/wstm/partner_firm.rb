@@ -107,6 +107,9 @@ module Wstm
     has_many    :grns,      class_name: 'Wstm::Grn',          inverse_of: :unit
     has_many    :csss,      class_name: 'Wstm::Cassation',    inverse_of: :unit
     has_many    :srts,      class_name: 'Wstm::Sorting',      inverse_of: :unit
+    has_many    :ins,       class_name: 'Wstm::FreightIn',    inverse_of: :unit
+    has_many    :outs,      class_name: 'Wstm::FreightOut',   inverse_of: :unit
+    has_many    :fsts,      class_name: 'Wstm::FreightStock', inverse_of: :unit
 
     # @todo
     def view_filter
@@ -138,8 +141,8 @@ module Wstm
     end
     # @todo
     def active?(y,m)
+      s = stks.monthly(y,m).first.freights.sum(:qu) > 0 rescue false
       a = apps.monthly(y,m).count > 0 rescue false
-      s = stks.monthly(y,m).count > 0 rescue false
       d = dlns.monthly(y,m).count > 0 rescue false
       g = grns.monthly(y,m).count > 0 rescue false
       c = csss.monthly(y,m).count > 0 rescue false

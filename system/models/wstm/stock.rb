@@ -11,7 +11,7 @@ module Wstm
     field :expl,        type: String,   default: 'Stock initial'
 
     has_many   :freights,   class_name: "Wstm::FreightStock",     :inverse_of => :doc_stk, dependent: :destroy
-    belongs_to :unit,       class_name: "Wstm::PartnerFirm::Unit",:inverse_of => :stks
+    belongs_to :unit,       class_name: "Wstm::PartnerFirm::Unit",:inverse_of => :stks, index: true
 
     scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
 
@@ -22,7 +22,8 @@ module Wstm
     class << self
       # @todo
       def pos(s)
-        where(unit_id: Wstm::PartnerFirm.pos(s).id)
+        uid = Clns::PartnerFirm.pos(s).id
+        by_unit_id(uid)
       end
     end # Class methods
 
@@ -36,6 +37,5 @@ module Wstm
     def unit
       Wstm::PartnerFirm.unit_by_unit_id(unit_id) rescue nil
     end
-
-   end # Stock
+  end # Stock
 end #Wstm

@@ -1,4 +1,4 @@
 # encoding: utf-8
 module Wstm
-  VERSION = "0.2.7.25"
+  VERSION = "0.2.7.26"
 end
