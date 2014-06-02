@@ -19,7 +19,7 @@ module Wstm
     belongs_to  :unit,     class_name: 'Wstm::PartnerFirm::Unit', inverse_of: :outs, index: true
     belongs_to  :doc_dln,  class_name: 'Wstm::DeliveryNote',      inverse_of: :freights, index: true
     belongs_to  :doc_cas,  class_name: 'Wstm::Cassation',         inverse_of: :freights, index: true
-    belongs_to  :doc_sor,  class_name: 'Wstm::Sorting',           inverse_of: :from_freights, index: true
+    belongs_to  :doc_sor,  class_name: 'Wstm::Sorting',           inverse_of: :from_freights  #, index: true
 
     index({ freight_id: 1, id_stats: 1, pu: 1, id_date: 1 })
     index({ id_stats: 1, pu: 1, id_date: 1 })
@@ -52,7 +52,7 @@ module Wstm
       end
       # @todo
       def pos(s)
-        uid = Clns::PartnerFirm.pos(s).id
+        uid = Wstm::PartnerFirm.pos(s).id
         by_unit_id(uid)
       end
       # @todo
