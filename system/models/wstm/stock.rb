@@ -22,7 +22,7 @@ module Wstm
     class << self
       # @todo
       def pos(s)
-        uid = Clns::PartnerFirm.pos(s).id
+        uid = Wstm::PartnerFirm.pos(s).id
         by_unit_id(uid)
       end
     end # Class methods
