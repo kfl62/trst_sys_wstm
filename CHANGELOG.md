@@ -3,6 +3,13 @@
 release date: **2014-xx-xx**
 
 
+* **feature v0.2.7.27**, bugfix [issue #12][#12]
+   - feature date: **2014-06-02**
+   - bump version v0.2.7.27
+   - update CHANGELOG
+   - models all where appropriate fix [issue #12][#12]
+
+
 * **feature v0.2.7.26**,
    - feature date: **2014-06-01**
    - bump version v0.2.7.26
