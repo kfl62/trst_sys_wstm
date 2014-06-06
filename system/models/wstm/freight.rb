@@ -5,17 +5,16 @@ module Wstm
     field :code,    type: Array,        default: []
     field :p03,     type: Boolean,      default: false
 
-    belongs_to  :unit,     class_name: 'Wstm::PartnerFirm::Unit', inverse_of: :freights, index: true
     has_many    :ins,      class_name: "Wstm::FreightIn",         inverse_of: :freight
     has_many    :outs,     class_name: "Wstm::FreightOut",        inverse_of: :freight
     has_many    :stks,     class_name: "Wstm::FreightStock",      inverse_of: :freight
-
-    scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
+    # @todo remove relation to unit
+    belongs_to  :unit,     class_name: 'Wstm::PartnerFirm::Unit', inverse_of: :freights, index: true
 
     before_save :handle_code
 
     class << self
-      # @todo
+      # @todo remove relation to unit
       def pos(s)
         uid = Wstm::PartnerFirm.pos(s).id
         by_unit_id(uid)
@@ -26,13 +25,13 @@ module Wstm
       end
       # @todo
       def options_for_dln
-        asc(:name).each_with_object([]){|f,a| a << [f.id,f.name,{key: "#{f.id_stats}-00.00",id_stats: f.id_stats,um: f.um,pu: 0.0,stck: (f.stks_now.sum(:qu) || 0)}]}
+        asc(:name).each_with_object([]){|f,a| a << [f.id,f.name,{key: "#{f.id_stats}-00.0000",id_stats: f.id_stats,um: f.um,pu: 0.0,stck: (f.stks_now.sum(:qu) || 0)}]}
       end
       # @todo
       def options_for_dln_with_pu
         asc(:name).each_with_object([]) do |f,a|
           f.stks_now.where(:qu.ne => 0).asc(:pu).each do |fs|
-            a << [fs.freight.id,"#{fs.freight.name}-#{"%05.2f" % fs.pu}",{key: "#{f.id_stats}-#{"%05.2f" % fs.pu}",id_stats: fs.id_stats,um: fs.freight.um,pu: fs.pu,stck: fs.qu}]
+            a << [fs.freight.id,"#{fs.freight.name}-#{"%.4f" % fs.pu}",{key: "#{f.id_stats}-#{"%.4f" % fs.pu}",id_stats: fs.id_stats,um: fs.freight.um,pu: fs.pu,stck: fs.qu}]
           end
         end
       end
@@ -94,10 +93,10 @@ module Wstm
         f   = find(i)
         y ||= today.year; m ||= today.month
         days_in_month = (Date.new(y, 12, 31) << (12 - m)).day
-        final = f.stks.sum_stks(y,m,opts)
+        final = f.stks.sum_freights(y,m,opts)
         (1..days_in_month).each do |i|
-          f_ins   = f.ins.sum_ins(y,m,i,opts)
-          f_out   = f.outs.sum_outs(y,m,i,opts)
+          f_ins   = f.ins.sum_freights(y,m,i,opts)
+          f_out   = f.outs.sum_freights(y,m,i,opts)
           sum_tot = sum_tot.zip([f_ins,f_out]).map{|x| x.inject(:+)}
           final   = (final + f_ins - f_out).round(2)
           retval << [Date.new(y,m,i).to_s, f_ins, f_out, final] unless (f_ins == 0 && f_out == 0)
@@ -106,29 +105,25 @@ module Wstm
       end
     end # Class methods
 
-    # @todo
+    # @todo remove relation to unit
     def unit
       Wstm::PartnerFirm.unit_by_unit_id(unit_id) rescue nil
-    end
-    # @todo
-    def key(p)
-      "#{id_stats}_#{"%05.2f" % p}"
     end
     # @todo
     def stats_sum(*args)
       opts = args.last.is_a?(Hash) ? {}.merge!(args.pop) : {}
       key = opts[:key] || id_stats
       if opts[:all]
-        s = stks.by_key(key).sum_stks(*args,opts)
-        i = ins.by_key(key).sum_ins(*args,opts)
-        o = outs.by_key(key).sum_outs(*args,opts)
-        i_nin = ins.by_key(key).nonin.sum_ins(*args,opts) + ins.by_key(key).sorted.sum_ins(*args,opts)
-        o_nin = outs.by_key(key).nonin.sum_outs(*args,opts) + outs.by_key(key).sorted.sum_outs(*args,opts)
+        s = stks.by_key(key).sum_freights(*args,opts)
+        i = ins.by_key(key).sum_freights(*args,opts)
+        o = outs.by_key(key).sum_freights(*args,opts)
+        i_nin = ins.by_key(key).nonin.sum_freights(*args,opts) + ins.by_key(key).sorted.sum_freights(*args,opts)
+        o_nin = outs.by_key(key).nonin.sum_freights(*args,opts) + outs.by_key(key).sorted.sum_freights(*args,opts)
         [s,i_nin,o_nin,(s + i_nin - o_nin).round(2), (s + i - o).round(2)]
       else
-        s = stks.by_key(key).sum_stks(*args,opts)
-        i = ins.by_key(key).sum_ins(*args,opts)
-        o = outs.by_key(key).sum_outs(*args,opts)
+        s = stks.by_key(key).sum_freights(*args,opts)
+        i = ins.by_key(key).sum_freights(*args,opts)
+        o = outs.by_key(key).sum_freights(*args,opts)
         [s,i,o,(s + i - o).round(2)]
       end
     end
