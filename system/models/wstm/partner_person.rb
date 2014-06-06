@@ -2,8 +2,8 @@
 module Wstm
   class PartnerPerson < Trst::Person
 
-    embeds_one  :address,   class_name: 'Wstm::PartnerPersonAddress', cascade_callbacks: true
-    has_many    :apps,      class_name: 'Wstm::Expenditure',          inverse_of: :client
+    embeds_one  :address,     class_name: 'Wstm::PartnerPerson::Address', cascade_callbacks: true
+    has_many    :apps,        class_name: 'Wstm::Expenditure',            inverse_of: :client
 
     accepts_nested_attributes_for :address
 
@@ -36,25 +36,14 @@ module Wstm
         [ta,sa,ta.try(:count) || 0,sa.try(:count) || 0]
       end
     end # Class methods
-    # @todo
-    def view_filter
-      [id, name, id_pn]
-    end
-    # @todo
-    def i18n_hash
-      {
-        id_pn: id_pn, name: name,
-        city: address.city, street: address.street, nr: address.nr, bl: address.bl, sc: address.sc, et: address.et, ap: address.ap,
-        dsr: id_doc["sr"], dnr: id_doc["nr"], dby: id_doc["by"], don: id_doc["on"]
-      }
-    end
   end # PartnerPerson
 
-  class PartnerPersonAddress < Trst::Address
+  class PartnerPerson::Address < Trst::Address
 
-    field :name,    type: String,   default: 'Domiciliu'
+    field :name,              type: String,                               default: 'Domiciliu'
 
-    embedded_in :partner_person,  class_name: 'Wstm::PartnerPerson', inverse_of: :address
+    embedded_in :partner_person,class_name: 'Wstm::PartnerPerson',        inverse_of: :address
 
   end # PartnerPersonAddress
+  PartnerPersonAddress = PartnerPerson::Address
 end # Wstm

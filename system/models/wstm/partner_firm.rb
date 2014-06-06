@@ -1,44 +1,20 @@
 # encoding: utf-8
 module Wstm
-  class PartnerFirm < Trst::Firm
+  class PartnerFirm < Trst::PartnerFirm
 
-    field :client,              type: Boolean,       default: true
-    field :supplr,              type: Boolean,       default: true
-    field :transp,              type: Boolean,       default: true
-    field :p03,                 type: Boolean,       default: true
-    field :firm,                type: Boolean,       default: false
+    field :p03,               type: Boolean,                            default: true
 
     embeds_many :addresses,   class_name: "Wstm::PartnerFirm::Address", cascade_callbacks: true
     embeds_many :people,      class_name: "Wstm::PartnerFirm::Person",  cascade_callbacks: true
-    embeds_many :units,       class_name: "Wstm::PartnerFirm::Unit",    cascade_callbacks: true
     embeds_many :banks,       class_name: "Wstm::PartnerFirm::Bank",    cascade_callbacks: true
-    has_many    :dlns_client, class_name: "Wstm::DeliveryNote",       inverse_of: :client
-    has_many    :dlns_transp, class_name: "Wstm::DeliveryNote",       inverse_of: :transp
-    has_many    :grns_supplr, class_name: "Wstm::Grn",                inverse_of: :supplr
-    has_many    :grns_transp, class_name: "Wstm::Grn",                inverse_of: :transp
-    has_many    :invs_client, class_name: "Wstm::Invoice",            inverse_of: :client
-
-    accepts_nested_attributes_for :addresses, :people, :units, :banks
+    embeds_many :units,       class_name: "Wstm::PartnerFirm::Unit",    cascade_callbacks: true
+    has_many    :dlns_client, class_name: "Wstm::DeliveryNote",         inverse_of: :client
+    has_many    :dlns_transp, class_name: "Wstm::DeliveryNote",         inverse_of: :transp
+    has_many    :grns_supplr, class_name: "Wstm::Grn",                  inverse_of: :supplr
+    has_many    :grns_transp, class_name: "Wstm::Grn",                  inverse_of: :transp
+    has_many    :invs_client, class_name: "Wstm::Invoice",              inverse_of: :client
 
     class << self
-      # @todo
-      def unit_by_unit_id(i)
-        find_by(:firm => true).units.find(i)
-      end
-      # @todo
-      def person_by_person_id(i)
-        i = Moped::BSON::ObjectId(i) if i.is_a?(String)
-        find_by(:'people._id' => i).people.find(i)
-      end
-      # @todo
-      def unit_ids
-        find_by(:firm => true).units.asc(:slug).map(&:id)
-      end
-      # @todo
-      def pos(s)
-        s = s.upcase
-        find_by(:firm => true).units.find_by(:slug => s)
-      end
       # @todo
       def auto_search(params)
         if params[:w]
@@ -55,66 +31,57 @@ module Wstm
         end
       end
     end # Class methods
-    # @todo
-    def view_filter
-      [id, name[1], identities['fiscal']]
-    end
   end # PartnerFirm
 
   class PartnerFirm::Address < Trst::Address
 
-    field :name,    type: String,   default: 'Main Address'
+    field :name,              type: String,                             default: 'Main Address'
 
-    embedded_in :firm, class_name: 'Wstm::PartnerFirm', inverse_of: :addresses
+    embedded_in :firm,        class_name: 'Wstm::PartnerFirm',          inverse_of: :addresses
 
   end # FirmAddress
   PartnerFirmAddress = PartnerFirm::Address
 
   class PartnerFirm::Person < Trst::Person
 
-    field :role,    type: String
+    field :role,              type: String
 
-    embedded_in :firm,          class_name: 'Wstm::PartnerFirm',  inverse_of: :people
-    has_many    :dlns_client,   class_name: 'Wstm::DeliveryNote', inverse_of: :client_d
-    has_many    :dlns_transp,   class_name: 'Wstm::DeliveryNote', inverse_of: :transp_d
-    has_many    :grns_transp,   class_name: 'Wstm::Grn',          inverse_of: :transp_d
-    has_many    :grns_supplr,   class_name: 'Wstm::Grn',          inverse_of: :supplr_d
-    has_many    :invs_client,   class_name: 'Wstm::Invoice',      inverse_of: :client_d
+    embedded_in :firm,        class_name: 'Wstm::PartnerFirm',          inverse_of: :people
+    has_many    :dlns_client, class_name: 'Wstm::DeliveryNote',         inverse_of: :client_d
+    has_many    :dlns_transp, class_name: 'Wstm::DeliveryNote',         inverse_of: :transp_d
+    has_many    :grns_transp, class_name: 'Wstm::Grn',                  inverse_of: :transp_d
+    has_many    :grns_supplr, class_name: 'Wstm::Grn',                  inverse_of: :supplr_d
+    has_many    :invs_client, class_name: 'Wstm::Invoice',              inverse_of: :client_d
 
   end # FirmPerson
   PartnerFirmPerson = PartnerFirm::Person
 
-  class PartnerFirm::Unit
-    include Mongoid::Document
-    include Mongoid::Timestamps
-    include Trst::ViewHelpers
+  class PartnerFirm::Bank < Trst::Bank
 
-    field :role,      type: String
-    field :name,      type: Array,        default: ['ShortName','FullName']
-    field :slug,      type: String
-    field :chief,     type: String,       default: 'Lastname Firstname'
-    field :env_auth,  type: String
-    field :trn_auth,  type: String
-    field :main,      type: Boolean,      default: false
+    embedded_in :firm,        class_name: 'Wstm::PartnerFirm',          inverse_of: :banks
 
-    embedded_in :firm,      class_name: 'Wstm::PartnerFirm',  inverse_of: :units
-    has_many    :users,     class_name: 'Wstm::User',         inverse_of: :unit
-    has_many    :freights,  class_name: 'Wstm::Freight',      inverse_of: :unit
-    has_many    :dps,       class_name: 'Wstm::Cache',        inverse_of: :unit
-    has_many    :apps,      class_name: 'Wstm::Expenditure',  inverse_of: :unit
-    has_many    :stks,      class_name: 'Wstm::Stock',        inverse_of: :unit
-    has_many    :dlns,      class_name: 'Wstm::DeliveryNote', inverse_of: :unit
-    has_many    :grns,      class_name: 'Wstm::Grn',          inverse_of: :unit
-    has_many    :csss,      class_name: 'Wstm::Cassation',    inverse_of: :unit
-    has_many    :srts,      class_name: 'Wstm::Sorting',      inverse_of: :unit
-    has_many    :ins,       class_name: 'Wstm::FreightIn',    inverse_of: :unit
-    has_many    :outs,      class_name: 'Wstm::FreightOut',   inverse_of: :unit
-    has_many    :fsts,      class_name: 'Wstm::FreightStock', inverse_of: :unit
+  end # FirmBank
+  PartnerFirmBank = PartnerFirm::Bank
 
-    # @todo
-    def view_filter
-      [id, name[1]]
-    end
+  class PartnerFirm::Unit < Trst::Unit
+
+    field :env_auth,          type: String
+    field :trn_auth,          type: String
+
+    embedded_in :firm,        class_name: 'Wstm::PartnerFirm',          inverse_of: :units
+    has_many    :users,       class_name: 'Wstm::User',                 inverse_of: :unit
+    has_many    :freights,    class_name: 'Wstm::Freight',              inverse_of: :unit
+    has_many    :dps,         class_name: 'Wstm::Cache',                inverse_of: :unit
+    has_many    :apps,        class_name: 'Wstm::Expenditure',          inverse_of: :unit
+    has_many    :stks,        class_name: 'Wstm::Stock',                inverse_of: :unit
+    has_many    :dlns,        class_name: 'Wstm::DeliveryNote',         inverse_of: :unit
+    has_many    :grns,        class_name: 'Wstm::Grn',                  inverse_of: :unit
+    has_many    :csss,        class_name: 'Wstm::Cassation',            inverse_of: :unit
+    has_many    :srts,        class_name: 'Wstm::Sorting',              inverse_of: :unit
+    has_many    :ins,         class_name: 'Wstm::FreightIn',            inverse_of: :unit
+    has_many    :outs,        class_name: 'Wstm::FreightOut',           inverse_of: :unit
+    has_many    :fsts,        class_name: 'Wstm::FreightStock',         inverse_of: :unit
+
     # @todo
     def stock_now
       stks.find_by(id_date: Date.new(2000,1,31))
@@ -168,21 +135,4 @@ module Wstm
     end
   end # FirmUnit
   PartnerFirmUnit = PartnerFirm::Unit
-
-  class PartnerFirm::Bank
-    include Mongoid::Document
-    include Mongoid::Timestamps
-    include Trst::ViewHelpers
-
-    field :name,      type: String
-    field :swift,     type: String
-
-    embedded_in :firm,      class_name: 'Wstm::PartnerFirm',  inverse_of: :banks
-
-    # @todo
-    # def view_filter
-    #   [id, name[1]]
-    # end
-  end # FirmBank
-  PartnerFirmBank = PartnerFirm::Bank
 end # Wstm
