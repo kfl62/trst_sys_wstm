@@ -72,7 +72,7 @@
           %option{value: f.id, selected: freight.id.to_s == f.id.to_s}= f.name
   %table
     - if d > 0
-      - stk_day = freight.stks.sum_stks(y,m) + freight.ins.period(y,m,1,d - 1).sum(:qu) - freight.outs.period(y,m,1,d - 1).sum(:qu); stock = stk_day
+      - stk_day = freight.stks.sum_freights(y,m) + freight.ins.period(y,m,1,d - 1).sum(:qu) - freight.outs.period(y,m,1,d - 1).sum(:qu); stock = stk_day
       - ins_exp = freight.ins.daily(y,m,d).where(:doc_exp.ne => nil).sum(:qu)
       - ins_int = freight.ins.daily(y,m,d).where(:doc_grn.ne => nil).nonin(false).sum(:qu)
       - ins_sor = freight.ins.daily(y,m,d).where(:doc_sor.ne => nil).sum(:qu)
@@ -175,7 +175,7 @@
           %td{:colspan => "3"}
             %span.stats.ce= mat(@object,'stock_start')
           %td
-            %span.stats.ri= "%0.2f" % freight.stks.sum_stks(y,m)
+            %span.stats.ri= "%0.2f" % freight.stks.sum_freights(y,m)
         - data = @object.stats_one(fid,y,m); data.each do |d|
           %tr
             %td
