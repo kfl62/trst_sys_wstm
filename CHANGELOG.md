@@ -3,6 +3,15 @@
 release date: **2014-xx-xx**
 
 
+* **feature v0.2.990**,, v0.3.0 preparation
+   - feature date: **2014-06-06**
+   - bump version v0.2.990
+   - update CHANGELOG
+   - views `Wstm::Freight`, query and reports, method name changed since inheriting
+   - models `Wstm::Freight|In|Out|Stock` cleanup, inherit from `Trst`
+   - models `Trst::PartnerFirm|Person` cleanup, inherit from `Trst`
+
+
 * **feature v0.2.7.27**, bugfix [issue #12][#12]
    - feature date: **2014-06-02**
    - bump version v0.2.7.27
