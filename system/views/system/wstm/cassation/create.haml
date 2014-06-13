@@ -19,8 +19,8 @@
           - input_for @object, 'signed_by', {type: 'hidden',value: @current_user.id}
       %tr.pdb-05
         %td{colspan: '6'}
-          - label_for @object, 'text'
-          - input_for @object, 'text',      {value: mat(@object,'text_default'),style: 'ui-state-default width-350'}
+          - label_for @object, 'expl'
+          - input_for @object, 'expl',      {value: mat(@object,'expl_default'),style: 'ui-state-default width-350'}
     = partial "#{@path}/form", locals: {freights: freights}
     %tfoot
       %tr
