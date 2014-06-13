@@ -2,23 +2,22 @@
 module Wstm
   class Freight < Trst::Freight
 
-    field :code,    type: Array,        default: []
-    field :p03,     type: Boolean,      default: false
+    field       :code,        type: Array,                              default: []
+    field       :p03,         type: Boolean,                            default: false
+    # temproray solutioin, @todo  convert to Hash
+    field       :pu,          type: Float,                              default: 0.0
 
-    has_many    :ins,      class_name: "Wstm::FreightIn",         inverse_of: :freight
-    has_many    :outs,     class_name: "Wstm::FreightOut",        inverse_of: :freight
-    has_many    :stks,     class_name: "Wstm::FreightStock",      inverse_of: :freight
+    has_many    :ins,         class_name: "Wstm::FreightIn",            inverse_of: :freight
+    has_many    :outs,        class_name: "Wstm::FreightOut",           inverse_of: :freight
+    has_many    :stks,        class_name: "Wstm::FreightStock",         inverse_of: :freight
     # @todo remove relation to unit
-    belongs_to  :unit,     class_name: 'Wstm::PartnerFirm::Unit', inverse_of: :freights, index: true
+    belongs_to  :unit,        class_name: 'Wstm::PartnerFirm::Unit',    inverse_of: :freights, index: true
 
     before_save :handle_code
 
+    alias :unit :unit_belongs_to;
+
     class << self
-      # @todo remove relation to unit
-      def pos(s)
-        uid = Wstm::PartnerFirm.pos(s).id
-        by_unit_id(uid)
-      end
       # @todo
       def options_for_exp
         asc(:name).each_with_object([]){|f,a| a << [f.id,f.name,{id_stats: f.id_stats,um: f.um,pu: f.pu,p03: f.p03.to_s}]}
@@ -105,10 +104,6 @@ module Wstm
       end
     end # Class methods
 
-    # @todo remove relation to unit
-    def unit
-      Wstm::PartnerFirm.unit_by_unit_id(unit_id) rescue nil
-    end
     # @todo
     def stats_sum(*args)
       opts = args.last.is_a?(Hash) ? {}.merge!(args.pop) : {}
@@ -139,6 +134,10 @@ module Wstm
     # @todo
     def stock_by_key(key)
       stks_now.by_key(key).sum(:qu) || 0
+    end
+    # @todo temporary solution
+    def key(pu)
+      "#{id_stats}_#{"%.4f" % pu}"
     end
     protected
     # @todo

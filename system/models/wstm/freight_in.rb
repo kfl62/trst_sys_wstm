@@ -2,11 +2,13 @@
 module Wstm
   class FreightIn < Trst::FreightIn
 
-    belongs_to  :freight,  class_name: 'Wstm::Freight',           inverse_of: :ins, index: true
-    belongs_to  :unit,     class_name: 'Wstm::PartnerFirm::Unit', inverse_of: :ins, index: true
-    belongs_to  :doc_exp,  class_name: 'Wstm::Expenditure',       inverse_of: :freights, index: true
-    belongs_to  :doc_grn,  class_name: 'Wstm::Grn',               inverse_of: :freights, index: true
-    belongs_to  :doc_sor,  class_name: 'Wstm::Sorting',           inverse_of: :resl_freights  #, index: true
+    belongs_to  :freight,     class_name: 'Wstm::Freight',              inverse_of: :ins, index: true
+    belongs_to  :unit,        class_name: 'Wstm::PartnerFirm::Unit',    inverse_of: :ins, index: true
+    belongs_to  :doc_exp,     class_name: 'Wstm::Expenditure',          inverse_of: :freights, index: true
+    belongs_to  :doc_grn,     class_name: 'Wstm::Grn',                  inverse_of: :freights, index: true
+    belongs_to  :doc_sor,     class_name: 'Wstm::Sorting',              inverse_of: :resl_freights  #, index: true
+
+    alias :unit :unit_belongs_to; alias :name :freight_name; alias :um :freight_um
 
     index({ freight_id: 1, id_stats: 1, pu: 1, id_date: 1 })
     index({ id_stats: 1, pu: 1, id_date: 1 })
