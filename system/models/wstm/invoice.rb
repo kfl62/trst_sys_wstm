@@ -1,28 +1,16 @@
 # encoding: utf-8
 module Wstm
-  class Invoice
-    include Mongoid::Document
-    include Mongoid::Timestamps
-    include Trst::ViewHelpers
-    include Trst::DateHelpers
+  class Invoice < Trst::Invoice
 
-    field :name,        type: String
-    field :id_date,     type: Date,     default: -> {Date.today}
-    field :id_intern,   type: Boolean,  default: false
-    field :doc_name,    type: String
-    field :sum_100,     type: Float,    default: 0.00
-    field :deadl,       type: Date,     default: -> {Date.today}
-    field :payed,       type: Boolean,  default: false
+    embeds_many :freights,    class_name: "Wstm::InvoiceFreight",       inverse_of: :doc_inv, cascade_callbacks: true
+    has_many    :dlns,        class_name: "Wstm::DeliveryNote",         inverse_of: :doc_inv
+    has_many    :grns,        class_name: "Wstm::Grn",                  inverse_of: :doc_inv
+    has_many    :pyms,        class_name: "Wstm::Payment",              inverse_of: :doc_inv, dependent: :delete
+    belongs_to  :client,      class_name: "Wstm::PartnerFirm",          inverse_of: :invs_client
+    belongs_to  :client_d,    class_name: "Wstm::PartnerFirm::Person",  inverse_of: :invs_client
+    belongs_to  :signed_by,   class_name: "Wstm::User",                 inverse_of: :invs
 
     alias :file_name :name
-
-    embeds_many :freights,     class_name: "Wstm::InvoiceFreight",      inverse_of: :doc_inv, cascade_callbacks: true
-    has_many    :dlns,         class_name: "Wstm::DeliveryNote",        inverse_of: :doc_inv
-    has_many    :grns,         class_name: "Wstm::Grn",                 inverse_of: :doc_inv
-    has_many    :pyms,         class_name: "Wstm::Payment",             inverse_of: :doc_inv, dependent: :delete
-    belongs_to  :client,       class_name: "Wstm::PartnerFirm",         inverse_of: :invs_client
-    belongs_to  :client_d,     class_name: "Wstm::PartnerFirm::Person", inverse_of: :invs_client
-    belongs_to  :signed_by,    class_name: "Wstm::User",                inverse_of: :invs
 
     after_save    :'handle_dlns(true)'
     after_destroy :'handle_dlns(false)'
@@ -34,47 +22,11 @@ module Wstm
       reject_if: ->(attrs){ attrs[:val].empty? }
 
     class << self
-      # @todo
-      def nonin(nin = true)
-        where(id_intern: !nin)
-      end
-      # @todo
-      def auto_search(params)
-        day = params[:day].split('-').map(&:to_i)
-        where(id_date: Date.new(*day))
-        .or(doc_name: /#{params[:q]}/i)
-        .or(:client_id.in => Wstm::PartnerFirm.only(:id).where(name: /#{params[:q]}/i).map(&:id))
-        .each_with_object([]) do |i,a|
-          a << {id: i.id,
-                text: {
-                        name:  i.name,
-                        title: i.freights_list.join("\n"),
-                        doc_name: i.doc_name,
-                        client:   i.client.name[1]}}
-        end
-      end
     end # Class methods
+
     # @todo
     def client_d
       Wstm::PartnerFirm.person_by_person_id(client_d_id) rescue nil
-    end
-    # @todo
-    def increment_name
-      firm = Wstm::PartnerFirm.find_by(:firm => true)
-      invs = Wstm::Invoice.yearly(Date.today.year).nonin
-      if invs.count > 0
-        name = invs.asc(:name).last.name.next
-      else
-        prfx = Date.today.year.to_s[-2..-1]
-        name = "#{firm.name[0][0..2].upcase}_INV-#{prfx}00001"
-      end
-      name
-    end
-    # @todo
-    def freights_list
-      freights.asc(:id_stats).each_with_object([]) do |f,r|
-        r << "#{f.name}: #{"%.2f" % f.qu} kg ( #{"%.2f" % f.pu} )"
-      end
     end
     # @todo
     def pyms_list
@@ -103,9 +55,12 @@ module Wstm
   end # Invoice
 
   class InvoiceFreight < Trst::Freight
-    field :qu,          type: Float,     default: 0.00
+    field :qu,                type: Float,                              default: 0.00
+    field :val,               type: Float,                              default: 0.00
+    # temproray solutioin, @todo  convert to Hash
+    field :pu,                type: Float,                              default: 0.0
 
-    embedded_in :doc_inv, class_name: "Wstm::Invoice",  inverse_of: :freights
+    embedded_in :doc_inv,     class_name: "Wstm::Invoice",              inverse_of: :freights
   end # InvoiceFreight
 end # Wstm
 
