@@ -3,13 +3,38 @@
 release date: **2014-xx-xx**
 
 
+* **feature v0.2.991**,, v0.3.0 preparation
+   - feature date: **2014-06-13**
+   - bump version v0.2.991
+   - update CHANGELOG
+   - views `Wstm::PartnerFirm` query partials update
+   - models `Wstm::Stock` inherit from `Trst`, only overwrite
+   - models `Wstm::Payment` inherit from `Trst`, only overwrite
+   - views `Wstm::Sorting` renamed field
+   - i18n `Wstm::Sorting` renamed field
+   - models `Wstm::Sorting` inherit from `Trst`, only overwrite
+   - views `Wstm::Invoice` renamed field
+   - i18n `Wstm::Invoice` renamed field
+   - models `Wstm::Invoice` inherit from `Trst`, only overwrite
+   - models `Wstm::Grn` inherit from `Trst`, only overwrite
+   - models `Wstm::Freight|In|Out|Stock` update to current version from `Trst`
+   - models `Wstm::Expenditure` inherit from `Trst`, only overwrite
+   - views `Wstm::DeliveryNote` renamed field
+   - models `Wstm::DeliveryNote` inherit from `Trst`, only overwrite
+   - views `Wstm::Cassation` renamed field
+   - i18n `Wstm::Cassation` renamed field
+   - models `Wstm::Cassation` inherit from `Trst`, only overwrite
+   - models `Wstm::CacheBook` inherit from `Trst`, only overwrite
+   - models `Wstm::Cache` inherit from `Trst`, only overwrite
+
+
 * **feature v0.2.990**,, v0.3.0 preparation
    - feature date: **2014-06-06**
    - bump version v0.2.990
    - update CHANGELOG
    - views `Wstm::Freight`, query and reports, method name changed since inheriting
    - models `Wstm::Freight|In|Out|Stock` cleanup, inherit from `Trst`
-   - models `Trst::PartnerFirm|Person` cleanup, inherit from `Trst`
+   - models `Wstm::PartnerFirm|Person` cleanup, inherit from `Trst`
 
 
 * **feature v0.2.7.27**, bugfix [issue #12][#12]
