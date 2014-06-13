@@ -20,8 +20,8 @@
           - input_for @object, 'signed_by', {type: 'hidden',value: @current_user.id}
       %tr
         %td{colspan: '4'}
-          - label_for @object, 'text'
-          - input_for @object, 'text',      {value: mat(@object,'text_default'),style: 'ui-state-default width-350'}
+          - label_for @object, 'expl'
+          - input_for @object, 'expl',      {value: mat(@object,'expl_default'),style: 'ui-state-default width-350'}
       %tr.pdb-05
         - o_from = @object.from_freights.new
         %td.select-freight{colspan: '4'}

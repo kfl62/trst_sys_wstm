@@ -3,26 +3,16 @@
 module Wstm
   class Cache < Trst::Cache
 
-    field :name,        type: String,     default: -> {"DP_NR-#{Date.today.to_s}"}
-    field :expl,        type: String,     default: 'Vasy Ildiko'
-    field :id_intern,   type: Boolean,    default: false
+    field :id_intern,         type: Boolean,                            default: false
+    field :expl,              type: String,                             default: 'Vasy Ildiko'
 
-    belongs_to  :unit,     class_name: 'Wstm::PartnerFirm::Unit', inverse_of: :dps, index: true
+    belongs_to  :unit,        class_name: 'Wstm::PartnerFirm::Unit',    inverse_of: :dps, index: true
+
+    alias :unit :unit_belongs_to
 
     index({ unit_id: 1, id_date: 1 })
 
-    scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
-
     class << self
-      # @todo
-      def pos(s)
-        uid = Wstm::PartnerFirm.pos(s).id
-        by_unit_id(uid)
-      end
-      # @todo
-      def nonin(nin = true)
-        where(id_intern: !nin)
-      end
       # @todo
       def stats_pos(*args)
         opts = args.last.is_a?(Hash) ? {}.merge!(args.pop) : {mny_all: true,exp_all: true}
@@ -89,9 +79,5 @@ module Wstm
       end
     end # Class methods
 
-    #todo
-    def unit
-      Wstm::PartnerFirm.unit_by_unit_id(unit_id) rescue nil
-    end
   end # Cache
 end # Wstm
