@@ -5,5 +5,5 @@ ro:
         model_name: PV Sortare
         table_header_show: ['Material', 'UM', 'PU', 'Sortat(kg)', 'Valoare', 'Stock(kg)']
         table_header_form: ['Material', 'UM', 'Cant. din sortare', ' ']
-        text: 'Explicaţii'
-        text_default: 'PV sortare nr.'
+        expl: 'Explicaţii'
+        expl_default: 'PV sortare nr.'
