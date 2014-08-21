@@ -1,8 +1,8 @@
 firm:
   public:
-    controller: 'public'
-    views:      'wstm'
-    layout:     'wstm'
+    controller:     'public'
+    views:          'trst'
+    layout:         'layout'
     page:
       title:        'Waste Management Ltd.'
       header:       'WSTM motto'
@@ -15,10 +15,11 @@ firm:
       footer_text:  '&copy; 2005-2014 kfl62'
       footer_title: 'Ferenc-Loránt Kiss'
 
-  sass_dir:     'system/assets/stylesheets/wstm'
-  css_dir:      'public/stylesheets/wstm'
+  sass_dir:     'system/assets/stylesheets'
+  css_dir:      'public/stylesheets'
+  css_path:     '/stylesheets'
+  css_file:     'wstm.css'
   images_dir:   'public/images/wstm'
-  css_path:     '/stylesheets/wstm'
   images_path:  '/images/wstm'
   i18n_path:    'wstm'
   js_path:      'wstm'

@@ -3,6 +3,15 @@
 release date: **2014-xx-xx**
 
 
+* **feature v0.2.992**,, v0.3.0 preparation, fix [issue #13][#13]
+   - feature date: **2014-06-21**
+   - bump version v0.2.992
+   - update CHANGELOG
+   - config `firm.yml` update
+   - assets css,  use unique style in modules [kfl62/trst_sys_sinatra#12][trst_main#12]
+   - views `layout`, use unique layout in `public` controller [kfl62/trst_sys_sinatra#15][trst_main#15]
+
+
 * **feature v0.2.991**,, v0.3.0 preparation
    - feature date: **2014-06-13**
    - bump version v0.2.991
@@ -354,6 +363,8 @@ release date: **2013-07-18**
 
 * Add version `lib/demo/version.rb`
 
+[trst_main#15]: https://github.com/kfl62/trst_sys_sinatra/issues/15
+[trst_main#12]: https://github.com/kfl62/trst_sys_sinatra/issues/12
 [trst_main#6]: https://github.com/kfl62/trst_sys_sinatra/issues/6
 [#1]: https://github.com/kfl62/trst_sys_wstm/issues/1
 [#2]: https://github.com/kfl62/trst_sys_wstm/issues/2
