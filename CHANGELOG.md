@@ -3,8 +3,15 @@
 release date: **2014-xx-xx**
 
 
+* **feature v0.2.993**,, v0.3.0 preparation
+   - feature date: **2014-08-26**
+   - bump version v0.2.993
+   - update CHANGELOG
+   - assets js, cleanup, `main.js` update, fix [issue #14][#14]
+
+
 * **feature v0.2.992**,, v0.3.0 preparation, fix [issue #13][#13]
-   - feature date: **2014-06-21**
+   - feature date: **2014-08-21**
    - bump version v0.2.992
    - update CHANGELOG
    - config `firm.yml` update
