@@ -6,6 +6,7 @@
       %td
         - input_for @object,       'id_date', {id: 'date_show',name: 'strip'}
         - input_for @object,       'id_date', {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
+      - td_error_for @object,      'id_date'
     - tr_input_for @object,        'money_in',{style: 'ui-state-default focus'}
     - if @current_user.admin?
       - tr_input_for @object,      'money_out'
@@ -23,6 +24,7 @@
         %td
           - input_for @object,       'id_date', {id: 'date_show',name: 'strip'}
           - input_for @object,       'id_date', {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
+        - td_error_for @object,      'id_date'
       - tr_input_for @object,        'money_in',{style: 'ui-state-default focus'}
       - if @current_user.admin?
         - tr_input_for @object,      'money_out'
@@ -39,6 +41,7 @@
         %td
           - input_for @object,       'id_date', {id: 'date_show',name: 'strip', value: l(Date.today.end_of_month + 1, format: :trst)}
           - input_for @object,       'id_date', {id: 'date_send',type: 'hidden',value: (Date.today.end_of_month + 1).to_s}
+        - td_error_for @object,      'id_date'
       - tr_input_for @object,        'money_in'
       - tr_input_for @object,        'money_out'
       - tr_input_for @object,        'money_stock',{style: 'ui-state-default focus',value: "%.2f" % (Wstm::Cache.stats_all(Date.today.year,Date.today.month,mny_all: false,ext_all: false).each_with_object({}){|e,h| h[e[0].to_s]=e[-1]}[session[:unit_id]] || 0.0)}
