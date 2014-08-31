@@ -1,7 +1,5 @@
 # encoding: utf-8
 # Template for Wstm::Grn#pdf
-require 'prawn/measurement_extensions'
-require "prawn/templates"
 
 def firm
   Wstm::PartnerFirm.find_by(firm: true)

@@ -1,7 +1,5 @@
 # encoding: utf-8
 # Template for Sitaţie lunară (Contabilă).pdf
-require 'prawn/measurement_extensions'
-require "prawn/templates"
 
 def date_strt
   params[:date].split('-').map(&:to_i)

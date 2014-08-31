@@ -1,6 +1,4 @@
 # encoding: utf-8
-require 'prawn/measurement_extensions'
-require "prawn/templates"
 
 def firm
   Wstm::PartnerFirm.find_by(firm: true)

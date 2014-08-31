@@ -1,7 +1,5 @@
 # encoding: utf-8
 # Template for Document cumulativ APP.pdf
-require 'prawn/measurement_extensions'
-require 'prawn/layout'
 
 period     = params[:period].to_i
 unit_ids   = params[:unit_ids].split(',').map{|id| Moped::BSON::ObjectId(id)}
