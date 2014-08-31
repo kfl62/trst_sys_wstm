@@ -38,6 +38,4 @@
             %tr
   %tfoot
     %tr
-      %td.buttonset.ce
-        %button{:type => "button",data: {action: "cancel", icon: "circle-close"}}= t('button.cancel')
-
+      - td_buttonset(['cancel'],{style: 'ta-ce'})
