@@ -71,9 +71,9 @@
                       %span.val= "%.2f" % data.values.sum{|r| r[4]}
       %tfoot
         %tr
-          %td.buttonset.ce
-            %button.grn{type: 'button', data: {action: 'create', icon: 'circle-plus'}}=  t('button.create') + " NIR!"
-            %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')
+          %td.buttonset.ta-ce
+            %button.grn{type: 'button', data: {action: 'create', icon: 'fa fa-plus-square-o'}}=  t('button.create') + " NIR!"
+            %button{type: 'button', data: {action: "cancel", icon: 'fa fa-ban'}}= t('button.cancel')
 - else
   %span#hidden_data.hidden{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_grn'}}
   %form{action: "/sys/#{@path}", method: 'get'}
@@ -87,14 +87,14 @@
           %td
             %input#supplr_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: '2',ph: '0',search: 'Wstm::PartnerFirm',noinit: 'true'}}
             %input#supplr_d_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: '0',ph: '1',search: 'Wstm::PartnerFirm',noinit: 'true'}}
-            %button#supplr_d{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create') + " Delegat!"
+            %button#supplr_d{type: "button", data: {action: "create", icon: "fa fa-plus-square-o"}}=  t('button.create') + " Delegat!"
         %tr.pdb-05
           %td
             %input#transp_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: '2',ph: '2',search: 'Wstm::PartnerFirm',noinit: 'true'}}
             %input#transp_d_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: '0',ph: '3',search: 'Wstm::PartnerFirm',noinit: 'true'}}
-            %button#transp_d{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create') + " Delegat!"
+            %button#transp_d{type: "button", data: {action: "create", icon: "fa fa-plus-square-o"}}=  t('button.create') + " Delegat!"
       %tfoot
         %tr
-          %td.buttonset.ce
-            %button.grn{type: 'button', data: {action: 'create', icon: 'circle-plus'}}=  t('button.create') + " NIR!"
-            %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')
+          %td.buttonset.ta-ce
+            %button.grn{type: 'button', data: {action: 'create', icon: 'fa fa-plus-square-o'}}=  t('button.create') + " NIR!"
+            %button{type: 'button', data: {action: "cancel", icon: 'fa fa-ban'}}= t('button.cancel')
