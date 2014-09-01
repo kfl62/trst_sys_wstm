@@ -17,5 +17,5 @@
       - Wstm::PartnerFirm.find_by(firm: true).units.asc(:slug).each do |unit|
         %option{value: unit.id}= unit.name[1]
     %hr
-    %p.ce{style: 'margin:0px'}
-      %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+    %p.ta-ce
+      %button{type: "button",data: {action: "cancel",icon: "fa fa-ban"}}= t('button.cancel')
