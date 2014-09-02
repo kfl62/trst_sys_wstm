@@ -21,8 +21,7 @@
       = partial "/#{@path}/show"
       %tfoot
         %tr
-          %td.buttonset.ce
-            %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+          - td_buttonset(['cancel'],{style: 'ta-ce'})
 - else
   %span#hidden_data.hidden{data: {dialog: "delete",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_stock'}}
   %form{action: "/sys/#{@path}", method: "delete"}
@@ -40,6 +39,4 @@
       = partial "/#{@path}/show"
       %tfoot
         %tr
-          %td.buttonset.ce
-            %button{type: "button", data: {action: "delete",icon: "circle-minus"}}= t('button.delete')
-            %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+          - td_buttonset(['delete','cancel'],{style: 'ta-ce'})
