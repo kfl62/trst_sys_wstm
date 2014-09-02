@@ -22,9 +22,9 @@
             %button#transp_d{type: "button",data: {action: "create",icon: "circle-plus"}}= t('button.create') + " Delegat!"
       %tfoot
         %tr
-          %td.buttonset.ce
-            %button.dn{type: "button",data: {action: "create",icon: "circle-plus"}}= t('button.create') + " Anexa3!"
-            %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+          %td.buttonset.ta-ce
+            %button.dn{type: "button",data: {action: "create",icon: "fa fa-plus-square-o"}}= t('button.create') + " Anexa3!"
+            %button{type: "button",data: {action: "cancel",icon: "fa fa-ban"}}= t('button.cancel')
 -else
   %form{action: "/sys/#{@path}",method: "get"}
     = partial 'wstm/shared/select_unit'

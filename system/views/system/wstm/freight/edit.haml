@@ -9,8 +9,7 @@
     = partial "#{@path}/form"
     %tfoot
       %tr
-        %td.buttonset.ce{colspan: "3"}
-          %button{type: "button",data: {action: "save",icon: "disk",remove: 'false'}}= t('button.save')
-          - if @current_user.admin?
-            %button{type: "button",data: {action: "delete",icon: "circle-minus",remove: 'false'}}= t('button.delete')
-          %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+        - if @current_user.admin?
+          - td_buttonset(['save','delete','cancel'],{style: 'ta-ce'},'3')
+        - else
+          - td_buttonset(['save','cancel'],{style: 'ta-ce'},'3')

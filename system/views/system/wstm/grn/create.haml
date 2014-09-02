@@ -43,9 +43,7 @@
       = partial "#{@path}/form", locals: {dlns: dln_ary,id_intern: true,unit: unit}
       %tfoot
         %tr
-          %td.buttonset.ce
-            %button{type: "button", data: {action: "save",  icon: "disk",remove: 'false'}}= t('button.save')
-            %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+          - td_buttonset(['save','cancel'],{style: 'ta-ce'})
 - else
   :ruby
     unit     = firm.units.find_by(main: true)
@@ -86,6 +84,4 @@
       = partial "#{@path}/form", locals: {id_intern: false,unit: unit,freights: freights}
       %tfoot
         %tr
-          %td.buttonset.ce
-            %button{type: "button", data: {action: "save",  icon: "disk",remove: 'false'}}= t('button.save')
-            %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+          - td_buttonset(['save','cancel'],{style: 'ta-ce'})

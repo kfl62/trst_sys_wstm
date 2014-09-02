@@ -1,6 +1,5 @@
 # encoding: utf-8
 # Template for Wstm::CacheBook#pdf
-require 'prawn/measurement_extensions'
 
 def firm
   Wstm::PartnerFirm.find_by(firm: true)

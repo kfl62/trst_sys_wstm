@@ -9,7 +9,4 @@
     = partial "/#{@path}/show"
     %tfoot
       %tr
-        %td.buttonset.ce{colspan: "8"}
-          %button{type: "button",data: {action: "delete",icon: "circle-minus"}}= t('button.delete')
-          %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
-
+        - td_buttonset(['delete','cancel'],{style: 'ta-ce'},'8')

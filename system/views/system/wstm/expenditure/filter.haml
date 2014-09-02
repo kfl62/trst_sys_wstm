@@ -16,9 +16,9 @@
             %button.partner-person{type: "button",data: {action: "create", icon: "circle-plus"}}= t('button.create') + " Persoană fizică!"
       %tfoot
         %tr
-          %td.buttonset.ce
-            %button.expenditure{type: "button",data: {action: "create",icon: "circle-plus"}}= t('button.create') + " APP!"
-            %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+          %td.buttonset.ta-ce
+            %button.expenditure{type: "button",data: {action: "create",icon: "fa fa-plus-square-o"}}= t('button.create') + " APP!"
+            %button{type: "button",data: {action: "cancel",icon: "fa fa-ban"}}= t('button.cancel')
 -else
   %form{action: "/sys/#{@path}", method: "get"}
     = partial 'wstm/shared/select_unit'

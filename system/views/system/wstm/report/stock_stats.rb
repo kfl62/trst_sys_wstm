@@ -1,7 +1,5 @@
 # encoding: utf-8
 # Template for Sitaţie lunară (Statistică).pdf
-require 'prawn/measurement_extensions'
-require "prawn/templates"
 
 def unit_ids
   params[:unit_ids].split(',').map{|id| Moped::BSON::ObjectId(id)}
