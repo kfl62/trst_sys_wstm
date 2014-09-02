@@ -3,7 +3,15 @@
 release date: **2014-xx-xx**
 
 
-* **feature v0.2.993**,, v0.3.0 preparation
+* **feature v0.2.994**, v0.3.0 preparation
+   - feature date: **2014-09-02*
+   - bump version v0.2.994
+   - update CHANGELOG
+   - views all CRUD, use `td_buttonset`
+   - views pdf templates, fix [issue #15][#15]
+
+
+* **feature v0.2.993**, v0.3.0 preparation
    - feature date: **2014-08-26**
    - bump version v0.2.993
    - update CHANGELOG
@@ -19,7 +27,7 @@ release date: **2014-xx-xx**
    - views `layout`, use unique layout in `public` controller [kfl62/trst_sys_sinatra#15][trst_main#15]
 
 
-* **feature v0.2.991**,, v0.3.0 preparation
+* **feature v0.2.991**, v0.3.0 preparation
    - feature date: **2014-06-13**
    - bump version v0.2.991
    - update CHANGELOG
@@ -44,7 +52,7 @@ release date: **2014-xx-xx**
    - models `Wstm::Cache` inherit from `Trst`, only overwrite
 
 
-* **feature v0.2.990**,, v0.3.0 preparation
+* **feature v0.2.990**, v0.3.0 preparation
    - feature date: **2014-06-06**
    - bump version v0.2.990
    - update CHANGELOG
