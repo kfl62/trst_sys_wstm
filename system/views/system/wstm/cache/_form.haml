@@ -1,4 +1,31 @@
-- if to_soon
+- if @current_user.admin?
+  %tbody
+    - if end_of_month
+      - tr_input_for @object,      'name',    {value: "DP_NR-#{(Date.today.end_of_month + 1).to_s}"}
+    - else
+      - tr_input_for @object,      'name'
+    %tr
+      - td_label_for @object,      'id_date'
+      - if end_of_month
+        %td
+          - input_for @object,     'id_date', {id: 'date_show',name: 'strip', value: l(Date.today.end_of_month + 1, format: :trst)}
+          - input_for @object,     'id_date', {id: 'date_send',type: 'hidden',value: (Date.today.end_of_month + 1).to_s}
+      - else
+        %td
+          - input_for @object,     'id_date', {id: 'date_show',name: 'strip'}
+          - input_for @object,     'id_date', {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
+      - td_error_for @object,      'id_date'
+    - tr_input_for @object,        'money_in',{style: 'ui-state-default focus'}
+    - tr_input_for @object,        'money_out'
+    - tr_input_for @object,        'money_stock'
+    - if end_of_month
+      - tr_input_for @object,      'expl',    {value: "Sold iniţial, #{l(Date.today.end_of_month + 1, format: '%B')}"}
+    - else
+      - tr_input_for @object,      'expl'
+    %tr
+      %td{colspan: 3}
+        %input{type: 'hidden',name: "[#{@path}][unit_id]",value: @current_user.unit_id || session[:unit_id]}
+- else
   %tbody
     - tr_input_for @object,        'name'
     %tr
@@ -7,45 +34,8 @@
         - input_for @object,       'id_date', {id: 'date_show',name: 'strip'}
         - input_for @object,       'id_date', {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
       - td_error_for @object,      'id_date'
-    - tr_input_for @object,        'money_in',{style: 'ui-state-default focus'}
-    - if @current_user.admin?
-      - tr_input_for @object,      'money_out'
-      - tr_input_for @object,      'money_stock'
+    - tr_input_for @object,        'money_in'
     - tr_input_for @object,        'expl'
     %tr
       %td{colspan: 3}
         %input{type: 'hidden',name: "[#{@path}][unit_id]",value: @current_user.unit_id || session[:unit_id]}
--else
-  - unless @current_user.admin?
-    %tbody
-      - tr_input_for @object,        'name'
-      %tr
-        - td_label_for @object,      'id_date'
-        %td
-          - input_for @object,       'id_date', {id: 'date_show',name: 'strip'}
-          - input_for @object,       'id_date', {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
-        - td_error_for @object,      'id_date'
-      - tr_input_for @object,        'money_in',{style: 'ui-state-default focus'}
-      - if @current_user.admin?
-        - tr_input_for @object,      'money_out'
-        - tr_input_for @object,      'money_stock'
-      - tr_input_for @object,        'expl'
-      %tr
-        %td{colspan: 3}
-          %input{type: 'hidden',name: "[#{@path}][unit_id]",value: @current_user.unit_id || session[:unit_id]}
-  - else
-    %tbody
-      - tr_input_for @object,        'name', {value: "DP_NR-#{(Date.today.end_of_month + 1).to_s}"}
-      %tr
-        - td_label_for @object,      'id_date'
-        %td
-          - input_for @object,       'id_date', {id: 'date_show',name: 'strip', value: l(Date.today.end_of_month + 1, format: :trst)}
-          - input_for @object,       'id_date', {id: 'date_send',type: 'hidden',value: (Date.today.end_of_month + 1).to_s}
-        - td_error_for @object,      'id_date'
-      - tr_input_for @object,        'money_in'
-      - tr_input_for @object,        'money_out'
-      - tr_input_for @object,        'money_stock',{style: 'ui-state-default focus',value: "%.2f" % (Wstm::Cache.stats_all(Date.today.year,Date.today.month,mny_all: false,ext_all: false).each_with_object({}){|e,h| h[e[0].to_s]=e[-1]}[session[:unit_id]] || 0.0)}
-      - tr_input_for @object,        'expl',{value: "Sold iniţial, #{l(Date.today.end_of_month + 1, format: '%B')}"}
-      %tr
-        %td{colspan: 3}
-          %input{type: 'hidden',name: "[#{@path}][unit_id]",value: @current_user.unit_id || session[:unit_id]}

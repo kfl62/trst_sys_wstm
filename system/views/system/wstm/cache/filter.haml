@@ -1,18 +1,18 @@
 :ruby
   unit_id = @current_user.unit_id || session[:unit_id]
-%span#hidden_data.hidden{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_cache'}}
+%span#hidden_data{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_cache'}}
 -if unit_id
   - unless @current_user.unit_id
     = partial 'wstm/shared/select_unit'
+  %article#xhr_info.info
+    %i.fa.fa-info-circle.fa-lg.blue
+    - if @current_user.admin?
+      = t("intro.filter.main",data: mat(@object,'model_name'))
+    - else
+      = t("intro.filter.desk_cache",data: mat(@object,'model_name'))
   %form{action: "/sys/#{@path}",method: "get"}
     %table{cellspacing: "0"}
       %tbody
-        %tr.pdb-05
-          %td
-            - if @current_user.admin?
-              %span.info.width-400.ju= t("intro.filter.main",data: mat(@object,'model_name'))
-            - else
-              %span.info.width-400.ju= t("intro.filter.desk_cache",data: mat(@object,'model_name'))
         %tr.pdb-05
           %td
             %select#oid
@@ -25,5 +25,5 @@
             - td_buttonset(['create','show','edit','delete','cancel'],{style: 'ta-ce'})
           - else
             - td_buttonset(['create','show','edit','cancel'],{style: 'ta-ce'})
--else
+-  else
   = partial 'wstm/shared/select_unit'
