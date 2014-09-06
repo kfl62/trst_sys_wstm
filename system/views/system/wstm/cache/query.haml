@@ -12,7 +12,7 @@
     = t('intro.query.desk_cache.one')
   %table{:cellspacing => "0"}
     %thead
-      = partial "#{@path}/query_params", locals: {firm: firm, colspan: '4'}
+      = partial 'wstm/shared/select_params', locals: {firm: firm, colspan: '4'}
     %tbody.inner
       %tr
         - mat(@object,'table_one').each do |cn|
@@ -37,7 +37,7 @@
     = t('intro.query.desk_cache.all')
   %table{:cellspacing => "0"}
     %thead
-      = partial "#{@path}/query_params", locals: {colspan: '5'}
+      = partial 'wstm/shared/select_params', locals: {colspan: '5'}
     %tbody.inner
       %tr
         - mat(@object,'table_all').each do |cn|
