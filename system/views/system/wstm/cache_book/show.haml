@@ -1,9 +1,9 @@
-%span#hidden_data.hidden{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_cache_book'}}
+%span#hidden_data{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_cache_book'}}
 %form{action: "/sys/#{@path}",method: "get"}
   %table{cellspacing: "0"}
     %thead
-      %tr
-        %td
+      %tr.pdb-05
+        %td.d-in-bl
           %span.label Nr:
           %span.name.st= @object.name
           %span.label din:

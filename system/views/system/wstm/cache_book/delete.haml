@@ -1,4 +1,4 @@
-%span#hidden_data.hidden{data: {dialog: "delete",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_cache_book'}}
+%span#hidden_data{data: {dialog: "delete",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_cache_book'}}
 %form{action: "/sys/#{@path}",method: "delete"}
   %table{cellspacing: "0"}
     %thead
@@ -6,7 +6,7 @@
         %td
           %span.warning.width-350.ju= t('intro.delete.main', data: mat(@object,'model_name'))
       %tr.pdb-05
-        %td
+        %td.d-in-bl
           %span.label Nr:
           %span.name.st= @object.name
           %span.label din:
