@@ -6,10 +6,10 @@ define () ->
           next = $('tr.lines').not('.hidden').length + 1
           if next is 1
             $('tr.lines-header, tr.lines-total').addClass('hidden')
-            $('button.cb').button 'option', 'disabled', true
+            $('button[data-action=save]').button 'option', 'disabled', true
           else
             $('tr.lines-header, tr.lines-total').removeClass('hidden')
-            $('button.cb').button 'option', 'disabled', false
+            $('button[data-action=save]').button 'option', 'disabled', false
           $('span.lines').text(next - 1)
           $('span.add-line').text(next + '.')
           $('input.add-line').val('')
@@ -72,7 +72,7 @@ define () ->
             $ind = $input.data()
             if $input.hasClass('add-line')
               $input.on 'keyup', ()->
-                $('button.cb').button 'option', 'disabled', true if $input.val() isnt ''
+                $('button[data-action=save]').button 'option', 'disabled', true if $input.val() isnt ''
                 return
               if $input.hasClass('ins') or $input.hasClass('out')
                 $input.on 'keypress', (e)->
@@ -105,17 +105,17 @@ define () ->
                     $url = "sys/wstm/cache_book/#{$bd.oid}"
                   Trst.desk.init($url)
                   return
-            else if $button.hasClass('icon-plus-sign')
+            else if $button.hasClass('fa-plus-circle')
               $button.off 'click'
               $button.on 'click', ()->
                 Wstm.desk.cache_book.linesInsert()
                 return
-            else if $button.hasClass('icon-refresh')
+            else if $button.hasClass('fa-refresh')
               $button.off 'click'
               $button.on 'click', ()->
                 Wstm.desk.cache_book.linesNewReset()
                 return
-            else if $button.hasClass('icon-minus-sign')
+            else if $button.hasClass('fa-minus-circle')
               $tr = $button.parentsUntil('tbody').last()
               $button.off 'click'
               $button.on 'click', ()->
