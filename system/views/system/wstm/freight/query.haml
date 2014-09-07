@@ -7,7 +7,7 @@
   fid = params[:fid] ? params[:fid] == 'null' ? nil : params[:fid] : nil
   firm= Wstm::PartnerFirm.find_by(firm: :true); unit= firm.units.find(uid) if uid; freight = Wstm::Freight.find(fid) if fid
   data= uid ? unit.name[1] : firm.name[2]
-%span#hidden_data.hidden{data: {dialog: "query",title_data: data,model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_freight'}}
+%span#hidden_data{data: {dialog: "query",title_data: data,model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_freight'}}
 - if uid && fid.nil?
   %div.small
     %p.noFreight

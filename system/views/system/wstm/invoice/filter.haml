@@ -7,9 +7,9 @@
   grn_ary = params[:grn_ary] == 'true' ? [] : params[:grn_ary].split(',') if params[:grn_ary]
   bckgrnd = {"afdv" => "#FFBFF0","dpoa" => "#FFBFF0","ca21" => "#DDDDDD","cb25" => "#DDDDDD","sa57" => "#FFFF99","o139" => "#FFFF99","r25b" => "#BFFFBF","rafn" => "#BFFFBF"}
 - if params[:grn_ary]
-  %span#hidden_data.hidden{data: {dialog: "filter",title_data: mat(@object,'model_name_grn'),model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_invoice'}}
+  %span#hidden_data{data: {dialog: "filter",title_data: mat(@object,'model_name_grn'),model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_invoice'}}
   %form{action: "/sys/#{@path}", method: 'get'}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr.pdb-05
           %td
@@ -85,9 +85,9 @@
             %button.inv{type: 'button', data: {action: 'create', icon: 'fa fa-plus-square-o'}}=  t('button.create') + " Factură!"
             %button{type: 'button', data: {action: "cancel", icon: 'fa fa-ban'}}= t('button.cancel')
 - elsif params[:dln_ary]
-  %span#hidden_data.hidden{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_invoice'}}
+  %span#hidden_data{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_invoice'}}
   %form{action: "/sys/#{@path}", method: 'get'}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr.pdb-05
           %td
@@ -169,9 +169,9 @@
             %button.inv{type: 'button', data: {action: 'create', icon: 'fa fa-plus-square-o'}}=  t('button.create') + " Factură!"
             %button{type: 'button', data: {action: "cancel", icon: 'fa fa-ban'}}= t('button.cancel')
 - elsif params[:inv_ary] == 'payable'
-  %span#hidden_data.hidden{data: {dialog: "filter",title_data:mat(@object,'title_data_payable'),model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_payment'}}
+  %span#hidden_data{data: {dialog: "filter",title_data:mat(@object,'title_data_payable'),model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_payment'}}
   %form{action: "/sys/#{@path}", method: 'get'}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr.pdb-05
           %td
@@ -182,9 +182,9 @@
           %td.buttonset.ta-ce
             %button{type: 'button', data: {action: "cancel", icon: 'fa fa-ban'}}= t('button.cancel')
 - elsif params[:inv_ary] == 'receivable'
-  %span#hidden_data.hidden{data: {dialog: "filter",title_data:mat(@object,'title_data_receivable'),model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_payment'}}
+  %span#hidden_data{data: {dialog: "filter",title_data:mat(@object,'title_data_receivable'),model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_payment'}}
   %form{action: "/sys/#{@path}", method: 'get'}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr.pdb-05
           %td
@@ -195,9 +195,9 @@
           %td.buttonset.ta-ce
             %button{type: 'button', data: {action: "cancel", icon: 'fa fa-ban'}}= t('button.cancel')
 - else
-  %span#hidden_data.hidden{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_payment'}}
+  %span#hidden_data{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_payment'}}
   %form{action: "/sys/#{@path}", method: 'get'}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr.pdb-05
           %td

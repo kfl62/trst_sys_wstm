@@ -5,9 +5,9 @@
   sday,sout = 0,0
   s2dt= Wstm::User.where(:unit_id.ne => nil).asc(:name).map{|u| {id: u.id,text: u.name}}.to_json
   user_ids = params[:user_ids].split(',') if params[:user_ids]
-%span#hidden_data.hidden{data: {dialog: "query",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_user'}}}
+%span#hidden_data{data: {dialog: "query",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_user'}}}
 - if user_ids
-  %table{cellspacing: "0"}
+  %table
     %thead
       %tr.pdb-05
         %td{colspan: 5}
@@ -50,7 +50,7 @@
           %button{type: 'button',data: {action: "cancel",icon: 'circle-close'}}= t('button.cancel')
 - else
   %form{action: "/sys/#{@path}", method: 'get'}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr.pdb-05
           %td

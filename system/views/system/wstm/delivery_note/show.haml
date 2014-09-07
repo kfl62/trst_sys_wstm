@@ -3,7 +3,7 @@
   dups = Wstm::DeliveryNote.monthly(@object.id_date.year,@object.id_date.month).where(:id.ne => @object.id,doc_name: @object.doc_name,client_id: @object.client_id)
 %span#hidden_data{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_delivery_note'}}
 %form{action: "/sys/#{@path}", method: "get"}
-  %table{cellspacing: "0"}
+  %table
     %thead
       - if dups.count > 0
         - dups.asc(:id_date).each do |d|

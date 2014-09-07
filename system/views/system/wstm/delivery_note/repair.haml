@@ -5,7 +5,7 @@
   - unless @current_user.unit_id
     = partial 'wstm/shared/select_unit'
   %form{action: "/sys/#{@path}",method: "get"}
-    %table{cellspacing: "0"}
+    %table
       %thead
         - if @current_user.unit_id
           %tr.pdb-05

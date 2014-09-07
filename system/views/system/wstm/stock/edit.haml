@@ -4,7 +4,7 @@
   unit    = firm.units.find(unit_id)
   forbidden = @object.id_date != Date.new(2000,1,31)
 - if forbidden
-  %span#hidden_data.hidden{data: {dialog: "edit",model_name: mat(@object,'model_name'),oid:  @object.id,js_ext: 'desk_stock'}}
+  %span#hidden_data{data: {dialog: "edit",model_name: mat(@object,'model_name'),oid:  @object.id,js_ext: 'desk_stock'}}
   %table{:cellspacing => "0"}
     %thead
       %tr
@@ -26,7 +26,7 @@
         %td.buttonset.ce
           %button{type: "button", data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
 - else
-  %span#hidden_data.hidden{data: {dialog: "edit",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_stock'}}
+  %span#hidden_data{data: {dialog: "edit",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_stock'}}
   %form{action: "/sys/#{@path}", method: "put"}
     %table{:cellspacing => "0"}
       %thead

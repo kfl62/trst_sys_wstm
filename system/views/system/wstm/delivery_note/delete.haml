@@ -5,7 +5,7 @@
   %i.fa.fa-warning.fa-lg
   = t('intro.delete.desk_delivery_note',data: mat(@object,'model_name'))
 %form{action: "/sys/#{@path}",method: "delete"}
-  %table{cellspacing: "0"}
+  %table
     %thead
       %tr.pdb-05
         %td{colspan: "6"}

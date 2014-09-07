@@ -8,7 +8,7 @@
 %span#hidden_data{data: {dialog: 'report',title_data: data,model_name: mat(@object,'model_name'),oid: nil,js_ext: 'desk_report'}}
 - if ['cdd','grn','all'].include? ext
   %form{action: "/sys/wstm/report/print?rb=unit_daily_exp&ext=#{ext}"}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr.pdb-05
           %td{colspan: "2"}
@@ -42,7 +42,7 @@
           - td_buttonset ['print','cancel'],{style: 'ta-ce'},2
 - elsif ext == 'plst'
   %form{action: "/sys/wstm/report/print?rb=unit_plst"}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr.pdb-05
           %td{colspan: "2"}
@@ -65,7 +65,7 @@
           - td_buttonset ['print','cancel'],{style: 'ta-ce'},2
 - elsif ext == 'cb_monthly'
   %form{action: "/sys/wstm/report/print?rb=#{ext}"}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr.pdb-05
           %td{colspan: "2"}
@@ -83,7 +83,7 @@
 - else
   - type = ext.split('_')[1]
   %form{action: "/sys/wstm/report/print?rb=#{ext}"}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr.pdb-05
           %td{colspan: "2"}

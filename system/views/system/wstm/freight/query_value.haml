@@ -7,7 +7,7 @@
   firm= Wstm::PartnerFirm.find_by(firm: :true); unit= firm.units.find(uid) if uid
   data= uid ? unit.name[1] : firm.name[2]
   sum_strt,sum_ins,sum_outs,sum_stks = 0,0,0,0
-%span#hidden_data.hidden{data: {dialog: "query_value",title_data: data,model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_freight'}}
+%span#hidden_data{data: {dialog: "query_value",title_data: data,model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_freight'}}
 - if uid
   %div.small
     %p.noFreight

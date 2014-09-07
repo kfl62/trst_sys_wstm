@@ -6,9 +6,9 @@
     unit     = firm.units.find(unit_id)
     dln_ary  = params[:dln_ary].split(',')
     dln_ary.each{|id| @object.dlns << Wstm::DeliveryNote.find(id)}
-  %span#hidden_data.hidden{data: {dialog: 'create',model_name: mat(@object,'model_name_id_intern'),oid: 'null',js_ext: 'desk_grn'}}
+  %span#hidden_data{data: {dialog: 'create',model_name: mat(@object,'model_name_id_intern'),oid: 'null',js_ext: 'desk_grn'}}
   %form{action: "/sys/#{@path}/create?id_intern=true", method: 'post'}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr
           %td
@@ -52,9 +52,9 @@
     transp   = Wstm::PartnerFirm.find(params[:transp_id])
     transp_d = transp.people.find(params[:transp_d_id])
     freights = unit.freights.options_for_exp
-  %span#hidden_data.hidden{data: {dialog: 'create',model_name: mat(@object,'model_name'),oid: 'null',js_ext: 'desk_grn'}}
+  %span#hidden_data{data: {dialog: 'create',model_name: mat(@object,'model_name'),oid: 'null',js_ext: 'desk_grn'}}
   %form{action: "/sys/#{@path}", method: 'post'}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr
           %td

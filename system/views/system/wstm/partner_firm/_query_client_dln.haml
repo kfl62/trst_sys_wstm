@@ -5,7 +5,7 @@
   dlns= (m == 0 ? dlns.yearly(y) : dlns.monthly(y,m)) if dlns
   dlns= (params[:p03] == 'null' ? dlns : dlns.by_p03(params[:p03].to_bool)) if dlns
   doc_ary = params[:doc_ary].try(:split, ',')
-%span#hidden_data.hidden{data: {dialog: "query",title_data: 'Clienți',model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_partner_firm'}}
+%span#hidden_data{data: {dialog: "query",title_data: 'Clienți',model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_partner_firm'}}
 %p.small
   %input.param{type: 'hidden',name: 'query_client', value: 'true'}
   %input.param.doc_ary{type: 'hidden',name: 'doc_ary', value: params[:doc_ary]}
@@ -28,7 +28,7 @@
     - mat(@object,'p03_select').each do |o|
       %option{value: o[0], selected: o[0] == params[:p03]}= o[1]
 - unless dlns.try(:count) == 0 || dlns.try(:count).nil?
-  %table{cellspacing: "0"}
+  %table
     %thead
       %tr.pdb-05
         %td

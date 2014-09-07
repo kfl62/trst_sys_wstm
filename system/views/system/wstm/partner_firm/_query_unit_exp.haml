@@ -2,7 +2,7 @@
   firm= Wstm::PartnerFirm.find_by(firm: true)
   uid = @current_user.unit_id || session[:unit_id]
   unit= firm.units.find(uid) if uid
-%span#hidden_data.hidden{data: {dialog: "query",title_data: firm.name[1],model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_partner_firm'}}
+%span#hidden_data{data: {dialog: "query",title_data: firm.name[1],model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_partner_firm'}}
 -if uid
   - unless @current_user.unit_id
     = partial 'wstm/shared/select_unit'
@@ -13,7 +13,7 @@
         %option{value: year, selected: y == year}= year
     %button{type: "button",title: "#{t('button.print')}", data: {fn: "statsAnuala",uid: uid,action: "print",text: 'hidden', icon: "print"}}= t('button.print')
   %div.small
-    %table{cellspacing: "0"}
+    %table
       %tbody.inner.small
         %tr
           - %w{Material Ian Feb Mar Apr Mai Iun Iul Aug Sep Oct Noi Dec}.each do |title|
