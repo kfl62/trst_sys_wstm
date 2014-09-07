@@ -2,12 +2,12 @@
   client  = Wstm::PartnerPerson.find(params[:client_id])
   unit_id = @current_user.unit_id || session[:unit_id]
   freights= Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_exp
-%span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_expenditure'}}
+%span#hidden_data{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_expenditure'}}
 %form{action: "/sys/#{@path}",method: "post"}
-  %table{:cellspacing => "0"}
+  %table
     %thead
-      %tr
-        %td.ce{colspan: "9"}
+      %tr.pdb-05
+        %td.ta-ce{colspan: "9"}
           %span.st Nr.
           - input_for @object, 'name',      {value: @object.increment_name(unit_id),style: 'ui-state-default ce id_intern'}
           %span.st din data de:
@@ -18,7 +18,9 @@
           - input_for @object, 'signed_by', {type: 'hidden', value: @current_user.id}
       %tr.pdb-05
         %td{colspan: "9"}
-          %span.info.width-450= t('intro.create.desk_expenditure',client.i18n_hash)
+          %detail.detail
+            %i.fa.fa-info-circle.fa-lg.blue
+            = t('intro.create.desk_expenditure',client.i18n_hash)
     = partial "#{@path}/form",locals: {freights: freights,unit_id: unit_id}
     %tfoot
       %tr
