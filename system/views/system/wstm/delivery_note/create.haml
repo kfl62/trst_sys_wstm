@@ -8,14 +8,14 @@
   freights,with_pu = (firm.id != client.id && @current_user.admin?) ? \
       [Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln_with_pu,true] : \
       [Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln,false]
-%span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_delivery_note'}}
+%span#hidden_data{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_delivery_note'}}
 %form{action: "/sys/#{@path}",method: "post"}
   %table{:cellspacing => "0"}
     %thead
       %tr
-        %td.ce
+        %td
           - label_for @object, 'name'
-          - input_for @object, 'name', {value: @object.increment_name(unit_id),style: 'ui-state-default ce id_intern'}
+          - input_for @object, 'name',         {value: @object.increment_name(unit_id),style: 'ui-state-default ce id_intern'}
           - label_for @object, 'id_date'
           - input_for @object, 'id_date',      {id: 'date_show',name: 'strip'}
           - input_for @object, 'id_date',      {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
@@ -28,18 +28,20 @@
           - if client_d
             - input_for @object, 'client_d_id',{type: 'hidden',value: client_d.id}
       %tr.pdb-05
-        %td.ce
+        %td
           - label_for @object, 'doc_name'
           - input_for @object, 'doc_name',     {style: 'ui-state-default focus', value: "#{firm.name[0][0..2].upcase}-"}
           - label_for @object, 'doc_plat'
           - input_for @object, 'doc_plat'
       %tr.pdb-05
         %td
-          %span.info.width-500.ju= t('intro.create.desk_delivery_note',firm: firm.name[2],firm_d: @current_user.name,client: client.name[2],client_d: (client_d.name rescue 'Anonymous'),transp: transp.name[2],transp_d: transp_d.name)
+          %detail.detail.w-50rem.ta-ju
+            %i.fa.fa-info-circle.fa-lg.blue
+            = t('intro.create.desk_delivery_note',firm: firm.name[2],firm_d: @current_user.name,client: client.name[2],client_d: (client_d.name rescue 'Anonymous'),transp: transp.name[2],transp_d: transp_d.name)
     %tbody
       %tr
         %td
-          %table.scroll{:cellspacing => "0", style: "font-size:12px"}
+          %table.inner.scroll
             = partial "#{@path}/form",locals: {freights: freights,client: client,with_pu: with_pu}
     %tfoot
       %tr

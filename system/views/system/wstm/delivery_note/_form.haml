@@ -2,7 +2,7 @@
   %tbody.inner
     %tr.scroll
       - mat(@object,'table_header_form_with_pu').each do |label|
-        %td.ce= label
+        %td= label
     - if @object.freights.empty?
       - for i in 0..4 do; o = @object.freights.new
         %tr.freight
@@ -16,32 +16,32 @@
             - input_for   o, 'id_intern', {type: 'hidden',nested: 'doc_dln',value: client.firm.to_s,index: i}
             - input_for   o, 'um',        {type: 'hidden',nested: 'doc_dln',value: 'strip',index: i}
             - input_for   o, 'freight_id',{type: 'hidden',nested: 'doc_dln',value: 'strip',index: i}
-          %td
+          %td.ta-ce
             %span.um kg
-          %td
-            %span.val.puf 0.00
+          %td.ta-ri
+            %span.puf 0.00
             - input_for   o, 'pu',        {type: 'hidden',nested: 'doc_dln',value: 'strip',index: i}
             - input_for   o, 'val',       {type: 'hidden',nested: 'doc_dln',value: 'strip',index: i}
-          %td
-            %span.val.stck 0.00
-          %td.ce
-            - input_for  o, 'qu',         {style: 'qu',nested: 'doc_dln',index: i}
-          %td.ce
-            - input_for  o, 'pu_invoice', {style: 'qu',nested: 'doc_dln',index: i}
+          %td.ta-ri
+            %span.stck 0.00
+          %td.w-8rem.ta-ce.st
+            - input_for  o, 'qu',         {style: 'w-6rem ta-ri',nested: 'doc_dln',index: i}
+          %td.w-8rem.ta-ce.st
+            - input_for  o, 'pu_invoice', {style: 'w-6rem ta-ri',nested: 'doc_dln',index: i}
             - input_for  o, 'val_invoice',{type: 'hidden',nested: 'doc_dln',index: i}
-          %td
+          %td.ta-ri
             %span.res 0.00
-          %td.action-1
-            %span.icon-remove-sign{title: t('button.delete')}
+          %td
+            %span.fa.fa-minus-circle.red{title: t('button.delete')}
       %tr.total
-        %td.ce.st{colspan: '4'}
+        %td{colspan: '4'}
           %span Total
         %td
           %span.res 0.00
         %td{colspan: '2'}
           %span &nbsp;
-          %td.action-1
-            %span.icon-plus-sign{title: t('button.new_row')}
+          %td
+            %span.fa.fa-plus-circle{title: t('button.new_row')}
     - else
       %tr
         %td{colspan: '8'}
@@ -50,7 +50,7 @@
   %tbody.inner
     %tr.scroll
       - mat(@object,'table_header_form').each do |label|
-        %td.ce= label
+        %td= label
     - if @object.freights.empty?
       - for i in 0..4 do; o = @object.freights.new
         %tr.freight
@@ -64,26 +64,26 @@
             - input_for   o, 'id_intern', {type: 'hidden',nested: 'doc_dln',value: client.firm.to_s,index: i}
             - input_for   o, 'um',        {type: 'hidden',nested: 'doc_dln',value: 'strip',index: i}
             - input_for   o, 'freight_id',{type: 'hidden',nested: 'doc_dln',value: 'strip',index: i}
-          %td
+          %td.ta-ce
             %span.um kg
-          %td
-            %span.val.stck 0.00
-          %td.ce
-            - input_for  o, 'qu',        {style: ' qu',nested: 'doc_dln',index: i}
+          %td.ta-ri
+            %span.stck 0.00
+          %td.w-8rem.ta-ce
+            - input_for  o, 'qu',        {style: 'w-6rem ta-ri',nested: 'doc_dln',index: i}
             - input_for  o, 'pu',        {type: 'hidden',nested: 'doc_dln',value: 'strip',index: i}
-          %td
+          %td.ta-ri
             %span.res 0.00
-          %td.action-1
-            %span.icon-remove-sign{title: t('button.delete')}
+          %td
+            %span.fa.fa-minus-circle.red{title: t('button.delete')}
       %tr.total
-        %td.ce.st{colspan: '3'}
+        %td{colspan: '3'}
           %span Total
         %td
           %span.res 0.00
         %td
           %span &nbsp;
-          %td.action-1
-            %span.icon-plus-sign{title: t('button.new_row')}
+          %td
+            %span.fa.fa-plus-circle{title: t('button.new_row')}
     - else
       %tr.pdb-05
         %td{colspan: '6'}
