@@ -51,10 +51,10 @@
                 if ($('#client_d_id').val() !== '' && $('#client_d_id').val() !== 'new') {
                   $url += "&client_d_id=" + ($('#client_d_id').val());
                 }
-                $('button.dn').data('url', $url);
-                $('button.dn').button('option', 'disabled', false);
+                $('button[data-action="create"]').data('url', $url);
+                $('button[data-action="create"]').button('option', 'disabled', false);
               } else {
-                $('button.dn').button('option', 'disabled', true);
+                $('button[data-action="create"]').button('option', 'disabled', true);
               }
             },
             create: function() {
@@ -63,7 +63,7 @@
                 return false;
               } else {
                 $('button[data-action="save"]').button('option', 'disabled', false);
-                $('span.icon-plus-sign').show();
+                $('span.fa-plus-circle').show();
                 return true;
               }
             },
@@ -312,13 +312,13 @@
                  */
               }
             });
-            $('tbody').on('click', 'span.icon-remove-sign', function() {
+            $('tbody').on('click', 'span.fa-minus-circle', function() {
               var $button;
               $button = $(this);
               $button.parentsUntil('tbody').last().remove();
               Wstm.desk.delivery_note.calculate();
             });
-            $('span.icon-plus-sign').on('click', function() {
+            $('span.fa-plus-circle').on('click', function() {
               $('tr.total').before(Wstm.desk.tmp.newRow.clone());
               if (!$('#scroll-container').length) {
                 if ($('table.scroll').height() > 320) {
@@ -331,7 +331,7 @@
               Wstm.desk.delivery_note.selects($('tr.freight').last().find('select'));
               Wstm.desk.delivery_note.calculate();
             });
-            $('span.icon-plus-sign').hide();
+            $('span.fa-plus-circle').hide();
           },
           init: function() {
             var min, now;

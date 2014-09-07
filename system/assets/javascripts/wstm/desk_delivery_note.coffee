@@ -40,10 +40,10 @@ define () ->
               $url += "&transp_id=#{$('#transp_id').val()}"
               $url += "&transp_d_id=#{$('#transp_d_id').val()}"
               $url += "&client_d_id=#{$('#client_d_id').val()}" if $('#client_d_id').val() isnt '' and $('#client_d_id').val() isnt 'new'
-              $('button.dn').data('url', $url)
-              $('button.dn').button 'option', 'disabled', false
+              $('button[data-action="create"]').data('url', $url)
+              $('button[data-action="create"]').button 'option', 'disabled', false
             else
-              $('button.dn').button 'option', 'disabled', true
+              $('button[data-action="create"]').button 'option', 'disabled', true
             return
           create: ()->
             if (/[A-Z]{3}-$/).test($('input[name*="doc_name"]').val()) or $('input[name*="doc_name"]').val() is '' or $('input[name*="doc_plat"]').val() is ''
@@ -51,7 +51,7 @@ define () ->
               return false
             else
               $('button[data-action="save"]').button 'option', 'disabled', false
-              $('span.icon-plus-sign').show()
+              $('span.fa-plus-circle').show()
               return true
           stock: (s,q)->
             if s - q < 0
@@ -231,12 +231,12 @@ define () ->
               ###
               Buttons default handler Trst.desk.buttons
               ###
-          $('tbody').on 'click', 'span.icon-remove-sign', ()->
+          $('tbody').on 'click', 'span.fa-minus-circle', ()->
             $button = $(@)
             $button.parentsUntil('tbody').last().remove()
             Wstm.desk.delivery_note.calculate()
             return
-          $('span.icon-plus-sign').on 'click', ()->
+          $('span.fa-plus-circle').on 'click', ()->
             $('tr.total').before(Wstm.desk.tmp.newRow.clone())
             (Wstm.desk.scrollHeader($('table.scroll'),308) if $('table.scroll').height() > 320) unless $('#scroll-container').length
             $('tr.freight').last().find('input').each ()->
@@ -245,7 +245,7 @@ define () ->
             Wstm.desk.delivery_note.selects($('tr.freight').last().find('select'))
             Wstm.desk.delivery_note.calculate()
             return
-          $('span.icon-plus-sign').hide()
+          $('span.fa-plus-circle').hide()
           return
         init: ()->
           Wstm.desk.tmp.clear()
