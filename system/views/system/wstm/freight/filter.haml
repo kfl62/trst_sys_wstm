@@ -4,15 +4,15 @@
 -if unit_id
   - unless @current_user.unit_id
     = partial 'wstm/shared/select_unit'
+  %article#xhr_info.info
+    %i.fa.fa-info-circle.fa-lg.blue
+    - if @current_user.admin?
+      = t("intro.filter.main",data: mat(@object,'model_name'))
+    - else
+      =  t("intro.filter.desk_freight",data: mat(@object,'model_name'))
   %form{action: "/sys/#{@path}",method: "get"}
     %table
       %tbody
-        %tr.pdb-05
-          %td
-            - if @current_user.admin?
-              %span.info.info.width-400.ju= t("intro.filter.main",data: mat(@object,'model_name'))
-            - else
-              %span.info.info.width-300.ju= t("intro.filter.desk_freight",data: mat(@object,'model_name'))
         %tr.pdb-05
           %td
             %select#oid
