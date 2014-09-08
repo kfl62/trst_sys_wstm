@@ -1,11 +1,11 @@
 :ruby
-  daily, firm, colspan = locals[:daily], locals[:firm], locals[:colspan]
+  colspan, daily, firm, freight = locals[:colspan], locals[:daily], locals[:firm], locals[:freight]
   uid = @current_user.unit_id ? @current_user.unit_id : params[:uid] == 'null' ? nil : params[:uid]
+  fid = params[:fid] ? params[:fid] == 'null' ? nil : params[:fid] : nil
   today = Date.today;   cols = 0
   y = params[:p_y].nil? ? today.year  : params[:p_y].to_i
   m = params[:p_m].nil? ? today.month : params[:p_m].to_i
   d = params[:p_d].nil? ? 0           : params[:p_d].to_i
-
 %tr.pdb-05
   %td{colspan: colspan}
     %select.param{name: 'p_y'}
@@ -26,3 +26,9 @@
           %option{value: 'null'} Toate unităţile
           - firm.units.asc(:slug).each do |pos|
             %option{value: pos.id, selected: uid.to_s == pos.id.to_s}= pos.name[1]
+    - if freight
+      %select.param{name: 'fid'}
+        %option{value: 'null'}= t('select.freight_all')
+        - freight.unit.freights.asc(:id_stats).each do |f|
+          %option{value: f.id, selected: freight.id.to_s == f.id.to_s}= f.name
+      %input.param{name: 'uid', type: 'hidden', value: freight.unit_id}
