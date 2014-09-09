@@ -1,5 +1,5 @@
 :ruby
-  colspan, daily, firm, freight = locals[:colspan], locals[:daily], locals[:firm], locals[:freight]
+  colspan, daily, firm, freight, p03 = locals[:colspan], locals[:daily], locals[:firm], locals[:freight], locals[:p03]
   uid = @current_user.unit_id ? @current_user.unit_id : params[:uid] == 'null' ? nil : params[:uid]
   fid = params[:fid] ? params[:fid] == 'null' ? nil : params[:fid] : nil
   today = Date.today;   cols = 0
@@ -32,3 +32,7 @@
         - freight.unit.freights.asc(:id_stats).each do |f|
           %option{value: f.id, selected: freight.id.to_s == f.id.to_s}= f.name
       %input.param{name: 'uid', type: 'hidden', value: freight.unit_id}
+    - if p03
+      %select.param{name:'p03'}
+        - mat(@object,'p03_select')[p03].each do |o|
+          %option{value: o[0], selected: o[0] == params[:p03]}= o[1]
