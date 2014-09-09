@@ -12,7 +12,7 @@
 %form{action: "/sys/#{@path}",method: "post"}
   %table{:cellspacing => "0"}
     %thead
-      %tr
+      %tr.pdb-05
         %td
           - label_for @object, 'name'
           - input_for @object, 'name',         {value: @object.increment_name(unit_id),style: 'ui-state-default ce id_intern'}

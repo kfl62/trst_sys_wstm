@@ -2,11 +2,11 @@
   unit_id = @current_user.unit_id || session[:unit_id]
 %span#hidden_data{data: {dialog: "filter",title_data: mat(Wstm::PartnerPerson,'model_name'),model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_expenditure'}}
 -if unit_id
-  - unless @current_user.unit_id
-    = partial 'wstm/shared/select_unit'
-  %article#xhr_info.info.w-50rem.ta-ju
+  %article#xhr_info.info
     %i.fa.fa-info-circle.fa-lg.blue
     = t("intro.filter.desk_expenditure",data: mat(@object,'model_name'))
+  - unless @current_user.unit_id
+    = partial 'wstm/shared/select_unit'
   %form{action: "/sys/#{@path}",method: "get"}
     %table
       %tbody
@@ -16,7 +16,7 @@
             %button.partner-person{type: "button",data: {action: "create", icon: "circle-plus"}}= t('button.create') + " APP!"
       %tfoot
         %tr
-          - td_buttonset(['create','cancel'],{style: 'ta-ce w-50rem', create: {text: t('button.create') + " Anexa3!"}})
+          - td_buttonset(['create','cancel'],{style: 'ta-ce', create: {text: t('button.create') + " Anexa3!"}})
 -else
   %form{action: "/sys/#{@path}", method: "get"}
     = partial 'wstm/shared/select_unit'

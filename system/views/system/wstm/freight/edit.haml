@@ -5,7 +5,9 @@
       %tr.pdb-05
         %td{colspan: "3"}
           - unless @current_user.admin?
-            %span.info= t('intro.edit.desk_freight')
+            %detail.info
+              %i.fa.fa-info-circle.fa-lg.blue
+              = t('intro.edit.desk_freight')
     = partial "#{@path}/form"
     %tfoot
       %tr
