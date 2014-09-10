@@ -9,7 +9,7 @@
   %p.small
     %span.small Alegeți anul:&nbsp;&nbsp;
     %select.param{name: 'y'}
-      - [2011,2012,2013,2014].each do |year|
+      - (2012..Date.today.year).each do |year|
         %option{value: year, selected: y == year}= year
     %button{type: "button",title: "#{t('button.print')}", data: {fn: "statsAnuala",uid: uid,action: "print",text: 'hidden', icon: "print"}}= t('button.print')
   %div.small
