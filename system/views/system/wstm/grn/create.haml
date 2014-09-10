@@ -35,7 +35,7 @@
           %td
             %input#transp_d_id.select2{type: 'hidden',name: '[wstm/grn][transp_d_id]', style: 'width:200px', data: {minlength: '0',ph: '3',search: 'Wstm::PartnerFirm',noinit: 'true',transp_id: firm.id}}
             - input_for @object, 'doc_plat', {style: 'ui-state-default ta-ce',placeholder: mat(@object,'doc_plat')}
-            %button#transp_d{type: "button", data: {action: "create", icon: "circle-plus"}}=  t('button.create') + " Delegat!"
+            %button#transp_d{type: "button", data: {action: "create", icon: "fa fa-plus-square-o"}}=  t('button.create') + " Delegat!"
         %tr.pdb-05
           %td
             %hr
