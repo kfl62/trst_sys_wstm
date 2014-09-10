@@ -11,7 +11,7 @@
     %select.param{name: 'y'}
       - (2012..Date.today.year).each do |year|
         %option{value: year, selected: y == year}= year
-    %button{type: "button",title: "#{t('button.print')}", data: {fn: "statsAnuala",uid: uid,action: "print",text: 'hidden', icon: "print"}}= t('button.print')
+    %button{type: "button",title: "#{t('button.print')}", data: {fn: "statsAnuala",uid: uid,action: "print",text: 'hidden', icon: "fa fa-print"}}= t('button.print')
   %div.small
     %table
       %tbody.inner.small
