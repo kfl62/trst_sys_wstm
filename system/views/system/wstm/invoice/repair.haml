@@ -5,7 +5,9 @@
       - if @current_user.unit_id
         %tr.pdb-05
           %td
-            %span.info= t('intro.repair.desk_invoice')
+            %detail.detail
+              %i.fa.fa-info-circle.fa-lg.blue
+              = t('intro.repair.desk_invoice')
             %input#date_send{type: 'hidden', value: Date.today.to_s}
       - else
         %tr.pdb-05

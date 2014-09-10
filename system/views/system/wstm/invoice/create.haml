@@ -10,10 +10,10 @@
   %form{action: "/sys/#{@path}", method: 'post'}
     %table
       %thead
-        %tr
+        %tr.pdb-05
           %td
             - label_for @object, 'name'
-            - input_for @object, 'name',        {value: @object.increment_name,style: 'ui-state-default ce id_intern'}
+            - input_for @object, 'name',        {value: @object.increment_name,style: 'ui-state-default ta-ce id_intern'}
             - label_for @object, 'id_date'
             - input_for @object, 'id_date',     {id: 'date_show',name: 'strip'}
             - input_for @object, 'id_date',     {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
@@ -24,16 +24,18 @@
             - grn_ary.each do |grn|
               -input_for @object,'grn_ids',     {type: 'hidden',name: "[#{@path}][grn_ids][]",value: grn}
         %tr.pdb-05
-          %td
-            - input_for  @object,'doc_name',    {placeholder: mat(@object,'doc_name'), style: 'ui-state-default focus'}
+          %td.w-35rem
+            - input_for  @object,'doc_name',    {placeholder: mat(@object,'doc_name'), style: 'ui-state-default ta-ce focus'}
         %tr.pdb-05
           %td
-            %span.info.width-450.ju= t('intro.create.desk_invoice.grn')
+            %detail.detail.w-45rem
+              %i.fa.fa-info-circle.fa-lg.blue
+              = t('intro.create.desk_invoice.grn')
         %tr.pdb-05
           %td
             %hr
-            %span.small.width-450{style: 'display:inline-block'}= mat(@object,'grns_name').concat @object.grns.map(&:doc_name).join(', ')
-        = partial "#{@path}/form", locals: {grns: grn_ary,dlns: nil}
+            %span{style: 'display:inline-block'}= mat(@object,'grns_name').concat @object.grns.map(&:doc_name).join(', ')
+        = partial "#{@path}/form", locals: {grns: grn_ary, dlns: nil}
         %tfoot
           %tr
             - td_buttonset(['save','cancel'],{style: 'ta-ce'})
@@ -47,10 +49,10 @@
   %form{action: "/sys/#{@path}", method: 'post'}
     %table
       %thead
-        %tr
+        %tr.pdb-05
           %td
             - label_for @object, 'name'
-            - input_for @object, 'name',        {value: @object.increment_name,style: 'ui-state-default ce id_intern'}
+            - input_for @object, 'name',        {value: @object.increment_name,style: 'ui-state-default ta-ce id_intern'}
             - label_for @object, 'id_date'
             - input_for @object, 'id_date',     {id: 'date_show',name: 'strip'}
             - input_for @object, 'id_date',     {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
@@ -61,15 +63,17 @@
             - dln_ary.each do |dn|
               -input_for @object,'dln_ids',     {type: 'hidden',name: "[#{@path}][dln_ids][]",value: dn}
         %tr.pdb-05
-          %td
-            - input_for  @object,'doc_name',    {placeholder: mat(@object,'doc_name'), style: 'ui-state-default focus'}
+          %td.w-35rem
+            - input_for  @object,'doc_name',    {placeholder: mat(@object,'doc_name'), style: 'ui-state-default ta-ce focus'}
         %tr.pdb-05
           %td
-            %span.info.width-450.ju= t('intro.create.desk_invoice.main')
+            %detail.detail.w-45rem
+              %i.fa.fa-info-circle.fa-lg.blue
+              = t('intro.create.desk_invoice.main')
         %tr.pdb-05
           %td
             %hr
-            %span.small.width-450{style: 'display:inline-block'}= mat(@object,'dlns_name').concat @object.dlns.map(&:doc_name).join(', ')
+            %span{style: 'display:inline-block'}= mat(@object,'dlns_name').concat @object.dlns.map(&:doc_name).join(', ')
         = partial "#{@path}/form", locals: {dlns: dln_ary, grns: nil}
         %tfoot
           %tr

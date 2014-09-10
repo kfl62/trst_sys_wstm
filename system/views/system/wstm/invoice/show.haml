@@ -8,10 +8,14 @@
     %thead
       %tr.pdb-05
         %td
-        -if grns
-          %span.info.width-450.ju= t('intro.show.desk_invoice.grn',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
-        -else
-          %span.info.width-450.ju= t('intro.show.desk_invoice.main',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
+          -if grns
+            %detail.detail.w-45rem
+              %i.fa.fa-info-circle.fa-lg.blue
+              = t('intro.show.desk_invoice.grn',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
+          -else
+            %detail.detail.w-45rem
+              %i.fa.fa-info-circle.fa-lg.blue
+              = t('intro.show.desk_invoice.main',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
     = partial "#{@path}/show"
     %tfoot
       %tr
