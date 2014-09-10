@@ -10,10 +10,10 @@
           %input.select2{type: 'hidden',style: 'width:300px',data: {minlength: '3',ph: '0',search: @path.classify}}
     %tfoot
       %tr
-        %td.buttonset.ce
-          %button{:type => "button",data: {action: "create",icon: "circle-plus"}}=  t('button.create')
-          %button{:type => "button",data: {action: "show",icon: "clipboard"}}= t('button.show')
-          %button{:type => "button",data: {action: "edit",icon: "document"}}= t('button.edit')
+        %td.buttonset.ta-ce
+          %button{:type => "button",data: {action: "create",icon: "fa fa-plus-square-o"}}=  t('button.create')
+          %button{:type => "button",data: {action: "show",icon: "fa fa-file-text-o"}}= t('button.show')
+          %button{:type => "button",data: {action: "edit",icon: "fa fa-floppy-o"}}= t('button.edit')
           - if @current_user.admin?
-            %button{:type => "button",data: {action: "delete",icon: "circle-minus"}}= t('button.delete')
-          %button{:type => "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+            %button{:type => "button",data: {action: "delete",icon: "fa fa-minus-square-o"}}= t('button.delete')
+          %button{:type => "button",data: {action: "cancel",icon: "fa fa-ban"}}= t('button.cancel')
