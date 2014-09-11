@@ -2,16 +2,20 @@
   firm = Wstm::PartnerFirm.find_by(firm: true)
   grns = @object.dlns.empty?
   tdat = grns ? mat(@object,'model_name_grn') : mat(@object,'model_name')
-%span#hidden_data.hidden{data: {dialog: 'show',title_data: tdat,model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_invoice'}}
+%span#hidden_data{data: {dialog: 'show',title_data: tdat,model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_invoice'}}
 %form{action: "/sys/#{@path}", method: "get"}
-  %table{cellspacing: "0"}
+  %table
     %thead
       %tr.pdb-05
         %td
-        -if grns
-          %span.info.width-450.ju= t('intro.show.desk_invoice.grn',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
-        -else
-          %span.info.width-450.ju= t('intro.show.desk_invoice.main',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
+          -if grns
+            %detail.detail.w-45rem
+              %i.fa.fa-info-circle.fa-lg.blue
+              = t('intro.show.desk_invoice.grn',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
+          -else
+            %detail.detail.w-45rem
+              %i.fa.fa-info-circle.fa-lg.blue
+              = t('intro.show.desk_invoice.main',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
     = partial "#{@path}/show"
     %tfoot
       %tr

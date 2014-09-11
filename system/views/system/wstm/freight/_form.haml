@@ -8,8 +8,8 @@
     %tr
       - td_label_for @object, 'p03'
       %td.boolean
-        %input.before-yes{type: 'radio',name: "[#{@path}][p03]",checked: @object.p03,value: 'true'}
-        %input.before-no{ type: 'radio',name: "[#{@path}][p03]",checked: !@object.p03,value: 'false'}
+        %input.true_ro{ type: 'radio',name: "[#{@path}][p03]",checked: @object.p03,value: 'true'}
+        %input.false_ro{type: 'radio',name: "[#{@path}][p03]",checked: !@object.p03,value: 'false'}
       - td_error_for @object, 'p03'
   - else
     - tr_show_for   @object,        'name'

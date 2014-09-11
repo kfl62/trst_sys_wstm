@@ -1,38 +1,41 @@
-%tbody.inner
-  %tr
-    - mat(@object,'table_header_form').each do |label|
-      %td.ce= label
-  - if @object.freights.empty?
-    - for i in 0..4 do; o = @object.freights.new
-      %tr.freight
-        %td.select-freight
-          %select.wstm.freight
-            %option{value: 'null'} Selectare material
-            - freights.each do |f|
-              %option{value: f[0], data: f[2]}= f[1]
-          - input_for   o, 'id_date',   {type: 'hidden',nested: 'doc_cas',value: 'strip',index: i}
-          - input_for   o, 'id_stats',  {type: 'hidden',nested: 'doc_cas',value: 'strip',index: i}
-          - input_for   o, 'um',        {type: 'hidden',nested: 'doc_cas',value: 'strip',index: i}
-          - input_for   o, 'pu',        {type: 'hidden',nested: 'doc_cas',value: 'strip',index: i}
-          - input_for   o, 'freight_id',{type: 'hidden',nested: 'doc_cas',value: 'strip',index: i}
-        %td
-          %span.um kg
-        %td
-          %span.val.stck 0.00
-        %td.ce
-          - input_for  o, 'qu',        {style: ' qu',nested: 'doc_cas',index: i}
-        %td
-          %span.res 0.00
-        %td.action-1
-          %span.icon-remove-sign{title: t('button.delete')}
-    %tr.total
-      %td.ce.st{colspan: '3'}
-        %span Total
-      %td
-        %span.res 0.00
-      %td{colspan: '2'}
-        %span &nbsp;
-  - else
-    %tr.pdb-05
-      %td{colspan: '6'}
-        %span.warning Editing not allowed!
+%tr
+  %td
+    %table.inner.w-80pr
+      %tbody.inner
+        %tr
+          - mat(@object,'table_header_form').each do |label|
+            %td.ce= label
+        - if @object.freights.empty?
+          - for i in 0..4 do; o = @object.freights.new
+            %tr.freight
+              %td.select-freight
+                %select.wstm.freight
+                  %option{value: 'null'} Selectare material
+                  - freights.each do |f|
+                    %option{value: f[0], data: f[2]}= f[1]
+                - input_for   o, 'id_date',   {type: 'hidden',nested: 'doc_cas',value: 'strip',index: i}
+                - input_for   o, 'id_stats',  {type: 'hidden',nested: 'doc_cas',value: 'strip',index: i}
+                - input_for   o, 'um',        {type: 'hidden',nested: 'doc_cas',value: 'strip',index: i}
+                - input_for   o, 'pu',        {type: 'hidden',nested: 'doc_cas',value: 'strip',index: i}
+                - input_for   o, 'freight_id',{type: 'hidden',nested: 'doc_cas',value: 'strip',index: i}
+              %td.ta-ce
+                %span.um kg
+              %td.ta-ri
+                %span.val.stck 0.00
+              %td
+                - input_for  o, 'qu',        {style: ' qu ta-ri',nested: 'doc_cas',index: i}
+              %td.ta-ri
+                %span.res 0.00
+              %td
+                %span.fa.fa-minus-circle.red{title: t('button.delete')}
+          %tr.total
+            %td{colspan: '3'}
+              %span Total
+            %td
+              %span.res 0.00
+            %td{colspan: '2'}
+              %span &nbsp;
+        - else
+          %tr.pdb-05
+            %td{colspan: '6'}
+              %span.warning Editing not allowed!

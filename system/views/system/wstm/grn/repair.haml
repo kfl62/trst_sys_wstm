@@ -1,16 +1,18 @@
 :ruby
   unit_id = @current_user.unit_id.nil? ? session[:unit_id] : @current_user.unit_id
-%span#hidden_data.hidden{data: {dialog: "repair",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_grn'}}
+%span#hidden_data{data: {dialog: "repair",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_grn'}}
 -if unit_id
   - unless @current_user.unit_id
     = partial 'wstm/shared/select_unit'
   %form{action: "/sys/#{@path}", method: "get"}
-    %table{cellspacing: "0"}
+    %table
       %thead
         - if @current_user.unit_id
           %tr.pdb-05
             %td
-              %span.info.width-400.ju= t('intro.repair.desk_grn')
+              %detail.detail
+                %i.fa.fa-info-circle.fa-lg.blue
+                = t('intro.repair.desk_grn')
               %input#date_send{type: 'hidden', value: Date.today.to_s}
         - else
           %tr.pdb-05

@@ -1,16 +1,16 @@
-%span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null"}}
+%span#hidden_data{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null"}}
+%article#xhr_info.info
+  %i.fa.fa-info-circle.fa-lg.blue
+  = t('intro.create.main',data: mat(@object,'model_name'))
 %form{action: "/sys/#{@path}",method: "post"}
   %table{:cellspacing => "0"}
     %thead
-      %tr.pdb-05
-        %td{colspan: "3"}
-          %span.warning.width-350.ju= t('intro.create.main',data: mat(@object,'model_name'))
     = partial "#{@path}/form"
     %tfoot
       %tr
-        %td.buttonset.ce{colspan: "3"}
+        %td.buttonset.ta-ce{colspan: "3"}
           - if params[:id_pn]
-            %button{type: "button",data: {r_path: "/sys/wstm/expenditure/create",action: "save",icon: "disk",remove: 'false'}}= t('button.save')
+            %button{type: "button",data: {r_path: "/sys/wstm/expenditure/create",action: "save",icon: "fa fa-floppy-o",remove: 'false'}}= t('button.save')
           - else
-            %button{type: "button",data: {action: "save",icon: "disk",remove: 'false'}}= t('button.save')
-          %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+            %button{type: "button",data: {action: "save",icon: "fa fa-floppy-o",remove: 'false'}}= t('button.save')
+          %button{type: "button",data: {action: "cancel",icon: "fa fa-ban"}}= t('button.cancel')

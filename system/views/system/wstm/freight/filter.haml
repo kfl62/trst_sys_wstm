@@ -1,18 +1,18 @@
 :ruby
   unit_id = @current_user.unit_id || session[:unit_id]
-%span#hidden_data.hidden{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: 'null',js_ext: 'desk_freight'}}
+%span#hidden_data{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: 'null',js_ext: 'desk_freight'}}
 -if unit_id
+  %article#xhr_info.info
+    %i.fa.fa-info-circle.fa-lg.blue
+    - if @current_user.admin?
+      = t("intro.filter.main",data: mat(@object,'model_name'))
+    - else
+      =  t("intro.filter.desk_freight",data: mat(@object,'model_name'))
   - unless @current_user.unit_id
     = partial 'wstm/shared/select_unit'
   %form{action: "/sys/#{@path}",method: "get"}
-    %table{cellspacing: "0"}
+    %table
       %tbody
-        %tr.pdb-05
-          %td
-            - if @current_user.admin?
-              %span.info.info.width-400.ju= t("intro.filter.main",data: mat(@object,'model_name'))
-            - else
-              %span.info.info.width-300.ju= t("intro.filter.desk_freight",data: mat(@object,'model_name'))
         %tr.pdb-05
           %td
             %select#oid

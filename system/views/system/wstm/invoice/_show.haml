@@ -7,21 +7,24 @@
           %tbody.inner
             %tr
               - mat(@object,'table_header_show').each do |label|
-                %td.ce= label
+                %td= label
             - @object.reload; @object.freights.each do |o|
               %tr
-                - td_value_for  o, 'name', {style: 'name',nested: 'doc_inv'}
-                - td_value_for  o, 'um',   {style: 'um', nested: 'doc_inv'}
-                - td_value_for  o, 'qu',   {style: 'val',nested: 'doc_inv'}
                 %td
+                  - value_for  o, 'name', {style: 'name',nested: 'doc_inv'}
+                %td.ta-ce.w-4rem
+                  - value_for  o, 'um',   {style: 'um', nested: 'doc_inv'}
+                %td.ta-ri.w-8rem
+                  - value_for  o, 'qu',   {style: 'val',nested: 'doc_inv'}
+                %td.ta-ri.w-8rem
                   - if @object.id_intern
-                    %span.val= "%.2f" % o.pu
+                    %span= "%.2f" % o.pu
                   -else
-                    %span.val= "%.4f" % o.pu
-                %td
-                  %span.res= "%.2f" % (o.qu * o.pu).round(2)
+                    %span= "%.4f" % o.pu
+                %td.ta-ri.w-8rem
+                  %span= "%.2f" % (o.qu * o.pu).round(2)
             %tr
-              %td.ce.st{colspan: '4'}
+              %td{colspan: '4'}
                 %span Total
               %td
                 %span.val= "%.2f" % @object.sum_100

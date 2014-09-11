@@ -90,7 +90,7 @@ define () ->
                     results: data
               $select.unbind()
               $select.on 'change', ()->
-                $button = $('button.expenditure')
+                $button = $('button[data-action="create"]')
                 $button.data 'url', "/sys/wstm/expenditure?client_id=#{$select.select2('val')}"
                 $button.button 'option', 'disabled', false
                 return
@@ -183,7 +183,7 @@ define () ->
               ###
               Buttons default handler Trst.desk.buttons
               ###
-          $('span.icon-remove-sign').each ()->
+          $('span.fa-minus-circle').each ()->
             $button = $(@)
             $button.on 'click', ()->
               $button.parentsUntil('tbody').last().remove()

@@ -1,43 +1,55 @@
 (function() {
-
   define(function() {
     $.extend(true, Wstm, {
       desk: {
         cache: {
+          inputs: function(inpts) {
+            inpts.each(function() {
+              var $ind, $input;
+              $input = $(this);
+              $ind = $input.data();
+            });
+          },
+          selects: function(slcts) {
+            slcts.each(function() {
+              var $sd, $select;
+              $select = $(this);
+              $sd = $select.data();
+              if (Trst.desk.hdo.dialog === 'query') {
+                $select.on('change', function() {
+                  var $params, $url;
+                  $params = jQuery.param($('.param').serializeArray());
+                  $url = "sys/wstm/cache/query?" + $params;
+                  Trst.desk.init($url);
+                });
+              }
+            });
+          },
+          buttons: function(btns) {
+            btns.each(function() {
+              var $bd, $button;
+              $button = $(this);
+              $bd = $button.data();
+              if (Trst.desk.hdo.dialog === 'query') {
+                $button.on('click', function() {
+                  var $params, $url;
+                  $params = jQuery.param($('.param').serializeArray());
+                  $url = "sys/wstm/cache/query?" + $params + "&uid=" + ($button.attr('id'));
+                  Trst.desk.init($url);
+                });
+              }
+            });
+          },
           init: function() {
-            var $sm, $su, $sy, min, now;
+            var min, now;
             if ($('#date_show').length) {
               now = new Date();
               min = Trst.lst.admin === 'true' ? new Date(now.getFullYear(), now.getMonth() - 1, 1) : new Date(now.getFullYear(), now.getMonth(), 1);
-              $('#date_show').datepicker('option', 'maxDate', Trst.lst.admin === 'true' ? '+1' : '+0');
+              $('#date_show').datepicker('option', 'maxDate', Trst.lst.admin === 'true' ? '' : '+0');
               $('#date_show').datepicker('option', 'minDate', min);
             }
-            if (Trst.desk.hdo.dialog === 'query') {
-              $sy = $('#y');
-              $sm = $('#m');
-              $su = $('#u');
-              $('select').each(function() {
-                var $select;
-                $select = $(this);
-                $select.on('change', function() {
-                  var $url;
-                  $url = "sys/wstm/cache/query?y=" + ($sy.val()) + "&m=" + ($sm.val());
-                  if ($su.length) {
-                    $url += "&uid=" + ($su.val());
-                  }
-                  Trst.desk.init($url);
-                });
-              });
-              $('span.link').each(function() {
-                var $link;
-                $link = $(this);
-                $link.on('click', function() {
-                  var $url;
-                  $url = "sys/wstm/cache/query?y=" + ($sy.val()) + "&m=" + ($sm.val()) + "&uid=" + ($link.attr('id'));
-                  Trst.desk.init($url);
-                });
-              });
-            }
+            Wstm.desk.cache.buttons($('span.link'));
+            Wstm.desk.cache.selects($('select'));
             return $log('Wstm.desk.cache.init() OK...');
           }
         }

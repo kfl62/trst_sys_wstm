@@ -8,14 +8,18 @@
 %span#hidden_data{data: {dialog: 'report',title_data: data,model_name: mat(@object,'model_name'),oid: nil,js_ext: 'desk_report'}}
 - if ['cdd','grn','all'].include? ext
   %form{action: "/sys/wstm/report/print?rb=unit_daily_exp&ext=#{ext}"}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr.pdb-05
           %td{colspan: "2"}
             - if uid
-              %span.info.width-300.ju= t("intro.filter.desk_report.unit",data: data,unit: unit.name[1])
+              %detail.info.w-30ren
+                %i.fa.fa-info-circle.fa-lg.blue
+                = t("intro.filter.desk_report.unit",data: data,unit: unit.name[1])
             - else
-              %span.info.width-350.ju= t("intro.filter.desk_report.firm",data: data)
+              %detail.info.w-35rem
+                %i.fa.fa-info-circle.fa-lg.blue
+                = t("intro.filter.desk_report.firm",data: data)
       %tbody
         %tr.pdb-05
           %td
@@ -42,17 +46,21 @@
           - td_buttonset ['print','cancel'],{style: 'ta-ce'},2
 - elsif ext == 'plst'
   %form{action: "/sys/wstm/report/print?rb=unit_plst"}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr.pdb-05
           %td{colspan: "2"}
             - if uid
-              %span.info.width-300.ju= t("intro.filter.desk_report.unit_plst",data: data,unit: unit.name[1])
+              %detail.info.w-30ren
+                %i.fa.fa-info-circle.fa-lg.blue
+                = t("intro.filter.desk_report.unit_plst",data: data,unit: unit.name[1])
               %input{type: 'hidden',name: 'unit_ids',value: uid}
               %input#file_name{type: 'hidden',name: 'fn',value: t("intro.pdf.desk_report.file_name.#{ext}", firm: unit.firm.name[0][0..2].upcase, unit: "_#{unit.slug}")}
               %input#date_send.ui-state-default.ce{type: 'hidden',value: Date.today.to_s,name: 'date'}
             - else
-              %span.info.width-350.ju= t("intro.filter.desk_report.firm_plst",data: data)
+              %detail.info.w-35rem
+                %i.fa.fa-info-circle.fa-lg.blue
+                = t("intro.filter.desk_report.firm_plst",data: data)
               %input#date_send.ui-state-default.ce{type: 'hidden',value: Date.today.to_s,name: 'date'}
       %tbody
         - unless uid
@@ -65,11 +73,13 @@
           - td_buttonset ['print','cancel'],{style: 'ta-ce'},2
 - elsif ext == 'cb_monthly'
   %form{action: "/sys/wstm/report/print?rb=#{ext}"}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr.pdb-05
           %td{colspan: "2"}
-            %span.info.width-300.ju= t("intro.filter.desk_report.#{ext}")
+            %detail.info.w-30ren
+              %i.fa.fa-info-circle.fa-lg.blue
+              = t("intro.filter.desk_report.#{ext}")
       %tbody
         %tr.pdb-05
           %td
@@ -83,11 +93,13 @@
 - else
   - type = ext.split('_')[1]
   %form{action: "/sys/wstm/report/print?rb=#{ext}"}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr.pdb-05
           %td{colspan: "2"}
-            %span.info.width-300.ju= t("intro.filter.desk_report.#{type}",data: data)
+            %detail.info.w-30ren
+              %i.fa.fa-info-circle.fa-lg.blue
+              = t("intro.filter.desk_report.#{type}",data: data)
       %tbody
         %tr.pdb-05
           %td

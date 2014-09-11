@@ -1,10 +1,12 @@
-%span#hidden_data.hidden{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_cassation'}}
+%span#hidden_data{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_cassation'}}
 %form{action: "/sys/#{@path}",method: "get"}
-  %table{cellspacing: "0"}
+  %table
     %thead
       %tr.pdb-05
         %td{colspan: "6"}
-          %span.info.width-350.ju= t('intro.show.desk_cassation',id_date: l(@object.id_date,format: :trst),unit: @object.unit.name[1],signed_by: @object.signed_by.name,expl: @object.expl)
+          %detail.detail.w-35rem.ta-ju
+            %i.fa.fa-info-circle.fa-lg.blue
+            = t('intro.show.desk_cassation',id_date: l(@object.id_date,format: :trst),unit: @object.unit.name[1],signed_by: @object.signed_by.name,expl: @object.expl)
     = partial "#{@path}/show"
     %tfoot
       %tr

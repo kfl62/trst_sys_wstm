@@ -1,9 +1,6 @@
-%span#hidden_data.hidden{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_cache'}}
+%span#hidden_data{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_cache'}}
 %form{action: "/sys/#{@path}",method: "get"}
-  %table{cellspacing: "0"}
-    %thead
-      %tr.pdb-05
-        %td{colspan: "2"}
+  %table
     = partial "#{@path}/show"
     %tfoot
       %tr

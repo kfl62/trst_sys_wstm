@@ -1,21 +1,25 @@
 :ruby
   unit_id = session[:unit_id]
 - if unit_id
-  %div.small
-    %span.small= t('intro.has_unit')
-    %select.wstm.unit
-      %option{value: 'null'}= t('select.option',data: 'Unitatea')
-      - Wstm::PartnerFirm.find_by(firm: true).units.asc(:slug).each do |unit|
-        %option{value: unit.id,selected: unit.id.to_s == unit_id}= unit.name[1]
+  %article
+    %label
+      = t('intro.has_unit')
+      %select.wstm.unit
+        %option{value: 'null'}= t('select.option',data: 'Unitatea')
+        - Wstm::PartnerFirm.find_by(firm: true).units.asc(:slug).each do |unit|
+          %option{value: unit.id,selected: unit.id.to_s == unit_id}= unit.name[1]
     %hr
 -else
-  %div.small
-    %span.info.width-250.ju= t('intro.no_unit')
-    %hr
-    %select.wstm.unit.ce
-      %option{value: 'null'}= t('select.option',data: 'Unitatea')
-      - Wstm::PartnerFirm.find_by(firm: true).units.asc(:slug).each do |unit|
-        %option{value: unit.id}= unit.name[1]
+  %article#xhr_info.info
+    %i.fa.fa-info-circle.fa-lg
+    = t('intro.no_unit')
+  %article
+    %label
+      = t('intro.has_unit')
+      %select.wstm.unit.ce
+        %option{value: 'null'}= t('select.option',data: 'Unitatea')
+        - Wstm::PartnerFirm.find_by(firm: true).units.asc(:slug).each do |unit|
+          %option{value: unit.id}= unit.name[1]
     %hr
     %p.ta-ce
-      %button{type: "button",data: {action: "cancel",icon: "fa fa-ban"}}= t('button.cancel')
+      - button 'cancel'

@@ -2,7 +2,7 @@
   unit_id = @current_user.unit_id || session[:unit_id]
   from_freights = Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln_with_pu
   resl_freights = Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln
-%span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_sorting'}}
+%span#hidden_data{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_sorting'}}
 %form{action: "/sys/#{@path}",method: "post"}
   %table{:cellspacing => "0"}
     %thead

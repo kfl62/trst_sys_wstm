@@ -4,18 +4,19 @@
   unit    = firm.units.find(unit_id)
   to_soon = Date.today != Date.today.end_of_month
 - if to_soon
-  %span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_stock'}}
+  %span#hidden_data{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_stock'}}
   %table{:cellspacing => "0"}
     %tbody
       %tr.pdb-05
         %td
-          %span.warning.width-350.ju= t('intro.create.desk_stock.too_soon', data: l(Date.today.end_of_month,format: :trst))
+          %detail.warning.w-35rem
+            = t('intro.create.desk_stock.too_soon', data: l(Date.today.end_of_month,format: :trst))
     %tfoot
       %tr
         - td_buttonset(['cancel'],{style: 'ta-ce'})
 - else
   - unit.stock_now.freights.where(:qu.ne => 0).asc(:id_stats,:pu).each{|f| @object.freights << f.clone}
-  %span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_stock'}}
+  %span#hidden_data{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_stock'}}
   %form{action: "/sys/#{@path}", method: "post"}
     %table{:cellspacing => "0"}
       %thead

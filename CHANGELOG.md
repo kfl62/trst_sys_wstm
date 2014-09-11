@@ -3,11 +3,46 @@
 release date: **2014-xx-xx**
 
 
+* **feature v0.2.995**, v0.3.0 preparation fix [issue #16][#16]
+   - feature date: **2014-09-11**
+   - bump version v0.2.995
+   - update CHANGELOG
+   - assets css, `wstm` TODO -> `application`
+   - views `Wstm::CacheBook` cleanup
+   - assets js, `Wstm.desk.cache_book` add r_path
+   - views `Wstm::Stock`CRUD, [issue #16][#16]
+   - views `Wstm::User`query, [issue #16][#16]
+   - views `Wstm::PartnerPerson` CRUD, [issue #16][#16]
+   - views `Wstm::PartnerFirm` CRUD, [issue #16][#16]
+   - views `Wstm::Invoice` CRUD, [issue #16][#16]
+   - assets js, `Wstm.desk.invoice` update
+   - views `Wstm::Grn` CRUD, [issue #16][#16]
+   - assets js, `Wstm.desk.grn` update
+   - views `Wstm::Freight` CRUD, [issue #16][#16]
+   - assets js, `Wstm.desk.freight` update
+   - views `Wstm::Expenditure` CRUD, [issue #16][#16]
+   - assets js, `Wstm.desk.expenditure` update
+   - views `Wstm::DeliveryNote` CRUD, [issue #16][#16]
+   - assets js, `Wstm.desk.delivery_note` update
+   - views `Wstm::Cassation` CRUD, [issue #16][#16]
+   - assets js, `Wstm.desk.cassation` update
+   - views `Wstm::CacheBook` CRUD, [issue #16][#16]
+   - assets js, `Wstm.desk.cache` update, rewrite
+   - views `Wstm::CacheBook` CRUD, [issue #16][#16]
+   - assets js, `Wstm.desk.cache` update, rewrite
+   - views `Wstm::CacheBook` CRUD, [issue #16][#16]
+   - assets js, `Wstm.desk.cache` update, rewrite
+   - views `shared_select.haml` new partial, fix issue [issue #17][#17]
+   - views `Wstm::Cache` CRUD, [issue #16][#16]
+   - assets js, `Wstm.desk.cache` update, rewrite
+   - views all, cleanup, remove `.hidden`, `{cellspacing: 0}`
+
+
 * **feature v0.2.994**, v0.3.0 preparation
-   - feature date: **2014-09-02*
+   - feature date: **2014-09-02**
    - bump version v0.2.994
    - update CHANGELOG
-   - views all CRUD, use `td_buttonset`
+   - views all CRUD, use `td_buttonset`, [kfl62/trst_sys_sinatra#23][trst_main#23]
    - views pdf templates, fix [issue #15][#15]
 
 
@@ -378,6 +413,7 @@ release date: **2013-07-18**
 
 * Add version `lib/demo/version.rb`
 
+[trst_main#23]: https://github.com/kfl62/trst_sys_sinatra/issues/23
 [trst_main#15]: https://github.com/kfl62/trst_sys_sinatra/issues/15
 [trst_main#12]: https://github.com/kfl62/trst_sys_sinatra/issues/12
 [trst_main#6]: https://github.com/kfl62/trst_sys_sinatra/issues/6

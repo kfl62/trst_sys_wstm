@@ -2,9 +2,9 @@
   unit_id = @current_user.unit_id || session[:unit_id]
   forbidden = @object.id_date != Date.today.end_of_month.tomorrow
 - if forbidden
-  %span#hidden_data.hidden{data: {dialog: "delete",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_stock'}}
+  %span#hidden_data{data: {dialog: "delete",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_stock'}}
   %form{action: "/sys/#{@path}", method: "delete"}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr
           %td
@@ -23,9 +23,9 @@
         %tr
           - td_buttonset(['cancel'],{style: 'ta-ce'})
 - else
-  %span#hidden_data.hidden{data: {dialog: "delete",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_stock'}}
+  %span#hidden_data{data: {dialog: "delete",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_stock'}}
   %form{action: "/sys/#{@path}", method: "delete"}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr
           %td
