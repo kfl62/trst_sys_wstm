@@ -9,7 +9,8 @@
     %tbody
       %tr.pdb-05
         %td
-          %span.warning.width-350.ju= t('intro.create.desk_stock.too_soon', data: l(Date.today.end_of_month,format: :trst))
+          %detail.warning.w-35rem
+            = t('intro.create.desk_stock.too_soon', data: l(Date.today.end_of_month,format: :trst))
     %tfoot
       %tr
         - td_buttonset(['cancel'],{style: 'ta-ce'})
