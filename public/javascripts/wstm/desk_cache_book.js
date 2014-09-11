@@ -156,6 +156,12 @@
                     } else {
                       $url = "sys/wstm/cache_book/" + $bd.oid;
                     }
+                    $.ajax({
+                      type: 'POST',
+                      url: '/sys/session/r_path/sys!wstm!cache_book!filter',
+                      async: false
+                    });
+                    Trst.lst.setItem('r_path', 'sys/wstm/cache_book/filter');
                     Trst.desk.init($url);
                   });
                 }
