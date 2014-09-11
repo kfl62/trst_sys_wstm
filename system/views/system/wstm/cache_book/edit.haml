@@ -3,7 +3,7 @@
   %table
     %thead
       %tr.pdb-05
-        %td.d-in-bl
+        %td
           %span Nr:
           %span.name.st= @object.name
           %span din:
@@ -23,12 +23,12 @@
         %td.add-line-container{style: 'padding: 5px;border: solid 1px'}
           %table
             %tr
-              %td.d-in-bl
+              %td
                 %span Adăugare rând la Registru de casă
                 %span.button.fl-ri.red.pointer.fa.fa-plus-circle.fa-lg{title: t('button.new_row')}
                 %span.button.fl-ri.red.pointer.fa.fa-refresh.fa-lg
             %tr
-              %td.d-in-bl
+              %td
                 %span.add-line.ord.st= @object.lines.count + 1
                 %input.add-line.doc{size: 10,placeholder: 'Doc. nr.'}
                 %input.add-line.exp{size: 60,placeholder: 'Explicații'}
