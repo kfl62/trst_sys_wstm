@@ -2,7 +2,8 @@
   %tbody.inner
     %tr.scroll
       - mat(@object,'table_header_form_with_pu').each do |label|
-        %td= label
+        %td
+          %span= label
     - if @object.freights.empty?
       - for i in 0..4 do; o = @object.freights.new
         %tr.freight
@@ -50,7 +51,8 @@
   %tbody.inner
     %tr.scroll
       - mat(@object,'table_header_form').each do |label|
-        %td= label
+        %td
+          %span= label
     - if @object.freights.empty?
       - for i in 0..4 do; o = @object.freights.new
         %tr.freight

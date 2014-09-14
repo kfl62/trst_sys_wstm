@@ -42,7 +42,8 @@
           %tbody.inner
             %tr
               - mat(@object,'table_header').each do |label|
-                %td= label
+                %td
+                  %span= label
             - for i in 0..4 do; o = @object.freights.new
               %tr.freight
                 %td.select-freight

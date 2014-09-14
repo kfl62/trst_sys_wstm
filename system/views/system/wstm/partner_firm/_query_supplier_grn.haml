@@ -49,7 +49,8 @@
               %tbody.inner
                 %tr
                   - mat(@object,'table_header_grn').each do |label|
-                    %td= label
+                    %td
+                      %span= label
                 - data = grns.where(:id.in => doc_ary).sum_freights_grn; data.sort.each do |s|
                   %tr
                     %td

@@ -51,7 +51,8 @@
                   %tbody.inner
                     %tr
                       - mat(@object,'table_header_grn').each do |label|
-                        %td= label
+                        %td
+                          %span= label
                     - data = Wstm::Grn.where(:id.in => grn_ary).sum_freights_grn; data.sort.each do |s|
                       %tr
                         %td
@@ -120,7 +121,8 @@
                   %tbody.inner
                     %tr
                       - mat(@object,'table_header').each do |label|
-                        %td= label
+                        %td
+                          %span= label
                     - data = Wstm::DeliveryNote.where(:id.in => dln_ary).sum_freights_inv; data.sort.each do |s|
                       %tr
                         %td
