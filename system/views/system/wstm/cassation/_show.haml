@@ -3,7 +3,8 @@
   %tbody.inner
     %tr
       - mat(@object,'table_header_show').each do |label|
-        %td.ce= label
+        %td
+          %span= label
     - @object.reload; @object.freights.each do |o|
       %tr
         - o.set(:val, (o.pu * o.qu).round(2)) unless o.val > 0

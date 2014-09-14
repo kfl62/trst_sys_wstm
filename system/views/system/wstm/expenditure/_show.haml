@@ -3,7 +3,8 @@
   %tbody.inner
     %tr
       - mat(@object,'table_header')[0..-2].each do |label|
-        %td.ce= label
+        %td
+          %span= label
     - @object.freights.each do |o|
       %tr
         %td

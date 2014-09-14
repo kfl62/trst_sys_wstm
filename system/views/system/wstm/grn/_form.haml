@@ -6,7 +6,8 @@
           %tbody.inner
             %tr
               - mat(@object,'table_header')[0..4].each do |label|
-                %td.ce= label
+                %td
+                  %span= label
             - data = Wstm::DeliveryNote.where(:id.in => dlns).sum_freights_grn; data.sort.each_with_index do |s,i|
               - o = @object.freights.new
               %tr

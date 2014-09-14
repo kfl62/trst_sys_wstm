@@ -4,7 +4,8 @@
       %tbody.inner
         %tr
           - mat(Wstm::Expenditure,'table_header')[0..-2].each do |label|
-            %td.ce= label
+            %td
+              %span= label
         - data = sa.where(:id.in => doc_ary).sum_freights_exp; data.sort.each do |s|
           %tr
             %td

@@ -7,7 +7,8 @@
         %tbody.inner
           %tr.scroll
             - mat(@object,'table_header').each do |label|
-              %td.ce= label
+              %td
+                %span= label
             %td
               %span &nbsp;
           - unless  freights.empty?

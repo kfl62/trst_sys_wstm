@@ -1,7 +1,8 @@
 %tbody.inner.hidden
   %tr
     - mat(@object,'table_header_form').each do |label|
-      %td.ce= label
+      %td
+        %span= label
   - if @object.resl_freights.empty?
     - for i in 0..4 do; o = @object.resl_freights.new
       %tr.resl-freight
