@@ -10,7 +10,7 @@
   %article#xhr_info.info
     %i.fa.fa-info-circle.fa-lg.blue
     = t('intro.query.desk_cache.one')
-  %table{:cellspacing => "0"}
+  %table
     %thead
       = partial 'wstm/shared/select_params', locals: {firm: firm, colspan: '4'}
     %tbody.inner
@@ -35,7 +35,7 @@
   %article#xhr_info.info
     %i.fa.fa-info-circle.fa-lg.blue
     = t('intro.query.desk_cache.all')
-  %table{:cellspacing => "0"}
+  %table
     %thead
       = partial 'wstm/shared/select_params', locals: {colspan: '5'}
     %tbody.inner

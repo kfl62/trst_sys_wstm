@@ -1,6 +1,6 @@
 %td.query-freights-container
   - unless sa.blank?
-    %table{cellspacing: "0",style: "width:80%;margin:auto;min-width:550px"}
+    %table{style: "width:80%;margin:auto;min-width:550px"}
       %tbody.inner
         %tr
           - mat(Wstm::Expenditure,'table_header')[0..-2].each do |label|

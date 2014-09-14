@@ -10,7 +10,7 @@
       [Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln,false]
 %span#hidden_data{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_delivery_note'}}
 %form{action: "/sys/#{@path}",method: "post"}
-  %table{:cellspacing => "0"}
+  %table
     %thead
       %tr.pdb-05
         %td

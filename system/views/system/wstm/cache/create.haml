@@ -5,7 +5,7 @@
   %i.fa.fa-info-circle.fa-lg.blue
   = t('intro.create.main',data: mat(@object,'model_name'))
 %form{action: "/sys/#{@path}",method: "post"}
-  %table{:cellspacing => "0"}
+  %table
     = partial "#{@path}/form", locals: {end_of_month: end_of_month}
     %tfoot
       %tr
