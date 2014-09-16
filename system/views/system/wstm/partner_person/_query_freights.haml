@@ -39,4 +39,6 @@
           %td
             %span.val= "%.2f" % sa.where(:id.in => doc_ary).sum(:sum_out)
   - else
-    %span.info.width-300= t('intro.query.desk_partner_person.exp_noe')
+    %detail.detail.w-30rem
+      %i.fa.fa-info-circle.fa-lg.blue
+      = t('intro.query.desk_partner_person.exp_noe')

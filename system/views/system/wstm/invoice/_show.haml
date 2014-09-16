@@ -51,9 +51,13 @@
     - else
       %tr.pdb-05
         %td
-          %span.info.width-450.ju= t('msg.no_payments')
+          %detail.detail.wi-45rem
+            %i.fa.fa-info-circle.fa-lg.blue
+            = t('msg.no_payments')
 - else
   %tbody
     %tr.pdb-05
       %td
-        %span.warning= t('msg.no_freight_selected')
+        %detail.warning
+          %i.fa.fa-fa-exclamation-triangle.fa-lg
+          = t('msg.no_freight_selected')

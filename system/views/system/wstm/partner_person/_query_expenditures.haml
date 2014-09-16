@@ -9,23 +9,31 @@
       - if tc == 0
         %tr.pdb-05
           %td
-            %span.info= t('intro.query.desk_partner_person.exp_0')
+            %detail.detail
+              %i.fa.fa-info-circle.fa-lg.blue
+              = t('intro.query.desk_partner_person.exp_0')
       - else
         - if tc == 1
           - app = ta.first
           %tr.pdb-05
             %td
-              %span.info= t('intro.query.desk_partner_person.exp_1',doc_name: app.name, doc_date: app.id_date.to_s)
+              %detail.detail
+                %i.fa.fa-info-circle.fa-lg.blue
+                = t('intro.query.desk_partner_person.exp_1',doc_name: app.name, doc_date: app.id_date.to_s)
         - else
           %tr.pdb-05
             %td
-              %span.info.width-550= t('intro.query.desk_partner_person.exp_m',doc_date_start: l(ta.min(:id_date), format: "%b %Y"),doc_date_end: l(ta.max(:id_date), format: "%b %Y"),doc_count: tc,sum_100: "%.2f" % ta.sum(:sum_100),sum_016: "%.2f" % ta.sum(:sum_016),sum_003: "%.2f" % ta.sum(:sum_003),sum_out: "%.2f" % ta.sum(:sum_out))
+              %detail.detail.w-55rem
+                %i.fa.fa-info-circle.fa-lg.blue
+                = t('intro.query.desk_partner_person.exp_m',doc_date_start: l(ta.min(:id_date), format: "%b %Y"),doc_date_end: l(ta.max(:id_date), format: "%b %Y"),doc_count: tc,sum_100: "%.2f" % ta.sum(:sum_100),sum_016: "%.2f" % ta.sum(:sum_016),sum_003: "%.2f" % ta.sum(:sum_003),sum_out: "%.2f" % ta.sum(:sum_out))
         - if tc > 1
           %input.param.doc_ary{type: 'hidden',name: 'doc_ary', value: params[:doc_ary]}
           - if sc > 30
             %tr.pdb-05
               %td
-                %span.warning= t('intro.query.desk_partner_person.exp_tme',doc_count: sc)
+                %detail.warning
+                  %i.fa.fa-info-circle.fa-lg.blue
+                  = t('intro.query.desk_partner_person.exp_tme',doc_count: sc)
             %tr.pdb-05
               %td
                 %select.param{name: 'p_y'}
@@ -62,4 +70,6 @@
       %tr.pdb-05
         = partial "wstm/partner_person/query_freights", locals: {ta: ta,sa: sa,tc: tc,sc: sc,doc_ary: doc_ary}
 - else
-  %span.info Selectați clientul!
+  %detail.detail
+    %i.fa.fa-info-circle.fa-lg.blue
+    = 'Selectați clientul!'
