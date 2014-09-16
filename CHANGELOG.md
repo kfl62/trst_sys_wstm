@@ -1,6 +1,8 @@
 ## v0.3.0
 
-release date: **2014-xx-xx**
+release date: **2014-09-16**
+&nbsp;&nbsp;&nbsp;&nbsp;- bump version v0.3.0
+&nbsp;&nbsp;&nbsp;&nbsp;- update CHANGELOG
 
 
 * **feature v0.2.996**, v0.3.0 preparation
@@ -449,3 +451,33 @@ release date: **2013-07-18**
 [#18]: https://github.com/kfl62/trst_sys_wstm/issues/18
 [#19]: https://github.com/kfl62/trst_sys_wstm/issues/19
 [#20]: https://github.com/kfl62/trst_sys_wstm/issues/20
+[#21]: https://github.com/kfl62/trst_sys_wstm/issues/21
+[#22]: https://github.com/kfl62/trst_sys_wstm/issues/22
+[#23]: https://github.com/kfl62/trst_sys_wstm/issues/23
+[#24]: https://github.com/kfl62/trst_sys_wstm/issues/24
+[#25]: https://github.com/kfl62/trst_sys_wstm/issues/25
+[#26]: https://github.com/kfl62/trst_sys_wstm/issues/26
+[#27]: https://github.com/kfl62/trst_sys_wstm/issues/27
+[#28]: https://github.com/kfl62/trst_sys_wstm/issues/28
+[#29]: https://github.com/kfl62/trst_sys_wstm/issues/29
+[#30]: https://github.com/kfl62/trst_sys_wstm/issues/30
+[#31]: https://github.com/kfl62/trst_sys_wstm/issues/31
+[#32]: https://github.com/kfl62/trst_sys_wstm/issues/32
+[#33]: https://github.com/kfl62/trst_sys_wstm/issues/33
+[#34]: https://github.com/kfl62/trst_sys_wstm/issues/34
+[#35]: https://github.com/kfl62/trst_sys_wstm/issues/35
+[#36]: https://github.com/kfl62/trst_sys_wstm/issues/36
+[#37]: https://github.com/kfl62/trst_sys_wstm/issues/37
+[#38]: https://github.com/kfl62/trst_sys_wstm/issues/38
+[#39]: https://github.com/kfl62/trst_sys_wstm/issues/39
+[#40]: https://github.com/kfl62/trst_sys_wstm/issues/40
+[#41]: https://github.com/kfl62/trst_sys_wstm/issues/41
+[#42]: https://github.com/kfl62/trst_sys_wstm/issues/42
+[#43]: https://github.com/kfl62/trst_sys_wstm/issues/43
+[#44]: https://github.com/kfl62/trst_sys_wstm/issues/44
+[#45]: https://github.com/kfl62/trst_sys_wstm/issues/45
+[#46]: https://github.com/kfl62/trst_sys_wstm/issues/46
+[#47]: https://github.com/kfl62/trst_sys_wstm/issues/47
+[#48]: https://github.com/kfl62/trst_sys_wstm/issues/48
+[#49]: https://github.com/kfl62/trst_sys_wstm/issues/49
+[#50]: https://github.com/kfl62/trst_sys_wstm/issues/50
