@@ -7,21 +7,25 @@
           %tbody.inner
             %tr
               - mat(@object,'table_header_show').each do |label|
-                %td.ce= label
+                %td
+                  %span= label
             - @object.reload; @object.freights.each do |o|
               %tr
-                - td_value_for  o, 'name', {style: 'name',nested: 'doc_inv'}
-                - td_value_for  o, 'um',   {style: 'um', nested: 'doc_inv'}
-                - td_value_for  o, 'qu',   {style: 'val',nested: 'doc_inv'}
                 %td
+                  - value_for  o, 'name', {style: 'name',nested: 'doc_inv'}
+                %td.ta-ce.w-4rem
+                  - value_for  o, 'um',   {style: 'um', nested: 'doc_inv'}
+                %td.ta-ri.w-8rem
+                  - value_for  o, 'qu',   {style: 'val',nested: 'doc_inv'}
+                %td.ta-ri.w-8rem
                   - if @object.id_intern
-                    %span.val= "%.2f" % o.pu
+                    %span= "%.2f" % o.pu
                   -else
-                    %span.val= "%.4f" % o.pu
-                %td
-                  %span.res= "%.2f" % (o.qu * o.pu).round(2)
+                    %span= "%.4f" % o.pu
+                %td.ta-ri.w-8rem
+                  %span= "%.2f" % (o.qu * o.pu).round(2)
             %tr
-              %td.ce.st{colspan: '4'}
+              %td{colspan: '4'}
                 %span Total
               %td
                 %span.val= "%.2f" % @object.sum_100
@@ -41,15 +45,19 @@
           %td
             - value_for o, 'id_date', {style: 'stats'}
             &nbsp;| &nbsp;
-            - value_for o, 'text',    {style: 'stats'}
+            - value_for o, 'expl',    {style: 'stats'}
             &nbsp;| &nbsp;
             - value_for o, 'val',     {style: 'name'}
     - else
       %tr.pdb-05
         %td
-          %span.info.width-450.ju= t('msg.no_payments')
+          %detail.detail.wi-45rem
+            %i.fa.fa-info-circle.fa-lg.blue
+            = t('msg.no_payments')
 - else
   %tbody
     %tr.pdb-05
       %td
-        %span.warning= t('msg.no_freight_selected')
+        %detail.warning
+          %i.fa.fa-fa-exclamation-triangle.fa-lg
+          = t('msg.no_freight_selected')

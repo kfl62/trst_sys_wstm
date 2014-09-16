@@ -1,12 +1,14 @@
-%span#hidden_data.hidden{data: {dialog: "query",title_data: "Client",model_name: mat(@object,'model_name'),oid: "null"}}
-%form{action: "/sys/#{@path}", method: 'get'}
-  %table{cellspacing: "0"}
-    %thead
-      %tr.pdb-05
-        %td
-          %span.info.width-300.ju= t('intro.filter.not_ready')
-    %tbody
-    %tfoot
-      %tr
-        %td.buttonset.ce
-          %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')
+%span#hidden_data{data: {dialog: "query",title_data: "Client",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_partner_person'}}
+%table
+  %thead
+    %tr.pdb-05
+      %td
+        %input.select2.param{name: 'p_oid',type: 'hidden',style: 'width:300px',data: {minlength: '3',ph: '0',search: @path.classify}}
+  %tbody
+    %tr.pdb-05
+      %td.query-expenditures-container
+        = partial("#{@path}/query_expenditures")
+  %tfoot
+    %tr
+      %td.buttonset.ta-ce
+        %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')

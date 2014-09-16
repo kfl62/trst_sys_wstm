@@ -1,29 +1,27 @@
 :ruby
   unit_id = @current_user.unit_id || session[:unit_id]
   freights= Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln_with_pu
-%span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_cassation'}}
+%span#hidden_data{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_cassation'}}
+%article#xhr_info.info.w-35rem
+  %i.fa.fa-info-circle.fa-lg.blue
+  = t("intro.filter.main",data: mat(@object,'model_name'))
 %form{action: "/sys/#{@path}",method: "post"}
-  %table{:cellspacing => "0"}
-    %thead
-      %tr.pdb-05
-        %td{colspan: "6"}
-          %span.warning.width-350.ju= t('intro.create.main', data: mat(@object,'model_name'))
+  %table
+    %tbody
       %tr.pdb-05
         %td.ce{colspan: "6"}
-          %span.st Nr.
+          %label.st Nr.
           - input_for @object, 'name',      {value: @object.increment_name(unit_id),style: 'ui-state-default ce id_intern'}
-          %span.st din data de:
+          %label.st din data de:
           - input_for @object, 'id_date',   {id: 'date_show',name: 'strip'}
           - input_for @object, 'id_date',   {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
           - input_for @object, 'unit_id',   {type: 'hidden',value: unit_id}
           - input_for @object, 'signed_by', {type: 'hidden',value: @current_user.id}
       %tr.pdb-05
         %td{colspan: '6'}
-          - label_for @object, 'text'
-          - input_for @object, 'text',      {value: mat(@object,'text_default'),style: 'ui-state-default width-350'}
+          %label= mat @object, 'expl'
+          - input_for @object, 'expl',      {value: mat(@object,'expl_default'),style: 'ui-state-default w-40rem'}
     = partial "#{@path}/form", locals: {freights: freights}
     %tfoot
       %tr
-        %td.buttonset.ce{colspan: "6"}
-          %button{type: "button",data: {action: "save",icon: "disk",remove: 'false'}}= t('button.save')
-          %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+        - td_buttonset(['save','cancel'],{style: 'ta-ce'},'6')

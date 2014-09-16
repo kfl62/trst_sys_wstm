@@ -122,7 +122,7 @@
                 $select.unbind();
                 return $select.on('change', function() {
                   var $button;
-                  $button = $('button.expenditure');
+                  $button = $('button[data-action="create"]');
                   $button.data('url', "/sys/wstm/expenditure?client_id=" + ($select.select2('val')));
                   $button.button('option', 'disabled', false);
                 });
@@ -195,10 +195,10 @@
                   return qu.focus().select();
                 });
               } else if ($select.hasClass('wstm')) {
+
                 /*
                 Handled by Wstm.desk.select
-                */
-
+                 */
               } else {
                 return $log('Select not handled!');
               }
@@ -239,13 +239,13 @@
                   });
                 }
               } else {
+
                 /*
                 Buttons default handler Trst.desk.buttons
-                */
-
+                 */
               }
             });
-            $('span.icon-remove-sign').each(function() {
+            $('span.fa-minus-circle').each(function() {
               var $button;
               $button = $(this);
               return $button.on('click', function() {

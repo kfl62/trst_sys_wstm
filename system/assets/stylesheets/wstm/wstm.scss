@@ -1,0 +1,13 @@
+/*!
+ * Use this to override application.css
+ */
+ @import "partials/trst_base";
+
+#deskDialog {
+  label.doc-name-list {
+    display: inline-block;
+    border-right: solid 1px #333333;
+    padding-right: 3px;
+    cursor: pointer;
+  }
+}

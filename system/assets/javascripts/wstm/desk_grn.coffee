@@ -32,10 +32,10 @@ define () ->
               $url += "&transp_id=#{$('#transp_id').val()}"
               $url += "&transp_d_id=#{$('#transp_d_id').val()}"
               $url += "&supplr_d_id=#{$('#supplr_d_id').val()}" if $('#supplr_d_id').val() isnt '' and $('#supplr_d_id').val() isnt 'new'
-              $('button.grn').data('url', $url)
-              $('button.grn').button 'option', 'disabled', false
+              $('button[data-action="create"]').last().data('url', $url)
+              $('button[data-action="create"]').last().button 'option', 'disabled', false
             else
-              $('button.grn').button 'option', 'disabled', true
+              $('button[data-action="create"]').last().button 'option', 'disabled', true
             return
           create: ()->
             if $('input#transp_d_id').length
@@ -47,7 +47,7 @@ define () ->
             if $('select.doc_type').length
               if $('select.doc_type').val() isnt 'null' and $('input[name*="doc_name"]').val() isnt '' and $('input[name*="doc_plat"]').val() isnt ''
                 $('button[data-action="save"]').button 'option', 'disabled', false
-                $('span.icon-plus-sign').show()
+                $('span.fa-plus-circle').show()
                 return true
             return
           pyms: ()->
@@ -103,6 +103,7 @@ define () ->
               if $select.hasClass 'doc_type'
                 $('tr.inv').hide()
                 $select.on 'change', ()->
+                  if $select.val() is 'DN' then $('input[name*="charged"]').val('false') else $('input[name*="charged"]').val('true')
                   $('input[name*="doc_date"]').val($('#date_send').val())
                   if $select.val() is 'INV'
                     $('tr.dn').hide()
@@ -177,7 +178,7 @@ define () ->
                       if $dlg.select2('data')
                         if $dlg.select2('data').id is 'new'
                           $dlgadd = $dlg.next()
-                          $dlgadd.data('url','/sys/wstm/partner_firm_person')
+                          $dlgadd.data('url','/sys/wstm/partner_firm/person')
                           $dlgadd.data('r_id',$select.select2('val'))
                           $dlgadd.data('r_mdl','firm')
                           $dlgadd.show()
@@ -209,7 +210,7 @@ define () ->
                   if $select.select2('data')
                     if $select.select2('data').id is 'new'
                       $dlgadd = $select.nextAll('button')
-                      $dlgadd.data('url','/sys/wstm/partner_firm_person')
+                      $dlgadd.data('url','/sys/wstm/partner_firm/person')
                       $dlgadd.data('r_id',$sd.transp_id)
                       $dlgadd.data('r_mdl','firm')
                       $dlgadd.show()
@@ -237,9 +238,9 @@ define () ->
                     results: data
                 formatResult: (d)->
                   $markup  = "<div title='#{d.text.title}'>"
-                  $markup += "<span>Doc: </span>"
+                  $markup += "<span class='repair'>Doc: </span>"
                   $markup += "<span class='truncate-70'>#{d.text.doc_name}</span>"
-                  $markup += "<span> - Firma: </span>"
+                  $markup += "<span class='repair'> - Firma: </span>"
                   $markup += "<span class='truncate-200'>#{d.text.supplier}</span>"
                   $markup += "</div>"
                   $markup
@@ -271,7 +272,7 @@ define () ->
                 $button.hide()
               if $bd.action is 'create'
                 if $('input:checked').length is 0
-                  $button.button 'option', 'disabled', true if $button.hasClass 'grn'
+                  $button.button 'option', 'disabled', true if $id is undefined
                 else
                   $bd   = $button.data()
                   $url  = '/sys/wstm/grn/create?id_intern=true'
@@ -306,12 +307,12 @@ define () ->
               ###
               Buttons default handler Trst.desk.buttons
               ###
-          $('tbody').on 'click','span.icon-remove-sign', ()->
+          $('tbody').on 'click','span.fa-minus-circle', ()->
             $button = $(@)
             $button.parentsUntil('tbody').last().remove()
             Wstm.desk.grn.calculate()
             return
-          $('span.icon-plus-sign').on 'click', ()->
+          $('span.fa-plus-circle').on 'click', ()->
             $('tr.total').before(Wstm.desk.tmp.newRow.clone())
             $('tr.freight').last().find('input').each ()->
               $(@).attr('name',$(@).attr('name').replace(/\d/,$('tr.freight').length - 1))
@@ -319,7 +320,7 @@ define () ->
             Wstm.desk.grn.selects($('tr.freight').last().find('select'))
             Wstm.desk.grn.calculate()
             return
-          $('span.icon-plus-sign').hide()
+          $('span.fa-plus-circle').hide()
           return
         init: ()->
           if $('#date_show').length

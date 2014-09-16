@@ -1,15 +1,12 @@
 :ruby
-  to_soon = Date.today != Date.today.end_of_month
-%span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_cache'}}
+  end_of_month = Date.today == Date.today.end_of_month
+%span#hidden_data{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_cache'}}
+%article#xhr_info.info
+  %i.fa.fa-info-circle.fa-lg.blue
+  = t('intro.create.main',data: mat(@object,'model_name'))
 %form{action: "/sys/#{@path}",method: "post"}
-  %table{:cellspacing => "0"}
-    %thead
-      %tr.pdb-05
-        %td{colspan: "3"}
-          %span.warning.width-350.ju= t('intro.create.main',data: mat(@object,'model_name'))
-    = partial "#{@path}/form", locals: {to_soon: to_soon}
+  %table
+    = partial "#{@path}/form", locals: {end_of_month: end_of_month}
     %tfoot
       %tr
-        %td.buttonset.ce{colspan: "3"}
-          %button{type: "button",data: {action: "save",icon: "disk",remove: 'false'}}= t('button.save')
-          %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+        - td_buttonset(['save','cancel'],{style: 'ta-ce'},'3')

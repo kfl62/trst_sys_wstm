@@ -5,21 +5,25 @@
   firm = Wstm::PartnerFirm.find_by(firm: true) unless uid
   s2dt = firm.units.asc(:slug).map{|u| {id: u.id,text: u.slug}}.to_json if firm
   data = t("intro.filter.desk_report.#{ext}")
-%span#hidden_data.hidden{data: {dialog: 'report',title_data: data,model_name: mat(@object,'model_name'),oid: nil,js_ext: 'desk_report'}}
-- if ['cdd','grn'].include? ext
-  %form{action: "/sys/wstm/report/print?rb=unit_daily_exp_#{ext}"}
-    %table{cellspacing: "0"}
+%span#hidden_data{data: {dialog: 'report',title_data: data,model_name: mat(@object,'model_name'),oid: nil,js_ext: 'desk_report'}}
+- if ['cdd','grn','all'].include? ext
+  %form{action: "/sys/wstm/report/print?rb=unit_daily_exp&ext=#{ext}"}
+    %table
       %thead
         %tr.pdb-05
           %td{colspan: "2"}
             - if uid
-              %span.info.width-300.ju= t("intro.filter.desk_report.unit",data: data,unit: unit.name[1])
+              %detail.info.w-30ren
+                %i.fa.fa-info-circle.fa-lg.blue
+                = t("intro.filter.desk_report.unit",data: data,unit: unit.name[1])
             - else
-              %span.info.width-350.ju= t("intro.filter.desk_report.firm",data: data)
+              %detail.info.w-35rem
+                %i.fa.fa-info-circle.fa-lg.blue
+                = t("intro.filter.desk_report.firm",data: data)
       %tbody
         %tr.pdb-05
           %td
-            %span Alegeţi data:
+            %label Alegeţi data:
           %td
             - if uid
               %input#date_show.ui-state-default.ce{type: 'text',  value: l(Date.today, format: :trst),style: 'width:auto'}
@@ -30,7 +34,7 @@
             - else
               %input#date_show.ui-state-default.ce{type: 'text',  value: l(Date.today, format: :trst),style: 'width:auto'}
               %input#date_send.ui-state-default.ce{type: 'hidden',value: Date.today.to_s,name: 'date'}
-              %span Nr.zile:
+              %label Nr.zile:
               %input#period.ui-state-default.ce{type: 'text',value: 1,name: 'period',size: '3',style: 'width:auto'}
         - unless uid
           %tr.pdb-05
@@ -39,22 +43,24 @@
               %input#file_name{type: 'hidden',name: 'fn',value: t("intro.pdf.desk_report.file_name.#{ext}", firm: firm.name[0][0..2].upcase, unit: "_PCTE")}
       %tfoot
         %tr
-          %td.buttonset.ce{colspan: "2"}
-            %button{type: "button",data: {action: "print", icon: "print"}}= t('button.print')
-            %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+          - td_buttonset ['print','cancel'],{style: 'ta-ce'},2
 - elsif ext == 'plst'
   %form{action: "/sys/wstm/report/print?rb=unit_plst"}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr.pdb-05
           %td{colspan: "2"}
             - if uid
-              %span.info.width-300.ju= t("intro.filter.desk_report.unit_plst",data: data,unit: unit.name[1])
+              %detail.info.w-30ren
+                %i.fa.fa-info-circle.fa-lg.blue
+                = t("intro.filter.desk_report.unit_plst",data: data,unit: unit.name[1])
               %input{type: 'hidden',name: 'unit_ids',value: uid}
               %input#file_name{type: 'hidden',name: 'fn',value: t("intro.pdf.desk_report.file_name.#{ext}", firm: unit.firm.name[0][0..2].upcase, unit: "_#{unit.slug}")}
               %input#date_send.ui-state-default.ce{type: 'hidden',value: Date.today.to_s,name: 'date'}
             - else
-              %span.info.width-350.ju= t("intro.filter.desk_report.firm_plst",data: data)
+              %detail.info.w-35rem
+                %i.fa.fa-info-circle.fa-lg.blue
+                = t("intro.filter.desk_report.firm_plst",data: data)
               %input#date_send.ui-state-default.ce{type: 'hidden',value: Date.today.to_s,name: 'date'}
       %tbody
         - unless uid
@@ -64,21 +70,40 @@
               %input#file_name{type: 'hidden',name: 'fn',value: t("intro.pdf.desk_report.file_name.#{ext}", firm: firm.name[0][0..2].upcase, unit: "_PCTE")}
       %tfoot
         %tr
-          %td.buttonset.ce{colspan: "2"}
-            %button{type: "button",data: {action: "print", icon: "print"}}= t('button.print')
-            %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
-- else
-  - type = ext.split('_')[1]
+          - td_buttonset ['print','cancel'],{style: 'ta-ce'},2
+- elsif ext == 'cb_monthly'
   %form{action: "/sys/wstm/report/print?rb=#{ext}"}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr.pdb-05
           %td{colspan: "2"}
-            %span.info.width-300.ju= t("intro.filter.desk_report.#{type}",data: data)
+            %detail.info.w-30ren
+              %i.fa.fa-info-circle.fa-lg.blue
+              = t("intro.filter.desk_report.#{ext}")
       %tbody
         %tr.pdb-05
           %td
-            %span Alegeţi luna:
+            %label Alegeţi luna:
+          %td
+            %input#date_send.ui-state-default.ce{name: 'date',value: l(Date.today,format: '%Y-%m')}
+            %input#file_name{type: 'hidden',name: 'fn',value: "#{firm.name[0][0..2].upcase}_RC-"}
+      %tfoot
+        %tr
+          - td_buttonset ['print','cancel'],{style: 'ta-ce'},2
+- else
+  - type = ext.split('_')[1]
+  %form{action: "/sys/wstm/report/print?rb=#{ext}"}
+    %table
+      %thead
+        %tr.pdb-05
+          %td{colspan: "2"}
+            %detail.info.w-30ren
+              %i.fa.fa-info-circle.fa-lg.blue
+              = t("intro.filter.desk_report.#{type}",data: data)
+      %tbody
+        %tr.pdb-05
+          %td
+            %label Alegeţi luna:
           %td
             %input#date_send.ui-state-default.ce{name: 'date',value: l(Date.today,format: '%Y-%m')}
         - if type == 'stats'
@@ -90,6 +115,4 @@
           %input#file_name{type: 'hidden',name: 'fn',value: t("intro.pdf.desk_report.file_name.#{ext}", firm: firm.name[0][0..2].upcase, unit: "_CONTA")}
       %tfoot
         %tr
-          %td.buttonset.ce{colspan: "2"}
-            %button{type: "button",data: {action: "print", icon: "print"}}= t('button.print')
-            %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+          - td_buttonset ['print','cancel'],{style: 'ta-ce'},2

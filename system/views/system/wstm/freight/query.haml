@@ -1,118 +1,193 @@
 :ruby
   today = Date.today;   cols = 0
-  y   = params[:y].nil? ? today.year  : params[:y].to_i
-  m   = params[:m].nil? ? today.month : params[:m].to_i
-  d   = params[:d].nil? ? 0 : params[:d].to_i
+  y   = params[:p_y].nil? ? today.year  : params[:p_y].to_i
+  m   = params[:p_m].nil? ? today.month : params[:p_m].to_i
+  d   = params[:p_d].nil? ? 0 : params[:p_d].to_i
   uid = @current_user.unit_id ? @current_user.unit_id : params[:uid] == 'null' ? nil : params[:uid]
   fid = params[:fid] ? params[:fid] == 'null' ? nil : params[:fid] : nil
   firm= Wstm::PartnerFirm.find_by(firm: :true); unit= firm.units.find(uid) if uid; freight = Wstm::Freight.find(fid) if fid
   data= uid ? unit.name[1] : firm.name[2]
-%span#hidden_data.hidden{data: {dialog: "query",title_data: data,model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_freight'}}
+%span#hidden_data{data: {dialog: "query",title_data: data,model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_freight'}}
 - if uid && fid.nil?
-  %div.small
-    %p.noFreight
-      %select#y
-        - [2011,2012,2013].each do |year|
-          %option{value: year, selected: y == year}= year
-      %select#m
-        - t('month')[1..12].each_with_index do |month,i|
-          %option{value: i + 1, selected: m == i + 1}= month
-      %select#d{style: 'font-family:Courier'}
-        - (0..Time.days_in_month(m,y)).each do |day|
-          %option{value: day, selected: d == day}= l(Date.new(y,m,day), format: "%a, %Y-%m-%d") rescue 'Intrări zilnice'
-      - unless @current_user.unit_id
-        %select#u
-          %option{value: 'null'} Toate unităţile
-          - firm.units.asc(:slug).each do |pos|
-            %option{value: pos.id, selected: uid.to_s == pos.id.to_s}= pos.name[1]
-    %span.info= t('intro.query.desk_freight.one')
-  %table{:cellspacing => "0"}
+  %article#xhr_info.info.noFreight
+    %i.fa.fa-info-circle.fa-lg.blue
+    = t('intro.query.desk_freight.one')
+  %table.inner
+    %thead
+      = partial 'wstm/shared/select_params', locals: {colspan: '5', daily: true, firm: (@current_user.unit_id.nil? ? firm : false)}
     %tbody.inner
       %tr
         - mat(@object,'table_all').each do |cn|; cols += 1
           %td
-            %span.stats.ce= cn
+            %span= cn
         - if d > 0; cols += 1
           %td
-            %span.stats.ce= Date.new(y,m,d).to_s
+            %span= Date.new(y,m,d).to_s
       - unit.freights.stats_pos(y,m).each do |st|
         %tr
           %td
             - id = st.shift
-            %span.stats.link{id: id}= st.shift
+            %span.link{id: id}= st.shift
           - st.each do |s|
-            %td
-              %span.stats.ri= "%0.2f" % s
+            %td.ta-ri
+              %span= "%0.2f" % s
           - if d > 0
             - ins = Wstm::Freight.find(id).ins.nonin.daily(y,m,d).sum(:qu)
-            %td
-              %span.stats.ri= "%0.2f" % ins
+            %td.ta-ri
+              %span= ins > 0 ? "%0.2f" % ins : ''
       %tr
         %td{colspan: cols} &nbsp;
 - elsif freight
-  %div.small
-    %span.info= t('intro.query.desk_freight.exit_one')
-    %p.hasFreight
-      %select#y
-        - [2011,2012,2013].each do |year|
-          %option{value: year, selected: y == year}= year
-      %select#m
-        - t('month')[1..12].each_with_index do |month,i|
-          %option{value: i + 1, selected: m == i + 1}= month
-      %select#f{data: {uid: freight.unit.id}}
-        %option{value: 'null'}= t('select.freight_all')
-        - freight.unit.freights.asc(:id_stats).each do |f|
-          %option{value: f.id, selected: freight.id.to_s == f.id.to_s}= f.name
-  %table
-    %tbody.inner.stats
-      %tr
-        - mat(@object,'table_one').each do |cn|
-          %td
-            %span.stats.ce= cn
-      %tr
-        %td{:colspan => "3"}
-          %span.stats.ce= mat(@object,'stock_start')
-        %td
-          %span.stats.ri= "%0.2f" % freight.stks.sum_stks(y,m)
-      - data = @object.stats_one(fid,y,m); data.each do |d|
+  %article#xhr_info.info.hasFreight
+    %i.fa.fa-info-circle.fa-lg.blue
+    = t('intro.query.desk_freight.exit_one')
+  %table.inner
+    - if d > 0
+      - stk_day = freight.stks.sum_freights(y,m) + freight.ins.period(y,m,1,d - 1).sum(:qu) - freight.outs.period(y,m,1,d - 1).sum(:qu); stock = stk_day
+      - ins_exp = freight.ins.daily(y,m,d).where(:doc_exp.ne => nil).sum(:qu)
+      - ins_int = freight.ins.daily(y,m,d).where(:doc_grn.ne => nil).nonin(false).sum(:qu)
+      - ins_sor = freight.ins.daily(y,m,d).where(:doc_sor.ne => nil).sum(:qu)
+      - ins_grn = freight.ins.daily(y,m,d).where(:doc_grn.ne => nil).nonin.sum(:qu)
+      - out_cas = freight.outs.daily(y,m,d).where(:doc_cas.ne => nil).sum(:qu)
+      - out_sor = freight.outs.daily(y,m,d).where(:doc_sor.ne => nil).sum(:qu)
+      - out_int = freight.outs.daily(y,m,d).where(:doc_dln.ne => nil).nonin(false).sum(:qu)
+      - out_dln = freight.outs.daily(y,m,d).where(:doc_dln.ne => nil).nonin.sum(:qu)
+      %thead
+        = partial 'wstm/shared/select_params', locals: {colspan: '4', daily: true, freight: freight}
+      %tbody.inner.stats
         %tr
-          %td
-            %span.stats= d.shift
-          - d.each do |v|
+          - mat(@object,'table_one_analitic').each do |cn|
             %td
-              %span.stats.ri= "%0.2f" % v
+              %span.stats.ce= cn
+        %tr
+          %td{:colspan => "3"}
+            %span.stats.ce= mat(@object,'stock_start')
+          %td
+            %span.stats.ri= "%0.2f" % stk_day
+        - if ins_exp > 0
+          - stock += ins_exp
+          %tr{style: 'color:blue'}
+            %td= 'Aciziții persoane fizice'
+            %td.ta-ri= "%0.2f" % ins_exp
+            %td &nbsp;
+            %td.ta-ri= "%0.2f" % stock
+        - if ins_int > 0
+          - stock += ins_int
+          %tr{style: 'color:blue'}
+            %td= 'Transfer gestiune'
+            %td.ta-ri= "%0.2f" % ins_int
+            %td &nbsp;
+            %td.ta-ri= "%0.2f" % stock
+        - if ins_sor > 0
+          - stock += ins_sor
+          %tr{style: 'color:blue'}
+            %td= 'Intrări sortare'
+            %td.ta-ri= "%0.2f" % ins_sor
+            %td &nbsp;
+            %td.ta-ri= "%0.2f" % stock
+        - if ins_grn > 0
+          - stock += ins_grn
+          %tr{style: 'color:blue'}
+            %td= 'Intrări furnizori'
+            %td.ta-ri= "%0.2f" % ins_grn
+            %td &nbsp;
+            %td.ta-ri= "%0.2f" % stock
+          - freight.ins.daily(y,m,d).where(:doc_grn.ne => nil).nonin.each do |f|
+            %tr
+              %td= " - " + f.doc_grn.supplr.name[0]
+              %td.ta-ri= "%0.2f" % f.qu
+              %td &nbsp;
+              %td &nbsp;
+        - if out_cas > 0
+          - stock -= out_cas
+          %tr{style: 'color:blue'}
+            %td= 'Ieșiri casare'
+            %td &nbsp;
+            %td.ta-ri= "%0.2f" % out_cas
+            %td.ta-ri= "%0.2f" % stock
+        - if out_sor > 0
+          - stock -= out_sor
+          %tr{style: 'color:blue'}
+            %td= 'Ieșiri sortare'
+            %td &nbsp;
+            %td.ta-ri= "%0.2f" % out_sor
+            %td.ta-ri= "%0.2f" % stock
+        - if out_int > 0
+          - stock -= out_int
+          %tr{style: 'color:blue'}
+            %td= 'Transfer gestiune'
+            %td &nbsp;
+            %td.ta-ri= "%0.2f" % out_int
+            %td.ta-ri= "%0.2f" % stock
+        - if out_dln > 0
+          - stock -= out_dln
+          %tr{style: 'color:blue'}
+            %td= 'Ieșiri clienți'
+            %td &nbsp;
+            %td.ta-ri= "%0.2f" % out_dln
+            %td.ta-ri= "%0.2f" % stock
+          - dlns = freight.outs.daily(y,m,d).where(:doc_dln.ne => nil).nonin.pluck(:doc_dln_id).uniq
+          - Wstm::DeliveryNote.where(:id.in => dlns).each do |dn|
+            %tr
+              %td= " - " + dn.client.name[0]
+              %td &nbsp;
+              %td.ta-ri= "%0.2f" % dn.freights.where(id_stats: freight.id_stats).sum(:qu)
+              %td &nbsp;
+        %tr
+          %td= 'Total'
+          %td.ta-ri= "%0.2f" % (ins_exp + ins_int + ins_grn)
+          %td.ta-ri= "%0.2f" % (out_cas + out_sor + out_int + out_dln)
+          %td.ta-ri= "%0.2f" % stock
+    - else
+      %thead
+        = partial 'wstm/shared/select_params', locals: {colspan: '4', daily: true, freight: freight}
+      %tbody.inner.stats
+        %tr
+          - mat(@object,'table_one').each do |cn|
+            %td
+              %span.stats.ce= cn
+        %tr
+          %td{:colspan => "3"}
+            %span= mat(@object,'stock_start')
+          %td.ta-ce
+            %span= "%0.2f" % freight.stks.sum_freights(y,m)
+        - data = @object.stats_one(fid,y,m); data.each do |d|
+          %tr
+            %td
+              %span= d.shift
+            - d.each do |v|
+              %td.ta-ri
+                %span= "%0.2f" % v
 - else
-  %div.small
-    %span.info.width-500.ju= t('intro.query.desk_freight.all')
-    %p.noFreight
-      %select#y
-        - [2011,2012,2013].each do |year|
-          %option{value: year, selected: y == year}= year
-      %select#m
-        - t('month')[1..12].each_with_index do |month,i|
-          %option{value: i + 1, selected: m == i + 1}= month
-  %table{:cellspacing => "0"}
+  - data = @object.stats_all(y,m); cols = data.first.length - 1
+  %article#xhr_info.info.noFreight
+    %i.fa.fa-info-circle.fa-lg.blue
+    = t('intro.query.desk_freight.all')
+  %table.inner
+    %thead
+      = partial 'wstm/shared/select_params', locals: {colspan: cols}
     %tbody.inner
       %tr
-        - mat(@object,'table_all').each do |cn|; cols += 1
+        - mat(@object,'table_all').each do |cn|
           %td
-            %span.stats.ce= cn
-        - firm.units.asc(:slug).each do |cn|; cols +=1
-          %td
-            %span.stats.ce.link.uid{id: cn.id}= cn.slug
-      - @object.stats_all(y,m).each do |st|
+            %span= cn
+        - firm.units.asc(:slug).each do |pos|
+          - if pos.active?(y,m)
+            %td
+              %span.link.uid{id: pos.id}= pos.slug
+      - data.each do |st|
         %tr
           %td
-            %span.stats= st.shift
+            %span= st.shift
           - dif = st.pop
           - st.each_with_index do |c,i|
-            %td
+            %td.ta-ri
               - if i == 3
                 - if firm.name[0] == 'Diren'
-                  %span.stats.ri.st{:title => dif != 0 &&  "Transfer intern neoperat:\n\t%0.2f kg\nlipseşte la stoc DPOA!" % dif, :style =>  dif != 0 && 'color:red;cursor:pointer'}= "%0.2f" % c
+                  %span.st{:title => dif != 0 &&  "Transfer intern neoperat:\n\t%0.2f kg\nlipseşte la stoc DPOA!" % dif, :style =>  dif != 0 && 'color:red;cursor:pointer'}= "%0.2f" % c
                 - else
-                  %span.stats.ri.st= "%0.2f" % (c - dif)
+                  %span.st= "%0.2f" % (c - dif)
               - else
-                %span.stats.ri=  "%0.2f" % c
+                %span=  "%0.2f" % c
       %tr
         %td{colspan: cols} &nbsp;

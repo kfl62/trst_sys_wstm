@@ -5,20 +5,18 @@
         cassation: {
           calculate: function() {
             var $rows, $total, tot_qu;
-
             $rows = $('tr.freight');
             $total = $('tr.total');
             tot_qu = 0;
             $rows.each(function() {
               var $sd, $tr, qu, res, stck;
-
               $tr = $(this);
               $sd = $tr.find('select').find('option:selected').data();
               stck = parseFloat($tr.find('span.stck').text());
               qu = parseFloat($tr.find('input[name*="qu"]').decFixed(2).val());
               res = (stck - qu).round(2);
               if (res < 0) {
-                alert(Trst.i18n.msg.cassation_negative_stock.replace('%{stck}', stck.toFixed(2).replace('%{res}', (0 - res).toFixed(2))));
+                alert(Trst.i18n.msg.cassation_negative_stock).replace('%{stck}', stck.toFixed(2)).replace('%{res}', (0 - res).toFixed(2));
                 qu = stck;
                 res = 0;
                 $tr.find('input[name*="qu"]').val(qu).decFixed(2);
@@ -36,7 +34,6 @@
           inputs: function(inpts) {
             inpts.each(function() {
               var $input;
-
               $input = $(this);
               if ($input.attr('id') === 'date_show') {
                 $input.on('change', function() {
@@ -57,14 +54,12 @@
           selects: function(slcts) {
             slcts.each(function() {
               var $id, $sd, $select;
-
               $select = $(this);
               $sd = $select.data();
               $id = $select.attr('id');
               if ($select.hasClass('freight')) {
                 $select.on('change', function() {
                   var $inp, $sod, $stck, qu;
-
                   $sod = $select.find('option:selected').data();
                   $inp = $select.parentsUntil('tbody').last().find('input');
                   $stck = $select.parentsUntil('tbody').last().find('span.stck');
@@ -82,10 +77,10 @@
                   qu.focus().select();
                 });
               } else if ($select.hasClass('wstm')) {
+
                 /*
                 Handled by Wstm.desk.select
-                */
-
+                 */
               } else {
                 return $log('Select not handled!');
               }
@@ -94,7 +89,6 @@
           buttons: function(btns) {
             btns.each(function() {
               var $bd, $button, $id;
-
               $button = $(this);
               $bd = $button.data();
               $id = $button.attr('id');
@@ -123,15 +117,14 @@
                   });
                 }
               } else {
+
                 /*
                 Buttons default handler Trst.desk.buttons
-                */
-
+                 */
               }
             });
-            $('span.icon-remove-sign').each(function() {
+            $('span.fa-minus-circle').each(function() {
               var $button;
-
               $button = $(this);
               $button.on('click', function() {
                 $button.parentsUntil('tbody').last().remove();
@@ -141,7 +134,6 @@
           },
           init: function() {
             var min, now;
-
             if ($('#date_show').length) {
               now = new Date();
               min = Trst.lst.admin === 'true' ? new Date(now.getFullYear(), now.getMonth() - 1, 1) : new Date(now.getFullYear(), now.getMonth(), 1);

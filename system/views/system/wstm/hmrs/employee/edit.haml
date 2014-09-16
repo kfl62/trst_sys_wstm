@@ -1,14 +1,14 @@
-%span#hidden_data.hidden{data: {dialog: "edit",model_name: mat(@object,'model_name'),oid: @object.id}}
+%span#hidden_data{data: {dialog: "edit",model_name: mat(@object,'model_name'),oid: @object.id}}
 %form{action: "/sys/#{@path}",method: "put"}
-  %table{cellspacing: "0"}
+  %table
     %thead
       %tr.pdb-05
         %td{colspan: "3"}
     = partial "#{@path}/form"
     %tfoot
       %tr
-        %td.buttonset.ce{colspan: "3"}
-          %button{type: "button",data: {action: "save",icon: "disk",remove: 'false'}}= t('button.save')
+        %td.buttonset.ta-ce{colspan: "3"}
+          %button{type: "button",data: {action: "save",icon: "fa fa-floppy-o",remove: 'false'}}= t('button.save')
           - if session[:r_path] || @current_user.admin?
-            %button{type: "button",data: {action: "delete",icon: "circle-minus",remove: 'false'}}= t('button.delete')
-          %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+            %button{type: "button",data: {action: "delete",icon: "fa fa-minus-square-o",remove: 'false'}}= t('button.delete')
+          %button{type: "button",data: {action: "cancel",icon: "fa fa-ban"}}= t('button.cancel')

@@ -1,73 +1,71 @@
 :ruby
   today = Date.today;   cols = 0
-  y   = params[:y].nil? ? today.year  : params[:y].to_i
-  m   = params[:m].nil? ? today.month : params[:m].to_i
+  y   = params[:p_y].nil? ? today.year  : params[:p_y].to_i
+  m   = params[:p_m].nil? ? today.month : params[:p_m].to_i
   sday,sout = 0,0
   s2dt= Wstm::User.where(:unit_id.ne => nil).asc(:name).map{|u| {id: u.id,text: u.name}}.to_json
   user_ids = params[:user_ids].split(',') if params[:user_ids]
-%span#hidden_data.hidden{data: {dialog: "query",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_user'}}}
+%span#hidden_data{data: {dialog: "query",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_user'}}
 - if user_ids
-  %table{cellspacing: "0"}
+  %table
     %thead
       %tr.pdb-05
-        %td{colspan: 5}
-          %span.info.width-300.ju= t('intro.filter.not_ready')
+        %td{colspan: 6}
+          %detail.info.w-45rem
+            %i.fa.fa-info-circle.fa-lg.blue
+            = t('intro.filter.not_ready')
     %tbody.inner
       %tr
         - mat(@object,'table_header').each do |label|
-          %td.ce.pdlr-05= label
+          %td
+            %span= label
+        %td
       - user_ids.each do |id|; u = Wstm::User.find(id); d = u.work_stats(y,m)
         %tr
           %td
-            %span.pdl-05= u.name
-          %td
-            %span.pdl-05= u.unit.name[0]
-          %td
+            %span= u.name
+          %td.ta-ce
+            %span= u.unit.name[0]
+          %td.ta-ri
             - sday += d.wdy
-            %span.flri.pdr-05= "%.2f" % d.wdy
-          %td
+            %span= "%.2f" % d.wdy
+          %td.ta-ri
             - sout += d.out
-            %span.flri.pdr-05= "%.2f" % d.out
-          %td
-            %span.flri.pdr-05= "%.2f" % d.avg
+            %span= "%.2f" % d.out
+          %td.ta-ri
+            %span= "%.2f" % d.avg
+          %td.ta-ce
+            %button.print{type: 'button',title: 'Detalii',data: {action: "print",text: 'hidden',icon: 'fa fa-only fa-print fa-lg',url: "p_y=#{y}&p_m=#{m}&user_ids=#{u.id}&fn=#{y}-#{'%02d' % m}_#{u.unit.name[0]}-#{u.login_name}"}}
       %tr
-        %td.ce= 'Total'
+        %td= 'Total'
         %td= ''
         %td
-          %span.flri.pdr-05= "%.2f" % sday
+          %span= "%.2f" % sday
         %td
-          %span.flri.pdr-05= "%.2f" % sout
+          %span= "%.2f" % sout
         %td
           - avg = sout / sday; avg = avg.nan? ? 0 : avg
-          %span.flri.pdr-05= "%.2f" % avg
+          %span= "%.2f" % avg
+        %td
     %tfoot
       %tr
-        %td.buttonset.ce{colspan: 5}
-          %button{type: 'button',data: {action: "cancel",icon: 'circle-close'}}= t('button.cancel')
+        - td_buttonset(['cancel'],{style: 'ta-ce'},'6')
 - else
   %form{action: "/sys/#{@path}", method: 'get'}
-    %table{cellspacing: "0"}
+    %table
       %thead
         %tr.pdb-05
           %td
-            %span.info.width-300.ju= t('intro.filter.not_ready')
+            %detail.info.w-30rem
+              %i.fa.fa-info-circle.fa-lg.blue
+              = t('intro.filter.not_ready')
+        = partial 'wstm/shared/select_params', locals: {colspan: '0'}
       %tbody
         %tr
           %td
-            %p
-              %select#y
-                - [2011,2012,2013].each do |year|
-                  %option{value: year, selected: y == year}= year
-              %select#m
-                - t('month')[1..12].each_with_index do |month,i|
-                  %option{value: i + 1, selected: m == i + 2}= month
-        %tr.pdb-05
-          %td
-            %input#user_ids.ui-state-default{type: 'hidden',style: 'width:300px',data: {data: s2dt}}
-            %button.query{type: 'button',data: {action: "query",text: 'hidden',icon: 'help'}}= t('button.query')
-            %button.print{type: 'button',data: {action: "print",text: 'hidden',icon: 'print'}}= t('button.print')
+            %input.w-30rem.select2.param{type: 'hidden',name: 'user_ids',data: {data: s2dt}}
+            %button.query{type: 'button',data: {action: "query",text: 'hidden',icon: 'fa fa-only fa-search'}}
 
       %tfoot
         %tr
-          %td.buttonset.ce
-            %button{type: 'button',data: {action: "cancel",icon: 'circle-close'}}= t('button.cancel')
+          - td_buttonset(['cancel'],{style: 'ta-ce'})

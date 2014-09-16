@@ -1,16 +1,13 @@
-%span#hidden_data.hidden{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_freight'}}
+%span#hidden_data{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_freight'}}
 %form{action: "/sys/#{@path}",method: "get"}
-  %table{cellspacing: "0"}
+  %table
     %thead
       %tr.pdb-05
         %td{colspan: "2"}
     = partial "#{@path}/show"
     %tfoot
       %tr
-        %td.buttonset.ce{colspan: "2"}
-          - if @current_user.admin?
-            %button{type: "button",data: {action: "create",icon: "circle-plus"}}=  t('button.create')
-          %button{type: "button",data: {action: "edit",icon: "document",remove: 'false'}}= t('button.edit')
-          - if @current_user.admin?
-            %button{type: "button",data: {action: "delete",icon: "circle-minus",remove: 'false'}}= t('button.delete')
-          %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+        - if @current_user.admin?
+          - td_buttonset(['create','edit','delete','cancel'],{style: 'ta-ce'},'2')
+        - else
+          - td_buttonset(['edit','cancel'],{style: 'ta-ce'},'2')

@@ -1,7 +1,5 @@
 # encoding: utf-8
 # Template for Document cumulativ APP.pdf
-require 'prawn/measurement_extensions'
-require 'prawn/layout'
 
 period     = params[:period].to_i
 unit_ids   = params[:unit_ids].split(',').map{|id| Moped::BSON::ObjectId(id)}
@@ -14,7 +12,7 @@ def address
 end
 def superscript(id_stats)
   case id_stats
-  when /1101|2101|2102|2201/
+  when /1101|1102|2101|2102|2201/
     "<sup>(1)</sup>"
   when /3011/
     "<sup>(2,3)</sup>"
@@ -47,7 +45,7 @@ pdf.font_families.update(
 unit_ids.each_with_index do |unit_id,next_unit|
   unit = Wstm::PartnerFirm.unit_by_unit_id(unit_id)
   data = unit.freights.asc(:id_stats).each_with_object([['Deșeu','Preț']]){|f,a| a << ["#{f.name}#{superscript(f.id_stats)}", "%0.2f" % f.pu] }
-  fs = data.length > 15 ? 22 : 24
+  fs = data.length > 15 ? 18 : 24
   # @todo
   pdf.start_new_page
   pdf.font 'Verdana'

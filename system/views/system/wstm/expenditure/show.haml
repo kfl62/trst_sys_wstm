@@ -1,17 +1,16 @@
-%span#hidden_data.hidden{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_expenditure'}}
+%span#hidden_data{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_expenditure'}}
 %form{action: "/sys/#{@path}",method: "get"}
-  %table{cellspacing: "0"}
+  %table
     %thead
       %tr.pdb-05
         %td{colspan: "8"}
-          %span.info.width-450= t('intro.show.desk_expenditure',@object.client.i18n_hash.merge(enr: @object.name,eon: l(@object.id_date,format: :trst)))
+          %detail.detail
+            %i.fa.fa-info-circle.fa-lg.blue
+            = t('intro.show.desk_expenditure',@object.client.i18n_hash.merge(enr: @object.name,eon: l(@object.id_date,format: :trst)))
     = partial "#{@path}/show"
     %tfoot
       %tr
-        %td.buttonset.ce{colspan: "8"}
-          - if @object.freights.count == 0
-            %button{type: "button",data: {action: "delete",icon: "circle-minus",type: 'delete'}}= t('button.delete')
-          - else
-            %button{type: "button",data: {action: "print", icon: "print"}}= t('button.print')
-            %button{type: "button",data: {action: "delete",icon: "circle-minus",remove: 'false'}}= t('button.delete')
-            %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+        - if @object.freights.count == 0
+          - td_buttonset(['delete'],{style: 'ta-ce'},'8')
+        - else
+          - td_buttonset(['print','delete','cancel'],{style: 'ta-ce'},'8')

@@ -22,25 +22,20 @@ define () ->
           return
         validate:
           filter: ()->
+            $params = jQuery.param($('.param').serializeArray())
             if Trst.desk.hdo.title_data?
-              if $('#supplr_id').val() isnt '' and $('#supplr_d_id').val() isnt '' and $('#supplr_d_id').val() isnt 'new' and $('select.p03').val() isnt 'null'
+              if $('#supplr_id').val() isnt '' and $('#supplr_d_id').val() isnt '' and $('#supplr_d_id').val() isnt 'new' and $('select[name="p03"]').val() isnt 'null'
                 $url = Trst.desk.hdf.attr('action')
-                $url += "/filter?grn_ary=true&y=#{$('select.y').val()}"
-                $url += "&m=#{$('select.m').val()}"
-                $url += "&p03=#{$('select.p03').val()}"
-                $url += "&supplr_id=#{$('#supplr_id').val()}"
+                $url += "/filter?grn_ary=true&#{$params}"
                 Wstm.desk.tmp.clear('supplr').set('supplr',$('#supplr_id').select2('data'))
                 Wstm.desk.tmp.clear('supplr_d').set('supplr_d',$('#supplr_d_id').select2('data'))
                 Trst.desk.init($url)
               else
                 $('.grns').hide()
             else
-              if $('#client_id').val() isnt '' and $('#client_d_id').val() isnt '' and $('#client_d_id').val() isnt 'new' and $('select.p03').val() isnt 'null'
+              if $('#client_id').val() isnt '' and $('#client_d_id').val() isnt '' and $('#client_d_id').val() isnt 'new' and $('select[name="p03"]').val() isnt 'null'
                 $url = Trst.desk.hdf.attr('action')
-                $url += "/filter?dln_ary=true&y=#{$('select.y').val()}"
-                $url += "&m=#{$('select.m').val()}"
-                $url += "&p03=#{$('select.p03').val()}"
-                $url += "&client_id=#{$('#client_id').val()}"
+                $url += "/filter?dln_ary=true&#{$params}"
                 Wstm.desk.tmp.clear('client').set('client',$('#client_id').select2('data'))
                 Wstm.desk.tmp.clear('client_d').set('client_d',$('#client_d_id').select2('data'))
                 Trst.desk.init($url)
@@ -52,11 +47,9 @@ define () ->
           $('input:checked').each ()->
             Wstm.desk.invoice.grn_ary.push(@id)
             return
+          $params = jQuery.param($('.param').serializeArray())
           $url = Trst.desk.hdf.attr('action')
-          $url += "/filter?y=#{$('select.y').val()}"
-          $url += "&m=#{$('select.m').val()}"
-          $url += "&p03=#{$('select.p03').val()}"
-          $url += "&supplr_id=#{$('#supplr_id').val()}"
+          $url += "/filter?#{$params}"
           $url += "&grn_ary=#{Wstm.desk.invoice.grn_ary}" if Wstm.desk.invoice.grn_ary.length
           Wstm.desk.tmp.clear('supplr').set('supplr',$('#supplr_id').select2('data'))
           Wstm.desk.tmp.clear('supplr_d').set('supplr_d',$('#supplr_d_id').select2('data'))
@@ -67,11 +60,9 @@ define () ->
           $('input:checked').each ()->
             Wstm.desk.invoice.dln_ary.push(@id)
             return
+          $params = jQuery.param($('.param').serializeArray())
           $url = Trst.desk.hdf.attr('action')
-          $url += "/filter?y=#{$('select.y').val()}"
-          $url += "&m=#{$('select.m').val()}"
-          $url += "&p03=#{$('select.p03').val()}"
-          $url += "&client_id=#{$('#client_id').val()}"
+          $url += "/filter?#{$params}"
           $url += "&dln_ary=#{Wstm.desk.invoice.dln_ary}" if Wstm.desk.invoice.dln_ary.length
           Wstm.desk.tmp.clear('client').set('client',$('#client_id').select2('data'))
           Wstm.desk.tmp.clear('client_d').set('client_d',$('#client_d_id').select2('data'))
@@ -112,25 +103,20 @@ define () ->
             $select = $(@)
             $sd = $select.data()
             $id = $select.attr('id')
-            if $select.hasClass 'wstm'
-              if $select.hasClass 'p03'
-                $select.on 'change', ()->
-                  if $select.val() is 'null'
-                    slcts.filter('#client_id,#supplr_id')
-                      .select2('data',null)
-                      .select2('enable',false)
-                      .next().select2('data',null)
-                      .select2('destroy')
-                    slcts.filter('#client_id,#supplr_id').next().next().hide()
-                  else
-                    slcts.filter('#client_id,#supplr_id')
-                      .select2('enable',true)
-                  Wstm.desk.invoice.validate.filter()
-                  return
-              else
-                ###
-                Just for params no special treatment
-                ###
+            if $select.attr('name') is 'p03'
+              $select.on 'change', ()->
+                if $select.val() is 'null'
+                  slcts.filter('#client_id,#supplr_id')
+                    .select2('data',null)
+                    .select2('enable',false)
+                    .next().select2('data',null)
+                    .select2('destroy')
+                  slcts.filter('#client_id,#supplr_id').next().next().hide()
+                else
+                  slcts.filter('#client_id,#supplr_id')
+                    .select2('enable',true)
+                Wstm.desk.invoice.validate.filter()
+                return
             else if $select.hasClass 'select2'
               if $id is 'client_id'
                 $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph]
@@ -147,7 +133,7 @@ define () ->
                       q: term
                     results: (data)->
                       results: data
-                $select.select2('enable',false) if slcts.filter('.p03').val() is 'null'
+                $select.select2('enable',false) if $('select[name="p03"]').val() is 'null'
                 if Wstm.desk.tmp.client
                   $select.select2('data',Wstm.desk.tmp.client)
                   $dlg   = $select.next()
@@ -170,7 +156,7 @@ define () ->
                     if $dlg.select2('data')
                       if $dlg.select2('data').id is 'new'
                         $dlgadd = $dlg.next()
-                        $dlgadd.data('url','/sys/wstm/partner_firm_person')
+                        $dlgadd.data('url','/sys/wstm/partner_firm/person')
                         $dlgadd.data('r_id',$select.select2('val'))
                         $dlgadd.data('r_mdl','firm')
                         $dlgadd.show()
@@ -203,7 +189,7 @@ define () ->
                       if $dlg.select2('data')
                         if $dlg.select2('data').id is 'new'
                           $dlgadd = $dlg.next()
-                          $dlgadd.data('url','/sys/wstm/partner_firm_person')
+                          $dlgadd.data('url','/sys/wstm/partner_firm/person')
                           $dlgadd.data('r_id',$select.select2('val'))
                           $dlgadd.data('r_mdl','firm')
                           $dlgadd.show()
@@ -232,7 +218,7 @@ define () ->
                       q: term
                     results: (data)->
                       results: data
-                $select.select2('enable',false) if slcts.filter('.p03').val() is 'null'
+                $select.select2('enable',false) if $('select[name="p03"]').val() is 'null'
                 if Wstm.desk.tmp.supplr
                   $select.select2('data',Wstm.desk.tmp.supplr)
                   $dlg   = $select.next()
@@ -255,7 +241,7 @@ define () ->
                     if $dlg.select2('data')
                       if $dlg.select2('data').id is 'new'
                         $dlgadd = $dlg.next()
-                        $dlgadd.data('url','/sys/wstm/partner_firm_person')
+                        $dlgadd.data('url','/sys/wstm/partner_firm/person')
                         $dlgadd.data('r_id',$select.select2('val'))
                         $dlgadd.data('r_mdl','firm')
                         $dlgadd.show()
@@ -288,7 +274,7 @@ define () ->
                       if $dlg.select2('data')
                         if $dlg.select2('data').id is 'new'
                           $dlgadd = $dlg.next()
-                          $dlgadd.data('url','/sys/wstm/partner_firm_person')
+                          $dlgadd.data('url','/sys/wstm/partner_firm/person')
                           $dlgadd.data('r_id',$select.select2('val'))
                           $dlgadd.data('r_mdl','firm')
                           $dlgadd.show()
@@ -318,9 +304,9 @@ define () ->
                     results: data
                 formatResult: (d)->
                   $markup  = "<div title='#{d.text.title}'>"
-                  $markup += "<span>Doc: </span>"
+                  $markup += "<span class='repair'>Doc: </span>"
                   $markup += "<span class='truncate-70'>#{d.text.doc_name}</span>"
-                  $markup += "<span> - Firma: </span>"
+                  $markup += "<span class='repair'> - Firma: </span>"
                   $markup += "<span class='truncate-200'>#{d.text.client}</span>"
                   $markup += "</div>"
                   $markup
@@ -352,13 +338,12 @@ define () ->
                 $button.hide()
               if $bd.action is 'create'
                 if $('input:checked').length is 0
-                  $button.button 'option', 'disabled', true if $button.hasClass 'inv'
+                  $button.button 'option', 'disabled', true if $id is undefined
                 else
-                  $bd   = $button.data()
+                  $bd  = $button.data()
+                  $params = jQuery.param($('.param').serializeArray())
                   $url = Trst.desk.hdf.attr('action')
-                  $url += "/create?y=#{$('select.y').val()}"
-                  $url += "&m=#{$('select.m').val()}"
-                  $url += "&p03=#{$('select.p03').val()}"
+                  $url += "/create?#{$params}"
                   if Wstm.desk.invoice.dln_ary?.length
                     $url += "&client_id=#{Wstm.desk.tmp.client.id}"
                     $url += "&client_d_id=#{Wstm.desk.tmp.client_d.id}"
@@ -399,7 +384,7 @@ define () ->
               return
           return
         init: ()->
-          if $('#client_id,#supplr_id').val() is '' and $('#client_d_id,#supplr_d_id').val() is '' and $('select.p03').val() is 'null'
+          if $('#client_id,#supplr_id').val() is '' and $('#client_d_id,#supplr_d_id').val() is '' and $('select[name="p03"]').val() is 'null'
             Wstm.desk.tmp.clear()
             delete @grn_ary
             delete @dln_ary
@@ -409,7 +394,7 @@ define () ->
             $('#date_show').datepicker 'option', 'maxDate', '+0'
             $('#date_show').datepicker 'option', 'minDate', min
           Wstm.desk.invoice.buttons($('button'))
-          Wstm.desk.invoice.selects($('select.wstm,input.select2,input.repair'))
+          Wstm.desk.invoice.selects($('select,input.select2,input.repair'))
           Wstm.desk.invoice.inputs($('input'))
           $log 'Wstm.desk.invoice.init() OK...'
   Wstm.desk.invoice

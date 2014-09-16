@@ -3,11 +3,12 @@
 %tbody
   %tr
     %td
-      %table.scroll{cellspacing: "0",style: "font-size:12px"}
+      %table.scroll
         %tbody.inner
           %tr.scroll
             - mat(@object,'table_header').each do |label|
-              %td.ce= label
+              %td
+                %span= label
             %td
               %span &nbsp;
           - unless  freights.empty?

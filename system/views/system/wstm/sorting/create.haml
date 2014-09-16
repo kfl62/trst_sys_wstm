@@ -2,13 +2,13 @@
   unit_id = @current_user.unit_id || session[:unit_id]
   from_freights = Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln_with_pu
   resl_freights = Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln
-%span#hidden_data.hidden{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_sorting'}}
+%span#hidden_data{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_sorting'}}
+%article#xhr_info.info
+  %i.fa.fa-info-circle.fa-lg.blue
+  = t('intro.create.main',data: mat(@object,'model_name'))
 %form{action: "/sys/#{@path}",method: "post"}
-  %table{:cellspacing => "0"}
+  %table
     %thead
-      %tr.pdb-05
-        %td{colspan: "4"}
-          %span.warning.width-350.ju= t('intro.create.main', data: mat(@object,'model_name'))
       %tr.pdb-05
         %td.ce{colspan: "4"}
           %span.st Nr.
@@ -20,8 +20,8 @@
           - input_for @object, 'signed_by', {type: 'hidden',value: @current_user.id}
       %tr
         %td{colspan: '4'}
-          - label_for @object, 'text'
-          - input_for @object, 'text',      {value: mat(@object,'text_default'),style: 'ui-state-default width-350'}
+          - label_for @object, 'expl'
+          - input_for @object, 'expl',      {value: mat(@object,'expl_default'),style: 'ui-state-default width-350'}
       %tr.pdb-05
         - o_from = @object.from_freights.new
         %td.select-freight{colspan: '4'}
@@ -44,6 +44,4 @@
     = partial "#{@path}/form", locals: {resl_freights: resl_freights}
     %tfoot
       %tr
-        %td.buttonset.ce{colspan: "4"}
-          %button{type: "button",data: {action: "save",icon: "disk",remove: 'false'}}= t('button.save')
-          %button{type: "button",data: {action: "cancel",icon: "circle-close"}}= t('button.cancel')
+        - td_buttonset(['save','cancel'],{style: 'ta-ce'},'4')

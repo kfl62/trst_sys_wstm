@@ -1,7 +1,8 @@
 %tbody.inner
   %tr
     - mat(@object,'table_header').each do |label|
-      %td.ce= label
+      %td
+        %span= label
   - if @object.freights.empty?
     - for i in 0..4 do; o = @object.freights.new
       %tr.freight
@@ -13,22 +14,25 @@
           - input_for   o, 'id_date',   {type: 'hidden',nested: 'doc_exp',value: 'strip',index: i}
           - input_for   o, 'id_stats',  {type: 'hidden',nested: 'doc_exp',value: 'strip',index: i}
           - input_for   o, 'freight_id',{type: 'hidden',nested: 'doc_exp',value: 'strip',index: i}
-        - td_input_for  o, 'um',        {style: ' um',nested: 'doc_exp',index: i}
-        - td_input_for  o, 'pu',        {style: ' pu',nested: 'doc_exp',index: i}
-        - td_input_for  o, 'qu',        {style: ' qu',nested: 'doc_exp',index: i}
-        %td
+        %td.w-4rem.ta-ce
+          - input_for   o, 'um',        {style: 'um w-2rem ta-ce',nested: 'doc_exp',index: i}
+        %td.w-6rem.ta-ce
+          - input_for   o, 'pu',        {style: 'pu w-4rem ta-ri',nested: 'doc_exp',index: i}
+        %td.w-8rem.ta-ce
+          - input_for  o,  'qu',        {style: 'qu w-6rem ta-ri',nested: 'doc_exp',index: i}
+        %td.ta-ri
           %span.val 0.00
           - input_for   o, 'val', {type: 'hidden',nested: 'doc_exp',index: i}
-        %td
+        %td.ta-ri
           %span.p03 0.00
-        %td
+        %td.ta-ri
           %span.p16 0.00
-        %td
+        %td.ta-ri
           %span.res 0.00
-        %td.action-1
-          %span.icon-remove-sign{title: t('button.delete')}
+        %td.ta-ce
+          %span.fa.fa-minus-circle.red{title: t('button.delete')}
     %tr.total
-      %td.ce.st{colspan: '4'}
+      %td{colspan: '4'}
         %span Total
       %td
         %span.val 0.00
@@ -47,4 +51,6 @@
   - else
     %tr.pdb-05
       %td{colspan: '9'}
-        %span.warning Editing not allowed!
+        %detail.warning
+          %i.fa.fa-info-circle.fa-lg.blue
+          = 'Editing not allowed!'

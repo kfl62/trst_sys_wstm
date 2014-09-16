@@ -3,27 +3,34 @@
   %tbody.inner
     %tr
       - i = @object.id_intern == true ? 4 : -2; mat(@object,'table_header')[0..i].each do |label|
-        %td.ce= label
+        %td
+          %span= label
     - @object.freights.asc(:id_stats).each do |o|
       %tr
-        - td_value_for  o, 'freight',   {order: 'name',style: 'name',nested: 'doc_grn'}
-        - td_value_for  o, 'um',        {style: 'um', nested: 'doc_grn'}
-        - td_value_for  o, 'pu',        {style: 'pu', nested: 'doc_grn'}
-        - td_value_for  o, 'qu',        {style: 'qu', nested: 'doc_grn'}
-        - td_value_for  o, 'val',       {style: 'val',nested: 'doc_grn'}
+        - td_value_for  o, 'freight',  {order: 'name',style: 'name',nested: 'doc_grn'}
+        %td.ta-ce.w-4rem
+          - value_for  o, 'um',        {style: 'um', nested: 'doc_grn'}
+        %td.ta-ri.w-6rem
+          - value_for  o, 'pu',        {style: 'val', nested: 'doc_grn'}
+        %td.ta-ri.w-8rem
+          - value_for  o, 'qu',        {style: 'val', nested: 'doc_grn'}
+        %td.ta-ri.w-8rem
+          - value_for  o, 'val',       {style: 'val', nested: 'doc_grn'}
         - unless @object.id_intern
-          %td
+          %td.ta-ri.w-6rem
             %span.val= "%.2f" % ((o.freight.p03 == true and @object.supplr.p03 == true) ? (o.val * 0.03).round(2) : 0)
     %tr
-      %td.ce.st{colspan: '4'}
+      %td{colspan: '4'}
         %span Total
       %td
-        %span.val= "%.2f" % @object.sum_100
+        %span= "%.2f" % @object.sum_100
       - unless @object.id_intern
         %td
-          %span.val= "%.2f" % @object.sum_003
+          %span= "%.2f" % @object.sum_003
 - else
   %tbody
     %tr
       %td
-        %span.warning.width-450.ju= t('msg.no_freight_selected')
+        %detail.detail
+          %i.fa.fa-warning.fa-lg.red
+          = t('msg.no_freight_selected')

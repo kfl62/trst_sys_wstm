@@ -27,14 +27,12 @@
           },
           validate: {
             filter: function() {
-              var $url;
+              var $params, $url;
+              $params = jQuery.param($('.param').serializeArray());
               if (Trst.desk.hdo.title_data != null) {
-                if ($('#supplr_id').val() !== '' && $('#supplr_d_id').val() !== '' && $('#supplr_d_id').val() !== 'new' && $('select.p03').val() !== 'null') {
+                if ($('#supplr_id').val() !== '' && $('#supplr_d_id').val() !== '' && $('#supplr_d_id').val() !== 'new' && $('select[name="p03"]').val() !== 'null') {
                   $url = Trst.desk.hdf.attr('action');
-                  $url += "/filter?grn_ary=true&y=" + ($('select.y').val());
-                  $url += "&m=" + ($('select.m').val());
-                  $url += "&p03=" + ($('select.p03').val());
-                  $url += "&supplr_id=" + ($('#supplr_id').val());
+                  $url += "/filter?grn_ary=true&" + $params;
                   Wstm.desk.tmp.clear('supplr').set('supplr', $('#supplr_id').select2('data'));
                   Wstm.desk.tmp.clear('supplr_d').set('supplr_d', $('#supplr_d_id').select2('data'));
                   Trst.desk.init($url);
@@ -42,12 +40,9 @@
                   $('.grns').hide();
                 }
               } else {
-                if ($('#client_id').val() !== '' && $('#client_d_id').val() !== '' && $('#client_d_id').val() !== 'new' && $('select.p03').val() !== 'null') {
+                if ($('#client_id').val() !== '' && $('#client_d_id').val() !== '' && $('#client_d_id').val() !== 'new' && $('select[name="p03"]').val() !== 'null') {
                   $url = Trst.desk.hdf.attr('action');
-                  $url += "/filter?dln_ary=true&y=" + ($('select.y').val());
-                  $url += "&m=" + ($('select.m').val());
-                  $url += "&p03=" + ($('select.p03').val());
-                  $url += "&client_id=" + ($('#client_id').val());
+                  $url += "/filter?dln_ary=true&" + $params;
                   Wstm.desk.tmp.clear('client').set('client', $('#client_id').select2('data'));
                   Wstm.desk.tmp.clear('client_d').set('client_d', $('#client_d_id').select2('data'));
                   Trst.desk.init($url);
@@ -58,16 +53,14 @@
             }
           },
           selectedGrns: function() {
-            var $url;
+            var $params, $url;
             this.grn_ary = [];
             $('input:checked').each(function() {
               Wstm.desk.invoice.grn_ary.push(this.id);
             });
+            $params = jQuery.param($('.param').serializeArray());
             $url = Trst.desk.hdf.attr('action');
-            $url += "/filter?y=" + ($('select.y').val());
-            $url += "&m=" + ($('select.m').val());
-            $url += "&p03=" + ($('select.p03').val());
-            $url += "&supplr_id=" + ($('#supplr_id').val());
+            $url += "/filter?" + $params;
             if (Wstm.desk.invoice.grn_ary.length) {
               $url += "&grn_ary=" + Wstm.desk.invoice.grn_ary;
             }
@@ -76,16 +69,14 @@
             Trst.desk.init($url);
           },
           selectedDeliveryNotes: function() {
-            var $url;
+            var $params, $url;
             this.dln_ary = [];
             $('input:checked').each(function() {
               Wstm.desk.invoice.dln_ary.push(this.id);
             });
+            $params = jQuery.param($('.param').serializeArray());
             $url = Trst.desk.hdf.attr('action');
-            $url += "/filter?y=" + ($('select.y').val());
-            $url += "&m=" + ($('select.m').val());
-            $url += "&p03=" + ($('select.p03').val());
-            $url += "&client_id=" + ($('#client_id').val());
+            $url += "/filter?" + $params;
             if (Wstm.desk.invoice.dln_ary.length) {
               $url += "&dln_ary=" + Wstm.desk.invoice.dln_ary;
             }
@@ -138,23 +129,16 @@
               $select = $(this);
               $sd = $select.data();
               $id = $select.attr('id');
-              if ($select.hasClass('wstm')) {
-                if ($select.hasClass('p03')) {
-                  $select.on('change', function() {
-                    if ($select.val() === 'null') {
-                      slcts.filter('#client_id,#supplr_id').select2('data', null).select2('enable', false).next().select2('data', null).select2('destroy');
-                      slcts.filter('#client_id,#supplr_id').next().next().hide();
-                    } else {
-                      slcts.filter('#client_id,#supplr_id').select2('enable', true);
-                    }
-                    Wstm.desk.invoice.validate.filter();
-                  });
-                } else {
-                  /*
-                  Just for params no special treatment
-                  */
-
-                }
+              if ($select.attr('name') === 'p03') {
+                $select.on('change', function() {
+                  if ($select.val() === 'null') {
+                    slcts.filter('#client_id,#supplr_id').select2('data', null).select2('enable', false).next().select2('data', null).select2('destroy');
+                    slcts.filter('#client_id,#supplr_id').next().next().hide();
+                  } else {
+                    slcts.filter('#client_id,#supplr_id').select2('enable', true);
+                  }
+                  Wstm.desk.invoice.validate.filter();
+                });
               } else if ($select.hasClass('select2')) {
                 if ($id === 'client_id') {
                   $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph];
@@ -179,7 +163,7 @@
                       }
                     }
                   });
-                  if (slcts.filter('.p03').val() === 'null') {
+                  if ($('select[name="p03"]').val() === 'null') {
                     $select.select2('enable', false);
                   }
                   if (Wstm.desk.tmp.client) {
@@ -213,7 +197,7 @@
                       if ($dlg.select2('data')) {
                         if ($dlg.select2('data').id === 'new') {
                           $dlgadd = $dlg.next();
-                          $dlgadd.data('url', '/sys/wstm/partner_firm_person');
+                          $dlgadd.data('url', '/sys/wstm/partner_firm/person');
                           $dlgadd.data('r_id', $select.select2('val'));
                           $dlgadd.data('r_mdl', 'firm');
                           $dlgadd.show();
@@ -259,7 +243,7 @@
                         if ($dlg.select2('data')) {
                           if ($dlg.select2('data').id === 'new') {
                             $dlgadd = $dlg.next();
-                            $dlgadd.data('url', '/sys/wstm/partner_firm_person');
+                            $dlgadd.data('url', '/sys/wstm/partner_firm/person');
                             $dlgadd.data('r_id', $select.select2('val'));
                             $dlgadd.data('r_mdl', 'firm');
                             $dlgadd.show();
@@ -302,7 +286,7 @@
                       }
                     }
                   });
-                  if (slcts.filter('.p03').val() === 'null') {
+                  if ($('select[name="p03"]').val() === 'null') {
                     $select.select2('enable', false);
                   }
                   if (Wstm.desk.tmp.supplr) {
@@ -336,7 +320,7 @@
                       if ($dlg.select2('data')) {
                         if ($dlg.select2('data').id === 'new') {
                           $dlgadd = $dlg.next();
-                          $dlgadd.data('url', '/sys/wstm/partner_firm_person');
+                          $dlgadd.data('url', '/sys/wstm/partner_firm/person');
                           $dlgadd.data('r_id', $select.select2('val'));
                           $dlgadd.data('r_mdl', 'firm');
                           $dlgadd.show();
@@ -382,7 +366,7 @@
                         if ($dlg.select2('data')) {
                           if ($dlg.select2('data').id === 'new') {
                             $dlgadd = $dlg.next();
-                            $dlgadd.data('url', '/sys/wstm/partner_firm_person');
+                            $dlgadd.data('url', '/sys/wstm/partner_firm/person');
                             $dlgadd.data('r_id', $select.select2('val'));
                             $dlgadd.data('r_mdl', 'firm');
                             $dlgadd.show();
@@ -426,9 +410,9 @@
                   formatResult: function(d) {
                     var $markup;
                     $markup = "<div title='" + d.text.title + "'>";
-                    $markup += "<span>Doc: </span>";
+                    $markup += "<span class='repair'>Doc: </span>";
                     $markup += "<span class='truncate-70'>" + d.text.doc_name + "</span>";
-                    $markup += "<span> - Firma: </span>";
+                    $markup += "<span class='repair'> - Firma: </span>";
                     $markup += "<span class='truncate-200'>" + d.text.client + "</span>";
                     $markup += "</div>";
                     return $markup;
@@ -460,7 +444,7 @@
           },
           buttons: function(btns) {
             btns.each(function() {
-              var $bd, $button, $id, $url, _ref, _ref1;
+              var $bd, $button, $id, $params, $url, _ref, _ref1;
               $button = $(this);
               $bd = $button.data();
               $id = $button.attr('id');
@@ -470,15 +454,14 @@
                 }
                 if ($bd.action === 'create') {
                   if ($('input:checked').length === 0) {
-                    if ($button.hasClass('inv')) {
+                    if ($id === void 0) {
                       return $button.button('option', 'disabled', true);
                     }
                   } else {
                     $bd = $button.data();
+                    $params = jQuery.param($('.param').serializeArray());
                     $url = Trst.desk.hdf.attr('action');
-                    $url += "/create?y=" + ($('select.y').val());
-                    $url += "&m=" + ($('select.m').val());
-                    $url += "&p03=" + ($('select.p03').val());
+                    $url += "/create?" + $params;
                     if ((_ref = Wstm.desk.invoice.dln_ary) != null ? _ref.length : void 0) {
                       $url += "&client_id=" + Wstm.desk.tmp.client.id;
                       $url += "&client_d_id=" + Wstm.desk.tmp.client_d.id;
@@ -516,10 +499,10 @@
               } else if (Trst.desk.hdo.dialog === 'repair') {
                 return $button.focus();
               } else {
+
                 /*
                 Buttons default handler Trst.desk.buttons
-                */
-
+                 */
               }
             });
             $('span.icon-remove-sign').each(function() {
@@ -533,7 +516,7 @@
           },
           init: function() {
             var min, now;
-            if ($('#client_id,#supplr_id').val() === '' && $('#client_d_id,#supplr_d_id').val() === '' && $('select.p03').val() === 'null') {
+            if ($('#client_id,#supplr_id').val() === '' && $('#client_d_id,#supplr_d_id').val() === '' && $('select[name="p03"]').val() === 'null') {
               Wstm.desk.tmp.clear();
               delete this.grn_ary;
               delete this.dln_ary;
@@ -545,7 +528,7 @@
               $('#date_show').datepicker('option', 'minDate', min);
             }
             Wstm.desk.invoice.buttons($('button'));
-            Wstm.desk.invoice.selects($('select.wstm,input.select2,input.repair'));
+            Wstm.desk.invoice.selects($('select,input.select2,input.repair'));
             Wstm.desk.invoice.inputs($('input'));
             return $log('Wstm.desk.invoice.init() OK...');
           }

@@ -1,16 +1,36 @@
 (function() {
-
   define(function() {
     $.extend(true, Wstm, {
       desk: {
         partner_person: {
-          init: function() {
-            var _ref;
-            if ((_ref = $('input.select2')) != null) {
-              _ref.each(function() {
-                var $ph, $sd, $select;
-                $select = $(this);
-                $sd = $select.data();
+          calculate: function() {},
+          updateDocAry: function(inpts) {
+            var $params, $url;
+            this.doc_ary = [];
+            inpts.filter(':checked').each(function() {
+              return Wstm.desk.partner_person.doc_ary.push(this.id);
+            });
+            inpts.filter('.param.doc_ary').val(this.doc_ary);
+            $params = jQuery.param($('.param').serializeArray());
+            $url = "/sys/partial/wstm/partner_person/_query_expenditures?" + $params;
+            Trst.msgShow();
+            $('td.query-expenditures-container').load($url, function() {
+              Wstm.desk.partner_person.selects($('select.param'));
+              Wstm.desk.partner_person.inputs($('input'));
+              Trst.msgHide();
+            });
+          },
+          inputs: function(inpts) {
+            inpts.filter(':checkbox').on('change', function() {
+              Wstm.desk.partner_person.updateDocAry(inpts);
+            });
+          },
+          selects: function(slcts) {
+            slcts.each(function() {
+              var $ph, $sd, $select;
+              $select = $(this);
+              $sd = $select.data();
+              if ($select.hasClass('select2')) {
                 $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph];
                 $select.select2({
                   placeholder: $ph,
@@ -34,10 +54,62 @@
                 });
                 $select.unbind();
                 $select.on('change', function() {
-                  Trst.desk.hdo.oid = $select.select2('val') === '' ? null : $select.select2('val');
+                  var $params, $url;
+                  if ($select.select2('val') === '') {
+                    Trst.desk.hdo.oid = null;
+                    if (Trst.desk.hdo.dialog === 'query') {
+                      $url = "/sys/wstm/partner_person/query";
+                      Trst.desk.init($url);
+                      return;
+                    }
+                    return;
+                  } else {
+                    Trst.desk.hdo.oid = $select.select2('val');
+                    if (Trst.desk.hdo.dialog === 'query') {
+                      $params = jQuery.param($('.param').serializeArray());
+                      $url = "/sys/partial/wstm/partner_person/_query_expenditures?" + $params;
+                      Trst.msgShow();
+                      $('td.query-expenditures-container').load($url, function() {
+                        Wstm.desk.partner_person.selects($('select.param'));
+                        Wstm.desk.partner_person.inputs($('input'));
+                        Trst.msgHide();
+                      });
+                      return;
+                    }
+                    return;
+                  }
                 });
-              });
-            }
+                return;
+              } else if ($select.hasClass('param')) {
+                $select.on('change', function() {
+                  var $params, $url;
+                  $('.param.doc_ary').val('');
+                  $params = jQuery.param($('.param').serializeArray());
+                  $url = "/sys/partial/wstm/partner_person/_query_expenditures?" + $params;
+                  Trst.msgShow();
+                  return $('td.query-expenditures-container').load($url, function() {
+                    Wstm.desk.partner_person.selects($('select.param'));
+                    Wstm.desk.partner_person.inputs($('input'));
+                    Trst.msgHide();
+                  });
+                });
+                return;
+              } else {
+                return;
+              }
+            });
+          },
+          buttons: function(btns) {
+            btns.each(function() {
+              var $bd, $button;
+              $button = $(this);
+              $bd = $button.data();
+            });
+          },
+          init: function() {
+            Wstm.desk.partner_person.buttons($('button'));
+            Wstm.desk.partner_person.selects($('select.param, input.select2, input.repair'));
+            Wstm.desk.partner_person.inputs($('input'));
             return $log('Wstm.desk.partner_person.init() OK...');
           }
         }

@@ -3,25 +3,16 @@
 module Wstm
   class Cache < Trst::Cache
 
-    field :name,        type: String,     default: -> {"DP_NR-#{Date.today.to_s}"}
-    field :expl,        type: String,     default: 'Vasy Ildiko'
-    field :id_intern,   type: Boolean,    default: false
+    field :id_intern,         type: Boolean,                            default: false
+    field :expl,              type: String,                             default: 'Vasy Ildiko'
 
-    belongs_to  :unit,     class_name: 'Wstm::PartnerFirmUnit', inverse_of: :dps
+    belongs_to  :unit,        class_name: 'Wstm::PartnerFirm::Unit',    inverse_of: :dps, index: true
+
+    alias :unit :unit_belongs_to
 
     index({ unit_id: 1, id_date: 1 })
-    scope :by_unit_id, ->(unit_id) {where(unit_id: unit_id)}
 
     class << self
-      # @todo
-      def pos(s)
-        s = s.upcase
-        where(unit_id: Wstm::PartnerFirm.pos(s).id)
-      end
-      # @todo
-      def nonin(nin = true)
-        where(id_intern: !nin)
-      end
       # @todo
       def stats_pos(*args)
         opts = args.last.is_a?(Hash) ? {}.merge!(args.pop) : {mny_all: true,exp_all: true}
@@ -67,7 +58,7 @@ module Wstm
           sum_t = [sum_m,sum_e,sld_f.round(2)].flatten
           sum_t.length.times{sum_tot << 0} unless sum_tot.length > 0
           sum_tot = sum_tot.zip(sum_t).map{|x| (x.inject(:+)).round(2)}
-          retval << [u,Wstm::PartnerFirm.unit_by_unit_id(u).name[1],sum_t].flatten
+          retval << [u,Wstm::PartnerFirm.unit_by_unit_id(u).name[1],sum_t].flatten unless sum_t.sum == 0
         end
         retval << ['Id','Total',sum_tot].flatten
       end
@@ -88,9 +79,5 @@ module Wstm
       end
     end # Class methods
 
-    #todo
-    def unit
-      Wstm::PartnerFirm.unit_by_unit_id(unit_id) rescue nil
-    end
   end # Cache
 end # Wstm

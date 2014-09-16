@@ -1,0 +1,53 @@
+:ruby
+  firm= Wstm::PartnerFirm.find_by(firm: true)
+  uid = @current_user.unit_id || session[:unit_id]
+  unit= firm.units.find(uid) if uid
+%span#hidden_data{data: {dialog: "query",title_data: firm.name[1],model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_partner_firm'}}
+-if uid
+  - unless @current_user.unit_id
+    = partial 'wstm/shared/select_unit'
+  %p.small
+    %span.small Alegeți anul:&nbsp;&nbsp;
+    %select.param{name: 'y'}
+      - (2012..Date.today.year).each do |year|
+        %option{value: year, selected: y == year}= year
+    %button{type: "button",title: "#{t('button.print')}", data: {fn: "statsAnuala",uid: uid,action: "print",text: 'hidden', icon: "fa fa-print"}}= t('button.print')
+  %div.small
+    %table
+      %tbody.inner.small
+        %tr
+          - %w{Material Ian Feb Mar Apr Mai Iun Iul Aug Sep Oct Noi Dec}.each do |title|
+            %td
+              %span.stats.ce= title
+        - data = unit.yearly_stats(y); data.values.each do |v|
+          %tr
+            %td
+              %span.stats= v[0]
+            - v[1..12].each do |x|
+              %td
+                - if x == 0
+                  %span.stats.ce= "---"
+                - else
+                  %span.stats.ri= "%0.2f" % x
+        %tr
+          %td{colspan: "13"}
+            %span.stats.ce{style: 'font-size:120%;padding:0.5em'}= "Centralizator #{y.to_s}"
+  %div.small
+    %table{style: 'margin:auto;width:auto'}
+      %tbody.inner.small
+        %tr
+          - %w{Material Total Media}.each do |title|
+            %td
+              %span.stats.ce= title
+        - data.values.each do |v|
+          %tr
+            %td
+              %span.stats= v[0]
+            - v[13..14].each do |x|
+              %td
+                %span.stats.ri= "%0.2f" % x
+        %tr
+          %td{colspan: "3"} *Media lunară: lunile cu intrări
+-else
+  %form{action: "/sys/#{@path}", method: "get"}
+    = partial 'wstm/shared/select_unit'

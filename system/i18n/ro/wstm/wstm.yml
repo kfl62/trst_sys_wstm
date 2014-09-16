@@ -89,8 +89,10 @@ ro:
           no_grn: |
             Nu aveţi nici o recepţie!
         desk_report:
+          cb_monthly: Registru de casă
           cdd: Document cumulativ APP
           grn: Notă de recepţie APP
+          all: NIR și DC
           plst: Listă preț
           stock_stats: Situaţie lunară (Statistică)
           stock_accounting: Situaţie lunară (Contabilă)
@@ -189,6 +191,22 @@ ro:
             Pentru fişa de magazie "click" pe denumirea materialului!
           exit_one: |
             Pentru stocuri alegeţi "Toate materialele"!
+        desk_partner_person:
+          exp_0: |
+            Pentru acest partener nu s-a întocmit nicio Adeverință de Primire / Plată!
+          exp_1: |
+            Pentru acest partener s-a întocmit o Adeverință de Primire / Plată, cu nr. <b>%{doc_name}</b>
+            în data de <b>%{doc_date}</b>.
+          exp_m: |
+            În perioda <b>%{doc_date_start} - %{doc_date_end}</b> s-au întocmit (<b>%{doc_count}</b>)
+            APP-uri, în valoare totală de <b>%{sum_100} RON</b>, din care s-au reținut <b>%{sum_016} RON</b>
+            (impozit 16%) respectiv <b>%{sum_003} RON</b> (taxă mediu 3%) și s-au plătit în numerar <b>%{sum_out} RON</b>.
+          exp_tme: |
+            Prea multe (<b>%{doc_count}</b>) APP-uri! Nu se pot afișa! Încercați să alegeți o periaodă mai scurtă!<br>
+            În tabel sunt cuprinse <b>toate</b> APP-urile, din perioda selectată.
+          exp_noe: |
+            În perioda selectată, nu sunt APP-uri!
+
       query_value:
         desk_freight:
           all: |
@@ -210,10 +228,18 @@ ro:
           Firma <b>%{firm}</b> reprezentat de %{firm_d} expediază clientului,
           <b>%{client}</b> reprezentat de %{client_d}, transportul fiind asigurat de
           <b>%{transp}</b> delegat %{transp_d}, următoarele materiale:
+        desk_delivery_note_dups: |
+          Atenție posibil duplicat!<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Către firma <b>%{client}</b> în data de <b>%{id_date}</b>
+          s-a eliberat un document cu același număr: <b>%{doc_name}</b>
         desk_grn: |
           În ziua de <b>%{id_date}</b> în gestiunea <b>%{unit}</b> de către
           <b>%{signed_by}</b> în prezenţa delegatului <b>%{transp_d}</b>, s-au recepţionat următoarele
           materiale provenind de la <b>%{supplr}</b> :
+        desk_grn_dups: |
+          Atenție posibil duplicat!<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;De la firma <b>%{supplr}</b> în data de <b>%{id_date}</b>
+          s-a înregistrat un document cu același număr: <b>%{doc_name}</b>
         desk_cassation: |
           În ziua de <b>%{id_date}</b> în gestiunea <b>%{unit}</b> de către
           <b>%{signed_by}</b> s-au casat/degradat următoarele: <br>
@@ -270,12 +296,31 @@ ro:
             2.) Materialele pe care le predau provin din:
             #####a.) Gospodărie proprie;
             #####b.) Alte surse.
+          text_03: |
+            S-au primit de la (deținător) <b>%{name}</b> CNP <b>%{id_pn}</b>
+            cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}
+            legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}
+            mijloc de transport _________________, următoarele deşeuri metalice:
+          text_empty_03: |
+            S-au primit de la %{name} CNP %{id_pn}
+            cu domiciliul: str.%{street}, nr.%{nr}, bl.%{bl}, sc.%{sc}, et.%{et}, ap.%{ap}, loc.%{city}
+            legitimat cu: CI/BI seria.%{dsr}, nr.%{dnr}, %{dby}/%{don}
+            mijloc de transport _________________, următoarele deşeuri metalice:
+          text_04: |
+            Se achită suma de <b>%{val}</b> lei, reprezentând contravaloarea deşeurilor metalice feroase şi neferoase şi a aliajelor acestora achiziţionate cu chitanța / APP <b>%{name}</b>, sau în termen de maximum 3 zile lucrătoare de la data prezentei, prin virament bancar în contul deţinătorului nr. ____________________, deschis la ____________
+          text_05: |
+            Impozitul pe venit de 16% şi contribuţia de 3% la Administraţia Fondului pentru Mediu (conform Ordonanţei de urgenţă a Guvernului nr. 196/2005 privind Fondul pentru mediu, aprobată cu modificări şi completări prin Legea nr. 105/2006, cu modificările şi completările ulterioare) din contravaloarea deşeurilor predate au fost reţinute la sursă din valoarea brută.
+          text_06: |
+            1. Cunosc faptul că falsul în declaraţie constituie infracţiune şi se pedepseşte conform Codului penal.
+            2. Declar pe propria răspundere că deşeurile pe care le predau provin din gospodăria proprie.
         desk_report:
           file_name:
             cdd: |
               %{firm}%{unit}_DC-
             grn: |
               %{firm}%{unit}_NIR-
+            all: |
+              %{firm}%{unit}_NIR-DC-
             plst: |
               %{firm}%{unit}_ListaPret-
             stock_stats: |

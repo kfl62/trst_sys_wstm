@@ -3,7 +3,7 @@ ro:
     attributes:
       'wstm/invoice':
         model_name: Factură client
-        p03: [['null', 'Tip marfă'], ['true', 'DA se reţine 3%'], ['false', 'NU se reţine 3%'], ['mixt', 'Mixt (Toate avizele)']]
+        p03_select: [['null', 'Tip marfă'], ['true', 'DA se reţine 3%'], ['false', 'NU se reţine 3%'], ['mixt', 'Mixt (Toate avizele)']]
         table_header: ['Material', 'UM', 'Cantitate', 'Valoare<br>Cump.', 'Preţ<br>Vânz.', 'Valoare<br>Vânz.']
         table_header_show: ['Material', 'UM', 'Cantitate', 'Preţ', 'Valoare']
         name: 'Nr. intern '
@@ -14,7 +14,7 @@ ro:
         tabs_payments: 'Condiţii plată'
         payed:     'Achitat? '
         deadl:     'Termen de plată'
-        pyms_text: 'Achitat cu...'
+        pyms_expl: 'Achitat cu...'
         pyms_val:  'Suma de...'
         day: |
           Facturi din data de:&nbsp;

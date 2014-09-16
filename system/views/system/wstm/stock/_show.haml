@@ -3,22 +3,29 @@
   %tbody
     %tr
       %td
-        %table.scroll{cellspacing: "0",style: "font-size:12px"}
+        %table.w-100pr.scroll
           %tbody.inner
             %tr.scroll
               - mat(@object,'table_header').each do |label|
-                %td.ce= label
+                %td
+                  %span= label
             - @object.freights.where(:qu.ne => 0).asc(:id_stats,:pu).each do |o|
               %tr
-                - td_value_for  o, 'freight',   {order: 'name',style: 'stats',nested: 'doc_stk'}
-                - td_value_for  o, 'um',        {style: 'stats ce',nested: 'doc_stk'}
-                - td_value_for  o, 'pu',        {style: 'stats ri',nested: 'doc_stk'}
-                - td_value_for  o, 'qu',        {style: 'stats ri',nested: 'doc_stk'}
-                - td_value_for  o, 'val',       {style: 'stats ri',nested: 'doc_stk'}
+                %td
+                  - value_for  o, 'freight',   {order: 'name',style: 'name',nested: 'doc_stk'}
+                %td.ta-ce
+                  - value_for  o, 'um',        {style: 'um',nested: 'doc_stk'}
+                %td.ta-ri
+                  - value_for  o, 'pu',        {style: 'pu',nested: 'doc_stk'}
+                %td.ta-ri
+                  - value_for  o, 'qu',        {style: 'qu',nested: 'doc_stk'}
+                %td.ta-ri
+                  - value_for  o, 'val',       {style: 'val',nested: 'doc_stk'}
             %tr
     %tr
 - else
   %tbody
     %tr
       %td
-        %span.warning.width-450.ju= t('msg.no_freight_in_stock')
+        %detail.detail.w-45rem
+          = t('msg.no_freight_in_stock')

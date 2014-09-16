@@ -3,27 +3,30 @@
   %tbody.inner
     %tr
       - mat(@object,'table_header_show').each do |label|
-        %td.ce= label
+        %td
+          %span= label
     - @object.reload; @object.freights.each do |o|
       %tr
         - td_value_for  o, 'freight',   {order: 'name',style: 'name',nested: 'doc_dln'}
-        - td_value_for  o, 'um',        {style: 'um', nested: 'doc_dln'}
-        - td_value_for  o, 'pu',        {style: 'pu', nested: 'doc_dln'}
-        - td_value_for  o, 'qu',        {style: 'val',nested: 'doc_dln'}
-        - td_value_for  o, 'val',       {style: 'val',nested: 'doc_dln'}
+        - td_value_for  o, 'um',        {style: 'um ta-ce', nested: 'doc_dln'}
+        - td_value_for  o, 'pu',        {style: 'pu ta-ri', nested: 'doc_dln'}
+        - td_value_for  o, 'qu',        {style: 'val ta-ri',nested: 'doc_dln'}
+        - td_value_for  o, 'val',       {style: 'val ta-ri',nested: 'doc_dln'}
         %td
-          %span.res= "%.2f" % o.freight.stock_by_key(o.freight.key(o.pu))
+          %span.ta-ri= "%.2f" % o.freight.stock_by_key(o.freight.key(o.pu))
     %tr
-      %td.ce.st{colspan: '3'}
+      %td{colspan: '3'}
         %span Total
       %td
-        %span.res= "%.2f" % @object.freights.sum(:qu)
+        %span= "%.2f" % @object.freights.sum(:qu)
       %td
-        %span.val= "%.2f" % @object.freights.sum(:val)
+        %span= "%.2f" % @object.freights.sum(:val)
       %td
         %span &nbsp;
 - else
   %tbody
     %tr.pdb-05
       %td
-        %span.warning.width-450.ju= t('msg.no_freight_selected')
+        %detail.warning.w-45rem
+          %i.fa.fa-info-circle.fa-lg.blue
+          = t('msg.no_freight_selected')
