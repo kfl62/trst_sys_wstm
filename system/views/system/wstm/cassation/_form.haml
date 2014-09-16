@@ -4,7 +4,8 @@
       %tbody.inner
         %tr
           - mat(@object,'table_header_form').each do |label|
-            %td.ce= label
+            %td
+              %span= label
         - if @object.freights.empty?
           - for i in 0..4 do; o = @object.freights.new
             %tr.freight
@@ -38,4 +39,6 @@
         - else
           %tr.pdb-05
             %td{colspan: '6'}
-              %span.warning Editing not allowed!
+              %detail.warning
+                %i.fa.fa-info-circle.fa-lg.blue
+                = 'Editing not allowed!'

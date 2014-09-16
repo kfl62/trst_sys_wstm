@@ -2,11 +2,12 @@
   %tbody
     %tr
       %td
-        %table{cellspacing: "0",style: "width:100%;font-size:12px"}
+        %table.w-100pr
           %tbody.inner
             %tr
               - mat(@object,'table_header')[0..4].each do |label|
-                %td.ce= label
+                %td
+                  %span= label
             - data = Wstm::DeliveryNote.where(:id.in => dlns).sum_freights_grn; data.sort.each_with_index do |s,i|
               - o = @object.freights.new
               %tr
@@ -41,7 +42,8 @@
           %tbody.inner
             %tr
               - mat(@object,'table_header').each do |label|
-                %td= label
+                %td
+                  %span= label
             - for i in 0..4 do; o = @object.freights.new
               %tr.freight
                 %td.select-freight

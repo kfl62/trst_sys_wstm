@@ -5,7 +5,8 @@
   %tbody.inner
     %tr
       - mat(@object,'table_header_show').each do |label|
-        %td.ce= label
+        %td
+          %span= label
     - @object.resl_freights.each do |o|
       %tr
         - td_value_for  o, 'freight',   {order: 'name',style: 'name',nested: 'doc_cas'}
@@ -29,4 +30,6 @@
   %tbody
     %tr.pdb-05
       %td
-        %span.warning.width-350= t('msg.no_freight_selected')
+        %detail.warning.w-35rem
+          %i.fa.fa-info-circle.fa-lg.blue
+          = t('msg.no_freight_selected')

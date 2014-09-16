@@ -8,7 +8,9 @@
       %thead
         %tr
           %td
-            %span.warning.width-350.ju= t('intro.delete.desk_stock.forbidden', data: mat(@object,'model_name'))
+            %detail.warning.w-35rem
+              %i.fa.fa-fa-exclamation-triangle.fa-lg
+              = t('intro.delete.desk_stock.forbidden', data: mat(@object,'model_name'))
         %tr
           %td
             - label_for @object, 'name',    {style: 'stats'}

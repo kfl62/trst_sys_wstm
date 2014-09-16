@@ -3,6 +3,18 @@
 release date: **2014-xx-xx**
 
 
+* **feature v0.2.996**, v0.3.0 preparation
+   - feature date: **2014-09-16**
+   - bump version v0.2.996
+   - update CHANGELOG
+   - views retouch, span.warning, [issue #16][#16]
+   - views retouch, span.info, [issue #16][#16]
+   - views retouch, td= label, [issue #16][#16]
+   - views retouch, td.ce=, [issue #16][#16]
+   - views retouch, cellspacing, [issue #16][#16]
+   - views `Wstm::CacheBook` filter, fix [issue #24][#24]
+
+
 * **feature v0.2.995**, v0.3.0 preparation fix [issue #16][#16]
    - feature date: **2014-09-11**
    - bump version v0.2.995

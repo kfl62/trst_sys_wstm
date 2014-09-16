@@ -2,7 +2,8 @@
   %tbody.inner
     %tr.scroll
       - mat(@object,'table_header_form_with_pu').each do |label|
-        %td= label
+        %td
+          %span= label
     - if @object.freights.empty?
       - for i in 0..4 do; o = @object.freights.new
         %tr.freight
@@ -45,12 +46,15 @@
     - else
       %tr
         %td{colspan: '8'}
-          %span.warning Editing not allowed!
+          %detail.warning
+            %i.fa.fa-info-circle.fa-lg.blue
+            = 'Editing not allowed!'
 - else
   %tbody.inner
     %tr.scroll
       - mat(@object,'table_header_form').each do |label|
-        %td= label
+        %td
+          %span= label
     - if @object.freights.empty?
       - for i in 0..4 do; o = @object.freights.new
         %tr.freight
@@ -87,4 +91,6 @@
     - else
       %tr.pdb-05
         %td{colspan: '6'}
-          %span.warning Editing not allowed!
+          %detail.warning
+            %i.fa.fa-info-circle.fa-lg.blue
+            = 'Editing not allowed!'

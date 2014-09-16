@@ -17,7 +17,8 @@
     %tbody.inner
       %tr
         - mat(@object,'table_header').each do |label|
-          %td= label
+          %td
+            %span= label
         %td
       - user_ids.each do |id|; u = Wstm::User.find(id); d = u.work_stats(y,m)
         %tr

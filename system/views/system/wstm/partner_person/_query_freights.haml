@@ -1,10 +1,11 @@
 %td.query-freights-container
   - unless sa.blank?
-    %table{cellspacing: "0",style: "width:80%;margin:auto;min-width:550px"}
+    %table{style: "width:80%;margin:auto;min-width:550px"}
       %tbody.inner
         %tr
           - mat(Wstm::Expenditure,'table_header')[0..-2].each do |label|
-            %td.ce= label
+            %td
+              %span= label
         - data = sa.where(:id.in => doc_ary).sum_freights_exp; data.sort.each do |s|
           %tr
             %td
@@ -38,4 +39,6 @@
           %td
             %span.val= "%.2f" % sa.where(:id.in => doc_ary).sum(:sum_out)
   - else
-    %span.info.width-300= t('intro.query.desk_partner_person.exp_noe')
+    %detail.detail.w-30rem
+      %i.fa.fa-info-circle.fa-lg.blue
+      = t('intro.query.desk_partner_person.exp_noe')

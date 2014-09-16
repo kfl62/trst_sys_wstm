@@ -5,7 +5,7 @@
   prev  = Wstm::CacheBook.where(:id_date.lt => date).desc(:id_date).limit(1).first
 %span#hidden_data{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_cache_book'}}
 %form{action: "/sys/#{@path}",method: "post"}
-  %table{:cellspacing => "0"}
+  %table
     %thead
       %tr.pdb-05
         %td
