@@ -9,7 +9,9 @@
         - dups.asc(:id_date).each do |d|
           %tr.pdb-05
             %td{colspan: @object.id_intern == true ? '5' : '6'}
-              %span.warning.width-450{title: d.freights_list.join("\n")}= t('intro.show.desk_grn_dups',id_date: d.id_date.to_s,doc_name: d.doc_name,supplr: d.supplr.name[0])
+              %detail.warning.w-45rem{title: d.freights_list.join("\n")}
+                %i.fa.fa-info-circle.fa-lg.blue
+                = t('intro.show.desk_grn_dups',id_date: d.id_date.to_s,doc_name: d.doc_name,supplr: d.supplr.name[0])
       %tr.pdb-05
         %td{colspan: @object.id_intern == true ? '5' : '6'}
           %detail.detail.w-45rem

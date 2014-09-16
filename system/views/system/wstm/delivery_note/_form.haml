@@ -46,7 +46,9 @@
     - else
       %tr
         %td{colspan: '8'}
-          %span.warning Editing not allowed!
+          %detail.warning
+            %i.fa.fa-info-circle.fa-lg.blue
+            = 'Editing not allowed!'
 - else
   %tbody.inner
     %tr.scroll
@@ -89,4 +91,6 @@
     - else
       %tr.pdb-05
         %td{colspan: '6'}
-          %span.warning Editing not allowed!
+          %detail.warning
+            %i.fa.fa-info-circle.fa-lg.blue
+            = 'Editing not allowed!'

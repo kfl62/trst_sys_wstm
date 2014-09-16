@@ -3,12 +3,12 @@
   from_freights = Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln_with_pu
   resl_freights = Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln
 %span#hidden_data{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_sorting'}}
+%article#xhr_info.info
+  %i.fa.fa-info-circle.fa-lg.blue
+  = t('intro.create.main',data: mat(@object,'model_name'))
 %form{action: "/sys/#{@path}",method: "post"}
   %table
     %thead
-      %tr.pdb-05
-        %td{colspan: "4"}
-          %span.warning.width-350.ju= t('intro.create.main', data: mat(@object,'model_name'))
       %tr.pdb-05
         %td.ce{colspan: "4"}
           %span.st Nr.
