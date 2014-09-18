@@ -1,8 +1,15 @@
+## v0.3.1 - hotfix-
+
+* release date: **2014-09-17**
+   - bump version v0.3.1
+   - update CHANGELOG
+   - views `report.haml` typo, fix [#26][#26]
+
 ## v0.3.0
 
-release date: **2014-09-16**
-&nbsp;&nbsp;&nbsp;&nbsp;- bump version v0.3.0
-&nbsp;&nbsp;&nbsp;&nbsp;- update CHANGELOG
+* release date: **2014-09-17**
+   - bump version v0.3.0
+   - update CHANGELOG
 
 
 * **feature v0.2.996**, v0.3.0 preparation
