@@ -13,14 +13,6 @@ module Wstm
       accepts_nested_attributes_for :address, :ilc, :addendums
 
       class << self
-        # @todo
-        def auto_search(params)
-          default_sort.only(:id,:id_pn,:name_last,:name_frst)
-          .or(id_pn: /\A#{params[:q]}/)
-          .or(name_last: /\A#{params[:q].to_search_extended}/i)
-          .or(name_frst: /\A#{params[:q].to_search_extended}/i)
-          .each_with_object([]){|pf,a| a << {id: pf.id.to_s,text: "#{pf.id_pn.ljust(18)} #{pf.name}"}}
-        end
       end # Class methods
 
       alias :file_name :name

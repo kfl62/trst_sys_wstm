@@ -9,14 +9,6 @@ module Wstm
 
     class << self
       # @todo
-      def auto_search(params)
-        default_sort.only(:id,:id_pn,:name_last,:name_frst)
-        .or(id_pn: /\A#{params[:q]}/)
-        .or(name_last: /\A#{params[:q]}/i)
-        .or(name_frst: /\A#{params[:q]}/i)
-        .each_with_object([]){|pf,a| a << {id: pf.id.to_s,text: "#{pf.id_pn.ljust(18)} #{pf.name}"}}
-      end
-      # @todo
       def apps_for_stats(*args)
         pid,y,m = *args
         if pid.blank?
