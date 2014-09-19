@@ -23,8 +23,8 @@ module Wstm
     protected
     # @todo
     def handle_freights
-      from_freights.each{|f| f.set(:id_intern,true); f.set(:val,(f.pu * f.qu).round(2))}
-      resl_freights.each{|f| f.set(:id_intern,true); f.set(:val,(f.pu * f.qu).round(2))}
+      from_freights.each{|f| f.set(id_intern: true, val: (f.pu * f.qu).round(2))}
+      resl_freights.each{|f| f.set(id_intern: true, val: (f.pu * f.qu).round(2))}
     end
   end # Sorting
 end # Wstm

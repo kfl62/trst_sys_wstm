@@ -20,13 +20,13 @@ module Wstm
     # @todo
     def login(ip = '')
       l = logins.find_or_create_by(id_date: Date.today)
-      l.push(:login,Time.now)
-      l.set(:ip,ip)
+      l.push(login: Time.now)
+      l.set(ip: ip)
     end
     # @todo
     def logout
       l = logins.find_or_create_by(id_date: Date.today)
-      l.push(:logout,Time.now) if l.login.length > l.logout.length
+      l.push(logout: Time.now) if l.login.length > l.logout.length
     end
     # @todo
     def unit

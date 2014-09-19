@@ -13,7 +13,7 @@ module Wstm
     index({ freight_id: 1, id_stats: 1, pu: 1, id_date: 1 })
     index({ id_stats: 1, pu: 1, id_date: 1 })
 
-    scope :sorted, -> {where(:doc_sor_id.ne => nil)}
+    scope :sorted, ->() {where(:doc_sor_id.ne => nil)}
 
     before_save   :handle_freights_unit_id
     before_upsert :handle_freights_unit_id
@@ -30,7 +30,7 @@ module Wstm
     protected
     # @todo
     def handle_freights_unit_id
-      set(:unit_id,self.doc.unit_id)
+      set(unit_id: self.doc.unit_id)
     end
     # @todo
     def handle_stock(add_delete)
@@ -63,8 +63,7 @@ module Wstm
               f.qu -= out
               f.val = (f.pu * f.qu).round(2)
               f.save
-              self.set(:pu, f.pu)
-              self.set(:val, (pu * qu).round(2))
+              self.set(pu: f.pu, val: (pu * qu).round(2))
             else
               fspus = fs.where(:qu.ne => 0).asc(:pu).map(&:pu)
               fspus.delete(lpu).nil? ? fspus : fspus.push(lpu)

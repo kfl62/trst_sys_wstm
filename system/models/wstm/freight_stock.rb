@@ -25,7 +25,7 @@ module Wstm
     protected
     # @todo
     def handle_freights_unit_id
-      set(:unit_id,self.doc.unit_id)
+      set(unit_id: self.doc.unit_id)
     end
     # @todo
     def handle_value

@@ -13,7 +13,7 @@ module Wstm
     index({ freight_id: 1, id_stats: 1, pu: 1, id_date: 1 })
     index({ id_stats: 1, pu: 1, id_date: 1 })
 
-    scope :sorted, -> {where(:doc_sor_id.ne => nil)}
+    scope :sorted, ->() {where(:doc_sor_id.ne => nil)}
 
     before_save   :handle_freights_unit_id
     after_save    :'handle_stock(true)'
@@ -29,7 +29,7 @@ module Wstm
     protected
     # @todo
     def handle_freights_unit_id
-      set(:unit_id,self.doc.unit_id)
+      set(unit_id: self.doc.unit_id)
     end
     # @todo
     def handle_stock(add_delete)

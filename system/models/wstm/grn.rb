@@ -60,8 +60,8 @@ module Wstm
     protected
     # @todo
     def handle_dlns(add_remove)
-      dlns.each{|dln| dln.set(:charged,add_remove)}
-      dlns.each{|dln| dln.set(:doc_grn_id,nil)} if add_remove == false
+      dlns.each{|dln| dln.set(charged: add_remove)}
+      dlns.each{|dln| dln.set(doc_grn_id: nil)} if add_remove == false
     end
     # @todo
     def handle_invs(add_remove)
@@ -92,8 +92,7 @@ module Wstm
           inv.pyms.create(self[:pyms]) if self[:pyms][:val] != 0.0
         end
         unset(:pyms)
-        set(:charged,true)
-        set(:doc_inv_id,inv.id)
+        set(charged: true, doc_inv_id: inv.id)
       else
         doc_inv.delete
       end if doc_type == 'INV'
