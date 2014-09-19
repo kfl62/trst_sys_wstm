@@ -1,6 +1,6 @@
 - @object.reload
-- @object.from_freights.each{|f| f.set(:id_intern,true); f.set(:val,(f.pu*f.qu).round(2))}
-- @object.resl_freights.each{|f| f.set(:id_intern,true); f.set(:val,(f.pu*f.qu).round(2))}
+- @object.from_freights.each{|f| f.set(id_intern: true, val: (f.pu*f.qu).round(2))}
+- @object.resl_freights.each{|f| f.set(id_intern: true, val: (f.pu*f.qu).round(2))}
 - if @object.resl_freights.count > 0
   %tbody.inner
     %tr
@@ -23,7 +23,7 @@
         %span.res= "%.2f" % @object.resl_freights.sum(:qu)
       %td
         %span.val= "%.2f" % @object.resl_freights.sum(:val)
-        -# @object.set(:val,@object.freights.sum(:val))
+        -# @object.set(val: @object.freights.sum(:val))
       %td
         %span &nbsp;
 - else

@@ -7,7 +7,7 @@
           %span= label
     - @object.reload; @object.freights.each do |o|
       %tr
-        - o.set(:val, (o.pu * o.qu).round(2)) unless o.val > 0
+        - o.set(val: (o.pu * o.qu).round(2)) unless o.val > 0
         - td_value_for  o, 'freight',   {order: 'name',style: 'name',nested: 'doc_cas'}
         - td_value_for  o, 'um',        {style: 'um ta-ce', nested: 'doc_cas'}
         - td_value_for  o, 'pu',        {style: 'pu ta-ri', nested: 'doc_cas'}
@@ -22,7 +22,7 @@
         %span.res= "%.2f" % @object.freights.sum(:qu)
       %td
         %span.val= "%.2f" % @object.freights.sum(:val)
-        - @object.set(:val,@object.freights.sum(:val))
+        - @object.set(val: @object.freights.sum(:val))
       %td
         %span &nbsp;
 - else
