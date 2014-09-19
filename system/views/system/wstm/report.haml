@@ -3,7 +3,7 @@
   uid  = @current_user.unit_id
   unit = Wstm::PartnerFirm.unit_by_unit_id(uid) if uid
   firm = Wstm::PartnerFirm.find_by(firm: true) unless uid
-  s2dt = firm.units.asc(:slug).map{|u| {id: u.id,text: u.slug}}.to_json if firm
+  s2dt = firm.units.asc(:slug).map{|u| {id: u.id.to_s,text: u.slug}}.to_json if firm
   data = t("intro.filter.desk_report.#{ext}")
 %span#hidden_data{data: {dialog: 'report',title_data: data,model_name: mat(@object,'model_name'),oid: nil,js_ext: 'desk_report'}}
 - if ['cdd','grn','all'].include? ext
@@ -13,7 +13,7 @@
         %tr.pdb-05
           %td{colspan: "2"}
             - if uid
-              %detail.info.w-30ren
+              %detail.info.w-30rem
                 %i.fa.fa-info-circle.fa-lg.blue
                 = t("intro.filter.desk_report.unit",data: data,unit: unit.name[1])
             - else
@@ -51,7 +51,7 @@
         %tr.pdb-05
           %td{colspan: "2"}
             - if uid
-              %detail.info.w-30ren
+              %detail.info.w-30rem
                 %i.fa.fa-info-circle.fa-lg.blue
                 = t("intro.filter.desk_report.unit_plst",data: data,unit: unit.name[1])
               %input{type: 'hidden',name: 'unit_ids',value: uid}
@@ -77,7 +77,7 @@
       %thead
         %tr.pdb-05
           %td{colspan: "2"}
-            %detail.info.w-30ren
+            %detail.info.w-30rem
               %i.fa.fa-info-circle.fa-lg.blue
               = t("intro.filter.desk_report.#{ext}")
       %tbody
@@ -97,7 +97,7 @@
       %thead
         %tr.pdb-05
           %td{colspan: "2"}
-            %detail.info.w-30ren
+            %detail.info.w-30rem
               %i.fa.fa-info-circle.fa-lg.blue
               = t("intro.filter.desk_report.#{type}",data: data)
       %tbody
