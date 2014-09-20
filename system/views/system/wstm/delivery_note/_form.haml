@@ -15,7 +15,7 @@
             - input_for   o, 'id_date',   {type: 'hidden',nested: 'doc_dln',value: 'strip',index: i}
             - input_for   o, 'id_stats',  {type: 'hidden',nested: 'doc_dln',value: 'strip',index: i}
             - input_for   o, 'id_intern', {type: 'hidden',nested: 'doc_dln',value: client.firm.to_s,index: i}
-            - input_for   o, 'um',        {type: 'hidden',nested: 'doc_dln',value: 'strip',index: i}
+            - input_for   o, 'um',        {disabled: true,type: 'hidden',nested: 'doc_dln',value: 'strip',index: i}
             - input_for   o, 'freight_id',{type: 'hidden',nested: 'doc_dln',value: 'strip',index: i}
           %td.ta-ce
             %span.um kg
