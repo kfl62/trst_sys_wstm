@@ -1,8 +1,34 @@
+## v1.0.0
+
+* estimated release date: **2014-12-01**
+
+
+* **feature v0.3.1.1**
+   - feature date: **2014-09-20**
+   - bump version v0.3.1.1
+   - update CHANGELOG
+   - views check for `Document#freights_list` fix [#29][#29]
+   - views check for `um` fix [#28][#28]
+   - views atomic `set,push etc.` TODO should be handled in model, [#27][#27]
+   - models final retouch fix [#25][#25]
+   - models atomic `set,push etc.`
+   - views pdf templates `BSON::ObjectId` issue
+   - models `Wstm::PartnerPerson|Hmrs|PartnerFirm` remove `auto_search` Class-method
+
+
+## v0.3.1 - hotfix-
+
+* release date: **2014-09-18**
+   - bump version v0.3.1
+   - update CHANGELOG
+   - views `report.haml` typo, fix [#26][#26]
+
+
 ## v0.3.0
 
-release date: **2014-09-16**
-&nbsp;&nbsp;&nbsp;&nbsp;- bump version v0.3.0
-&nbsp;&nbsp;&nbsp;&nbsp;- update CHANGELOG
+* release date: **2014-09-16**
+   - bump version v0.3.0
+   - update CHANGELOG
 
 
 * **feature v0.2.996**, v0.3.0 preparation
