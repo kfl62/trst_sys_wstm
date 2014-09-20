@@ -63,7 +63,7 @@
                 %span.doc-ary-name
                   - unless sa.blank?
                     -l = sa.pluck(:name).max_by(&:length).length; sa.asc(:id_date, :name)[0..47].each_with_index do |app,i|
-                      %label.doc-ary-name{style: "max-heght:100px",title: "#{app.id_date}\n#{app.name}\n#{app.freights_list.join("\n")}"}
+                      %label.doc-ary-name{style: "max-heght:100px",title: "#{app.freights_list.join("\n")}"}
                         %input.doc_ary{id: app.id,type: 'checkbox',checked: doc_ary.include?(app.id.to_s)}
                         = app.name.rjust(l,"\u00a0")
     %tbody

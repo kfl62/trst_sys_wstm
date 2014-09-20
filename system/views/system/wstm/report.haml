@@ -3,7 +3,7 @@
   uid  = @current_user.unit_id
   unit = Wstm::PartnerFirm.unit_by_unit_id(uid) if uid
   firm = Wstm::PartnerFirm.find_by(firm: true) unless uid
-  s2dt = firm.units.asc(:slug).map{|u| {id: u.id,text: u.slug}}.to_json if firm
+  s2dt = firm.units.asc(:slug).map{|u| {id: u.id.to_s,text: u.slug}}.to_json if firm
   data = t("intro.filter.desk_report.#{ext}")
 %span#hidden_data{data: {dialog: 'report',title_data: data,model_name: mat(@object,'model_name'),oid: nil,js_ext: 'desk_report'}}
 - if ['cdd','grn','all'].include? ext

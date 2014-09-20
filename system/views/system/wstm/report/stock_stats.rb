@@ -2,7 +2,7 @@
 # Template for Sitaţie lunară (Statistică).pdf
 
 def unit_ids
-  params[:unit_ids].split(',').map{|id| Moped::BSON::ObjectId(id)}
+  params[:unit_ids].split(',').map{|id| BSON::ObjectId.from_string(id)}
 end
 def date_strt
   params[:date].split('-').map(&:to_i)

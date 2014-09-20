@@ -12,8 +12,8 @@ module Wstm
 
     alias :file_name :name
 
-    after_save    :'handle_dlns(true)'
-    after_destroy :'handle_dlns(false)'
+    after_save    {handle_dlns true}
+    after_destroy {handle_dlns false}
 
     accepts_nested_attributes_for :dlns, :grns
     accepts_nested_attributes_for :freights,
@@ -37,17 +37,17 @@ module Wstm
     protected
     # @todo
     def handle_dlns(add_delete)
-      dlns.each{|dln| dln.set(:charged,add_delete)}
-      grns.each{|grn| grn.set(:charged,add_delete)}
+      dlns.each{|dln| dln.set(charged: add_delete)}
+      grns.each{|grn| grn.set(charged: add_delete)}
       freights.each do |f|
         dlns.each do |dn|
           dn.freights.each do |dnf|
             if add_delete
-              dnf.set(:pu_invoice,f.pu) if (dnf.id_stats == f.id_stats && dnf.pu_invoice == 0.0)
+              dnf.set(pu_invoice: f.pu) if (dnf.id_stats == f.id_stats && dnf.pu_invoice == 0.0)
             else
-              dnf.set(:pu_invoice, 0.0)
+              dnf.set(pu_invoice: 0.0)
             end
-            dnf.set(:val_invoice,(dnf.qu * dnf.pu_invoice).round(2))
+            dnf.set(val_invoice: (dnf.qu * dnf.pu_invoice).round(2))
           end
         end
       end

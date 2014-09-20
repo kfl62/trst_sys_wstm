@@ -33,10 +33,9 @@
           - else
             %tr.pdb-05
               %td
-                %span.w-50rem
+                %span
                   - dlns.each_with_index do |dln,i|
-                    %label{style: "border-right: solid 1px #333333;padding-right: 3px;cursor: pointer;background-color: #{bckgrnd[dln.name.split('_')[1].downcase]};display:inline-block",
-                           title: "#{dln.id_date}\n#{dln.name}\n#{dln.freights_list.join("\n")}"}
+                    %label.doc-name-list{style: "background-color: #{bckgrnd[dln.name.split('_')[1].downcase]}",title: "#{dln.freights_list.join("\n")}"}
                       %input.dln_ary{id:dln.id,type: 'checkbox',checked: dln_ary.include?(dln.id.to_s)}
                       = dln.doc_name
             %tr.pdb-05

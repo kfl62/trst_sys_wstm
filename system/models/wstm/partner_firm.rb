@@ -15,21 +15,6 @@ module Wstm
     has_many    :invs_client, class_name: "Wstm::Invoice",              inverse_of: :client
 
     class << self
-      # @todo
-      def auto_search(params)
-        if params[:w]
-          default_sort.where(params[:w].to_sym => true)
-          .and(name: /\A#{params[:q]}/i)
-          .each_with_object([]){|pf,a| a << {id: pf.id.to_s,text: "#{pf.name[0][0..20]}"}}
-        elsif params[:id]
-          find(params[:id]).people.asc(:name_last).each_with_object([]){|d,a| a << {id: d.id.to_s,text: "#{d.name[0..20]}"}}.push({id: 'new',text: 'Adăugare delegat'})
-        else
-          default_sort.only(:id,:name,:identities)
-          .or(name: /\A#{params[:q]}/i)
-          .or(:'identities.fiscal' => /\A#{params[:q]}/i)
-          .each_with_object([]){|pf,a| a << {id: pf.id.to_s,text: "#{pf.identities['fiscal'].ljust(18)} #{pf.name[1]}"}}
-        end
-      end
     end # Class methods
   end # PartnerFirm
 
@@ -103,7 +88,7 @@ module Wstm
         expl: "Stoc initial #{I18n.localize(Date.new(y,m,1), format: '%B, %Y').downcase}"
       )
       self.stock_now.freights.where(:qu.ne => 0).each{|f| stk_new.freights << f.clone}
-      stk_new.freights.each{|f| f.set(:id_date,stk_new.id_date)}
+      stk_new.freights.each{|f| f.set(id_date: stk_new.id_date)}
       stk_new
     end
     # @todo
