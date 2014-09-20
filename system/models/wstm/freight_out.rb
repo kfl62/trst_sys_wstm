@@ -17,8 +17,8 @@ module Wstm
 
     before_save   :handle_freights_unit_id
     before_upsert :handle_freights_unit_id
-    after_save    :'handle_stock(false)'
-    after_destroy :'handle_stock(true)'
+    after_save    {handle_stock false}
+    after_destroy {handle_stock true}
 
     class << self
     end # Class methods

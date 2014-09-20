@@ -22,10 +22,10 @@ module Wstm
     accepts_nested_attributes_for :freights,
       reject_if: ->(attrs){ attrs[:qu].to_f == 0 }
 
-    after_save    :'handle_dlns(true)'
-    after_save    :'handle_invs(true)'
-    after_destroy :'handle_dlns(false)'
-    after_destroy :'handle_invs(false)'
+    after_save    {handle_dlns true}
+    after_save    {handle_invs true}
+    after_destroy {handle_dlns false}
+    after_destroy {handle_invs false}
 
     class << self
       # @todo

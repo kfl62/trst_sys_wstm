@@ -15,7 +15,7 @@ module Wstm
     accepts_nested_attributes_for :freights,
       reject_if: ->(attrs){ attrs[:qu].to_f == 0 || attrs[:id_date].empty?}
 
-    after_save  :'handle_empty_expenditure_error'
+    after_save  :handle_empty_expenditure_error
 
     class << self
       # @todo

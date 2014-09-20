@@ -16,8 +16,8 @@ module Wstm
     scope :sorted, ->() {where(:doc_sor_id.ne => nil)}
 
     before_save   :handle_freights_unit_id
-    after_save    :'handle_stock(true)'
-    after_destroy :'handle_stock(false)'
+    after_save    {handle_stock true}
+    after_destroy {handle_stock false}
 
     class << self
     end # Class methods

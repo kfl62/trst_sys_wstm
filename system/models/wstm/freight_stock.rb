@@ -29,7 +29,7 @@ module Wstm
     end
     # @todo
     def handle_value
-      set :val, (pu * qu).round(2)
+      set(val:  (pu * qu).round(2))
       delete if qu.round(2) == 0.0
     end
   end # FreightStock

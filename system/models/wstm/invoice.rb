@@ -12,8 +12,8 @@ module Wstm
 
     alias :file_name :name
 
-    after_save    :'handle_dlns(true)'
-    after_destroy :'handle_dlns(false)'
+    after_save    {handle_dlns true}
+    after_destroy {handle_dlns false}
 
     accepts_nested_attributes_for :dlns, :grns
     accepts_nested_attributes_for :freights,
