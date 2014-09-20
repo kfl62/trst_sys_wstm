@@ -38,7 +38,7 @@
         %td
           %span.doc-ary-name
             - l = dlns.pluck(:doc_name).max_by(&:length).length; dlns.each_with_index do |dln,i|
-              %label.doc-name-list.doc-ary-name{style: "background-color:#{dln.charged? ? '#e6e6e6' : '#ff9999'}; min-width: #{l}rem",title: "#{dln.id_date}\n#{dln.name}\n#{dln.freights_list.join("\n")}"}
+              %label.doc-name-list.doc-ary-name{style: "background-color:#{dln.charged? ? '#e6e6e6' : '#ff9999'}; min-width: #{l}rem",title: "#{dln.freights_list.join("\n")}"}
                 %input.doc_ary{id:dln.id,type: 'checkbox',checked: doc_ary.include?(dln.id.to_s)}
                 = dln.doc_name.rjust(l,"\u00a0")
     %tbody
