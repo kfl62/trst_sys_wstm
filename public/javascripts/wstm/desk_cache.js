@@ -41,15 +41,8 @@
             });
           },
           init: function() {
-            var min, now;
-            if ($('#date_show').length) {
-              now = new Date();
-              min = Trst.lst.admin === 'true' ? new Date(now.getFullYear(), now.getMonth() - 1, 1) : new Date(now.getFullYear(), now.getMonth(), 1);
-              $('#date_show').datepicker('option', 'maxDate', Trst.lst.admin === 'true' ? '' : '+0');
-              $('#date_show').datepicker('option', 'minDate', min);
-            }
-            Wstm.desk.cache.buttons($('span.link'));
-            Wstm.desk.cache.selects($('select'));
+            this.buttons($('span.link'));
+            this.selects($('select'));
             return $log('Wstm.desk.cache.init() OK...');
           }
         }

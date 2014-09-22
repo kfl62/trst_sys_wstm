@@ -1,23 +1,21 @@
 :ruby
-  today = Date.today;   cols = 0
-  y   = params[:p_y].nil? ? today.year  : params[:p_y].to_i
-  m   = params[:p_m].nil? ? today.month : params[:p_m].to_i
-  uid = @current_user.unit_id ? @current_user.unit_id : params[:uid] == 'null' ? nil : params[:uid]
-  firm= Wstm::PartnerFirm.find_by(firm: :true); unit= firm.units.find(uid) if uid
-  data= uid ? unit.name[1] : firm.name[2]
-%span#hidden_data{data: {dialog: "query",title_data: data,model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_cache'}}
-- if uid
-  %article#xhr_info.info
-    %i.fa.fa-info-circle.fa-lg.blue
-    = t('intro.query.desk_cache.one')
+  y   = params[:p_y].nil? ? @today.year  : params[:p_y].to_i
+  m   = params[:p_m].nil? ? @today.month : params[:p_m].to_i
+  uid = @current_user.unit_id || params[:uid] || 'null'
+  unit= @firm.units.find(uid) unless uid == 'null'
+  data= uid == 'null' ? @firm.name[2] : unit.name[1]
+
+- unless uid == 'null'
+  - xhr_hidden_data({dialog: 'query',title_data: data,oid: 'null',js_ext: 'desk_cache'})
+  - xhr_info('info',t('intro.query.desk_cache.one'))
   %table
     %thead
-      = partial 'wstm/shared/select_params', locals: {firm: firm, colspan: '4'}
+      = haml :'wstm/shared/_select_params', locals: {firm: @firm, colspan: '4'}
     %tbody.inner
       %tr
         - mat(@object,'table_one').each do |cn|
           %td
-            %span.stats.ce= cn
+            %span= cn
       %tr
         %td.ta-ce{colspan: '3'}
           %span= mat(@object,'stock_start')
@@ -32,12 +30,11 @@
             %td.ta-ri
               %span= "%0.2f" % (i == 1 ?  c + dif : c)
 - else
-  %article#xhr_info.info
-    %i.fa.fa-info-circle.fa-lg.blue
-    = t('intro.query.desk_cache.all')
+  - xhr_hidden_data({dialog: 'query',title_data: data,oid: 'null',js_ext: 'desk_cache'})
+  - xhr_info('info',t('intro.query.desk_cache.all'))
   %table
     %thead
-      = partial 'wstm/shared/select_params', locals: {colspan: '5'}
+      = haml :'wstm/shared/_select_params', locals: {colspan: '5'}
     %tbody.inner
       %tr
         - mat(@object,'table_all').each do |cn|

@@ -90,19 +90,28 @@
             return false;
           }
         },
+        datePicker: function(node) {
+          var $datepicker, max, min, now, _ref;
+          $datepicker = $(node);
+          now = new Date();
+          min = Trst.lst.admin === 'true' ? new Date(now.getFullYear(), now.getMonth() - 1, 1) : new Date(now.getFullYear(), now.getMonth(), 1);
+          max = Trst.lst.admin === 'true' ? '+1' : '+0';
+          $datepicker.datepicker({
+            altField: '#date_send',
+            altFormat: 'yy-mm-dd',
+            maxDate: max,
+            minDate: min,
+            regional: ['ro']
+          });
+          $datepicker.addClass('ta-ce').attr('size', ((_ref = $datepicker.val()) != null ? _ref.length : void 0) + 2);
+          $datepicker.on('change', function() {
+            var _ref1;
+            $datepicker.attr('size', ((_ref1 = $datepicker.val()) != null ? _ref1.length : void 0) + 2);
+          });
+        },
         init: function() {
-          var $dsh, $ext, $id_intern;
-          if ($('#date_show').length) {
-            $dsh = $('#date_show');
-            $dsh.datepicker({
-              altField: '#date_send',
-              altFormat: 'yy-mm-dd'
-            }, $.datepicker.regional['ro']);
-            $dsh.addClass('ce').attr('size', $dsh.val().length + 2);
-            $dsh.on('change', function() {
-              $dsh.attr('size', $dsh.val().length + 2);
-            });
-          }
+          var $ext, $id_intern;
+          this.datePicker($('#date_show'));
           if ($('input.id_intern').length) {
             $id_intern = $('input[name*="\[name\]"]');
             $id_intern.attr('size', $id_intern.val().length + 4);
