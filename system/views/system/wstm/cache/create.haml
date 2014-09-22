@@ -1,12 +1,15 @@
 :ruby
   end_of_month = Date.today == Date.today.end_of_month
-%span#hidden_data{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_cache'}}
-%article#xhr_info.info
-  %i.fa.fa-info-circle.fa-lg.blue
-  = t('intro.create.main',data: mat(@object,'model_name'))
+
+- xhr_hidden_data({dialog: "create",js_ext: 'desk_cache'})
+- xhr_info('info',t('intro.create.main',data: model_name))
 %form{action: "/sys/#{@path}",method: "post"}
   %table
-    = partial "#{@path}/form", locals: {end_of_month: end_of_month}
+    %thead
+    %tbody
+      %tr
+        %td
+          = haml :"#{@path}/_form", locals: {end_of_month: end_of_month}
     %tfoot
       %tr
-        - td_buttonset(['save','cancel'],{style: 'ta-ce'},'3')
+        - td_buttonset(['save','cancel'],{style: 'ta-ce'})
