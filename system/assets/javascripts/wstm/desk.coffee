@@ -56,17 +56,24 @@ define () ->
           true
         else
           false
+      datePicker: (node)->
+        $datepicker = $(node)
+        now = new Date()
+        min = if Trst.lst.admin is 'true' then new Date(now.getFullYear(),now.getMonth() - 1,1) else new Date(now.getFullYear(),now.getMonth(),1)
+        max = if Trst.lst.admin is 'true' then '+1' else '+0'
+        $datepicker.datepicker
+          altField: '#date_send'
+          altFormat: 'yy-mm-dd'
+          maxDate: max
+          minDate: min
+          regional: ['ro']
+        $datepicker.addClass('ta-ce').attr 'size', $datepicker.val()?.length + 2
+        $datepicker.on 'change', ()->
+          $datepicker.attr 'size', $datepicker.val()?.length + 2
+          return
+        return
       init: () ->
-        if $('#date_show').length
-          $dsh = $('#date_show')
-          $dsh.datepicker
-            altField: '#date_send'
-            altFormat: 'yy-mm-dd'
-            $.datepicker.regional['ro']
-          $dsh.addClass('ce').attr 'size', $dsh.val().length + 2
-          $dsh.on 'change', ()->
-            $dsh.attr 'size', $dsh.val().length + 2
-            return
+        @datePicker $('#date_show')
         if $('input.id_intern').length
           $id_intern = $('input[name*="\[name\]"]')
           $id_intern.attr 'size', $id_intern.val().length + 4
