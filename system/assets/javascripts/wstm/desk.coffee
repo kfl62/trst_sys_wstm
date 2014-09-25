@@ -16,25 +16,24 @@ define () ->
           tblHdr   = $("<table style='width:auto'><tbody class='inner'><tr></tr><tr></tr></tbody></table>")
           tblCntnr = $("<div id='scroll-container' style='height:#{h}px;overflow-x:hidden;overflow-y:scroll'></div>")
           tblClmnW = []
-          $table.find('tr.scroll td').each (i)->
-            tblClmnW[i] = $(this).width()
+          $table.find('tr[data-mark~=scroll] td').each (i)->
+            tblClmnW[i] = $(@).width()
             return
-          tblscrll = $table.find('tr.scroll').html()
-          $table.find('tr.scroll').html('')
+          tblscrll = $table.find('tr[data-mark~=scroll]').html()
+          $table.find('tr[data-mark~=scroll]').html('')
           $table.css('width','auto')
           tblHdr.find('tr:first').html(tblscrll)
           tblHdr.find('tr:first td').each (i)->
-            $(this).css('width', tblClmnW[i])
-            return
-          $table.find('tr.scroll').next().find('td').each (i)->
-            $(this).css('width', tblClmnW[i])
+            $(@).css('width', tblClmnW[i])
+          $table.find('tr[data-mark~=scroll]').next().find('td').each (i)->
+            $(@).css('width', tblClmnW[i])
             return
           $table.before(tblHdr)
           $table.wrap(tblCntnr)
         else
           tblscrll = $('div#scroll-container').prev().find('tr:first').html()
           $('div#scroll-container').prev().remove()
-          $table.find('tr.scroll').html(tblscrll)
+          $table.find('tr[data-mark~=scroll]').html(tblscrll)
           $table.unwrap()
         return
       idPnHandle: ()->
@@ -87,8 +86,8 @@ define () ->
               Wstm.desk.idPnHandle()
           $('input.focus').focus()
           $('select.focus').focus()
-        if $('table.scroll').height() > 450
-          Wstm.desk.scrollHeader($('table.scroll'))
+        if $('table[data-mark~=scroll]').height() > 450
+          Wstm.desk.scrollHeader($('table[data-mark~=scroll]'))
         $log 'Wstm.desk.init() Ok...'
         if $('select.wstm, input.select2').length
           require (['wstm/desk_select']), (select)->

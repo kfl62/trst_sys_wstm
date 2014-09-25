@@ -3,12 +3,22 @@
 * estimated release date: **2014-12-01**
 
 
+* **feature v0.3.1.3**
+   - feature date: **2014-09-25**
+   - bump version v0.3.1.3
+   - update CHANGELOG
+   - views `Wstm::CacheBook` CRUD [#30][#30]
+   - views `wstm/shared` partials [#30][#30]
+   - assets js, `Wstm.desk` update `.scrollHeader` [#31][#31]
+   - assets js, `Wstm.desk.cache_book` cleanup & [#31][#31]
+
+
 * **feature v0.3.1.2**
    - feature date: **2014-09-22**
    - bump version v0.3.1.2
    - update CHANGELOG
-   - assets: js, `Wstm.desk` add `$.datepicker` [#31][#31]
-   - views: `Wstm::Cache` CRUD [#30][#30]
+   - assets js, `Wstm.desk` add `$.datepicker` [#31][#31]
+   - views `Wstm::Cache` CRUD [#30][#30]
    - views `wstm/shared` partials [#30][#30]
    - assets js, `Wstm.desk.cache` cleanup & [#31][#31]
 
