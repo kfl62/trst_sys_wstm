@@ -3,81 +3,75 @@ define () ->
     desk:
       cache_book:
         linesNewReset: ()->
-          next = $('tr.lines').not('.hidden').length + 1
+          next = $('tr[data-mark~=line]').not('.hidden').length + 1
           if next is 1
-            $('tr.lines-header, tr.lines-total').addClass('hidden')
+            $('tr[data-mark~=line-header], tr[data-mark~=line-total]').addClass 'hidden'
             $('button[data-action=save]').button 'option', 'disabled', true
           else
-            $('tr.lines-header, tr.lines-total').removeClass('hidden')
+            $('tr[data-mark~=line-header], tr[data-mark~=line-total]').removeClass 'hidden'
             $('button[data-action=save]').button 'option', 'disabled', false
-          $('span.lines').text(next - 1)
-          $('span.add-line').text(next + '.')
-          $('input.add-line').val('')
-          $('input.add-line.doc').focus()
+          $('span[data-val=nr').text next - 1
+          $('span[data-mark~=line-add]').text next + '.'
+          $('input[data-mark~=line-add]').val ''
+          $('input[data-mark~=line-add][data-val=doc]').focus()
           return
         linesNewData: ()->
-          v   = $('.add-line')
-          ord = $('tr.lines').not('.hidden').length + 1
-          doc = v.filter('.doc').val()
-          exp = v.filter('.exp').val()
-          ins = v.filter('.ins').val(); if ins is '' then ins = 0 else ins = parseFloat(ins)
-          out = v.filter('.out').val(); if out is '' then out = 0 else out = parseFloat(out)
+          v = $('[data-mark=line-add]')
+          ord = $('tr[data-mark~=line]').not('.hidden').length + 1
+          doc = v.filter('[data-val=doc]').val()
+          exp = v.filter('[data-val=exp]').val()
+          ins = v.filter('[data-val=ins]').val(); if ins is '' then ins = 0 else ins = parseFloat(ins)
+          out = v.filter('[data-val=out]').val(); if out is '' then out = 0 else out = parseFloat(out)
           result:
-            ord: ord; doc: doc; exp: exp; ins: ins; out: out
+            ord: ord; doc: doc; exp: exp; ins: ins.toFixed(2); out: out.toFixed(2)
         linesInsert: ()->
           r = Wstm.desk.cache_book.linesNewData().result
           l = Wstm.desk.cache_book.template.clone().removeClass('template')
-          l.find('span.ord').text(r.ord + '.')
-          l.find('input.ord').val(r.ord)
-          l.find('span.doc').text(r.doc)
-          l.find('input.doc').val(r.doc)
-          l.find('span.exp').text(r.exp)
-          l.find('input.exp').val(r.exp)
-          l.find('span.ins').text(r.ins.toFixed(2))
-          l.find('input.ins').val(r.ins)
-          l.find('span.out').text(r.out.toFixed(2))
-          l.find('input.out').val(r.out)
-          $('tr.lines-total').before(l)
+          l.find('span,input').each ->
+            e = $(@)
+            if e.data('val')
+              e.text r[e.data('val')]  if e.is('span')
+              e.val r[e.data('val')]  if e.is('input')
+          $('tr[data-mark~=line-total]').before l
           Wstm.desk.cache_book.calculate()
           Wstm.desk.cache_book.linesNewReset()
           Wstm.desk.cache_book.buttons($('span.button'))
           return
         calculate: ()->
           r  = Wstm.desk.cache_book.linesNewData().result
-          vl = $('tr.lines').not('.hidden')
-          vt = $('tr.lines-total')
-          ib = parseFloat $('input.ib').val()
+          vl = $('tr[data-mark~=line]').not('.hidden')
+          vt = $('tr[data-mark~=line-total]')
+          ib = parseFloat($('input[data-val=ib]').val())
           i  = 1; vtins = 0; vtout = 0;
           vl.each ()->
             $row = $(@)
             $row.find('input').each ()->
               $input = $(@)
               $input.attr('name', $input.attr('name').replace(/\d/,i) )
-              $input.val(i) if $input.hasClass('ord')
-              vtins += parseFloat($input.val()) if $input.hasClass('ins')
-              vtout += parseFloat($input.val()) if $input.hasClass('out')
-            $row.find('span.ord').text(i + '.')
+              $input.val i  if $input.data('val') is 'ord'
+              vtins += parseFloat($input.val())  if $input.data('val') is 'ins'
+              vtout += parseFloat($input.val())  if $input.data('val') is 'out'
+            $row.find('span[data-val=ord]').text i + '.'
             i += 1
-          vt.find('span.tot-in').text vtins.toFixed(2)
-          vt.find('span.tot-out').text vtout.toFixed(2)
+          vt.find('span[data-val=tot-ins]').text vtins.toFixed(2)
+          vt.find('span[data-val=tot-out]').text vtout.toFixed(2)
           $fb = ib + vtins - vtout
-          $('input.fb').val($fb)
-          $('span.fb').text($fb.toFixed(2))
-          if r.ord > 25 and $('#scroll-container').length is 0 then Wstm.desk.scrollHeader('table.scroll',380)
-          if r.ord < 26 and $('#scroll-container').length is 1 then Wstm.desk.scrollHeader('table.scroll',0)
+          $('input[data-val=fb]').val($fb)
+          $('span[data-val=fb]').text($fb.toFixed(2))
+          if r.ord > 25 and $('#scroll-container').length is 0 then Wstm.desk.scrollHeader('table[data-mark~=scroll]')
+          if r.ord < 26 and $('#scroll-container').length is 1 then Wstm.desk.scrollHeader('table[data-mark~=scroll]', 0)
           return
         inputs: (inpts)->
           inpts.each ()->
             $input = $(@)
             $ind = $input.data()
-            if $input.hasClass('add-line')
+            if $input.data('mark') is 'line-add'
               $input.on 'keyup', ()->
                 $('button[data-action=save]').button 'option', 'disabled', true if $input.val() isnt ''
                 return
-              if $input.hasClass('ins') or $input.hasClass('out')
+              if $input.data('val') in ['ins','out']
                 $input.on 'keypress', (e)->
-                  if e.which is 13
-                    Wstm.desk.cache_book.linesInsert()
+                  Wstm.desk.cache_book.linesInsert() if e.which is 13
             return
           return
         selects: (slcts)->
@@ -86,7 +80,7 @@ define () ->
             $sd = $select.data()
             if Trst.desk.hdo.dialog is 'filter'
               $select.on 'change', ()->
-                $params = jQuery.param($('.param').serializeArray())
+                $params = jQuery.param($('[data-mark~=param]').serializeArray())
                 $url = "sys/wstm/cache_book/filter?#{$params}"
                 Trst.desk.init($url)
                 return
@@ -126,7 +120,7 @@ define () ->
                   Wstm.desk.cache_book.calculate()
                   Wstm.desk.cache_book.linesNewReset()
                 if Trst.desk.hdo.dialog is 'edit'
-                  if $tr.find('input._id').length
+                  if $tr.find('input[data-val=_id]').length
                     $tr.addClass('hidden')
                     $nested = $tr.find('input').last().clone()
                     $nested.attr('name', $nested.attr('name').replace('out','_destroy'))
@@ -154,11 +148,11 @@ define () ->
             return
           return
         init: ()->
-          Wstm.desk.cache_book.buttons($('button, span.link, span.button'))
-          Wstm.desk.cache_book.selects($('select.param, input.select2, input.repair'))
-          Wstm.desk.cache_book.inputs($('input'))
-          Wstm.desk.cache_book.template = $('tr.template')?.remove()
-          Wstm.desk.cache_book.linesNewReset()
+          @buttons $('button, span.link, span.button')
+          @selects $('select[data-mark~=param], input.select2, input.repair')
+          @inputs $('input')
+          @template = $('tr.template')?.remove()
+          @linesNewReset()
           $log 'Wstm.desk.cache_book.init() OK...'
           return
   Wstm.desk.cache_book
