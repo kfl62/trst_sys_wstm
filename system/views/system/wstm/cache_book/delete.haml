@@ -1,23 +1,22 @@
-%span#hidden_data{data: {dialog: "delete",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_cache_book'}}
-%article#xhr_info.warning
-  %i.fa.fa-warning.fa-lg
-  = t('intro.delete.main', data: mat(@object,'model_name'))
+- xhr_hidden_data({dialog: "delete",js_ext: 'desk_cache_book'})
+- xhr_info('warning',t('intro.delete.main',data: model_name))
 %form{action: "/sys/#{@path}",method: "delete"}
   %table
     %thead
       %tr.pdb-05
         %td
-          %span Nr:
-          %span.st= @object.name
-          %span din:
-          %span.st= @object.id_date.to_s
-          %br
-          %span Sold inițial:
-          %span.st= "%.2f" % @object.ib
-          %span Sold final:
-          %span.st= "%.2f" % @object.fb
-          %span Nr. rânduri:
-          %span.st= @object.lines.count
+          - label_for @object, 'name'
+          - value_for @object, 'name'
+          - label_for @object, 'id_date'
+          - value_for @object, 'id_date'
+      %tr.pdb-05
+        %td
+          - label_for @object, 'ib'
+          - value_for @object, 'ib'
+          - label_for @object, 'fb'
+          - value_for @object, 'fb'
+          - label_for @object, 'lines'
+          - value_for @object, 'lines', {tag: {value: @object.lines.count}}
+    %tbody
     %tfoot
-      %tr
-        - td_buttonset(['delete','cancel'],{style: 'ta-ce'})
+      - tr_buttonset(['delete','cancel'],{td: {class: 'ta-ce'}})

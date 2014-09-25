@@ -1,7 +1,8 @@
 ro:
   mongoid:
     attributes:
+      'trst/cache_book': &trst_cache_book
+        << : *trst_cache_book
       'wstm/cache_book':
-        model_name: Registru de casă
         tbl_filter_hdr: ["Pagina", "Sold", "Incasări", "Plăți", "Sold", "Linii"]
         tbl_lines_hdr: ["Nr.", "Document", "Explicații", "Incasare", "Plată", " "]

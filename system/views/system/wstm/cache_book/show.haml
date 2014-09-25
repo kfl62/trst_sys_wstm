@@ -1,24 +1,24 @@
-%span#hidden_data{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_cache_book'}}
+- xhr_hidden_data({dialog: 'show',js_ext: 'desk_cache_book'})
 %form{action: "/sys/#{@path}",method: "get"}
   %table
     %thead
       %tr.pdb-05
         %td
-          %span.label Nr:
-          %span.name.st= @object.name
-          %span.label din:
-          %span.date.st= @object.id_date.to_s
-          %br
-          %span.label Sold inițial:
-          %span.ib.st= "%.2f" % @object.ib
-          %span.label Sold final:
-          %span.fb.st= "%.2f" % @object.fb
-          %span.label Nr. rânduri:
-          %span.lines.st= @object.lines.count
+          - label_for @object, 'name'
+          - value_for @object, 'name'
+          - label_for @object, 'id_date'
+          - value_for @object, 'id_date'
+      %tr.pdb-05
+        %td
+          - label_for @object, 'ib'
+          - value_for @object, 'ib'
+          - label_for @object, 'fb'
+          - value_for @object, 'fb'
+          - label_for @object, 'lines'
+          - value_for @object, 'lines', {tag: {value: @object.lines.count}}
     %tbody
       %tr
         %td
-          = partial "#{@path}/show"
+          = haml :"#{@path}/_show"
     %tfoot
-      %tr
-        - td_buttonset(['print','edit','delete','cancel'],{style: 'ta-ce'})
+      - tr_buttonset(['print','edit','delete','cancel'],{td: {class: 'ta-ce'}})
