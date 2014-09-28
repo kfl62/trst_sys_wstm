@@ -2,12 +2,12 @@
   %tr
     %td
       - value_for @object, 'txt', {tag: {class: 'strip',value: 'Adăugare rând la Registru de casă'}}
-      - value_for @object, 'btn', {tag: {class: 'strip button fl-ri red pointer fa fa-plus-circle fa-lg',value: '',title: t('button.new_row')}}
-      - value_for @object, 'btn', {tag: {class: 'strip button fl-ri red pointer fa fa-refresh fa-lg',value: ''}}
+      - value_for @object, 'btn', {tag: {class: 'strip button fl-ri red pointer fa fa-plus-circle fa-lg',value: 'strip',title: t('button.new_row')}}
+      - value_for @object, 'btn', {tag: {class: 'strip button fl-ri red pointer fa fa-refresh fa-lg',value: 'strip'}}
   %tr
     %td
-      - value_for @object, 'ord', {tag: {data: {mark: 'line-add',val: 'nro'},class: 'strip st',value: '1.'}}
-      - input_for @object, 'doc', {tag: {data: {mark: 'line-add',val: 'doc'},class: 'strip',size: 10,placeholder: 'Doc. nr.',name: 'strip',value: 'strip'}}
-      - input_for @object, 'exp', {tag: {data: {mark: 'line-add',val: 'exp'},class: 'strip',size: 60,placeholder: 'Explicații',name: 'strip',value: 'strip'}}
-      - input_for @object, 'ins', {tag: {data: {mark: 'line-add',val: 'ins'},class: 'strip ta-ri',size: 10,placeholder: 'Înc. 0.00 lei',name: 'strip',value: 'strip'}}
-      - input_for @object, 'out', {tag: {data: {mark: 'line-add',val: 'out'},class: 'strip ta-ri',size: 10,placeholder: 'Plt. 0.00 lei',name: 'strip',value: 'strip'}}
+      - value_for @object, 'ord', {tag: {data: {mark: 'related-add',val: 'nro'},value: '1.'}}
+      - input_for @object, 'doc', {tag: {data: {mark: 'related-add focus ui-focus step',val: 'doc'},size: 10,placeholder: 'Doc. nr.',name: 'strip',value: 'strip'}}
+      - input_for @object, 'exp', {tag: {data: {mark: 'related-add ui-focus step',val: 'exp'},size: 60,placeholder: 'Explicații',name: 'strip',value: 'strip'}}
+      - input_for @object, 'ins', {tag: {data: {mark: 'related-add ui-focus step',val: 'ins'},class: 'ta-ri',size: 10,placeholder: 'Înc. 0.00 lei',name: 'strip',value: 'strip'}}
+      - input_for @object, 'out', {tag: {data: {mark: 'related-add ui-focus step',val: 'out'},class: 'ta-ri',size: 10,placeholder: 'Plt. 0.00 lei',name: 'strip',value: 'strip'}}

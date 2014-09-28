@@ -1,7 +1,7 @@
 %table{data: {mark: 'scroll'}}
   %tbody.inner
     - o = @object.lines.new
-    %tr.template{data: {mark: 'line'}}
+    %tr.template{data: {mark: 'related'}}
       %td.w-2rem.ta-ri
         - value_for o, 'order',   {tag:  {data: {val: 'ord'},class: 'strip'}}
         - input_for o, 'order',   {guess: {nested: 'cb',index: 0},tag: {data: {val: 'ord'},type: 'hidden',value: 'strip'}}
@@ -13,13 +13,13 @@
       - td_value_for o, 'exp',    {td: {class: 'w-40rem'},tag: {data: {val: 'exp'},class: 'strip',value: 'Explicatii'}}
       - td_value_for o, 'ins',    {td: {class: 'w-8rem ta-ri'},tag: {data: {val: 'ins'},class: 'strip',value: 'Incasare'}}
       - td_value_for o, 'out',    {td: {class: 'w-8rem ta-ri'},tag: {data: {val: 'out'},class: 'strip',value: 'Plata'}}
-      - td_value_for o, 'button', {tag: {class: 'strip button fa fa-minus-circle red pointer',value: ''}}
+      - td_value_for o, 'button', {tag: {class: 'strip button fa fa-minus-circle red pointer',value: 'strip'}}
 
-    - tr_header_for mat(@object,'tbl_lines_hdr'),{tr: {data:{mark: 'scroll line-header'}}}
+    - tr_header_for mat(@object,'tbl_lines_hdr'),{tr: {data:{mark: 'scroll related-header'}}}
     - unless create
       - @object.lines.asc(:order).each do |l|
         - unless l.new_record?
-          %tr{data: {mark: 'line'}}
+          %tr{data: {mark: 'related'}}
             %td.w-2rem.ta-ri
               - value_for o, 'order',   {tag:  {class: 'strip', value: "#{l.order}."}}
               - input_for o, 'id',      {guess: {nested: 'cb',index: l.order},tag: {data: {val: '_id'},type: 'hidden',value: l.id}}
@@ -32,9 +32,9 @@
             - td_value_for o, 'exp',    {td: {class: 'w-40rem'},tag: {class: 'strip',value: l.expl}}
             - td_value_for o, 'ins',    {td: {class: 'w-8rem ta-ri'},tag: {class: 'strip',value: l.in}}
             - td_value_for o, 'out',    {td: {class: 'w-8rem ta-ri'},tag: {class: 'strip',value: l.out}}
-            - td_value_for o, 'button', {tag: {class: 'strip button fa fa-minus-circle red pointer',value: ''}}
-    %tr{data: {mark: 'line-total'}}
+            - td_value_for o, 'button', {tag: {class: 'strip button fa fa-minus-circle red pointer',value: 'strip'}}
+    %tr{data: {mark: 'related-total'}}
       - td_value_for @object, 'total',  {td: {colspan: 3},tag: {class: 'strip',value: 'TOTAL'}}
       - td_value_for @object, 'tot-in', {tag: {data: {val: 'tot-ins'},class: 'strip tot-in',value: @object.lines.sum(:in)}}
       - td_value_for @object, 'tot-out',{tag: {data: {val: 'tot-out'},class: 'strip tot-out',value: @object.lines.sum(:out)}}
-      - td_value_for @object, 'button', {tag: {class: 'strip',value: ''}}
+      - td_value_for @object, 'button', {tag: {class: 'strip',value: 'strip'}}
