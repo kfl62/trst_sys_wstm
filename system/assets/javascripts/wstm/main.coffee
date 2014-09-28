@@ -1,4 +1,4 @@
-define (['/javascripts/libs/select2.min.js','/javascripts/libs/jquery.ui.datepicker-ro.js','wstm/desk']), ()->
+define (['wstm/desk']), ()->
   $.extend Wstm,
     unit_info:
       node:  ()->
