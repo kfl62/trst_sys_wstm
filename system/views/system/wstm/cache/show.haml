@@ -7,6 +7,5 @@
         %td
           = haml :"#{@path}/_show"
     %tfoot
-      %tr
-        - buttons = @current_user.admin? ? ['create','edit','delete','cancel'] : ['create','edit','cancel']
-        - td_buttonset(buttons,{style: 'ta-ce'})
+      - buttons = @current_user.admin? ? ['create','edit','delete','cancel'] : ['create','edit','cancel']
+      - tr_buttonset(buttons,{td: {class: 'ta-ce'}})

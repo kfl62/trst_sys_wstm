@@ -10,41 +10,34 @@
   - xhr_info('info',t('intro.query.desk_cache.one'))
   %table
     %thead
-      = haml :'wstm/shared/_select_params', locals: {firm: @firm, colspan: '4'}
+      %tr
+        %td{colspan: 4}
+          = haml :'wstm/shared/_select_params', locals: {firm: @firm}
     %tbody.inner
+      - tr_header_for mat(@object,'table_one')
       %tr
-        - mat(@object,'table_one').each do |cn|
-          %td
-            %span= cn
-      %tr
-        %td.ta-ce{colspan: '3'}
-          %span= mat(@object,'stock_start')
-        %td.ta-ri
-          %span= "%0.2f" % @object.by_unit_id(uid).sum_mny(y,m,mny: [:money_stock]).first
+        - td_label_for @object, 'null', {td: {colspan: 3, class: 'ta-ce'}, tag: {class: 'strip', label:  mat(@object,'stock_start')}}
+        - td_value_for @object, 'null', {tag: {class: 'strip', value:  @object.by_unit_id(uid).sum_mny(y,m,mny: [:money_stock]).first}}
       - @object.stats_pos(uid,y,m,mny_all:true,exp_all: false).each do |r|
         - dif = r.delete_at(2); r.delete_at(-2)
         %tr
-          %td
-            %span= r.shift
+          - td_value_for r, 'null',   {tag: {class: 'strip', value: r.shift}}
           - r.each_with_index do |c,i|
-            %td.ta-ri
-              %span= "%0.2f" % (i == 1 ?  c + dif : c)
+            - td_value_for r, 'null', {td: {class: 'ta-ri'},tag: {class: 'strip',value: i == 1 ?  c + dif : c}}
 - else
   - xhr_hidden_data({dialog: 'query',title_data: data,oid: 'null',js_ext: 'desk_cache'})
   - xhr_info('info',t('intro.query.desk_cache.all'))
   %table
     %thead
-      = haml :'wstm/shared/_select_params', locals: {colspan: '5'}
-    %tbody.inner
       %tr
-        - mat(@object,'table_all').each do |cn|
-          %td
-            %span= cn
+        %td{colspan: 5}
+          = haml :'wstm/shared/_select_params'
+    %tbody.inner
+      - tr_header_for mat(@object,'table_all')
       - @object.stats_all(y,m,mny_all: true,ext_all: false).each do |r|
         - dif = r.delete_at(4); r.delete_at(-2)
+        - r[0] == 'Totla' ? (id,style = nil,nil) : (id,style = r.shift,'link')
         %tr
-          %td
-            %span{id: (r[0] != 'Total') && r.shift, class: (r[0] != 'Total') && 'link'}= r.shift
+          - td_value_for r, 'null',   {tag: {id: id, class: "strip #{style}",value: r.shift}}
           - r.each_with_index do |c,i|
-            %td.ta-ri
-              %span= "%0.2f" % (i == 2 ?  c + dif : c)
+            - td_value_for r, 'null', {td: {class: 'ta-ri'},tag: {class: 'strip',value: i == 2 ?  c + dif : c}}
