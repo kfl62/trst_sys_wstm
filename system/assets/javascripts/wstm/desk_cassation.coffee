@@ -2,30 +2,71 @@ define () ->
   $.extend true,Wstm,
     desk:
       cassation:
-        calculate: ()->
-          $rows  = $('tr.freight')
-          $total = $('tr.total')
-          tot_qu = 0
-          $rows.each ()->
-            $tr = $(@)
-            $sd = $tr.find('select').find('option:selected').data()
-            stck= parseFloat($tr.find('span.stck').text())
-            qu  = parseFloat($tr.find('input[name*="qu"]').decFixed(2).val())
-            res = (stck - qu).round(2)
-            if res < 0
-              alert Trst.i18n.msg.cassation_negative_stock
-                    .replace '%{stck}', stck.toFixed(2)
-                    .replace '%{res}',  (0 - res).toFixed(2)
-              qu  = stck; res = 0
-              $tr.find('input[name*="qu"]').val(qu).decFixed(2)
-            tot_qu += qu
-            $tr.find('span.res').text(res.toFixed(2))
-            return
-          $total.find('span.res').text(tot_qu.toFixed(2))
-          if tot_qu > 0
-            $('button[data-action="save"]').button 'option', 'disabled', false
+        lineNewReset: ()->
+          next = $('tr[data-mark~=related]').not('.hidden').length + 1
+          if next is 1
+            $('tr[data-mark~=related-header], tr[data-mark~=related-total]').addClass 'hidden'
+            $('button[data-action=save]').button 'option', 'disabled', true
           else
-            $('button[data-action="save"]').button 'option', 'disabled', true
+            $('tr[data-mark~=related-header], tr[data-mark~=related-total]').removeClass 'hidden'
+            $('button[data-action=save]').button 'option', 'disabled', false
+          $('span[data-val=nro').text("#{next}.")
+          $('input[data-mark~=related-add]').val ''
+          $('select[data-mark~=related-add]').val('null').focus()
+          return
+        lineNewData: ()->
+          v = $('[data-mark~=related-add]')
+          $freight = v.filter('[data-val=freight]')
+          $fd = $freight.find('option:selected').data()
+          ord = $('tr[data-mark~=related]').not('.hidden').length + 1
+          name       = $freight.find('option:selected').text().split('-')[0]
+          freight_id = $freight.val()
+          id_date    = $('input[id=date_send]').val()
+          id_stats   = $fd.id_stats
+          um         = $fd.um; v.filter('[data-val=um]').val(um)
+          pu         = $fd.pu;   pu = parseFloat(pu).toFixed(2);     v.filter('[data-val=pu]').val(pu)
+          stck       = $fd.stck; stck = parseFloat(stck).toFixed(2); v.filter('[data-val=stck]').val(stck)
+          qu         = v.filter('[data-val=qu]').val(); if qu is '' then qu = 0.toFixed(2) else qu = parseFloat(qu).toFixed(2)
+          result:
+            ord: ord; name: name;freight_id: freight_id; id_date: id_date; id_stats: id_stats; um: um; pu: pu; stck: stck; qu: qu
+        lineInsert: ()->
+          r = @lineNewData().result
+          l = @template.clone().removeClass('template')
+          l.find('span,input').each ->
+            e = $(@)
+            if e.data('val')
+              e.text r[e.data('val')]  if e.is('span')
+              e.val r[e.data('val')]  if e.is('input')
+          $('tr[data-mark~=related-total]').before l
+          @calculate()
+          @lineNewReset()
+          @buttons($('span.button'))
+          return
+        calculate: ()->
+          r  = @lineNewData().result
+          vl = $('tr[data-mark~=related]').not('.hidden')
+          vt = $('tr[data-mark~=related-total]')
+          i = 1; tot_qu = 0
+          vl.each ()->
+            $row = $(@)
+            $row.find('input').each ()->
+              $(@).attr('name',$(@).attr('name').replace(/\d/,i))
+              return
+            stck = parseFloat($row.find('span[data-val=stck]').text())
+            qu   = parseFloat($row.find('input[data-val=qu]').val())
+            res  = (stck - qu).round(2)
+            if res < 0
+              alert(Trst.i18n.msg.cassation_negative_stock
+                .replace '%{stck}', stck.toFixed(2)
+                .replace '%{res}',  (0 - res).toFixed(2))
+              qu  = stck; res = 0
+              $row.find('span[data-val=qu]').text(qu).decFixed(2)
+              $row.find('input[data-val=qu]').val(qu).decFixed(2)
+            tot_qu += qu
+            $row.find('[data-val=res]').text(res.toFixed(2))
+            i += 1
+            return
+          vt.find('[data-val=tot-qu]').text(tot_qu.toFixed(2))
           return
         inputs: (inpts)->
           inpts.each ()->
@@ -36,8 +77,7 @@ define () ->
                   $('input[name*="id_date"]').each ()->
                     $(@).val($('#date_send').val()) unless $(@).val() is ''
                     return
-                if Trst.desk.hdo.dialog is 'repair'
-                  Wstm.desk.cassation.selects($('input.repair'))
+                return
               return
           return
         selects: (slcts)->
@@ -45,74 +85,45 @@ define () ->
             $select = $(@)
             $sd = $select.data()
             $id = $select.attr('id')
-            if $select.hasClass 'freight'
+            if $select.data('val') is 'freight'
               $select.on 'change', ()->
-                $sod = $select.find('option:selected').data()
-                $inp = $select.parentsUntil('tbody').last().find('input')
-                $stck= $select.parentsUntil('tbody').last().find('span.stck')
-                $inp.filter('[name*="freight_id"]').val($select.val())
-                $inp.filter('[name*="id_date"]').val($('#date_send').val())
-                $inp.filter('[name*="id_stats"]').val($sod.id_stats)
-                $inp.filter('[name*="um"]').val($sod.um)
-                $inp.filter('[name*="pu"]').val(parseFloat($sod.pu).toFixed(2))
-                $stck.text(parseFloat($sod.stck).toFixed(2))
-                qu = $inp.filter('[name*="qu"]').val('0.00')
-                qu.on 'change', ()->
-                  Wstm.desk.cassation.calculate()
-                Wstm.desk.cassation.calculate()
-                qu.focus().select()
+                if $select.val() is 'null'
+                  Wstm.desk.cassation.lineNewReset()
+                else
+                  Wstm.desk.cassation.lineNewData()
+                  $('input[data-mark~=related-add][data-val=qu]').focus().select()
                 return
               return
-            else if $select.hasClass 'wstm'
-              ###
-              Handled by Wstm.desk.select
-              ###
-            else
-              $log 'Select not handled!'
           return
         buttons: (btns)->
           btns.each ()->
             $button = $(@)
             $bd = $button.data()
             $id = $button.attr('id')
-            if Trst.desk.hdo.dialog is 'create'
-              if $bd.action is 'save'
-                $button.button 'option', 'disabled', true
-                $button.data('remove',false)
-                $button.off 'click', Trst.desk.buttons.action.save
-                $button.on  'click', Wstm.desk.cassation.calculate
-                $button.on  'click', Trst.desk.buttons.action.save
-            else if Trst.desk.hdo.dialog is 'show'
-              if $bd.action is 'print'
-                $button.on 'click', ()->
-                  Trst.msgShow Trst.i18n.msg.report.start
-                  $.fileDownload "/sys/wstm/cassation/print?id=#{Trst.desk.hdo.oid}",
-                    successCallback: ()->
-                      Trst.msgHide()
-                    failCallback: ()->
-                      Trst.msgHide()
-                      Trst.desk.downloadError Trst.desk.hdo.model_name
-                  false
-            else
-              ###
-              Buttons default handler Trst.desk.buttons
-              ###
-          $('span.fa-minus-circle').each ()->
-            $button = $(@)
-            $button.on 'click', ()->
-              $button.parentsUntil('tbody').last().remove()
-              Wstm.desk.cassation.calculate()
+            if $button.hasClass('fa-refresh')
+              $button.off 'click'
+              $button.on 'click', ()->
+                Wstm.desk.cassation.lineNewReset()
+                return
+            if $button.hasClass('fa-plus-circle')
+              $button.off 'click'
+              $button.on 'click', ()->
+                Wstm.desk.cassation.lineInsert()
+                return
+            if $button.hasClass('fa-minus-circle')
+              $button.off 'click'
+              $button.on 'click', ()->
+                $button.parentsUntil('tbody').last().remove()
+                Wstm.desk.cassation.calculate()
+                Wstm.desk.cassation.lineNewReset()
+                return
               return
-            return
           return
         init: ()->
-          if $('#date_show').length
-            now = new Date()
-            min = if Trst.lst.admin is 'true' then new Date(now.getFullYear(),now.getMonth() - 1,1) else new Date(now.getFullYear(),now.getMonth(),1)
-            $('#date_show').datepicker 'option', 'maxDate', '+0'
-            $('#date_show').datepicker 'option', 'minDate', min
-          Wstm.desk.cassation.buttons($('button'))
-          Wstm.desk.cassation.selects($('select.wstm'))
-          Wstm.desk.cassation.inputs($('input'))
+          @buttons($('button, span.button'))
+          @selects($('select'))
+          @inputs($('input'))
+          @template = $('tr.template')?.remove()
+          @lineNewReset()
           $log 'Wstm.desk.cassation.init() OK...'
   Wstm.desk.cassation
