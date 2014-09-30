@@ -1,44 +1,24 @@
-%tr
-  %td
-    %table.inner.w-80pr
-      %tbody.inner
-        %tr
-          - mat(@object,'table_header_form').each do |label|
-            %td
-              %span= label
-        - if @object.freights.empty?
-          - for i in 0..4 do; o = @object.freights.new
-            %tr.freight
-              %td.select-freight
-                %select.wstm.freight
-                  %option{value: 'null'} Selectare material
-                  - freights.each do |f|
-                    %option{value: f[0], data: f[2]}= f[1]
-                - input_for   o, 'id_date',   {type: 'hidden',nested: 'doc_cas',value: 'strip',index: i}
-                - input_for   o, 'id_stats',  {type: 'hidden',nested: 'doc_cas',value: 'strip',index: i}
-                - input_for   o, 'um',        {disabled: true,type: 'hidden',nested: 'doc_cas',value: 'strip',index: i}
-                - input_for   o, 'pu',        {type: 'hidden',nested: 'doc_cas',value: 'strip',index: i}
-                - input_for   o, 'freight_id',{type: 'hidden',nested: 'doc_cas',value: 'strip',index: i}
-              %td.ta-ce
-                %span.um kg
-              %td.ta-ri
-                %span.val.stck 0.00
-              %td
-                - input_for  o, 'qu',        {style: ' qu ta-ri',nested: 'doc_cas',index: i}
-              %td.ta-ri
-                %span.res 0.00
-              %td
-                %span.fa.fa-minus-circle.red{title: t('button.delete')}
-          %tr.total
-            %td{colspan: '3'}
-              %span Total
-            %td
-              %span.res 0.00
-            %td{colspan: '2'}
-              %span &nbsp;
-        - else
-          %tr.pdb-05
-            %td{colspan: '6'}
-              %detail.warning
-                %i.fa.fa-info-circle.fa-lg.blue
-                = 'Editing not allowed!'
+%table{data: {mark: 'scroll'}}
+  %tbody.inner
+    - o = @object.freights.new
+    %tr.template{data: {mark: 'related'}}
+      %td
+        - value_for   o, 'name',      {tag: {data: {val: 'name'},class: 'strip',value: 'Material'}}
+        - input_for   o, 'freight_id',{guess: {nested: 'doc_cas',index: 0},tag: {data: {val: 'freight_id'},type: 'hidden',value: 'strip'}}
+        - input_for   o, 'id_date',   {guess: {nested: 'doc_cas',index: 0},tag: {data: {val: 'id_date'},type: 'hidden',value: 'strip'}}
+        - input_for   o, 'id_stats',  {guess: {nested: 'doc_cas',index: 0},tag: {data: {val: 'id_stats'},type: 'hidden',value: 'strip'}}
+        - input_for   o, 'pu',        {guess: {nested: 'doc_cas',index: 0},tag: {data: {val: 'pu'},type: 'hidden',value: 'strip'}}
+        - input_for   o, 'qu',        {guess: {nested: 'doc_cas',index: 0},tag: {data: {val: 'qu'},type: 'hidden',value: 'strip'}}
+      - td_value_for  o, 'um',        {tag: {data: {val: 'um'},class: 'strip ta-ce',value: 'strip'}}
+      - td_value_for  o, 'pu',        {tag: {data: {val: 'pu'},class: 'strip ta-ri',value: 'strip'}}
+      - td_value_for  o, 'stck',      {tag: {data: {val: 'stck'},class: 'strip ta-ri',value: 'strip'}}
+      - td_value_for  o, 'qu',        {tag: {data: {val: 'qu'},class: 'strip ta-ri',value: 'strip'}}
+      - td_value_for  o, 'res',       {tag: {data: {val: 'res'},class: 'strip ta-ri',value: '0'}}
+      - td_value_for  o, 'button',    {tag: {class: 'strip button fa fa-minus-circle red pointer',value: 'strip'}}
+
+    - tr_header_for mat(@object,'table_header_form'),{tr: {data:{mark: 'scroll related-header'}}}
+
+    %tr{data: {mark: 'related-total'}}
+      - td_value_for @object, 'total',  {td: {colspan: 4},tag: {class: 'strip',value: 'TOTAL'}}
+      - td_value_for @object, 'tot-qu', {tag: {data: {val: 'tot-qu'},class: 'strip',value: 'strip'}}
+      - td_value_for @object, 'button', {td: {colspan: 2},tag: {class: 'strip',value: 'strip'}}
