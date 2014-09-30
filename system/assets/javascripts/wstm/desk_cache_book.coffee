@@ -3,21 +3,21 @@ define () ->
     desk:
       cache_book:
         linesNewReset: ()->
-          next = $('tr[data-mark~=line]').not('.hidden').length + 1
+          next = $('tr[data-mark~=related]').not('.hidden').length + 1
           if next is 1
-            $('tr[data-mark~=line-header], tr[data-mark~=line-total]').addClass 'hidden'
+            $('tr[data-mark~=related-header], tr[data-mark~=related-total]').addClass 'hidden'
             $('button[data-action=save]').button 'option', 'disabled', true
           else
-            $('tr[data-mark~=line-header], tr[data-mark~=line-total]').removeClass 'hidden'
+            $('tr[data-mark~=related-header], tr[data-mark~=related-total]').removeClass 'hidden'
             $('button[data-action=save]').button 'option', 'disabled', false
           $('span[data-val=nr').text next - 1
-          $('span[data-mark~=line-add]').text next + '.'
-          $('input[data-mark~=line-add]').val ''
-          $('input[data-mark~=line-add][data-val=doc]').focus()
+          $('span[data-mark~=related-add]').text next + '.'
+          $('input[data-mark~=related-add]').val ''
+          $('input[data-mark~=related-add][data-val=doc]').focus()
           return
         linesNewData: ()->
-          v = $('[data-mark=line-add]')
-          ord = $('tr[data-mark~=line]').not('.hidden').length + 1
+          v = $('[data-mark~=related-add]')
+          ord = $('tr[data-mark~=related]').not('.hidden').length + 1
           doc = v.filter('[data-val=doc]').val()
           exp = v.filter('[data-val=exp]').val()
           ins = v.filter('[data-val=ins]').val(); if ins is '' then ins = 0 else ins = parseFloat(ins)
@@ -32,15 +32,15 @@ define () ->
             if e.data('val')
               e.text r[e.data('val')]  if e.is('span')
               e.val r[e.data('val')]  if e.is('input')
-          $('tr[data-mark~=line-total]').before l
+          $('tr[data-mark~=related-total]').before l
           Wstm.desk.cache_book.calculate()
           Wstm.desk.cache_book.linesNewReset()
           Wstm.desk.cache_book.buttons($('span.button'))
           return
         calculate: ()->
           r  = Wstm.desk.cache_book.linesNewData().result
-          vl = $('tr[data-mark~=line]').not('.hidden')
-          vt = $('tr[data-mark~=line-total]')
+          vl = $('tr[data-mark~=related]').not('.hidden')
+          vt = $('tr[data-mark~=related-total]')
           ib = parseFloat($('input[data-val=ib]').val())
           i  = 1; vtins = 0; vtout = 0;
           vl.each ()->
@@ -58,8 +58,8 @@ define () ->
           $fb = ib + vtins - vtout
           $('input[data-val=fb]').val($fb)
           $('span[data-val=fb]').text($fb.toFixed(2))
-          if r.ord > 25 and $('#scroll-container').length is 0 then Wstm.desk.scrollHeader('table[data-mark~=scroll]')
-          if r.ord < 26 and $('#scroll-container').length is 1 then Wstm.desk.scrollHeader('table[data-mark~=scroll]', 0)
+          if r.ord > 25 and $('#scroll-container').length is 0 then Trst.desk.tables.handleScroll('table[data-mark~=scroll]')
+          if r.ord < 26 and $('#scroll-container').length is 1 then Trst.desk.tables.handleScroll('table[data-mark~=scroll]', 0)
           return
         inputs: (inpts)->
           inpts.each ()->
@@ -134,17 +134,6 @@ define () ->
                   Wstm.desk.cache_book.calculate()
                   Wstm.desk.cache_book.linesNewReset()
                 return
-            else if Trst.desk.hdo.dialog is 'show'
-              if $bd.action is 'print'
-                $button.on 'click', ()->
-                  Trst.msgShow Trst.i18n.msg.report.start
-                  $.fileDownload "/sys/wstm/cache_book/print?id=#{Trst.desk.hdo.oid}",
-                    successCallback: ()->
-                      Trst.msgHide()
-                    failCallback: ()->
-                      Trst.msgHide()
-                      Trst.desk.downloadError Trst.desk.hdo.model_name
-                  return
             return
           return
         init: ()->

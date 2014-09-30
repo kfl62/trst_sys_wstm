@@ -1,8 +1,8 @@
 %table{data: {mark: 'scroll'}}
   %tbody.inner
-    - tr_header_for mat(@object,'tbl_lines_hdr')[0..4],{tr: {data:{mark: 'scroll line-header'}}}
+    - tr_header_for mat(@object,'tbl_lines_hdr')[0..4],{tr: {data:{mark: 'scroll related-header'}}}
     - @object.lines.asc(:order).each do |l|
-      %tr{data: {mark: 'line'}}
+      %tr{data: {mark: 'related'}}
         - td_value_for l, 'order',  {td: {class: 'w-2rem ta-ri'}, tag: {class: 'strip'}}
         - td_value_for l, 'doc',    {td: {class: 'w-8rem'}, tag: {class: 'strip'}}
         - td_value_for l, 'expl',   {td: {class: 'w-40rem'}, tag: {class: 'strip'}}

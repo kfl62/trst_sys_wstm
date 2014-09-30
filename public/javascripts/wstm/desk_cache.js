@@ -3,13 +3,6 @@
     $.extend(true, Wstm, {
       desk: {
         cache: {
-          inputs: function(inpts) {
-            inpts.each(function() {
-              var $ind, $input;
-              $input = $(this);
-              $ind = $input.data();
-            });
-          },
           selects: function(slcts) {
             slcts.each(function() {
               var $sd, $select;
@@ -18,7 +11,7 @@
               if (Trst.desk.hdo.dialog === 'query') {
                 $select.on('change', function() {
                   var $params, $url;
-                  $params = jQuery.param($('.param').serializeArray());
+                  $params = jQuery.param($('[data-mark~=param]').serializeArray());
                   $url = "sys/wstm/cache/query?" + $params;
                   Trst.desk.init($url);
                 });
@@ -27,13 +20,18 @@
           },
           buttons: function(btns) {
             btns.each(function() {
-              var $bd, $button;
+              var $bd, $button, _ref;
               $button = $(this);
               $bd = $button.data();
+              if (Trst.desk.hdo.dialog === 'filter') {
+                if ((_ref = $bd.action) === 'create' || _ref === 'show' || _ref === 'edit' || _ref === 'delete') {
+                  $bd.r_path = 'sys/wstm/cache/filter';
+                }
+              }
               if (Trst.desk.hdo.dialog === 'query') {
                 $button.on('click', function() {
                   var $params, $url;
-                  $params = jQuery.param($('.param').serializeArray());
+                  $params = jQuery.param($('[data-mark~=param]').serializeArray());
                   $url = "sys/wstm/cache/query?" + $params + "&uid=" + ($button.attr('id'));
                   Trst.desk.init($url);
                 });
@@ -41,7 +39,7 @@
             });
           },
           init: function() {
-            this.buttons($('span.link'));
+            this.buttons($('button, span.link'));
             this.selects($('select'));
             return $log('Wstm.desk.cache.init() OK...');
           }

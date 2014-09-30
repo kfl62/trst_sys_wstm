@@ -2,7 +2,7 @@
   %article
     %label
       = t('intro.has_unit')
-      %select.wstm.unit
+      %select{data: {mark: 'wstm unit'}}
         %option{value: 'null'}= t('select.option',data: 'Unitatea')
         - @firm.units.asc(:slug).each do |unit|
           %option{value: unit.id,selected: unit.id.to_s == @uid}= unit.name[1]
@@ -12,7 +12,7 @@
   %article
     %label
       = t('intro.has_unit')
-      %select.wstm.unit
+      %select{data: {mark: 'wstm unit'}}
         %option{value: 'null'}= t('select.option',data: 'Unitatea')
         - @firm.units.asc(:slug).each do |unit|
           %option{value: unit.id}= unit.name[1]

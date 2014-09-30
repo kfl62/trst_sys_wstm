@@ -375,3 +375,8 @@ ro:
       grn_not_complete: |
           Nu aţi selectat "Tip document", sau nu aţi completat
           unul din câmpurile "Document nr.", "Maşina nr."!
+      cassation_negative_stock: |
+          Cantitatea introdusă este mai mare decât stocul disponibil!
+          Cantitatea maximă ce se poate casa este %{stck}kg!
+          Diferența de %{res}kg trebuie să casați din același
+          materialele, dar dintr-un stoc la alt preț!

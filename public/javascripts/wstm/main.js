@@ -1,5 +1,5 @@
 (function() {
-  define(['/javascripts/libs/select2.min.js', '/javascripts/libs/jquery.ui.datepicker-ro.js', 'wstm/desk'], function() {
+  define(['wstm/desk'], function() {
     $.extend(Wstm, {
       unit_info: {
         node: function() {

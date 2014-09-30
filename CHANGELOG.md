@@ -3,6 +3,23 @@
 * estimated release date: **2014-12-01**
 
 
+* **feature v0.3.1.4**
+   - feature date: **2014-09-30**
+   - bump version v0.3.1.4
+   - update CHANGELOG
+   - views `Wstm::Cassation` CRUD [#30][#30]
+   - i18n `Trst::Cassation` related
+   - assets css, `wstm` update TODO ...
+   - assets js, `Wstm.desk.cassatiok` cleanup & [#31][#31]
+   - views `Wstm::CacheBook` CRUD [#30][#30]
+   - assets js, `Wstm.desk.cache_book` delete print & [#31][#31]
+   - assets js, `Wstm.desk.cache_book` cleanup & [#31][#31]
+   - views `Wstm::Cache` CRUD [#30][#30]
+   - assets js, `Wstm.desk.cache` cleanup & [#31][#31]
+   - views `shared/_system_unit` class -> data-mark
+   - assets js, cleanup, review, rewrite common files [#31][#31]
+
+
 * **feature v0.3.1.3**
    - feature date: **2014-09-25**
    - bump version v0.3.1.3

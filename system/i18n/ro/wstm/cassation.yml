@@ -2,8 +2,10 @@ ro:
   mongoid:
     attributes:
       'wstm/cassation':
+        name: Nr.
+        id_date: din data de
         model_name: PV Casare
         table_header_show: ['Material', 'UM', 'PU', 'Se casează', 'Valoare', 'Stock(kg)']
-        table_header_form: ['Material', 'UM', 'Stock', 'Se casează', 'Rămâne', ' ']
+        table_header_form: ['Material', 'UM', 'PU', 'Stock', 'Se casează', 'Rămâne', ' ']
         expl: 'Explicaţii'
         expl_default: 'PV din data de '

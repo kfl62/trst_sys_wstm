@@ -1,17 +1,14 @@
-%span#hidden_data{data: {dialog: "delete",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_cassation'}}
-%article#xhr_info.warning
-  %i.fa.fa-warning.fa-lg
-  = t("intro.delete.main",data: mat(@object,'model_name'))
+- xhr_hidden_data({dialog: "delete",js_ext: 'desk_cassation'})
+- xhr_info('warning',t('intro.delete.main',data: model_name))
 %form{action: "/sys/#{@path}",method: "delete"}
   %table
     %thead
       %tr.pdb-05
-        %td{colspan: "6"}
-          %detail.detail.w-35rem.ta-ju
-            %i.fa.fa-bomb.fa-lg.red
-            = t('intro.show.desk_cassation',id_date: l(@object.id_date,format: :trst),unit: @object.unit.name[1],signed_by: @object.signed_by.name,expl: @object.expl)
-    = partial "/#{@path}/show"
-    %tfoot
+        - td_detail_for 'detail w-35rem',t('intro.show.desk_cassation',id_date: l(@object.id_date,format: :trst),unit: @object.unit.name[1],signed_by: @object.signed_by.name,expl: @object.expl),'error-red'
+    %tbody
       %tr
-        - td_buttonset(['delete','cancel'],{style: 'ta-ce'},'6')
+        %td
+          = haml :"/#{@path}/_show"
+    %tfoot
+      - tr_buttonset(['delete','cancel'],{td: {class: 'ta-ce'}})
 

@@ -14,9 +14,8 @@
               - @object.where(unit_id: @uid).desc(:id_date).each do |o|
                 %option{value: o.view_filter.first}= o.view_filter.last
       %tfoot
-        %tr
-          - buttons = @current_user.admin? ? ['create','show','edit','delete','cancel'] : ['create','show','edit','cancel']
-          - td_buttonset(buttons,{style: 'ta-ce'})
+        - buttons = @current_user.admin? ? ['create','show','edit','delete','cancel'] : ['create','show','edit','cancel']
+        - tr_buttonset(buttons,{td: {class: 'ta-ce'}})
 -  else
   - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_cache'})
   = haml :'wstm/shared/_select_unit'
