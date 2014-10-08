@@ -3,6 +3,15 @@
 * estimated release date: **2014-12-01**
 
 
+* **feature v0.3.1.6**
+   - feature date: **2014-10-08**
+   - bump version v0.3.1.6
+   - update CHANGELOG
+   - views `Wstm::Cassation`use standard outgoing
+   - assets js, `Wstm.desk.cassation` use standard outgoing
+   - models `Wstm::FreightOut` cassation is normal outgoing
+
+
 * **feature v0.3.1.5**
    - feature date: **2014-10-08**
    - bump version v0.3.1.5
