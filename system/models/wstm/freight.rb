@@ -23,14 +23,15 @@ module Wstm
         asc(:name).each_with_object([]){|f,a| a << [f.id,f.name,{id_stats: f.id_stats,um: f.um,pu: f.pu,p03: f.p03.to_s}]}
       end
       # @todo
-      def options_for_dln
-        asc(:name).each_with_object([]){|f,a| a << [f.id,f.name,{key: "#{f.id_stats}-00.0000",id_stats: f.id_stats,um: f.um,pu: 0.0,stck: (f.stks_now.sum(:qu) || 0)}]}
-      end
-      # @todo
-      def options_for_dln_with_pu
+      def options_for_dln(pu = false)
         asc(:name).each_with_object([]) do |f,a|
-          f.stks_now.where(:qu.ne => 0).asc(:pu).each do |fs|
-            a << [fs.freight.id,"#{fs.freight.name}-#{"%.4f" % fs.pu}",{key: "#{f.id_stats}-#{"%.4f" % fs.pu}",id_stats: fs.id_stats,um: fs.freight.um,pu: fs.pu,stck: fs.qu}]
+          on_stock = f.stks_now.where(:qu.ne => 0)
+          if pu
+            on_stock.asc(:pu).each do |fs|
+              a << [f.id,f.name,{name: f.name,id_stats: f.id_stats,um: f.um,pu: "#{'%.4f' % fs.pu}",pu_invoice: "0.0000",stck: "#{'%.2f' % fs.qu}"}]
+            end
+          else
+            a << [f.id,f.name,{name: f.name,id_stats: f.id_stats,um: f.um,pu: "0.0000",pu_invoice: "0.0000",stck: "#{'%.2f' % on_stock.sum(:qu)}"}]
           end
         end
       end
