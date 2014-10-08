@@ -1,6 +1,3 @@
-:ruby
-  freights= Wstm::PartnerFirm.unit_by_unit_id(@uid).freights.options_for_dln_with_pu
-
 - xhr_hidden_data({dialog: 'create',oid: 'null',js_ext: 'desk_cassation'})
 - xhr_info('info',t('intro.create.main',data: model_name))
 %form{action: "/sys/#{@path}",method: "post"}
@@ -13,6 +10,7 @@
           - label_for @object, 'id_date'
           - input_for @object, 'id_date',   {tag: {id: 'date_show',name: 'strip'}}
           - input_for @object, 'id_date',   {tag: {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}}
+          - input_for @object, 'id_intern', {tag: {type: 'hidden',value: 'true'}}
           - input_for @object, 'unit_id',   {tag: {type: 'hidden',value: @uid}}
           - input_for @object, 'signed_by', {tag: {type: 'hidden',value: @current_user.id}}
       %tr.pdb-05
@@ -21,7 +19,7 @@
           - input_for @object, 'expl',       {tag: {data: {mark: 'ui-focus focus'},value: mat(@object,'expl_default'),class: 'w-40rem'}}
       %tr.pdb-05
         %td.add-line-container
-          = haml :"#{@path}/_doc_add_line", locals: {freights: freights}
+          = haml :"#{@path}/_doc_add_line"
     %tbody
       %tr.pdt-05
         %td

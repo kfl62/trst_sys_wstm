@@ -1,16 +1,23 @@
-%table
+:ruby
+  wpu = params[:wpu].to_bool rescue true
+  freights =  @firm.units.find(@uid).freights.options_for_dln wpu
+
+%table.w-100pr
   %tr
     %td
-      - value_for @object, 'txt', {tag: {class: 'strip',value: 'Adăugare material de casat'}}
+      - value_for @object, 'txt', {tag: {class: 'strip',value: 'Materiale în stoc. Valoric?'}}
+      - input_for @object, 'wpu', {tag: {data: {mark: 'wpu'},class:'true_ro',type: 'radio',checked: wpu,name:'wpu',value: 'true'}}
+      - input_for @object, 'wpu', {tag: {data: {mark: 'wpu'},class:'false_ro',type: 'radio',checked: !wpu,name:'wpu',value: 'false'}}
       - value_for @object, 'btn', {tag: {class: 'strip button fl-ri red pointer fa fa-plus-circle fa-lg',value: 'strip',title: t('button.new_row')}}
       - value_for @object, 'btn', {tag: {class: 'strip button fl-ri red pointer fa fa-refresh fa-lg',value: 'strip'}}
   %tr
     %td
       - value_for @object, 'ord', {tag: {data: {mark: 'related-add',val: 'nro'},value: '1.'}}
-      %select{data: {mark: 'related-add focus',val: 'freight'}}
+      %select{data: {mark: 'related-add step',val: 'freight'}}
         %option{value: 'null'} Selectare material
         - freights.each do |f|
-          %option{value: f[0], data: f[2], title: "Stoc (#{f[2][:um]}): #{'%.2f' % f[2][:stck]}"}= f[1]
+          - title = wpu ? "PU: #{'%.4f' % f[2][:pu]}; Stoc (#{f[2][:um]}): #{'%.2f' % f[2][:stck]}" : "Stoc (#{f[2][:um]}): #{'%.2f' % f[2][:stck]}"
+          %option{value: f[0], data: f[2], title: title}= f[1]
       - input_for @object, 'um',  {tag: {data: {mark: 'related-add',val: 'um'},disabled: true,class: 'w-4rem ta-ce',name: 'strip',value: 'strip', placeholder: 'UM'}}
       - input_for @object, 'stck',{tag: {data: {mark: 'related-add',val: 'stck'},disabled: true,class: 'w-8rem ta-ri',name: 'strip',value: 'strip', placeholder: 'Stock'}}
       - input_for @object, 'qu',  {tag: {data: {mark: 'related-add ui-focus',val: 'qu'},class: 'w-6rem ta-ri',name: 'strip',value: 'strip', placeholder: 'Cant.'}}
