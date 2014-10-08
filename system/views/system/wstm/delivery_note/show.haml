@@ -1,26 +1,20 @@
 :ruby
-  firm = Wstm::PartnerFirm.find_by(firm: true)
   dups = Wstm::DeliveryNote.monthly(@object.id_date.year,@object.id_date.month).where(:id.ne => @object.id,doc_name: @object.doc_name,client_id: @object.client_id)
-%span#hidden_data{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_delivery_note'}}
+
+- xhr_hidden_data({dialog: 'show',js_ext: 'desk_delivery_note'})
 %form{action: "/sys/#{@path}", method: "get"}
   %table
     %thead
       - if dups.count > 0
         - dups.asc(:id_date).each do |d|
           %tr.pdb-05
-            %td{colspan: "6"}
-              %detail.warning.w-50rem.ta-ju{title: d.freights_list.join("\n")}
-                %i.fa.fa-warning.fa-lg
-                = t('intro.show.desk_delivery_note_dups',id_date: d.id_date.to_s,doc_name: d.doc_name,client: d.client.name[0])
+            - td_detail_for'detail w-50rem ta-ju',t('intro.show.desk_delivery_note_dups',id_date: d.id_date.to_s,doc_name: d.doc_name,client: d.client.name[0]), 'warning'
       %tr.pdb-05
-        %td{colspan: "6"}
-          %detail.detail.w-50rem.ta-ju
-            %i.fa.fa-info-circle.fa-lg.blue
-            = t('intro.show.desk_delivery_note',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),firm: firm.name[2],firm_d: @object.signed_by.name,client: @object.client.name[2],client_d: (@object.client_d.name rescue 'Anonymous'),transp: @object.transp.name[2],transp_d: @object.transp_d.name)
-    = partial "#{@path}/show"
-    %tfoot
+        - td_detail_for 'detail w-50rem ta-ju',t('intro.show.desk_delivery_note',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),firm: @firm.name[2],firm_d: @object.signed_by.name,client: @object.client.name[2],client_d: (@object.client_d.name rescue 'Anonymous'),transp: @object.transp.name[2],transp_d: @object.transp_d.name)
+    %tbody
       %tr
-        - if @object.freights.count == 0
-          - td_buttonset(['delete'],{style: 'ta-ce'},'6')
-        - else
-          - td_buttonset(['print','delete','cancel'],{style: 'ta-ce'},'6')
+        %td
+          = haml :"#{@path}/_show"
+    %tfoot
+      - buttons =@object.freights.count == 0 ? ['delete'] : ['print','delete','cancel']
+      - tr_buttonset(buttons,{td: {class: 'ta-ce'}})

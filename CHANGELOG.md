@@ -3,6 +3,17 @@
 * estimated release date: **2014-12-01**
 
 
+* **feature v0.3.1.5**
+   - feature date: **2014-10-08**
+   - bump version v0.3.1.5
+   - update CHANGELOG
+   - views `Wstm::DeliveryNote` CRUD [#30][#30]
+   - i18n `Wstm::DeliveryNote` related
+   - assets js, `Wstm.desk.delivery_note` cleanup & [#31][#31]
+   - models `Wstm::FreightOut` dynamic fileds issue see [#28][#28]
+   - models `Wstm::Freight` rewrite `#options_for_dln` fix [#32][#32]
+
+
 * **feature v0.3.1.4**
    - feature date: **2014-09-30**
    - bump version v0.3.1.4
@@ -10,7 +21,7 @@
    - views `Wstm::Cassation` CRUD [#30][#30]
    - i18n `Trst::Cassation` related
    - assets css, `wstm` update TODO ...
-   - assets js, `Wstm.desk.cassatiok` cleanup & [#31][#31]
+   - assets js, `Wstm.desk.cassation` cleanup & [#31][#31]
    - views `Wstm::CacheBook` CRUD [#30][#30]
    - assets js, `Wstm.desk.cache_book` delete print & [#31][#31]
    - assets js, `Wstm.desk.cache_book` cleanup & [#31][#31]

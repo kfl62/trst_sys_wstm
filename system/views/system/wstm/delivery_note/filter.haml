@@ -1,28 +1,24 @@
-:ruby
-  unit_id = @current_user.unit_id || session[:unit_id]
-%span#hidden_data{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_delivery_note'}}
--if unit_id
-  %article#xhr_info.info
-    %i.fa.fa-info-circle.fa-lg.blue
-    = t("intro.filter.desk_delivery_note",data: mat(@object,'model_name'))
+-if @uid
+  - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_delivery_note'})
+  - xhr_info('info',t("intro.filter.main",data: model_name))
   - unless @current_user.unit_id
-    = partial 'wstm/shared/select_unit'
+    = haml :'wstm/shared/_select_unit'
   %form{action: "/sys/#{@path}",method: "get"}
     %table
       %tbody
         %tr
           %td
-            %input#client_id.select2{type: 'hidden',style: 'width:200px',data: {minlength: '2',ph: '0',search: 'Wstm::PartnerFirm'}}
-            %input#client_d_id.select2{type: 'hidden',style: 'width:200px',data: {minlength: '0',ph: '1',search: 'Wstm::PartnerFirmPerson'}}
+            - input_for @object, 'client_id',   {tag: {id: 'client_id',  type: 'hidden',name: 'strip', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '2',ph: '0',search: 'Wstm::PartnerFirm'}}}
+            - input_for @object, 'client_d_id', {tag: {id: 'client_d_id',type: 'hidden',name: 'strip', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '0',ph: '1',search: 'Wstm::PartnerFirmPerson'}}}
             %button#client_d{type: "button",data: {action: "create", icon: "fa fa-plus-square-o"}}= t('button.create') + " Delegat!"
         %tr
           %td
-            %input#transp_id.select2{type: 'hidden',style: 'width:200px',data: {minlength: '2',ph: '2',search: 'Wstm::PartnerFirm'}}
-            %input#transp_d_id.select2{type: 'hidden',style: 'width:200px',data: {minlength: '0',ph: '3',search: 'Wstm::PartnerFirmPerson'}}
+            - input_for @object, 'transp_id',   {tag: {id: 'transp_id',  type: 'hidden',name: 'strip', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '2',ph: '2',search: 'Wstm::PartnerFirm'}}}
+            - input_for @object, 'transp_d_id', {tag: {id: 'transp_d_id',type: 'hidden',name: 'strip', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '0',ph: '3',search: 'Wstm::PartnerFirmPerson'}}}
             %button#transp_d{type: "button",data: {action: "create",icon: "fa fa-plus-square-o"}}= t('button.create') + " Delegat!"
       %tfoot
-        %tr
-          - td_buttonset(['create','cancel'],{style: 'ta-ce', create: {text: t('button.create') + " Anexa3!"}})
+        - tr_buttonset(['create','cancel'],{td: {class: 'ta-ce'}, create: {text: t('button.create') + " Anexa3!"}})
 -else
+  - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_delivery_note'})
   %form{action: "/sys/#{@path}",method: "get"}
-    = partial 'wstm/shared/select_unit'
+    = haml :'wstm/shared/_select_unit'

@@ -3,42 +3,97 @@
     $.extend(true, Wstm, {
       desk: {
         delivery_note: {
+          lineNewReset: function() {
+            var next;
+            next = $('tr[data-mark~=related]').not('.hidden').length + 1;
+            if (next === 1) {
+              $('tr[data-mark~=related-header], tr[data-mark~=related-total]').addClass('hidden');
+              $('button[data-action=save]').button('option', 'disabled', true);
+            } else {
+              $('tr[data-mark~=related-header], tr[data-mark~=related-total]').removeClass('hidden');
+              $('button[data-action=save]').button('option', 'disabled', false);
+            }
+            $('span[data-val=nro').text("" + next + ".");
+            $('input[data-mark~=related-add]').val('');
+            $('select[data-mark~=related-add]').val('null');
+          },
+          lineNewData: function() {
+            var $fd, $freight, freight_id, ord, pu_invoice, qu, stck, um, v;
+            v = $('[data-mark~=related-add]');
+            $freight = v.filter('[data-val=freight]');
+            $fd = $freight.find('option:selected').data();
+            ord = $('tr[data-mark~=related]').not('.hidden').length + 1;
+            freight_id = $freight.val();
+            um = $fd.um;
+            v.filter('[data-val=um]').val(um);
+            stck = $fd.stck;
+            stck = ($.isNumeric(stck) ? parseFloat(stck).toFixed(2) : '0.00');
+            v.filter('[data-val=stck]').val(stck);
+            qu = v.filter('input[data-val=qu]').val();
+            qu = $.isNumeric(qu) ? parseFloat(qu).toFixed(2) : '0.00';
+            pu_invoice = v.filter('input[data-val=pu_invoice]').val();
+            pu_invoice = $.isNumeric(pu_invoice) ? parseFloat(pu_invoice).toFixed(4) : '0.0000';
+            return $.extend(true, $fd, {
+              ord: ord,
+              freight_id: freight_id,
+              id_date: $('#date_send').val(),
+              qu: qu,
+              pu_invoice: pu_invoice
+            });
+          },
+          lineInsert: function() {
+            var l, r;
+            r = this.lineNewData();
+            l = this.template.clone().removeClass('template');
+            l.find('span,input').each(function() {
+              var e;
+              e = $(this);
+              if (e.data('val')) {
+                if (e.is('span')) {
+                  e.text(r[e.data('val')]);
+                }
+                if (e.is('input') && e.val() === '') {
+                  return e.val(r[e.data('val')]);
+                }
+              }
+            });
+            if (parseFloat(r.qu) > 0) {
+              $('tr[data-mark~=related-total]').before(l);
+            }
+            this.calculate();
+            this.lineNewReset();
+            this.buttons($('span.button'));
+          },
           calculate: function() {
-            var $rows, $total, tot_qu;
-            $rows = $('tr.freight');
-            $total = $('tr.total');
+            var i, r, tot_qu, vl, vt;
+            r = this.lineNewData();
+            vl = $('tr[data-mark~=related]').not('.hidden');
+            vt = $('tr[data-mark~=related-total]');
+            i = 1;
             tot_qu = 0;
-            $rows.each(function() {
-              var $sd, $tr, puf, pui, qu, res, stck, valf, vali;
-              $tr = $(this);
-              $sd = $tr.find('select').find('option:selected').data();
-              stck = parseFloat($tr.find('span.stck').text());
-              qu = parseFloat($tr.find('input[name*="qu"]').decFixed(2).val());
-              puf = parseFloat($tr.find('input[name*="\[pu\]"]').decFixed(2).val());
-              pui = parseFloat($tr.find('input[name*="\[pu_i"]').decFixed(4).val());
+            vl.each(function() {
+              var $row, qu, res, stck;
+              $row = $(this);
+              $row.find('input').each(function() {
+                $(this).attr('name', $(this).attr('name').replace(/\d/, i));
+              });
+              stck = parseFloat($row.find('span[data-val=stck]').text());
+              qu = parseFloat($row.find('input[data-val=qu]').val());
               res = (stck - qu).round(2);
               if (Wstm.desk.delivery_note.validate.stock(stck, qu)) {
                 qu = stck;
                 res = 0;
-                $tr.find('input[name*="qu"]').val(qu).decFixed(2);
-                if (Wstm.desk.tmp[$sd.key] === 0) {
-                  $tr.find('select').val('null');
-                  puf = 0;
-                  $tr.find('input[name*="\[pu\]"]').val(0).decFixed(4);
-                  $tr.find('select').focus();
-                }
+                $row.find('span[data-val=qu]').text(qu).decFixed(2);
+                $row.find('input[data-val=qu]').val(qu).decFixed(2);
               }
-              Wstm.desk.tmp[$sd.key] = res;
-              if (puf >= 0) {
-                valf = (puf * qu).round(2);
-                vali = (pui * qu).round(2);
-                $tr.find('input[name*="\[val\]"]').val(valf);
-                $tr.find('input[name*="\[val_i"]').val(vali);
-              }
+              $row.find('span[data-val=ord]').text("" + i + ".");
+              $row.find('input[data-val=val]').val(qu * parseFloat(r.pu)).decFixed(2);
+              $row.find('input[data-val=val_invoice]').val(qu * parseFloat(r.pu_invoice)).decFixed(2);
+              $row.find('[data-val=res]').text(res.toFixed(2));
               tot_qu += qu;
-              return $tr.find('span.res').text(res.toFixed(2));
+              i += 1;
             });
-            $total.find('span.res').text(tot_qu.toFixed(2));
+            vt.find('[data-val=tot-qu]').text(tot_qu.toFixed(2));
           },
           validate: {
             filter: function() {
@@ -62,8 +117,9 @@
                 alert(Trst.i18n.msg.delivery_note_not_complete);
                 return false;
               } else {
-                $('button[data-action="save"]').button('option', 'disabled', false);
-                $('span.fa-plus-circle').show();
+                if ($('span[data-val=nro]').text() !== '1.') {
+                  $('button[data-action="save"]').button('option', 'disabled', false);
+                }
                 return true;
               }
             },
@@ -81,14 +137,26 @@
               if ($input.attr('id') === 'date_show') {
                 $input.on('change', function() {
                   if (Trst.desk.hdo.dialog === 'create') {
-                    $('input[name*="id_date"]').each(function() {
-                      if ($(this).val() !== '') {
-                        $(this).val($('#date_send').val());
-                      }
+                    return $('input[name*="id_date"]').each(function() {
+                      $(this).val($('#date_send').val());
                     });
                   }
-                  if (Trst.desk.hdo.dialog === 'repair') {
-                    return Wstm.desk.delivery_note.selects($('input.repair'));
+                });
+                return;
+              }
+              if ($input.data().mark === 'wpu') {
+                return $input.on('change', function() {
+                  var $url;
+                  Trst.msgShow();
+                  if ($input.is(':checked')) {
+                    $url = "/sys/partial/wstm/delivery_note/_doc_add_line?wpu=" + ($input.val());
+                    $('td.add-line-container').load($url, function() {
+                      Wstm.desk.delivery_note.buttons($('span.button'));
+                      Wstm.desk.delivery_note.inputs($('input[data-mark=wpu]'));
+                      Wstm.desk.delivery_note.selects($('select[data-val=freight]'));
+                      Trst.desk.inputs.handleUI();
+                      Trst.msgHide();
+                    });
                   }
                 });
               }
@@ -100,7 +168,7 @@
               $select = $(this);
               $sd = $select.data();
               $id = $select.attr('id');
-              if ($select.hasClass('select2')) {
+              if ($sd.mark === 's2') {
                 if ($id === 'client_id' || $id === 'transp_id') {
                   $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph];
                   $select.select2({
@@ -125,7 +193,7 @@
                     }
                   });
                   $select.unbind();
-                  return $select.on('change', function() {
+                  $select.on('change', function() {
                     var $dlg, $dlgph, $dlgsd;
                     if ($select.select2('data')) {
                       $select.next().select2('data', null);
@@ -178,34 +246,18 @@
                     return Wstm.desk.delivery_note.validate.filter();
                   });
                 }
-              } else if ($select.hasClass('freight')) {
-                return $select.on('change', function() {
-                  var $inp, $puf, $sod, $stck, qu;
+              }
+              if ($sd.val === 'freight') {
+                $select.on('change', function() {
                   if (Wstm.desk.delivery_note.validate.create()) {
-                    Wstm.desk.tmp.set('newRow', $('tr.freight').last());
-                    $sod = $select.find('option:selected').data();
-                    $inp = $select.parentsUntil('tbody').last().find('input');
-                    $puf = $select.parentsUntil('tbody').last().find('span.val.puf');
-                    $stck = $select.parentsUntil('tbody').last().find('span.stck');
-                    $inp.filter('[name*="freight_id"]').val($select.val());
-                    $inp.filter('[name*="id_date"]').val($('#date_send').val());
-                    $inp.filter('[name*="id_stats"]').val($sod.id_stats);
-                    $inp.filter('[name*="um"]').val($sod.um);
-                    $inp.filter('[name*="\[pu\]"]').val($sod.pu);
-                    $puf.text(parseFloat($sod.pu).toFixed(2));
-                    $stck.text(parseFloat(Wstm.desk.tmp.set($sod.key, $sod.stck)).toFixed(2));
-                    qu = $inp.filter('[name*="qu"]').val('0.00');
-                    qu.on('change', function() {
-                      return Wstm.desk.delivery_note.calculate();
-                    });
-                    Wstm.desk.delivery_note.calculate();
-                    qu.focus().select();
-                    return;
+                    Wstm.desk.delivery_note.lineNewData();
+                    $('input[data-val=qu]').focus().select();
                   } else {
                     $select.val('null');
                   }
                 });
-              } else if ($select.hasClass('repair')) {
+              }
+              if ($sd.mark === 'repair') {
                 $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph];
                 $select.select2({
                   placeholder: $ph,
@@ -257,13 +309,6 @@
                     Trst.desk.init($url);
                   }
                 });
-              } else if ($select.hasClass('wstm')) {
-
-                /*
-                Handled by Wstm.desk.select
-                 */
-              } else {
-                return $log('Select not handled!');
               }
             });
           },
@@ -279,72 +324,44 @@
                 }
                 if ($bd.action === 'create') {
                   if (!$id) {
-                    return $button.button('option', 'disabled', true);
+                    $button.button('option', 'disabled', true);
                   }
                 }
-              } else if (Trst.desk.hdo.dialog === 'create') {
+              }
+              if (Trst.desk.hdo.dialog === 'create') {
                 if ($bd.action === 'save') {
                   $button.button('option', 'disabled', true);
-                  $button.data('remove', false);
-                  $button.off('click', Trst.desk.buttons.action.save);
-                  $button.on('click', Wstm.desk.delivery_note.calculate);
-                  return $button.on('click', Trst.desk.buttons.action.save);
-                }
-              } else if (Trst.desk.hdo.dialog === 'show') {
-                if ($bd.action === 'print') {
-                  $button.on('click', function() {
-                    Trst.msgShow(Trst.i18n.msg.report.start);
-                    $.fileDownload("/sys/wstm/delivery_note/print?id=" + Trst.desk.hdo.oid, {
-                      successCallback: function() {
-                        return Trst.msgHide();
-                      },
-                      failCallback: function() {
-                        Trst.msgHide();
-                        return Trst.desk.downloadError(Trst.desk.hdo.model_name);
-                      }
-                    });
-                  });
-                }
-              } else {
-
-                /*
-                Buttons default handler Trst.desk.buttons
-                 */
-              }
-            });
-            $('tbody').on('click', 'span.fa-minus-circle', function() {
-              var $button;
-              $button = $(this);
-              $button.parentsUntil('tbody').last().remove();
-              Wstm.desk.delivery_note.calculate();
-            });
-            $('span.fa-plus-circle').on('click', function() {
-              $('tr.total').before(Wstm.desk.tmp.newRow.clone());
-              if (!$('#scroll-container').length) {
-                if ($('table.scroll').height() > 320) {
-                  Wstm.desk.scrollHeader($('table.scroll'), 308);
                 }
               }
-              $('tr.freight').last().find('input').each(function() {
-                $(this).attr('name', $(this).attr('name').replace(/\d/, $('tr.freight').length - 1));
-              });
-              Wstm.desk.delivery_note.selects($('tr.freight').last().find('select'));
-              Wstm.desk.delivery_note.calculate();
+              if ($button.hasClass('fa-refresh')) {
+                $button.off('click');
+                $button.on('click', function() {
+                  Wstm.desk.delivery_note.lineNewReset();
+                });
+              }
+              if ($button.hasClass('fa-plus-circle')) {
+                $button.off('click');
+                $button.on('click', function() {
+                  Wstm.desk.delivery_note.lineInsert();
+                });
+              }
+              if ($button.hasClass('fa-minus-circle')) {
+                $button.off('click');
+                $button.on('click', function() {
+                  $button.parentsUntil('tbody').last().remove();
+                  Wstm.desk.delivery_note.calculate();
+                  Wstm.desk.delivery_note.lineNewReset();
+                });
+              }
             });
-            $('span.fa-plus-circle').hide();
           },
           init: function() {
-            var min, now;
-            Wstm.desk.tmp.clear();
-            if ($('#date_show').length) {
-              now = new Date();
-              min = Trst.lst.admin === 'true' ? new Date(now.getFullYear(), now.getMonth() - 1, 1) : new Date(now.getFullYear(), now.getMonth(), 1);
-              $('#date_show').datepicker('option', 'maxDate', '+0');
-              $('#date_show').datepicker('option', 'minDate', min);
-            }
-            Wstm.desk.delivery_note.buttons($('button'));
-            Wstm.desk.delivery_note.selects($('select.wstm,input.select2,input.repair'));
-            Wstm.desk.delivery_note.inputs($('input'));
+            var _ref;
+            this.buttons($('button,span.button'));
+            this.selects($('input[data-mark~=s2],input[data-mark~=repair],select'));
+            this.inputs($('input'));
+            this.template = (_ref = $('tr.template')) != null ? _ref.remove() : void 0;
+            this.lineNewReset();
             return $log('Wstm.desk.delivery_note.init() OK...');
           }
         }
