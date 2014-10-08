@@ -1,32 +1,22 @@
-- @object.reload
 - if @object.freights.count > 0
-  %tbody.inner
-    %tr
-      - mat(@object,'table_header_show').each do |label|
-        %td
-          %span= label
-    - @object.reload; @object.freights.each do |o|
+  %table.w-100pr{data: {mark: 'scroll'}}
+    %tbody.inner
+      - tr_header_for mat(@object,'table_header_show'),{tr: {data:{mark: 'scroll'}}}
+      - @object.reload; @object.freights.each do |o|
+        %tr
+          - td_value_for  o, 'freight',   {guess: {order: 'name',nested: 'doc_dln'},tag: {class: 'strip'}}
+          - td_value_for  o, 'um',        {guess: {nested: 'doc_dln'},tag: {class: 'strip ta-ce'}}
+          - td_value_for  o, 'pu',        {guess: {nested: 'doc_dln'},tag: {class: 'strip ta-ri'}}
+          - td_value_for  o, 'qu',        {guess: {nested: 'doc_dln'},tag: {class: 'strip ta-ri'}}
+          - td_value_for  o, 'val',       {guess: {nested: 'doc_dln'},tag: {class: 'strip ta-ri'}}
+          - td_value_for  o, 'rest',      {tag: {class: 'strip ta-ri',value: o.freight.stock_by_key(o.freight.key(o.pu))}}
       %tr
-        - td_value_for  o, 'freight',   {order: 'name',style: 'name',nested: 'doc_dln'}
-        - td_value_for  o, 'um',        {style: 'um ta-ce', nested: 'doc_dln'}
-        - td_value_for  o, 'pu',        {style: 'pu ta-ri', nested: 'doc_dln'}
-        - td_value_for  o, 'qu',        {style: 'val ta-ri',nested: 'doc_dln'}
-        - td_value_for  o, 'val',       {style: 'val ta-ri',nested: 'doc_dln'}
-        %td
-          %span.ta-ri= "%.2f" % o.freight.stock_by_key(o.freight.key(o.pu))
-    %tr
-      %td{colspan: '3'}
-        %span Total
-      %td
-        %span= "%.2f" % @object.freights.sum(:qu)
-      %td
-        %span= "%.2f" % @object.freights.sum(:val)
-      %td
-        %span &nbsp;
+        - td_value_for @object, 'total',  {td: {colspan: 3},tag: {class: 'strip',value: 'TOTAL'}}
+        - td_value_for @object, 'sum_qu', {tag: {class: 'strip',value: @object.freights.sum(:qu)}}
+        - td_value_for @object, 'sum_val',{tag: {class: 'strip',value: @object.freights.sum(:val)}}
+        - td_value_for @object, 'button', {tag: {class: 'strip',value: 'strip'}}
 - else
-  %tbody
-    %tr.pdb-05
-      %td
-        %detail.warning.w-45rem
-          %i.fa.fa-info-circle.fa-lg.blue
-          = t('msg.no_freight_selected')
+  %table
+    %tbody
+      %tr.pdb-05
+        - td_detail_for 'warning w-45rem',t('msg.no_freight_selected'),'info'

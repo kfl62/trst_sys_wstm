@@ -1,48 +1,43 @@
 :ruby
-  firm    = Wstm::PartnerFirm.find_by(firm: true)
   client  = Wstm::PartnerFirm.find(params[:client_id])
   transp  = Wstm::PartnerFirm.find(params[:transp_id])
   client_d= client.people.find(params[:client_d_id]) if params[:client_d_id]
   transp_d= transp.people.find(params[:transp_d_id])
-  unit_id = @current_user.unit_id || session[:unit_id]
-  freights,with_pu = (firm.id != client.id && @current_user.admin?) ? \
-      [Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln_with_pu,true] : \
-      [Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln,false]
-%span#hidden_data{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_delivery_note'}}
+
+- xhr_hidden_data({dialog: 'create',oid: 'null',js_ext: 'desk_delivery_note'})
+- xhr_info('info',t('intro.create.main',data: model_name))
 %form{action: "/sys/#{@path}",method: "post"}
   %table
     %thead
       %tr.pdb-05
         %td
           - label_for @object, 'name'
-          - input_for @object, 'name',         {value: @object.increment_name(unit_id),style: 'ui-state-default ce id_intern'}
+          - input_for @object, 'name',         {tag: {data: {mark: 'ui-focus resize'},value: @object.increment_name(@uid)}}
           - label_for @object, 'id_date'
-          - input_for @object, 'id_date',      {id: 'date_show',name: 'strip'}
-          - input_for @object, 'id_date',      {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
-          - input_for @object, 'client_id',    {type: 'hidden',value: client.id}
-          - input_for @object, 'transp_id',    {type: 'hidden',value: transp.id}
-          - input_for @object, 'transp_d_id',  {type: 'hidden',value: transp_d.id}
-          - input_for @object, 'unit_id',      {type: 'hidden',value: unit_id}
-          - input_for @object, 'id_intern',    {type: 'hidden',value: client.firm.to_s}
-          - input_for @object, 'signed_by',    {type: 'hidden',value: @current_user.id}
+          - input_for @object, 'id_date',      {tag: {id: 'date_show',name: 'strip'}}
+          - input_for @object, 'id_intern',    {tag: {type: 'hidden',value: client.firm.to_s}}
+          - input_for @object, 'id_date',      {tag: {type: 'hidden',id: 'date_send',value: @object.id_date.to_s}}
+          - input_for @object, 'client_id',    {tag: {type: 'hidden',value: client.id}}
+          - input_for @object, 'transp_id',    {tag: {type: 'hidden',value: transp.id}}
+          - input_for @object, 'transp_d_id',  {tag: {type: 'hidden',value: transp_d.id}}
+          - input_for @object, 'unit_id',      {tag: {type: 'hidden',value: @uid}}
+          - input_for @object, 'signed_by',    {tag: {type: 'hidden',value: @current_user.id}}
           - if client_d
-            - input_for @object, 'client_d_id',{type: 'hidden',value: client_d.id}
+            - input_for @object, 'client_d_id',{tag: {type: 'hidden',value: client_d.id}}
       %tr.pdb-05
         %td
           - label_for @object, 'doc_name'
-          - input_for @object, 'doc_name',     {style: 'ui-state-default focus', value: "#{firm.name[0][0..2].upcase}-"}
+          - input_for @object, 'doc_name',     {tag: {data: {mark: 'ui-focus focus step'}, value: "#{@firm.name[0][0..2].upcase}-"}}
           - label_for @object, 'doc_plat'
-          - input_for @object, 'doc_plat'
+          - input_for @object, 'doc_plat',     {tag: {data: {mark: 'ui-focus step'}, value: 'strip'}}
       %tr.pdb-05
-        %td
-          %detail.detail.w-50rem.ta-ju
-            %i.fa.fa-info-circle.fa-lg.blue
-            = t('intro.create.desk_delivery_note',firm: firm.name[2],firm_d: @current_user.name,client: client.name[2],client_d: (client_d.name rescue 'Anonymous'),transp: transp.name[2],transp_d: transp_d.name)
+        - td_detail_for 'detail w-50rem ta-ju',t('intro.create.desk_delivery_note',firm: @firm.name[2],firm_d: @current_user.name,client: client.name[2],client_d: (client_d.name rescue 'Anonymous'),transp: transp.name[2],transp_d: transp_d.name)
     %tbody
+      %tr.pdb-05
+        %td.add-line-container
+          = haml :"#{@path}/_doc_add_line"
       %tr
         %td
-          %table.inner.scroll
-            = partial "#{@path}/form",locals: {freights: freights,client: client,with_pu: with_pu}
+          = haml :"#{@path}/_form",locals: {id_intern: client.firm.to_s}
     %tfoot
-      %tr
-        - td_buttonset(['save','cancel'],{style: 'ta-ce'})
+      - tr_buttonset(['save','cancel'],{td: {class: 'ta-ce'}})
