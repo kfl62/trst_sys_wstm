@@ -15,49 +15,35 @@
             }
             $('span[data-val=nro').text("" + next + ".");
             $('input[data-mark~=related-add]').val('');
-            $('select[data-mark~=related-add]').val('null').focus();
+            $('select[data-mark~=related-add]').val('null');
           },
           lineNewData: function() {
-            var $fd, $freight, freight_id, id_date, id_stats, name, ord, pu, qu, stck, um, v;
+            var $fd, $freight, freight_id, ord, pu_invoice, qu, stck, um, v;
             v = $('[data-mark~=related-add]');
             $freight = v.filter('[data-val=freight]');
             $fd = $freight.find('option:selected').data();
             ord = $('tr[data-mark~=related]').not('.hidden').length + 1;
-            name = $freight.find('option:selected').text().split('-')[0];
             freight_id = $freight.val();
-            id_date = $('input[id=date_send]').val();
-            id_stats = $fd.id_stats;
             um = $fd.um;
             v.filter('[data-val=um]').val(um);
-            pu = $fd.pu;
-            pu = parseFloat(pu).toFixed(2);
-            v.filter('[data-val=pu]').val(pu);
             stck = $fd.stck;
-            stck = parseFloat(stck).toFixed(2);
+            stck = ($.isNumeric(stck) ? parseFloat(stck).toFixed(2) : '0.00');
             v.filter('[data-val=stck]').val(stck);
-            qu = v.filter('[data-val=qu]').val();
-            if (qu === '') {
-              qu = 0..toFixed(2);
-            } else {
-              qu = parseFloat(qu).toFixed(2);
-            }
-            return {
-              result: {
-                ord: ord,
-                name: name,
-                freight_id: freight_id,
-                id_date: id_date,
-                id_stats: id_stats,
-                um: um,
-                pu: pu,
-                stck: stck,
-                qu: qu
-              }
-            };
+            qu = v.filter('input[data-val=qu]').val();
+            qu = $.isNumeric(qu) ? parseFloat(qu).toFixed(2) : '0.00';
+            pu_invoice = v.filter('input[data-val=pu_invoice]').val();
+            pu_invoice = $.isNumeric(pu_invoice) ? parseFloat(pu_invoice).toFixed(4) : '0.0000';
+            return $.extend(true, $fd, {
+              ord: ord,
+              freight_id: freight_id,
+              id_date: $('#date_send').val(),
+              qu: qu,
+              pu_invoice: pu_invoice
+            });
           },
           lineInsert: function() {
             var l, r;
-            r = this.lineNewData().result;
+            r = this.lineNewData();
             l = this.template.clone().removeClass('template');
             l.find('span,input').each(function() {
               var e;
@@ -66,19 +52,21 @@
                 if (e.is('span')) {
                   e.text(r[e.data('val')]);
                 }
-                if (e.is('input')) {
+                if (e.is('input') && e.val() === '') {
                   return e.val(r[e.data('val')]);
                 }
               }
             });
-            $('tr[data-mark~=related-total]').before(l);
+            if (parseFloat(r.qu) > 0) {
+              $('tr[data-mark~=related-total]').before(l);
+            }
             this.calculate();
             this.lineNewReset();
             this.buttons($('span.button'));
           },
           calculate: function() {
             var i, r, tot_qu, vl, vt;
-            r = this.lineNewData().result;
+            r = this.lineNewData();
             vl = $('tr[data-mark~=related]').not('.hidden');
             vt = $('tr[data-mark~=related-total]');
             i = 1;
@@ -92,18 +80,28 @@
               stck = parseFloat($row.find('span[data-val=stck]').text());
               qu = parseFloat($row.find('input[data-val=qu]').val());
               res = (stck - qu).round(2);
-              if (res < 0) {
-                alert(Trst.i18n.msg.cassation_negative_stock.replace('%{stck}', stck.toFixed(2)).replace('%{res}', (0 - res).toFixed(2)));
+              if (Wstm.desk.cassation.validate.stock(stck, qu)) {
                 qu = stck;
                 res = 0;
                 $row.find('span[data-val=qu]').text(qu).decFixed(2);
                 $row.find('input[data-val=qu]').val(qu).decFixed(2);
               }
-              tot_qu += qu;
+              $row.find('span[data-val=ord]').text("" + i + ".");
+              $row.find('input[data-val=val]').val(qu * parseFloat(r.pu)).decFixed(2);
+              $row.find('input[data-val=val_invoice]').val(qu * parseFloat(r.pu_invoice)).decFixed(2);
               $row.find('[data-val=res]').text(res.toFixed(2));
+              tot_qu += qu;
               i += 1;
             });
             vt.find('[data-val=tot-qu]').text(tot_qu.toFixed(2));
+          },
+          validate: {
+            stock: function(s, q) {
+              if (s - q < 0) {
+                alert(Trst.i18n.msg.cassation_negative_stock.replace('%{stck}', s.toFixed(2)).replace('%{res}', (q - s).toFixed(2)));
+                return true;
+              }
+            }
           },
           inputs: function(inpts) {
             inpts.each(function() {
@@ -116,6 +114,23 @@
                       if ($(this).val() !== '') {
                         $(this).val($('#date_send').val());
                       }
+                    });
+                  }
+                });
+                return;
+              }
+              if ($input.data().mark === 'wpu') {
+                return $input.on('change', function() {
+                  var $url;
+                  Trst.msgShow();
+                  if ($input.is(':checked')) {
+                    $url = "/sys/partial/wstm/cassation/_doc_add_line?wpu=" + ($input.val());
+                    $('td.add-line-container').load($url, function() {
+                      Wstm.desk.cassation.buttons($('span.button'));
+                      Wstm.desk.cassation.inputs($('input[data-mark=wpu]'));
+                      Wstm.desk.cassation.selects($('select[data-val=freight]'));
+                      Trst.desk.inputs.handleUI();
+                      Trst.msgHide();
                     });
                   }
                 });
