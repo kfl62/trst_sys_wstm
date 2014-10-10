@@ -1,16 +1,13 @@
-%span#hidden_data{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_expenditure'}}
+- xhr_hidden_data({dialog: 'show',js_ext: 'desk_expenditure'})
 %form{action: "/sys/#{@path}",method: "get"}
   %table
     %thead
       %tr.pdb-05
-        %td{colspan: "8"}
-          %detail.detail
-            %i.fa.fa-info-circle.fa-lg.blue
-            = t('intro.show.desk_expenditure',@object.client.i18n_hash.merge(enr: @object.name,eon: l(@object.id_date,format: :trst)))
-    = partial "#{@path}/show"
-    %tfoot
+        - td_detail_for 'detail w-50rem ta-ju',t('intro.show.desk_expenditure',@object.client.i18n_hash.merge(enr: @object.name,eon: l(@object.id_date,format: :trst)))
+    %tbody
       %tr
-        - if @object.freights.count == 0
-          - td_buttonset(['delete'],{style: 'ta-ce'},'8')
-        - else
-          - td_buttonset(['print','delete','cancel'],{style: 'ta-ce'},'8')
+        %td
+          = haml :"#{@path}/_show"
+    %tfoot
+      - buttons =@object.freights.count == 0 ? ['delete'] : ['print','delete','cancel']
+      - tr_buttonset(buttons,{td: {class: 'ta-ce'}})

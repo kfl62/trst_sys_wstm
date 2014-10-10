@@ -2,55 +2,79 @@ define () ->
   $.extend true,Wstm,
     desk:
       expenditure:
-        noMatchesMsg: (term)->
-          $button = $('button.partner-person')
-          if term.length < 13
-            $button.button 'option', 'disabled', true
-            $msg = Trst.i18n.msg.id_pn.start.replace '%{data}', 13 - term.length
-          else if term.length is 13
-            if Wstm.desk.idPnValidate(term)
-              $button.button 'option', 'disabled', false
-              $button.data 'url', "/sys/wstm/partner_person?id_pn=#{term}"
-              $msg = Trst.i18n.msg.id_pn.valid
-            else
-              $button.button 'option', 'disabled', true
-              $msg = Trst.i18n.msg.id_pn.invalid
+        lineNewReset: ()->
+          next = $('tr[data-mark~=related]').not('.hidden').length + 1
+          if next is 1
+            $('tr[data-mark~=related-header], tr[data-mark~=related-total]').addClass 'hidden'
+            $('button[data-action=save]').button 'option', 'disabled', true
           else
-            $button.button 'option', 'disabled', true
-            $msg = Trst.i18n.msg.id_pn.too_long
+            $('tr[data-mark~=related-header], tr[data-mark~=related-total]').removeClass 'hidden'
+            $('button[data-action=save]').button 'option', 'disabled', false
+          $('span[data-val=nro').text("#{next}.")
+          $('input[data-mark~=related-add]').val ''
+          $('select[data-mark~=related-add]').val('null')
+          return
+        lineNewData: ()->
+          v = $('[data-mark~=related-add]')
+          $freight = v.filter('[data-val=freight]'); $fd = $freight.find('option:selected').data()
+          ord = $('tr[data-mark~=related]').not('.hidden').length + 1
+          freight_id = $freight.val()
+          um = $fd.um; v.filter('[data-val=um]').val(um)
+          pu = v.filter('input[data-val=pu]').val(); pu = if $.isNumeric(pu) then parseFloat(pu).toFixed(4) else parseFloat($fd.pu).toFixed(4)
+          v.filter('input[data-val=pu]').val(pu)
+          qu  = v.filter('input[data-val=qu]').val(); qu = if $.isNumeric(qu) then parseFloat(qu).toFixed(2) else '0.00'
+          val = (parseFloat(qu) * parseFloat(pu)).toFixed(2)
+          _03 = if $fd.p03 then (parseFloat(val) * 0.03).toFixed(2) else '0.00'
+          _16 = (parseFloat(val) * 0.16).toFixed(2)
+          out = (parseFloat(val) - parseFloat(_03) - parseFloat(_16)).toFixed(2)
+          $.extend true,
+            $fd,
+            {ord: ord;freight_id: freight_id;id_date: $('#date_send').val();qu: qu;pu: pu;val: val;_03: _03;_16: _16;out: out}
+        lineInsert: ()->
+          r = @lineNewData()
+          l = @template.clone().removeClass('template')
+          l.find('span,input').each ->
+            e = $(@)
+            if e.data('val')
+              e.text r[e.data('val')]  if e.is('span')
+              e.val  r[e.data('val')]  if (e.is('input') and e.val() is '')
+          $('tr[data-mark~=related-total]').before l if parseFloat(r.qu) > 0
+          @calculate()
+          @lineNewReset()
+          @buttons($('span.button'))
+          return
+        validate:
+          create: ()->
+            $('input[data-mark~=related-add][data-val=pu]').val($('select[data-mark~=related-add][data-val=freight] option:selected').data('pu'))
+            $('input[data-mark~=related-add][data-val=qu]').val('0.00')
+            if $('span[data-val=nro]').text() isnt '1.'
+              $('button[data-action="save"]').button 'option', 'disabled', false
+            true
         calculate: ()->
-          $rows  = $('tr.freight')
-          $total = $('tr.total')
-          tot_val = 0; tot_p03 = 0; tot_p16 = 0; tot_res = 0
-          $rows.each ()->
-            $tr = $(@)
-            $sd = $tr.find('select').find('option:selected').data()
-            if $sd.id_stats
-              pu  = $tr.find('input[name*="pu"]').decFixed(2)
-              qu  = $tr.find('input[name*="qu"]').decFixed(2)
-              val = (parseFloat(pu.val()) * parseFloat(qu.val())).round(2)
-              p03 = if $sd.p03 then (val * 0.03).round(2) else 0
-              p16 = (val * 0.16).round(2)
-              res = (val - p03 - p16).round(2)
-            else
-              pu = qu = val = p03 = p16 = res = 0
-              $tr.find('input[name*="pu"]').val('0.00')
-              $tr.find('input[name*="qu"]').val('0.00')
-            tot_val += val; tot_p03 += p03; tot_p16 += p16; tot_res += res
-            $tr.find('span.val').text(val.toFixed(2))
-            $tr.find('span.p03').text(p03.toFixed(2))
-            $tr.find('span.p16').text(p16.toFixed(2))
-            $tr.find('span.res').text(res.toFixed(2))
-            $tr.find('input[name*="val"]').val(val.toFixed(2))
+          vl = $('tr[data-mark~=related]').not('.hidden')
+          vt = $('tr[data-mark~=related-total]')
+          i  = 1; sum_100 = 0; sum_003 = 0; sum_016 = 0; sum_out = 0
+          vl.each ()->
+            $row = $(@)
+            $row.find('span[data-val=ord]').text("#{i}.")
+            $row.find('input').each ()->
+              $(@).attr('name',$(@).attr('name').replace(/\d/,i))
+              return
+            val = parseFloat($row.find('span[data-val=val]').text())
+            _03 = parseFloat($row.find('span[data-val=_03]').text())
+            _16 = parseFloat($row.find('span[data-val=_16]').text())
+            out = parseFloat($row.find('span[data-val=out]').text())
+            sum_100 += val; sum_003 += _03; sum_016 += _16; sum_out += out
+            i += 1
             return
-          $total.find('span.val').text(tot_val.toFixed(2))
-          $total.find('span.p03').text(tot_p03.toFixed(2))
-          $total.find('span.p16').text(tot_p16.toFixed(2))
-          $total.find('span.res').text(tot_res.toFixed(2))
-          $total.find('input[name*="sum_100"]').val(tot_val.toFixed(2))
-          $total.find('input[name*="sum_003"]').val(tot_p03.toFixed(2))
-          $total.find('input[name*="sum_016"]').val(tot_p16.toFixed(2))
-          $total.find('input[name*="sum_out"]').val(tot_res.toFixed(2))
+          vt.find('span[data-val=sum-100]').text(sum_100.toFixed(2))
+          vt.find('span[data-val=sum-003]').text(sum_003.toFixed(2))
+          vt.find('span[data-val=sum-016]').text(sum_016.toFixed(2))
+          vt.find('span[data-val=sum-out]').text(sum_out.toFixed(2))
+          vt.find('input[data-val=sum-100]').val(sum_100.toFixed(2))
+          vt.find('input[data-val=sum-003]').val(sum_003.toFixed(2))
+          vt.find('input[data-val=sum-016]').val(sum_016.toFixed(2))
+          vt.find('input[data-val=sum-out]').val(sum_out.toFixed(2))
           return
         inputs: (inpts)->
           inpts.each ()->
@@ -69,11 +93,27 @@ define () ->
                 Wstm.desk.expenditure.calculate()
               return
           return
+        noMatchesMsg: (term)->
+          $button = $('button#client')
+          if term.length < 13
+            $button.button 'option', 'disabled', true
+            $msg = Trst.i18n.msg.id_pn.start.replace '%{data}', 13 - term.length
+          else if term.length is 13
+            if Trst.desk.inputs.__f.validateIdPN(term)
+              $button.button 'option', 'disabled', false
+              $button.data 'url', "/sys/wstm/partner_person?id_pn=#{term}"
+              $msg = Trst.i18n.msg.id_pn.valid
+            else
+              $button.button 'option', 'disabled', true
+              $msg = Trst.i18n.msg.id_pn.invalid
+          else
+            $button.button 'option', 'disabled', true
+            $msg = Trst.i18n.msg.id_pn.too_long
         selects: (slcts)->
           slcts.each ()->
             $select = $(@)
             $sd = $select.data()
-            if $select.hasClass 'select2'
+            if $sd.mark is 's2'
               $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph]
               $select.select2
                 placeholder: $ph
@@ -90,11 +130,11 @@ define () ->
                     results: data
               $select.unbind()
               $select.on 'change', ()->
-                $button = $('button[data-action="create"]')
+                $button = $('button[data-action=create]:not(#client)')
                 $button.data 'url', "/sys/wstm/expenditure?client_id=#{$select.select2('val')}"
                 $button.button 'option', 'disabled', false
                 return
-            else if $select.hasClass 'repair'
+            if $sd.mark is 'repair'
               $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph]
               $select.select2
                 placeholder: $ph
@@ -133,24 +173,14 @@ define () ->
                   Trst.desk.closeDesk(false)
                   Trst.desk.init($url)
                 return
-            else if $select.hasClass 'freight'
+            if $sd.val is 'freight'
               $select.on 'change', ()->
-                $sod = $select.find('option:selected').data()
-                $inp = $select.parentsUntil('tbody').last().find('input')
-                $inp.filter('[name*="freight_id"]').val($select.val())
-                $inp.filter('[name*="id_date"]').val($('#date_send').val())
-                $inp.filter('[name*="id_stats"]').val($sod.id_stats)
-                $inp.filter('[name*="um"]').val($sod.um)
-                pu = $inp.filter('[name*="pu"]').val($sod.pu).decFixed(2)
-                qu = $inp.filter('[name*="qu"]').val('0.00')
-                Wstm.desk.expenditure.calculate()
-                qu.focus().select()
-            else if $select.hasClass 'wstm'
-              ###
-              Handled by Wstm.desk.select
-              ###
-            else
-              $log 'Select not handled!'
+                if Wstm.desk.expenditure.validate.create()
+                  Wstm.desk.expenditure.lineNewData()
+                  $('input[data-mark~=related-add][data-val=qu]').focus().select()
+                else
+                  $select.val('null')
+                return
           return
         buttons: (btns)->
           btns.each ()->
@@ -159,7 +189,7 @@ define () ->
             if Trst.desk.hdo.dialog is 'filter'
               if $bd.action is 'create'
                 $button.button 'option', 'disabled', true
-            else if Trst.desk.hdo.dialog is 'create'
+            if Trst.desk.hdo.dialog is 'create'
               if $bd.action is 'save'
                 if Trst.desk.hdf.attr('action') is '/sys/wstm/expenditure'
                   $button.data('remove',false)
@@ -167,37 +197,30 @@ define () ->
                   $button.on  'click', Wstm.desk.expenditure.calculate
                   $button.on  'click', Trst.desk.buttons.action.save
                   $log 'Wstm::Expenditure save...'
-            else if Trst.desk.hdo.dialog is 'show'
-              if $bd.action is 'print'
-                $button.on 'click', ()->
-                  Trst.msgShow Trst.i18n.msg.report.start
-                  $.fileDownload "/sys/wstm/expenditure/print?id=#{Trst.desk.hdo.oid}",
-                    successCallback: ()->
-                      Trst.msgHide()
-                    failCallback: ()->
-                      Trst.msgHide()
-                      Trst.desk.downloadError Trst.desk.hdo.model_name
-                  return
+            if $button.hasClass('fa-refresh')
+              $button.off 'click'
+              $button.on 'click', ()->
+                Wstm.desk.expenditure.lineNewReset()
                 return
-            else
-              ###
-              Buttons default handler Trst.desk.buttons
-              ###
-          $('span.fa-minus-circle').each ()->
-            $button = $(@)
-            $button.on 'click', ()->
-              $button.parentsUntil('tbody').last().remove()
-              Wstm.desk.expenditure.calculate()
+            if $button.hasClass('fa-plus-circle')
+              $button.off 'click'
+              $button.on 'click', ()->
+                Wstm.desk.expenditure.lineInsert()
+                return
+            if $button.hasClass('fa-minus-circle')
+              $button.off 'click'
+              $button.on 'click', ()->
+                $button.parentsUntil('tbody').last().remove()
+                Wstm.desk.expenditure.calculate()
+                Wstm.desk.expenditure.lineNewReset()
+                return
               return
           return
         init: ()->
-          if $('#date_show').length
-            now = new Date()
-            min = if Trst.lst.admin is 'true' then new Date(now.getFullYear(),now.getMonth() - 1,1) else new Date(now.getFullYear(),now.getMonth(),1)
-            $('#date_show').datepicker 'option', 'maxDate', '+0'
-            $('#date_show').datepicker 'option', 'minDate', min
-          Wstm.desk.expenditure.buttons($('button'))
-          Wstm.desk.expenditure.selects($('select.wstm, input.select2, input.repair'))
-          Wstm.desk.expenditure.inputs($('input'))
+          @buttons($('button,span.button'))
+          @selects($('select, input[data-mark~=s2], input[data-mark~=repair]'))
+          @inputs($('input'))
+          @template = $('tr.template')?.remove()
+          @lineNewReset()
           $log 'Wstm.desk.expenditure.init() OK...'
   Wstm.desk.expenditure

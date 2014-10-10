@@ -20,7 +20,7 @@ module Wstm
     class << self
       # @todo
       def options_for_exp
-        asc(:name).each_with_object([]){|f,a| a << [f.id,f.name,{id_stats: f.id_stats,um: f.um,pu: f.pu,p03: f.p03.to_s}]}
+        asc(:name).each_with_object([]){|f,a| a << [f.id,f.name,{name: f.name,id_stats: f.id_stats,um: f.um,pu: "#{'%.4f' % f.pu}",p03: f.p03.to_s}]}
       end
       # @todo
       def options_for_dln(pu = false)

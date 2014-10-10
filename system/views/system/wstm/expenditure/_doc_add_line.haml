@@ -1,0 +1,19 @@
+:ruby
+  freights =  @firm.units.find(@uid).freights.options_for_exp
+
+%table.w-100pr
+  %tr
+    %td
+      - value_for @object, 'txt', {tag: {class: 'strip',value: 'Materiale de recepționat'}}
+      - value_for @object, 'btn', {tag: {class: 'strip button fl-ri red pointer fa fa-plus-circle fa-lg',value: 'strip',title: t('button.new_row')}}
+      - value_for @object, 'btn', {tag: {class: 'strip button fl-ri red pointer fa fa-refresh fa-lg',value: 'strip'}}
+  %tr
+    %td
+      - value_for @object, 'ord', {tag: {data: {mark: 'related-add',val: 'nro'},value: '1.'}}
+      %select{data: {mark: 'related-add step focus',val: 'freight'}}
+        %option{value: 'null'} Selectare material
+        - freights.each do |f|
+          %option{value: f[0], data: f[2]}= f[1]
+      - input_for @object, 'um',  {tag: {data: {mark: 'related-add',val: 'um'},disabled: true,class: 'w-4rem ta-ce',name: 'strip',value: 'strip', placeholder: 'UM'}}
+      - input_for @object, 'pu',  {tag: {data: {mark: 'related-add ui-focus step',val: 'pu'},class: 'w-6rem ta-ri',name: 'strip',value: 'strip', placeholder: 'PU'}}
+      - input_for @object, 'qu',  {tag: {data: {mark: 'related-add ui-focus step',val: 'qu'},class: 'w-6rem ta-ri',name: 'strip',value: 'strip', placeholder: 'Cant.'}}

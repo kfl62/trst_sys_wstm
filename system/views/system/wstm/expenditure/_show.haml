@@ -1,46 +1,28 @@
-- @object.reload
 - if @object.freights.count > 0
-  %tbody.inner
-    %tr
-      - mat(@object,'table_header')[0..-2].each do |label|
-        %td
-          %span= label
-    - @object.freights.each do |o|
+  %table.w-100pr{data: {mark: 'scroll'}}
+    %tbody.inner
+      - tr_header_for (mat(@object,'table_header')[1..-2]),{tr: {data:{mark: 'scroll'}}}
+      - @object.reload; @object.freights.each do |o|
+        %tr
+          - td_value_for o, 'freight',{guess: {nested: 'doc_exp',order: 'name'}, tag: {class: 'strip'}}
+          - td_value_for o, 'um',     {guess: {nested: 'doc_exp'}, tag: {class: 'strip ta-ce'}}
+          - td_value_for o, 'pu',     {guess: {nested: 'doc_exp'}, tag: {class: 'strip ta-ri'}}
+          - td_value_for o, 'qu',     {guess: {nested: 'doc_exp'}, tag: {class: 'strip ta-ri'}}
+          - td_value_for o, 'val',    {guess: {nested: 'doc_exp'}, tag: {class: 'strip ta-ri'}}
+          - td_value_for o, 'p03',    {guess: {nested: 'doc_exp'}, tag: {class: 'strip ta-ri'}}
+          - td_value_for o, 'p16',    {guess: {nested: 'doc_exp'}, tag: {class: 'strip ta-ri'}}
+          - td_value_for o, 'out',    {guess: {nested: 'doc_exp'}, tag: {class: 'strip ta-ri'}}
       %tr
-        %td
-          - value_for  o, 'freight',   {order: 'name',style: 'name',nested: 'doc_exp'}
-        %td.w-2rem.ta-ce
-          - value_for  o, 'um',        {style: 'um', nested: 'doc_exp'}
-        %td.w-4rem.ta-ri
-          - value_for  o, 'pu',        {style: 'pu', nested: 'doc_exp'}
-        %td.w-6rem.ta-ri
-          - value_for  o, 'qu',        {style: 'qu', nested: 'doc_exp'}
-        %td.w-8rem.ta-ri
-          - value_for  o, 'val',       {style: 'val',nested: 'doc_exp'}
-        %td.ta-ri
-          - p03 = o.freight.p03 ? (o.val * 0.03).round(2) : 0
-          %span.p03= "%.2f" % p03
-        %td.ta-ri
-          - p16 = (o.val * 0.16).round(2)
-          %span.p16= "%.2f" % p16
-        %td.ta-ri
-          - res = (o.val - p03 - p16).round(2)
-          %span.res= "%.2f" % res
-    %tr
-      %td{colspan: '4'}
-        %span Total
-      %td
-        %span.val= "%.2f" % @object.sum_100
-      %td
-        %span.p03= "%.2f" % @object.sum_003
-      %td
-        %span.p16= "%.2f" % @object.sum_016
-      %td
-        %span.res= "%.2f" % @object.sum_out
+        - td_value_for @object, 'total',  {td: {colspan: 4},tag: {class: 'strip',value: 'TOTAL'}}
+        - td_value_for @object, 'sum_100',{tag: {class: 'strip'}}
+        - td_value_for @object, 'sum_003',{tag: {class: 'strip'}}
+        - td_value_for @object, 'sum_016',{tag: {class: 'strip'}}
+        - td_value_for @object, 'sum_out',{tag: {class: 'strip'}}
 - else
-  %tbody
-    %tr.pdb-05
-      %td
-        %detail.warning.w-45rem
-          %i.fa.fa-info-circle.fa-lg.blue
-          = t('msg.no_freight_selected')
+  %table
+    %tbody
+      %tr.pdb-05
+        %td
+          %detail.warning.w-45rem
+            %i.fa.fa-info-circle.fa-lg.blue
+            = t('msg.no_freight_selected')

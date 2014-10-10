@@ -1,56 +1,37 @@
-%tbody.inner
-  %tr
-    - mat(@object,'table_header').each do |label|
+%table{data: {mark: 'scroll'}}
+  %tbody.inner
+    - o = @object.freights.new
+    %tr.template{data: {mark: 'related'}}
       %td
-        %span= label
-  - if @object.freights.empty?
-    - for i in 0..4 do; o = @object.freights.new
-      %tr.freight
-        %td
-          %select.wstm.freight{class: i == 0 && 'focus'}
-            %option{value: 'null',data: {id_stats: 'null',um: 'kg',pu: 0,p03: 'null'}} Selectare material
-            - freights.each do |f|
-              %option{value: f[0], data: f[2]}= f[1]
-          - input_for   o, 'id_date',   {type: 'hidden',nested: 'doc_exp',value: 'strip',index: i}
-          - input_for   o, 'id_stats',  {type: 'hidden',nested: 'doc_exp',value: 'strip',index: i}
-          - input_for   o, 'freight_id',{type: 'hidden',nested: 'doc_exp',value: 'strip',index: i}
-        %td.w-4rem.ta-ce
-          - input_for   o, 'um',        {disabled: true,style: 'um w-2rem ta-ce',nested: 'doc_exp',index: i}
-        %td.w-6rem.ta-ce
-          - input_for   o, 'pu',        {style: 'pu w-4rem ta-ri',nested: 'doc_exp',index: i}
-        %td.w-8rem.ta-ce
-          - input_for  o,  'qu',        {style: 'qu w-6rem ta-ri',nested: 'doc_exp',index: i}
-        %td.ta-ri
-          %span.val 0.00
-          - input_for   o, 'val', {type: 'hidden',nested: 'doc_exp',index: i}
-        %td.ta-ri
-          %span.p03 0.00
-        %td.ta-ri
-          %span.p16 0.00
-        %td.ta-ri
-          %span.res 0.00
-        %td.ta-ce
-          %span.fa.fa-minus-circle.red{title: t('button.delete')}
-    %tr.total
-      %td{colspan: '4'}
-        %span Total
-      %td
-        %span.val 0.00
-        - input_for @object, 'sum_100',  {type: 'hidden'}
-      %td
-        %span.p03 0.00
-        - input_for @object, 'sum_003',  {type: 'hidden'}
-      %td
-        %span.p16 0.00
-        - input_for @object, 'sum_016',  {type: 'hidden'}
-      %td
-        %span.res 0.00
-        - input_for @object, 'sum_out',  {type: 'hidden'}
-      %td
-        %span &nbsp;
-  - else
-    %tr.pdb-05
-      %td{colspan: '9'}
-        %detail.warning
-          %i.fa.fa-info-circle.fa-lg.blue
-          = 'Editing not allowed!'
+        - value_for   o, 'ord',         {tag: {data: {val: 'ord'},class: 'strip',value: 'Nr.'}}
+        - input_for   o, 'freight_id',  {guess: {nested: 'doc_exp',index: 0},tag: {data: {val: 'freight_id'},type: 'hidden',value: 'strip'}}
+        - input_for   o, 'id_date',     {guess: {nested: 'doc_exp',index: 0},tag: {data: {val: 'id_date'},type: 'hidden',value: 'strip'}}
+        - input_for   o, 'id_stats',    {guess: {nested: 'doc_exp',index: 0},tag: {data: {val: 'id_stats'},type: 'hidden',value: 'strip'}}
+        - input_for   o, 'id_intern',   {guess: {nested: 'doc_exp',index: 0},tag: {data: {val: 'id_intern'},type: 'hidden',value: 'true'}}
+        - input_for   o, 'qu',          {guess: {nested: 'doc_exp',index: 0},tag: {data: {val: 'qu'},type: 'hidden',value: 'strip'}}
+        - input_for   o, 'pu',          {guess: {nested: 'doc_exp',index: 0},tag: {data: {val: 'pu'},type: 'hidden',value: 'strip'}}
+        - input_for   o, 'val',         {guess: {nested: 'doc_exp',index: 0},tag: {data: {val: 'val'},type: 'hidden',value: 'strip'}}
+      - td_value_for  o, 'name',        {tag: {data: {val: 'name'},class: 'strip',value: 'Material'}}
+      - td_value_for  o, 'um',          {tag: {data: {val: 'um'},class: 'strip ta-ce',value: 'strip'}}
+      - td_value_for  o, 'pu',          {tag: {data: {val: 'pu'},class: 'strip ta-ri',value: 'strip'}}
+      - td_value_for  o, 'qu',          {tag: {data: {val: 'qu'},class: 'strip ta-ri',value: 'strip'}}
+      - td_value_for  o, 'val',         {tag: {data: {val: 'val'},class: 'strip ta-ri',value: 'strip'}}
+      - td_value_for  o, '_03',         {tag: {data: {val: '_03'},class: 'strip ta-ri',value: 'strip'}}
+      - td_value_for  o, '_16',         {tag: {data: {val: '_16'},class: 'strip ta-ri',value: 'strip'}}
+      - td_value_for  o, 'out',         {tag: {data: {val: 'out'},class: 'strip ta-ri',value: 'strip'}}
+      - td_value_for  o, 'button',      {tag: {class: 'strip button fa fa-minus-circle red pointer',value: 'strip'}}
+
+    - tr_header_for mat(@object,'table_header'),{tr: {data:{mark: 'scroll related-header'}}}
+
+    %tr{data: {mark: 'related-total'}}
+      %td{colspan: 5}
+        - value_for @object, 'total',   {tag: {class: 'strip',value: 'TOTAL'}}
+        - input_for @object, 'sum_100', {tag: {data: {val: 'sum-100'},type: 'hidden',value: 'strip'}}
+        - input_for @object, 'sum_003', {tag: {data: {val: 'sum-003'},type: 'hidden',value: 'strip'}}
+        - input_for @object, 'sum_016', {tag: {data: {val: 'sum-016'},type: 'hidden',value: 'strip'}}
+        - input_for @object, 'sum_out', {tag: {data: {val: 'sum-out'},type: 'hidden',value: 'strip'}}
+      - td_value_for @object, 'sum-100',{tag: {data: {val: 'sum-100'},class: 'strip',value: 'strip'}}
+      - td_value_for @object, 'sum-003',{tag: {data: {val: 'sum-003'},class: 'strip',value: 'strip'}}
+      - td_value_for @object, 'sum-016',{tag: {data: {val: 'sum-016'},class: 'strip',value: 'strip'}}
+      - td_value_for @object, 'sum-out',{tag: {data: {val: 'sum-out'},class: 'strip',value: 'strip'}}
+      - td_value_for @object, 'button', {tag: {class: 'strip',value: 'strip'}}
