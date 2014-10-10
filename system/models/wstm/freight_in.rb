@@ -23,6 +23,18 @@ module Wstm
     end # Class methods
 
     # @todo
+    def p03
+      doc_exp.nil? ? 0.0 : freight.p03 ? (val * 0.03).round(2) : 0.0
+    end
+    # @todo
+    def p16
+      doc_exp.nil? ? 0.0 : (val * 0.16).round(2)
+    end
+    # @todo
+    def out
+      (val - p03 - p16).round(2)
+    end
+    # @todo
     def doc
       doc_exp || doc_grn || doc_sor
     end
