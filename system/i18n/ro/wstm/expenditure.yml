@@ -2,7 +2,9 @@ ro:
   mongoid:
     attributes:
       'wstm/expenditure':
+        name: Adeverința nr.
+        id_date: din data de
         model_name: Adeverinţă Primire/Plată
-        table_header: ["Material", "UM", "PU", "Cant.", "Valoare", "3%", "16%", "Rest", "&nbsp;&nbsp;"]
+        table_header: ["Nr.", "Material", "UM", "PU", "Cant.", "Valoare", "3%", "16%", "Rest", "&nbsp;&nbsp;"]
         day: |
           Adeverinţe din data de:&nbsp;
