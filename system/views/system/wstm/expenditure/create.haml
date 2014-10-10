@@ -1,27 +1,30 @@
 :ruby
   client  = Wstm::PartnerPerson.find(params[:client_id])
-  unit_id = @current_user.unit_id || session[:unit_id]
-  freights= Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_exp
-%span#hidden_data{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_expenditure'}}
+
+- xhr_hidden_data({dialog: 'create',oid: 'null',js_ext: 'desk_expenditure'})
+- xhr_info('info',t('intro.create.main',data: model_name))
 %form{action: "/sys/#{@path}",method: "post"}
   %table
     %thead
       %tr.pdb-05
-        %td.ta-ce{colspan: "9"}
-          %span.st Nr.
-          - input_for @object, 'name',      {value: @object.increment_name(unit_id),style: 'ui-state-default ce id_intern'}
-          %span.st din data de:
-          - input_for @object, 'id_date',   {id: 'date_show',name: 'strip'}
-          - input_for @object, 'id_date',   {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
-          - input_for @object, 'client_id', {type: 'hidden', value: client.id}
-          - input_for @object, 'unit_id',   {type: 'hidden', value: unit_id}
-          - input_for @object, 'signed_by', {type: 'hidden', value: @current_user.id}
+        %td
+          - label_for @object, 'name'
+          - input_for @object, 'name',         {tag: {data: {mark: 'ui-focus resize'},value: @object.increment_name(@uid)}}
+          - label_for @object, 'id_date'
+          - input_for @object, 'id_date',      {tag: {id: 'date_show',name: 'strip'}}
+          - input_for @object, 'id_intern',    {tag: {type: 'hidden',value: 'true'}}
+          - input_for @object, 'id_date',      {tag: {type: 'hidden',id: 'date_send',value: @object.id_date.to_s}}
+          - input_for @object, 'client_id',    {tag: {type: 'hidden',value: client.id}}
+          - input_for @object, 'unit_id',      {tag: {type: 'hidden',value: @uid}}
+          - input_for @object, 'signed_by',    {tag: {type: 'hidden',value: @current_user.id}}
       %tr.pdb-05
-        %td{colspan: "9"}
-          %detail.detail
-            %i.fa.fa-info-circle.fa-lg.blue
-            = t('intro.create.desk_expenditure',client.i18n_hash)
-    = partial "#{@path}/form",locals: {freights: freights,unit_id: unit_id}
+        - td_detail_for 'detail w-50rem ta-ju',t('intro.create.desk_expenditure',client.i18n_hash)
+    %tbody
+      %tr.pdb-05
+        %td.add-line-container
+          = haml :"#{@path}/_doc_add_line"
+      %tr.pdt-05
+        %td
+          = haml :"#{@path}/_form"
     %tfoot
-      %tr
-        - td_buttonset(['save','cancel'],{style: 'ta-ce'},'9')
+      - tr_buttonset(['save','cancel'],{td: {class: 'ta-ce'}})
