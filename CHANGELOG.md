@@ -3,6 +3,16 @@
 * estimated release date: **2014-12-01**
 
 
+* **feature v0.3.1.7**
+   - feature date: **2014-10-10**
+   - bump version v0.3.1.7
+   - update CHANGELOG
+   - assets js, `Wstm.desk.expenditure` cleanup & [#31][#31]
+   - i18n `Wstm::Expenditure` add missing
+   - models `Wstm::FreightIn` add methods
+   - models `Wstm::Freight` rewrite `#options_for_exp` see [#32][#32]
+
+
 * **feature v0.3.1.6**
    - feature date: **2014-10-08**
    - bump version v0.3.1.6
