@@ -3,10 +3,18 @@
 * estimated release date: **2014-12-01**
 
 
+* **feature v0.3.1.8**
+   - feature date: **2014-10-10**
+   - bump version v0.3.1.8
+   - update CHANGELOG
+   - assest js, `Wstm.desk.cassation|delevery_note` fix #33
+
+
 * **feature v0.3.1.7**
    - feature date: **2014-10-10**
    - bump version v0.3.1.7
    - update CHANGELOG
+   - views `Wstm::Expenditure` CRUD [#30][#30]
    - assets js, `Wstm.desk.expenditure` cleanup & [#31][#31]
    - i18n `Wstm::Expenditure` add missing
    - models `Wstm::FreightIn` add methods

@@ -65,8 +65,7 @@
             this.buttons($('span.button'));
           },
           calculate: function() {
-            var i, r, tot_qu, vl, vt;
-            r = this.lineNewData();
+            var i, tot_qu, vl, vt;
             vl = $('tr[data-mark~=related]').not('.hidden');
             vt = $('tr[data-mark~=related-total]');
             i = 1;
@@ -87,8 +86,8 @@
                 $row.find('input[data-val=qu]').val(qu).decFixed(2);
               }
               $row.find('span[data-val=ord]').text("" + i + ".");
-              $row.find('input[data-val=val]').val(qu * parseFloat(r.pu)).decFixed(2);
-              $row.find('input[data-val=val_invoice]').val(qu * parseFloat(r.pu_invoice)).decFixed(2);
+              $row.find('input[data-val=val]').val(qu * parseFloat($row.find('input[data-val=pu]').val())).decFixed(2);
+              $row.find('input[data-val=val_invoice]').val(qu * parseFloat($row.find('input[data-val=pu_invoice]').val())).decFixed(2);
               $row.find('[data-val=res]').text(res.toFixed(2));
               tot_qu += qu;
               i += 1;
