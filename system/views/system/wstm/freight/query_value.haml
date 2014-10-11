@@ -14,16 +14,18 @@
     = t('intro.query_value.desk_freight.one')
   %table
     %thead
-      - if @current_user.unit_id
-        = partial 'wstm/shared/select_params', locals: {colspan: '0'}
-      - else
-        = partial 'wstm/shared/select_params', locals: {colspan: '0', daily: true, firm: firm}
+      %tr
+        %td
+          - if @current_user.unit_id
+            = haml :'wstm/shared/_select_params'
+          - else
+            = haml :'wstm/shared/_select_params', locals: {daily: true, firm: firm}
     %tbody
       %tr
         %td
-          %table.scroll
+          %table{data: {mark: 'scroll'}}
             %tbody.inner
-              %tr.scroll
+              %tr{data: {mark: 'scroll'}}
                 - mat(@object,'table_all_with_pu').each do |cn|; cols += 1
                   %td
                     %span.stats.ce= cn
@@ -86,7 +88,9 @@
     %thead
       %tr.pdb-05
         %td
-          %detail.detail.w-50rem
+          %detail.detail.w-55rem
             %i.fa.fa-info-circle.fa-lg.blue
             = t('intro.query_value.desk_freight.all')
-      = partial 'wstm/shared/select_params', locals: {colspan: '0', firm: firm}
+      %tr
+        %td
+          = haml :'wstm/shared/_select_params', locals: {firm: firm}

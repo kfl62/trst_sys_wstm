@@ -6,7 +6,7 @@ define () ->
           $('select').each ()->
             $select = $(@)
             $select.on 'change', ()->
-              $params = jQuery.param($('.param').serializeArray())
+              $params = jQuery.param($('[data-mark~=param]').serializeArray())
               $url  = "sys/wstm/freight/query?#{$params}"
               Trst.desk.init($url)
               return
@@ -16,7 +16,7 @@ define () ->
           $('select').each ()->
             $select = $(@)
             $select.on 'change', ()->
-              $params = jQuery.param($('.param').serializeArray())
+              $params = jQuery.param($('[data-mark~=param]').serializeArray())
               $url  = "sys/wstm/freight/query?#{$params}"
               Trst.desk.init($url)
               return
@@ -25,18 +25,27 @@ define () ->
             $('span.link').each ()->
               $link = $(@)
               $link.on 'click', ()->
-                $params = jQuery.param($('.param').serializeArray())
+                $params = jQuery.param($('[data-mark~=param]').serializeArray())
                 $url = "sys/wstm/freight/query?#{$params}"
                 $url += if $link.hasClass('uid') then "&uid=#{$link.attr('id')}" else "&fid=#{$link.attr('id')}"
                 Trst.desk.init($url)
                 return
               return
           return
+        buttons: (btns)->
+          btns.each ()->
+            $button = $(@)
+            $bd = $button.data()
+            if Trst.desk.hdo.dialog is 'filter'
+              if $bd.action in ['create','show','edit','delete']
+                $bd.r_path = 'sys/wstm/freight/filter'
+          return
         init: ()->
+          @buttons $('button')
           if Trst.desk.hdo.dialog in ['query','query_value']
             if $('#xhr_info').hasClass 'noFreight'
-              Wstm.desk.freight.handleNoFreight()
+              @handleNoFreight()
             if $('#xhr_info').hasClass 'hasFreight'
-              Wstm.desk.freight.handleFreight()
+              @handleFreight()
           $log 'Wstm.desk.freight.init() OK...'
   Wstm.desk.freight

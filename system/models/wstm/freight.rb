@@ -13,7 +13,7 @@ module Wstm
     # @todo remove relation to unit
     belongs_to  :unit,        class_name: 'Wstm::PartnerFirm::Unit',    inverse_of: :freights, index: true
 
-    before_save :handle_code
+    before_save :handle_field_type_array
 
     alias :unit :unit_belongs_to;
 
@@ -142,8 +142,8 @@ module Wstm
     end
     protected
     # @todo
-    def handle_code
-      self.code = code.split(',').flatten
+    def handle_field_type_array
+      set(code: self.code.each_with_object([]){|t,n| t.split(',').each{|t| n.push t.strip}})
     end
   end # Freight
 end # Wstm

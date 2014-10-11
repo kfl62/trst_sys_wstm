@@ -14,7 +14,9 @@
     = t('intro.query.desk_freight.one')
   %table.inner
     %thead
-      = partial 'wstm/shared/select_params', locals: {colspan: '5', daily: true, firm: (@current_user.unit_id.nil? ? firm : false)}
+      %tr
+        %td{colspan: 5}
+          = haml :'wstm/shared/_select_params', locals: {daily: true, firm: (@current_user.unit_id.nil? ? firm : false)}
     %tbody.inner
       %tr
         - mat(@object,'table_all').each do |cn|; cols += 1
@@ -53,7 +55,9 @@
       - out_int = freight.outs.daily(y,m,d).where(:doc_dln.ne => nil).nonin(false).sum(:qu)
       - out_dln = freight.outs.daily(y,m,d).where(:doc_dln.ne => nil).nonin.sum(:qu)
       %thead
-        = partial 'wstm/shared/select_params', locals: {colspan: '4', daily: true, freight: freight}
+        %tr
+          %td{colspan: 4}
+            = haml :'wstm/shared/_select_params', locals: {daily: true, freight: freight}
       %tbody.inner.stats
         %tr
           - mat(@object,'table_one_analitic').each do |cn|
@@ -140,7 +144,9 @@
           %td.ta-ri= "%0.2f" % stock
     - else
       %thead
-        = partial 'wstm/shared/select_params', locals: {colspan: '4', daily: true, freight: freight}
+        %tr
+          %td{colspan: 4}
+            = haml :'wstm/shared/_select_params', locals: {daily: true, freight: freight}
       %tbody.inner.stats
         %tr
           - mat(@object,'table_one').each do |cn|
@@ -165,7 +171,9 @@
     = t('intro.query.desk_freight.all')
   %table.inner
     %thead
-      = partial 'wstm/shared/select_params', locals: {colspan: cols}
+      %tr
+        %td{colspan: cols}
+          = haml :'wstm/shared/_select_params'
     %tbody.inner
       %tr
         - mat(@object,'table_all').each do |cn|

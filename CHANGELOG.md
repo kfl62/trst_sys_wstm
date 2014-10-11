@@ -3,11 +3,21 @@
 * estimated release date: **2014-12-01**
 
 
+* **feature v0.3.1.9**
+   - feature date: **2014-10-11**
+   - bump version v0.3.1.9
+   - update CHANGELOG
+   - views `Wstm::Freight` queries [#34][#34]
+   - views `Wstm::Freight` CRUD [#30][#30]
+   - assets js, `Wstm.desk.freight` cleanup, r_path & [#31][#31]
+   - models `Wstm::Freight` handle_field_type_array, code
+
+
 * **feature v0.3.1.8**
    - feature date: **2014-10-10**
    - bump version v0.3.1.8
    - update CHANGELOG
-   - assest js, `Wstm.desk.cassation|delevery_note` fix #33
+   - assest js, `Wstm.desk.cassation|delevery_note` fix [#33][#33]
 
 
 * **feature v0.3.1.7**
