@@ -1,29 +1,21 @@
-:ruby
-  unit_id = @current_user.unit_id || session[:unit_id]
-%span#hidden_data{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: 'null',js_ext: 'desk_freight'}}
--if unit_id
-  %article#xhr_info.info
-    %i.fa.fa-info-circle.fa-lg.blue
-    - if @current_user.admin?
-      = t("intro.filter.main",data: mat(@object,'model_name'))
-    - else
-      =  t("intro.filter.desk_freight",data: mat(@object,'model_name'))
+-if @uid
+  - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_freight'})
+  - xhr_info('info',@current_user.admin? ? t("intro.filter.main",data: model_name) : t("intro.filter.desk_freight",data: model_name))
   - unless @current_user.unit_id
-    = partial 'wstm/shared/select_unit'
+    = haml :'wstm/shared/_select_unit'
   %form{action: "/sys/#{@path}",method: "get"}
     %table
+      %thead
       %tbody
         %tr.pdb-05
           %td
             %select#oid
-              %option{value: "null"}= t("select.option",data: mat(@object,'model_name'))
-              - @object.where(unit_id: unit_id).default_sort.each do |o|
+              %option{value: "null"}= t("select.option",data: model_name)
+              - @object.where(unit_id: @uid).default_sort.each do |o|
                 %option{value: o.view_filter.first}= o.view_filter.last
       %tfoot
-        %tr
-          - if @current_user.admin?
-            - td_buttonset(['create','show','edit','delete','cancel'],{style: 'ta-ce'})
-          - else
-            - td_buttonset(['show','edit','cancel'],{style: 'ta-ce'})
--else
-  = partial 'wstm/shared/select_unit'
+        - buttons = @current_user.admin? ? ['create','show','edit','delete','cancel'] : ['show','edit','cancel']
+        - tr_buttonset(buttons,{td: {class: 'ta-ce'}})
+- else
+  - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_freight'})
+  = haml :'wstm/shared/_select_unit'

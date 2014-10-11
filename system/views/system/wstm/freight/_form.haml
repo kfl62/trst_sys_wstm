@@ -1,23 +1,24 @@
-%tbody
-  - if @current_user.admin?
-    - tr_input_for  @object,        'name'
-    - tr_input_for  @object,        'um'
-    - tr_input_for  @object,        'pu'
-    - tr_input_for  @object,        'id_stats'
-    - tr_input_for  @object,        'code'
+%table
+  %tbody
+    - if @current_user.admin?
+      - tr_input_for  @object,  'name',     {tag: {data: {mark: 'ui-focus step focus'}}}
+      - tr_input_for  @object,  'um',       {tag: {data: {mark: 'ui-focus step'}}}
+      - tr_input_for  @object,  'pu',       {tag: {data: {mark: 'ui-focus step'}}}
+      - tr_input_for  @object,  'id_stats', {tag: {data: {mark: 'ui-focus step'}}}
+      - tr_input_for  @object,  'code',     {tag: {data: {mark: 'ui-focus step'},name: "[#{@path}][code][]"}}
+      %tr
+        - td_label_for @object, 'p03'
+        %td
+          - input_for  @object, 'p03',      {tag: {data: {mark: 'ui-focus'},class:'true_ro',type: 'radio',checked: @object.p03,value: 'true'}}
+          - input_for  @object, 'p03',      {tag: {data: {mark: 'ui-focus'},class:'false_ro',type: 'radio',checked: !@object.p03,value: 'false'}}
+        - td_error_for @object, 'p03'
+    - else
+      - tr_show_for   @object,  'name'
+      - tr_show_for   @object,  'um'
+      - tr_input_for  @object,  'pu',       {tag: {data: {mark: 'ui-focus step focus'}}}
+      - tr_show_for   @object,  'id_stats'
+      - tr_show_for   @object,  'code'
+      - tr_show_for   @object,  'p03'
     %tr
-      - td_label_for @object, 'p03'
-      %td.boolean
-        %input.true_ro{ type: 'radio',name: "[#{@path}][p03]",checked: @object.p03,value: 'true'}
-        %input.false_ro{type: 'radio',name: "[#{@path}][p03]",checked: !@object.p03,value: 'false'}
-      - td_error_for @object, 'p03'
-  - else
-    - tr_show_for   @object,        'name'
-    - tr_show_for   @object,        'um'
-    - tr_input_for  @object,        'pu', {style: 'focus'}
-    - tr_show_for   @object,        'id_stats'
-    - tr_show_for   @object,        'code'
-    - tr_show_for   @object,        'p03'
-  %tr
-    %td{colspan: 3}
-      %input{type: 'hidden',name: "[#{@path}][unit_id]",value: @current_user.unit_id || session[:unit_id]}
+      %td{colspan: 3}
+        - input_for   @object, 'unit_id',    {tag: {type: 'hidden',value: @uid}}

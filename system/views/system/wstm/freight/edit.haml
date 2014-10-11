@@ -1,17 +1,14 @@
-%span#hidden_data{data: {dialog: "edit",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_freight'}}
+- xhr_hidden_data({dialog: "edit",oid: @object.id,js_ext: 'desk_freight'})
 %form{action: "/sys/#{@path}",method: "put"}
   %table
     %thead
-      %tr.pdb-05
-        %td{colspan: "3"}
-          - unless @current_user.admin?
-            %detail.info
-              %i.fa.fa-info-circle.fa-lg.blue
-              = t('intro.edit.desk_freight')
-    = partial "#{@path}/form"
-    %tfoot
+      - unless @current_user.admin?
+        %tr.pdb-05
+          - td_detail_for 'detail',t('intro.edit.desk_freight')
+    %tbody
       %tr
-        - if @current_user.admin?
-          - td_buttonset(['save','delete','cancel'],{style: 'ta-ce'},'3')
-        - else
-          - td_buttonset(['save','cancel'],{style: 'ta-ce'},'3')
+        %td
+          = haml :"#{@path}/_form"
+    %tfoot
+      - buttons = @current_user.admin? ? ['save','delete','cancel'] : ['save','cancel']
+      - tr_buttonset(buttons,{td: {class: 'ta-ce'}})

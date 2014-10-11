@@ -1,13 +1,11 @@
-%span#hidden_data{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_freight'}}
+- xhr_hidden_data({dialog: "show",oid: @object.id,js_ext: 'desk_freight'})
 %form{action: "/sys/#{@path}",method: "get"}
   %table
     %thead
-      %tr.pdb-05
-        %td{colspan: "2"}
-    = partial "#{@path}/show"
-    %tfoot
+    %tbody
       %tr
-        - if @current_user.admin?
-          - td_buttonset(['create','edit','delete','cancel'],{style: 'ta-ce'},'2')
-        - else
-          - td_buttonset(['edit','cancel'],{style: 'ta-ce'},'2')
+        %td
+          = haml :"#{@path}/_show"
+    %tfoot
+      - buttons = @current_user.admin? ? ['create','edit','delete','cancel'] : ['edit','cancel']
+      - tr_buttonset(buttons,{td: {class: 'ta-ce'}})
