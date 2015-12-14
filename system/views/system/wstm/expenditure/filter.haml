@@ -1,5 +1,5 @@
+- xhr_hidden_data({dialog: 'filter',title_data: mat(Wstm::PartnerPerson,'model_name'),oid: 'null',js_ext: 'desk_expenditure'})
 -if @uid
-  - xhr_hidden_data({dialog: 'filter',title_data: mat(Wstm::PartnerPerson,'model_name'),oid: 'null',js_ext: 'desk_expenditure'})
   - xhr_info('info',t("intro.filter.desk_expenditure",data: mat(@object,'model_name')))
   - unless @current_user.unit_id
     = haml :'wstm/shared/_select_unit'
@@ -13,6 +13,5 @@
       %tfoot
         - tr_buttonset(['create','cancel'],{td: {class: 'ta-ce'}, create: {text: t('button.create') + " APP!"}})
 -else
-  - xhr_hidden_data({dialog: 'filter',title_data: mat(Wstm::PartnerPerson,'model_name'),oid: 'null',js_ext: 'desk_expenditure'})
   %form{action: "/sys/#{@path}", method: "get"}
     = haml :'wstm/shared/_select_unit'

@@ -1,5 +1,5 @@
+- xhr_hidden_data({dialog: 'repair',oid: 'null',js_ext: 'desk_expenditure'})
 -if @uid
-  - xhr_hidden_data({dialog: 'repair',oid: 'null',js_ext: 'desk_expenditure'})
   - unless @current_user.unit_id
     = haml :'wstm/shared/_select_unit'
   %form{action: "/sys/#{@path}",method: "get"}
@@ -21,6 +21,5 @@
       %tfoot
         - tr_buttonset(['cancel'],{td: {class: 'ta-ce'}})
 -else
-  - xhr_hidden_data({dialog: 'repair',oid: 'null',js_ext: 'desk_expenditure'})
   %form{action: "/sys/#{@path}", method: "get"}
     = haml :'wstm/shared/_select_unit'
