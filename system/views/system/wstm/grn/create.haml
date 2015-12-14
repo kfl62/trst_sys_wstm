@@ -1,9 +1,7 @@
-:ruby
-  firm = Wstm::PartnerFirm.find_by(firm: true)
 - if params[:id_intern]
   :ruby
     unit_id  = params[:unit_id]
-    unit     = firm.units.find(unit_id)
+    unit     = @firm.units.find(unit_id)
     dln_ary  = params[:dln_ary].split(',')
     dln_ary.each{|id| @object.dlns << Wstm::DeliveryNote.find(id)}
   %span#hidden_data{data: {dialog: 'create',model_name: mat(@object,'model_name_id_intern'),oid: 'null',js_ext: 'desk_grn'}}
@@ -13,40 +11,40 @@
         %tr
           %td.pdb-05
             - label_for @object, 'name'
-            - input_for @object, 'name',      {value: @object.increment_name(unit_id),style: 'ui-state-default ce id_intern'}
+            - input_for @object, 'name',      {tag: {data: {mark: 'ui-focus resize'},value: @object.increment_name(unit_id)}}
             - label_for @object, 'id_date'
-            - input_for @object, 'id_date',   {id: 'date_show',name: 'strip'}
-            - input_for @object, 'id_date',   {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
-            - input_for @object, 'id_intern', {type: 'hidden',value: 'true'}
-            - input_for @object, 'doc_type',  {type: 'hidden',value: 'DN'}
-            - input_for @object, 'doc_name',  {type: 'hidden',value: @object.dlns.map(&:doc_name).join(', ')}
-            - input_for @object, 'doc_date',  {type: 'hidden',value: @object.dlns.last.id_date}
-            - input_for @object, 'supplr_id', {type: 'hidden',value: firm.id}
-            - input_for @object, 'transp_id', {type: 'hidden',value: firm.id}
-            - input_for @object, 'unit_id',   {type: 'hidden',value: unit_id}
-            - input_for @object, 'signed_by', {type: 'hidden',value: @current_user.id}
-            - input_for @object, 'charged',   {type: 'hidden',value: 'true'}
+            - input_for @object, 'id_date',   {tag: {id: 'date_show',name: 'strip'}}
+            - input_for @object, 'id_date',   {tag: {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}}
+            - input_for @object, 'id_intern', {tag: {type: 'hidden',value: 'true'}}
+            - input_for @object, 'doc_type',  {tag: {type: 'hidden',value: 'DN'}}
+            - input_for @object, 'doc_name',  {tag: {type: 'hidden',value: @object.dlns.map(&:doc_name).join(', ')}}
+            - input_for @object, 'doc_date',  {tag: {type: 'hidden',value: @object.dlns.last.id_date}}
+            - input_for @object, 'supplr_id', {tag: {type: 'hidden',value: @firm.id}}
+            - input_for @object, 'transp_id', {tag: {type: 'hidden',value: @firm.id}}
+            - input_for @object, 'unit_id',   {tag: {type: 'hidden',value: unit_id}}
+            - input_for @object, 'signed_by', {tag: {type: 'hidden',value: @current_user.id}}
+            - input_for @object, 'charged',   {tag: {type: 'hidden',value: 'true'}}
             - dln_ary.each do |dn|
-              -input_for @object,'dln_ids',   {type: 'hidden',name: "[#{@path}][dln_ids][]",value: dn}
+              -input_for @object,'dln_ids',   {tag: {type: 'hidden',name: "[#{@path}][dln_ids][]",value: dn}}
         %tr.pdb-05
           %td
             %span= t('intro.create.desk_grn.id_intern',unit: unit.name[1])
         %tr.pdb-05
           %td
-            %input#transp_d_id.select2{type: 'hidden',name: '[wstm/grn][transp_d_id]', style: 'width:200px', data: {minlength: '0',ph: '3',search: 'Wstm::PartnerFirm',noinit: 'true',transp_id: firm.id}}
-            - input_for @object, 'doc_plat', {style: 'ui-state-default ta-ce',placeholder: mat(@object,'doc_plat')}
+            - input_for @object, 'transp_d_id', {tag: {id: 'transp_d_id', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '0',ph: '3',search: 'Wstm::PartnerFirm',transp_id: @firm.id}}}
+            - label_for @object, 'doc_plat'
+            - input_for @object, 'doc_plat',    {tag: {data: {mark: 'ui-focus step'}, value: 'strip'}}
             %button#transp_d{type: "button", data: {action: "create", icon: "fa fa-plus-square-o"}}=  t('button.create') + " Delegat!"
         %tr.pdb-05
           %td
             %hr
             %span.small.width-450{style: 'display:inline-block'}= mat(@object,'dlns_name').concat @object.dlns.map(&:doc_name).join(', ')
-      = partial "#{@path}/form", locals: {dlns: dln_ary,id_intern: true,unit: unit}
+      = haml :"#{@path}/_form", locals: {dlns: dln_ary,id_intern: true,unit: unit}
       %tfoot
-        %tr
-          - td_buttonset(['save','cancel'],{style: 'ta-ce'})
+        - tr_buttonset(['save','cancel'],{td: {class: 'ta-ce'}})
 - else
   :ruby
-    unit     = firm.units.find_by(main: true)
+    unit     = @firm.units.find_by(main: true)
     supplr   = Wstm::PartnerFirm.find(params[:supplr_id])
     supplr_d = supplr.people.find(params[:supplr_d_id]) rescue nil
     transp   = Wstm::PartnerFirm.find(params[:transp_id])

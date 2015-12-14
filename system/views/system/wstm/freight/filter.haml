@@ -1,5 +1,5 @@
+- xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_freight'})
 -if @uid
-  - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_freight'})
   - xhr_info('info',@current_user.admin? ? t("intro.filter.main",data: model_name) : t("intro.filter.desk_freight",data: model_name))
   - unless @current_user.unit_id
     = haml :'wstm/shared/_select_unit'
@@ -17,5 +17,4 @@
         - buttons = @current_user.admin? ? ['create','show','edit','delete','cancel'] : ['show','edit','cancel']
         - tr_buttonset(buttons,{td: {class: 'ta-ce'}})
 - else
-  - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_freight'})
   = haml :'wstm/shared/_select_unit'

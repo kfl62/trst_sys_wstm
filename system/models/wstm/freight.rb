@@ -77,6 +77,7 @@ module Wstm
                 sum_tot = sum_tot.zip(sum_pos).map{|x| x.inject(:+)}
                 fname = f.name
               else
+                fname = find_by(id_stats: ids).name
                 part[i] << 0
               end
             end

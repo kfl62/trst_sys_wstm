@@ -1,5 +1,5 @@
--if @uid
   - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_delivery_note'})
+-if @uid
   - xhr_info('info',t("intro.filter.main",data: model_name))
   - unless @current_user.unit_id
     = haml :'wstm/shared/_select_unit'
@@ -19,6 +19,5 @@
       %tfoot
         - tr_buttonset(['create','cancel'],{td: {class: 'ta-ce'}, create: {text: t('button.create') + " Anexa3!"}})
 -else
-  - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_delivery_note'})
   %form{action: "/sys/#{@path}",method: "get"}
     = haml :'wstm/shared/_select_unit'

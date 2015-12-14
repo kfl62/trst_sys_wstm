@@ -17,10 +17,7 @@
           %detail.detail.w-45rem
             %i.fa.fa-info-circle.fa-lg.blue
             = t('intro.show.desk_grn',id_date: l(@object.id_date,format: :trst),unit: firm.units.find(@object.unit_id).name[1],signed_by: @object.signed_by.name,supplr: @object.supplr.name[2],transp_d: @object.transp_d.name)
-    = partial "#{@path}/show"
+    = haml :"#{@path}/_show"
     %tfoot
-      %tr
-        - if @object.freights.count == 0
-          - td_buttonset(['delete'],{style: 'ta-ce'},@object.id_intern == true ? '5' : '6')
-        - else
-          - td_buttonset(['print','delete','cancel'],{style: 'ta-ce'},@object.id_intern == true ? '5' : '6')
+      - buttons =@object.freights.count == 0 ? ['delete'] : ['print','delete','cancel']
+      - tr_buttonset(buttons,{td: {class: 'ta-ce',colspan: @object.id_intern == true ? '5' : '6'}})
