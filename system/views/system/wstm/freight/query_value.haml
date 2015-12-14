@@ -61,11 +61,12 @@
                   %td.ta-ri
                     %span= "%0.2f" % (fpu * st[3])
                   - if d > 0 && @current_user.unit_id.nil?
-                    - ins = Wstm::Freight.find(id).ins.nonin.daily(y,m,d).where(pu: fpu).sum(:qu)
+                    - ins = Wstm::Freight.find(id).ins.period(y,m,1,d).where(pu: fpu).sum(:qu)
+                    - out = Wstm::Freight.find(id).outs.period(y,m,1,d).where(pu: fpu).sum(:qu)
                     %td.ta-ri{style: st[1] != 0 ? last_pu == fpu ? 'color:red' : 'color:green' : nil}
-                      %span= ins > 0 ? "%0.2f" % fpu : ''
+                      %span= "%0.2f" % fpu
                     %td.ta-ri
-                      %span= ins > 0 ? "%0.2f" % ins : ''
+                      %span= "%0.2f" % (st[0] + ins - out)
               %tr.total
                 %td{colspan: '2'}
                   %span.name.ce Total
@@ -88,9 +89,9 @@
     %thead
       %tr.pdb-05
         %td
-          %detail.detail.w-55rem
-            %i.fa.fa-info-circle.fa-lg.blue
-            = t('intro.query_value.desk_freight.all')
+          -# %detail.detail.w-55rem
+          -#   %i.fa.fa-info-circle.fa-lg.blue
+          -#   = t('intro.query_value.desk_freight.all')
       %tr
         %td
           = haml :'wstm/shared/_select_params', locals: {firm: firm}
