@@ -1,0 +1,15 @@
+%form{action: "/sys/#{@path}", method: 'get'}
+  %table
+    %tbody
+      %tr
+        %td
+          - input_for @object, 'supplr_id',   {tag: {id: 'supplr_id',  type: 'hidden',name: 'strip', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '2',ph: '0',search: 'Wstm::PartnerFirm'}}}
+          - input_for @object, 'supplr_d_id', {tag: {id: 'supplr_d_id',type: 'hidden',name: 'strip', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '0',ph: '1',search: 'Wstm::PartnerFirmPerson'}}}
+          %button#supplr_d{type: "button", data: {action: "create", icon: "fa fa-plus-square-o"}}=  t('button.create') + " Delegat!"
+      %tr
+        %td
+          - input_for @object, 'transp_id',   {tag: {id: 'transp_id',  type: 'hidden',name: 'strip', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '2',ph: '2',search: 'Wstm::PartnerFirm'}}}
+          - input_for @object, 'transp_d_id', {tag: {id: 'transp_d_id',type: 'hidden',name: 'strip', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '0',ph: '3',search: 'Wstm::PartnerFirmPerson'}}}
+          %button#transp_d{type: "button", data: {action: "create", icon: "fa fa-plus-square-o"}}=  t('button.create') + " Delegat!"
+    %tfoot
+      - tr_buttonset(['create','cancel'],{td: {class: 'ta-ce'}, create: {text: t('button.create') + " NIR!"}})

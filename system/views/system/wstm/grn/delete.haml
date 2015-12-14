@@ -12,8 +12,7 @@
           %detail.detail.w-45rem
             %i.fa.fa-bomb.fa-lg.red
             = t('intro.show.desk_grn',id_date: l(@object.id_date,format: :trst),unit: firm.units.find(@object.unit_id).name[1],signed_by: @object.signed_by.name,supplr: @object.supplr.name[2],transp_d: @object.transp_d.name)
-    = partial "/#{@path}/show"
+    = haml :"/#{@path}/_show"
     %tfoot
-      %tr
-        - td_buttonset(['delete','cancel'],{style: 'ta-ce'},@object.id_intern == true ? '5' : '6')
+      - tr_buttonset(['delete','cancel'],{td: {class: 'ta-ce',colspan: @object.id_intern == true ? '5' : '6'}})
 

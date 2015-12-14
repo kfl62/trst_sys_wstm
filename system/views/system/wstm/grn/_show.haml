@@ -7,15 +7,11 @@
           %span= label
     - @object.freights.asc(:id_stats).each do |o|
       %tr
-        - td_value_for  o, 'freight',  {order: 'name',style: 'name',nested: 'doc_grn'}
-        %td.ta-ce.w-4rem
-          - value_for  o, 'um',        {style: 'um', nested: 'doc_grn'}
-        %td.ta-ri.w-6rem
-          - value_for  o, 'pu',        {style: 'val', nested: 'doc_grn'}
-        %td.ta-ri.w-8rem
-          - value_for  o, 'qu',        {style: 'val', nested: 'doc_grn'}
-        %td.ta-ri.w-8rem
-          - value_for  o, 'val',       {style: 'val', nested: 'doc_grn'}
+        - td_value_for  o, 'freight',   {guess: {order: 'name',nested: 'doc_grn'},tag: {class: 'strip'}}
+        - td_value_for  o, 'um',        {guess: {nested: 'doc_grn'},tag: {class: 'strip ta-ce'}}
+        - td_value_for  o, 'pu',        {guess: {nested: 'doc_grn'},tag: {class: 'strip ta-ri'}}
+        - td_value_for  o, 'qu',        {guess: {nested: 'doc_grn'},tag: {class: 'strip ta-ri'}}
+        - td_value_for  o, 'val',       {guess: {nested: 'doc_grn'},tag: {class: 'strip ta-ri'}}
         - unless @object.id_intern
           %td.ta-ri.w-6rem
             %span.val= "%.2f" % ((o.freight.p03 == true and @object.supplr.p03 == true) ? (o.val * 0.03).round(2) : 0)

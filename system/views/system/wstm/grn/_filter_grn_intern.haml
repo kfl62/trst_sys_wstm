@@ -1,0 +1,61 @@
+:ruby
+  unit_rcv = @current_user.unit_id || @firm.units.find_by(main: true).id
+  unit_snd = @current_user.unit_id.nil? ? nil : @firm.units.find_by(main: true).id
+  dln_ary  = params[:dln_ary].nil? ? [] : params[:dln_ary].split(',')
+  bckgrnd  = {"afdv" => "#FFBFF0","dpoa" => "#FFBFF0","ca21" => "#DDDDDD","cb25" => "#DDDDDD","sa57" => "#FFFF99","o139" => "#FFFF99","r25b" => "#BFFFBF","rafn" => "#BFFFBF"}
+
+%form{action: "/sys/#{@path}/filter?id_intern=true", method: 'get'}
+  %table
+    %thead
+      %tr.pdb-05
+        %td
+          %select{data: {mark: 'p03'}}
+            - mat(@object,'p03_select').each do |o|
+              %option{value: o[0], selected: o[0] == params[:p03]}= o[1]
+      - if params[:p03]
+        - dlns = Wstm::DeliveryNote.nonin(false).charged(false).by_p03(params[:p03].to_bool).where(:unit_id.ne  => unit_rcv)
+        - dlns = Wstm::DeliveryNote.nonin(false).charged(false).by_p03(params[:p03].to_bool).where(unit_id: unit_snd) if unit_snd
+        - if dlns.empty?
+          %tr.pdb-05
+            -td_detail_for 'detail',t('intro.filter.desk_grn.no_dln')
+        - else
+          %tr.pdb-05
+            %td
+              %span
+                - dlns.each_with_index do |dln,i|
+                  %label.doc-name-list{style: "background-color: #{bckgrnd[dln.name.split('_')[1].downcase]}",title: "#{dln.freights_list.join("\n")}"}
+                    %input.dln_ary{id:dln.id,type: 'checkbox',checked: dln_ary.include?(dln.id.to_s)}
+                    = dln.doc_name
+          %tr.pdb-05
+            %td
+              %span= t('legend')
+              - @firm.units.asc(:slug).each do |u|
+                %span{:style => "background-color: #{bckgrnd[u.name[0].downcase]};cursor:pointer", title: "#{u.name[1]}"}= u.name[0]
+    %tbody
+      - unless dln_ary.empty?
+        %tr.pdb-05
+          %td
+            %table.inner
+              %tbody.inner
+                %tr
+                  - mat(@object,'table_header')[0..4].each do |label|
+                    %td
+                      %span= label
+                - data = Wstm::DeliveryNote.where(:id.in => dln_ary).sum_freights_grn; data.sort.each do |s|
+                  %tr
+                    %td
+                      %span= s[1][0]
+                    %td.ta-ce
+                      %span kg
+                    %td.ta-ri
+                      %span= "%.2f" % s[1][2]
+                    %td.ta-ri
+                      %span= "%.2f" % s[1][3]
+                    %td.ta-ri
+                      %span= "%.2f" % s[1][4]
+                %tr.result
+                  %td.ce.st{:colspan => "4"}= "Total"
+                  %td
+                    %span.val= "%.2f" % data.values.sum{|r| r[4]}
+    %tfoot
+      - tr_buttonset(['create','cancel'],{td: {class: 'ta-ce'}, create: {text: t('button.create') + " NIR!"}})

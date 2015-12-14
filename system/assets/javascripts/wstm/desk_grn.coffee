@@ -63,7 +63,7 @@ define () ->
             Wstm.desk.grn.dln_ary.push(@id)
             return
           $url = Trst.desk.hdf.attr('action')
-          $url += "&p03=#{$('select.p03').val()}"
+          $url += "&p03=#{$('select').val()}"
           $url += "&dln_ary=#{Wstm.desk.grn.dln_ary}" if Wstm.desk.grn.dln_ary.length
           Trst.desk.init($url)
           return
@@ -93,13 +93,13 @@ define () ->
             $select = $(@)
             $sd = $select.data()
             $id = $select.attr('id')
+            if $sd.mark is 'p03'
+              $select.on 'change', ()->
+                $url  = Trst.desk.hdf.attr('action')
+                $url += "&p03=#{$select.val()}" unless $select.val() is 'null'
+                Trst.desk.init($url)
+                return
             if $select.hasClass 'wstm'
-              if $select.hasClass 'p03'
-                $select.on 'change', ()->
-                  $url  = Trst.desk.hdf.attr('action')
-                  $url += "&p03=#{$select.val()}" unless $select.val() is 'null'
-                  Trst.desk.init($url)
-                  return
               if $select.hasClass 'doc_type'
                 $('tr.inv').hide()
                 $select.on 'change', ()->
@@ -138,7 +138,7 @@ define () ->
                     $select.val('null')
                     $('button[data-action="save"]').button 'option', 'disabled', true
                   return
-            else if $select.hasClass 'select2'
+            else if $select.data().mark is 's2'
               if $id in ['supplr_id','transp_id']
                 $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph]
                 $select.select2
@@ -221,7 +221,7 @@ define () ->
                     $select.nextAll('button').hide()
                   Wstm.desk.grn.validate.create()
                   return
-            else if $select.hasClass 'repair'
+            if $sd.mark is 'repair'
               $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph]
               $select.select2
                 placeholder: $ph
@@ -238,10 +238,10 @@ define () ->
                     results: data
                 formatResult: (d)->
                   $markup  = "<div title='#{d.text.title}'>"
-                  $markup += "<span class='repair'>Doc: </span>"
-                  $markup += "<span class='truncate-70'>#{d.text.doc_name}</span>"
-                  $markup += "<span class='repair'> - Firma: </span>"
-                  $markup += "<span class='truncate-200'>#{d.text.supplier}</span>"
+                  $markup += "<span class='dsp-ib'>Doc: </span>"
+                  $markup += "<span class='w-8rem dsp-ib'>#{d.text.doc_name}</span>"
+                  $markup += "<span class='dsp-ib'> - Firma: </span>"
+                  $markup += "<span class='w-20rem dsp-ib'>#{d.text.supplier}</span>"
                   $markup += "</div>"
                   $markup
                 formatSelection: (d)->
@@ -258,9 +258,6 @@ define () ->
                   Trst.desk.closeDesk(false)
                   Trst.desk.init($url)
                 return
-            else
-              $log 'Select not handled!'
-            return
           return
         buttons: (btns)->
           btns.each ()->
@@ -323,13 +320,8 @@ define () ->
           $('span.fa-plus-circle').hide()
           return
         init: ()->
-          if $('#date_show').length
-            now = new Date()
-            min = if Trst.lst.admin is 'true' then new Date(now.getFullYear(),now.getMonth() - 1,1) else min = new Date(now.getFullYear(),now.getMonth(),1)
-            $('#date_show').datepicker 'option', 'maxDate', '+0'
-            $('#date_show').datepicker 'option', 'minDate', min
-          Wstm.desk.grn.buttons($('button'))
-          Wstm.desk.grn.selects($('select.wstm,input.select2,input.repair'))
-          Wstm.desk.grn.inputs($('input'))
+          @buttons($('button'))
+          @selects($('input[data-mark~=s2],input[data-mark~=repair],select'))
+          @inputs($('input'))
           $log 'Wstm.desk.grn.init() OK...'
   Wstm.desk.grn

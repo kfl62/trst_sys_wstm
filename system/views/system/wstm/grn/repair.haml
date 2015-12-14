@@ -1,32 +1,25 @@
-:ruby
-  unit_id = @current_user.unit_id.nil? ? session[:unit_id] : @current_user.unit_id
-%span#hidden_data{data: {dialog: "repair",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_grn'}}
--if unit_id
+- xhr_hidden_data({dialog: 'repair',oid: 'null',js_ext: 'desk_grn'})
+-if @uid
   - unless @current_user.unit_id
-    = partial 'wstm/shared/select_unit'
-  %form{action: "/sys/#{@path}", method: "get"}
+    = haml :'wstm/shared/_select_unit'
+  %form{action: "/sys/#{@path}",method: "get"}
     %table
       %thead
         - if @current_user.unit_id
           %tr.pdb-05
-            %td
-              %detail.detail
-                %i.fa.fa-info-circle.fa-lg.blue
-                = t('intro.repair.desk_grn')
-              %input#date_send{type: 'hidden', value: Date.today.to_s}
+            - td_detail_for 'detail w-35rem',t('intro.repair.desk_grn')
+            - input_for @object, 'id_date',     {tag: {id: 'date_send',type: 'hidden',name: 'strip',value: @today.to_s}}
         - else
           %tr.pdb-05
             %td
-              %span= mat(@object,'day')
-              %input#date_show.ui-state-default{type: 'text',value: l(Date.today,format: :trst)}
-              %input#date_send{type: 'hidden', value: Date.today.to_s}
+              - label_for @object, 'id_date',     {guess: {label: 'day'}}
+              - input_for @object, 'id_date',     {tag: {id: 'date_show',name: 'strip',value: l(@today,format: :trst)}}
+              - input_for @object, 'id_date',     {tag: {id: 'date_send',type: 'hidden',name: 'strip',value: @today.to_s}}
       %tbody
         %tr.pdb-05
-          %td
-            %input.repair{type: 'hidden',style: 'width:410px',data: {search: 'Wstm::Grn',ph: '4',uid: unit_id}}
+          -td_input_for   @object, 'repair', {tag: {data: {mark: 'repair',search: 'Wstm::Grn',ph: '4',uid: @uid},class: 'w-40rem',name: 'strip',value: 'strip'}}
       %tfoot
-        %tr
-          - td_buttonset(['cancel'],{style: 'ta-ce'})
+        - tr_buttonset(['cancel'],{td: {class: 'ta-ce'}})
 -else
-  %form{action: "/sys/#{@path}", method: "get"}
-    = partial 'wstm/shared/select_unit'
+  %form{action: "/sys/#{@path}",method: "get"}
+    = haml :'wstm/shared/_select_unit'
