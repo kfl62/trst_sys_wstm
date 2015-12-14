@@ -1,6 +1,15 @@
 ## v1.0.0
 
-* estimated release date: **2014-12-01**
+* estimated release date: **2016-03-30**
+
+
+* **feature v0.3.1.10**
+   - feature date: **2015-12-14**
+   - bump version v0.3.1.10
+   - update CHANGELOG
+   - views `Wstm::DeliveryNotes` uniformization
+   - views `Wstm::Expenditures` uniformization
+   - views `Wstm::Freights` uniformization
 
 
 * **feature v0.3.1.9**
