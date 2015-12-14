@@ -18,7 +18,7 @@
         - if daily
           %select{data: {mark: 'param'},name: 'p_d',style: 'font-family:Courier'}
             - (0..Time.days_in_month(m,y)).each do |day|
-              %option{value: day, selected: d == day}= l(Date.new(y,m,day), format: "%a, %Y-%m-%d") rescue 'Intrări zilnice'
+              %option{value: day, selected: d == day}= l(Date.new(y,m,day), format: "%a, %Y-%m-%d") rescue 'Stocuri zilnice'
         - if firm
           - if @current_user.unit_id
             %span= l(@today,format: :trst)
