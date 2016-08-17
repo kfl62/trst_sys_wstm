@@ -1,7 +1,18 @@
 ## v1.0.0
 
-* estimated release date: **2016-03-30**
+* estimated release date: **2016-12-31**
 
+
+* **feature v0.3.1.11**
+   - feature date: **2016-08-17**
+   - bump version v0.3.1.11
+   - update CHANGELOG
+   - assets:js, `Wstm.desk.cache` prepare for update, tmp
+   - views:`Wstm::DeliveryNote` typo, improve readability
+   - views:`Wstm::CacheBook.filter` typo
+   - views:`Wstm::Cache.query` minor bugfix, rewrite
+   - models:`Wstm::Freights` improve readabily
+   - assets:js, `Wstm.desk.cache` cleanup, rebuild"
 
 * **feature v0.3.1.10**
    - feature date: **2015-12-14**
@@ -10,7 +21,9 @@
    - views `Wstm::DeliveryNotes` uniformization
    - views `Wstm::Expenditures` uniformization
    - views `Wstm::Freights` uniformization
-
+   - `Wstm::Grn` prepare for update
+   - `Wstm::Freight` minor changes
+   - views `shared/_select_params` typo
 
 * **feature v0.3.1.9**
    - feature date: **2014-10-11**
