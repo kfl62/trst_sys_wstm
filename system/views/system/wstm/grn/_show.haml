@@ -1,32 +1,28 @@
 - @object.reload
 - if @object.freights.count > 0
-  %tbody.inner
-    %tr
-      - i = @object.id_intern == true ? 4 : -2; mat(@object,'table_header')[0..i].each do |label|
-        %td
-          %span= label
-    - @object.freights.asc(:id_stats).each do |o|
+  %table
+    %tbody.inner
       %tr
-        - td_value_for  o, 'freight',   {guess: {order: 'name',nested: 'doc_grn'},tag: {class: 'strip'}}
-        - td_value_for  o, 'um',        {guess: {nested: 'doc_grn'},tag: {class: 'strip ta-ce'}}
-        - td_value_for  o, 'pu',        {guess: {nested: 'doc_grn'},tag: {class: 'strip ta-ri'}}
-        - td_value_for  o, 'qu',        {guess: {nested: 'doc_grn'},tag: {class: 'strip ta-ri'}}
-        - td_value_for  o, 'val',       {guess: {nested: 'doc_grn'},tag: {class: 'strip ta-ri'}}
+        - i = @object.id_intern == true ? 4 : -2; mat(@object,'table_header')[0..i].each do |label|
+          %td
+            %span= label
+      - @object.freights.asc(:id_stats).each do |o|
+        %tr
+          - td_value_for  o, 'freight',     {guess: {order: 'name',nested: 'doc_grn'},tag: {class: 'strip'}}
+          - td_value_for  o, 'um',          {guess: {nested: 'doc_grn'},tag: {class: 'strip ta-ce'}}
+          - td_value_for  o, 'pu',          {guess: {nested: 'doc_grn'},tag: {class: 'strip ta-ri'}}
+          - td_value_for  o, 'qu',          {guess: {nested: 'doc_grn'},tag: {class: 'strip ta-ri'}}
+          - td_value_for  o, 'val',         {guess: {nested: 'doc_grn'},tag: {class: 'strip ta-ri'}}
+          - unless @object.id_intern
+            %td.ta-ri.w-6rem
+              %span.val= "%.2f" % ((o.freight.p03 == true and @object.supplr.p03 == true) ? (o.val * 0.03).round(2) : 0)
+      %tr
+        - td_value_for @object, 'total',    {td: {colspan: 4},tag: {class: 'strip',value: 'TOTAL'}}
+        - td_value_for @object, 'sum_100',  {tag: {class: 'strip',value: "%.2f" % @object.sum_100}}
         - unless @object.id_intern
-          %td.ta-ri.w-6rem
-            %span.val= "%.2f" % ((o.freight.p03 == true and @object.supplr.p03 == true) ? (o.val * 0.03).round(2) : 0)
-    %tr
-      %td{colspan: '4'}
-        %span Total
-      %td
-        %span= "%.2f" % @object.sum_100
-      - unless @object.id_intern
-        %td
-          %span= "%.2f" % @object.sum_003
+          - td_value_for @object,'sum_003', {tag: {class: 'strip',value: "%.2f" % @object.sum_003}}
 - else
-  %tbody
-    %tr
-      %td
-        %detail.detail
-          %i.fa.fa-warning.fa-lg.red
-          = t('msg.no_freight_selected')
+  %table
+    %tbody
+      %tr.pdb-05
+        - td_detail_for 'warning w-45rem',t('msg.no_freight_selected'),'info'

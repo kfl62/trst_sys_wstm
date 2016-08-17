@@ -41,24 +41,24 @@
                 %td
                   %span= label
             - for i in 0..4 do; o = @object.freights.new
-              %tr.freight
-                %td.select-freight
-                  %select.wstm.freight
+              %tr
+                %td
+                  %select
                     %option{value: 'null',data: {id_stats: 'null',um: 'kg',pu: 0,p03: 'null'}} Selectare material
                     - freights.each do |f|
                       %option{value: f[0], data: f[2]}= f[1]
-                  - input_for   o, 'id_date',   {type: 'hidden',nested: 'doc_grn',value: 'strip',index: i}
-                  - input_for   o, 'id_stats',  {type: 'hidden',nested: 'doc_grn',value: 'strip',index: i}
-                  - input_for   o, 'freight_id',{type: 'hidden',nested: 'doc_grn',value: 'strip',index: i}
-                %td.ta-ce.w-4rem
-                  - input_for  o, 'um',        {disabled: true,style: 'um ta-ce w-2rem',nested: 'doc_grn',index: i}
-                %td.ta-ce.w-6rem
-                  - input_for  o, 'pu',        {style: 'pu ta-ri w-4rem',nested: 'doc_grn',index: i}
-                %td.ta-ce.w-8rem
-                  - input_for  o, 'qu',        {style: 'qu ta-ri w-6rem',nested: 'doc_grn',index: i}
-                %td.ta-ri.w-8rem
+                  - input_for   o, 'id_date',   {guess: {nested: 'doc_grn',index: i},tag: {type: 'hidden',value: 'strip'}}
+                  - input_for   o, 'id_stats',  {guess: {nested: 'doc_grn',index: i},tag: {type: 'hidden',value: 'strip'}}
+                  - input_for   o, 'freight_id',{guess: {nested: 'doc_grn',index: i},tag: {type: 'hidden',value: 'strip'}}
+                %td
+                  - input_for  o, 'um',        {guess: {nested: 'doc_grn',index: i},tag: {disabled: true}}
+                %td
+                  - input_for  o, 'pu',        {guess: {nested: 'doc_grn',index: i}}
+                %td
+                  - input_for  o, 'qu',        {guess: {nested: 'doc_grn',index: i}}
+                %td
                   %span.val 0.00
-                  - input_for   o, 'val',       {type: 'hidden',nested: 'doc_grn',index: i}
+                  - input_for   o,'val',       {guess: {nested: 'doc_grn',index: i},tag: {type: 'hidden'}}
                 %td.ta-ri.w-6rem
                   %span.p03 0.00
                 %td.ta-ce
@@ -68,11 +68,11 @@
                 %span Total
               %td
                 %span.val 0.00
-                - input_for @object, 'sum_100',   {type: 'hidden'}
+                - input_for @object, 'sum_100',   {tag: {type: 'hidden'}}
               %td
                 %span.p03 0.00
-                - input_for @object, 'sum_003',   {type: 'hidden'}
-                - input_for @object, 'sum_out',   {type: 'hidden'}
+                - input_for @object, 'sum_003',   {tag: {type: 'hidden'}}
+                - input_for @object, 'sum_out',   {tag: {type: 'hidden'}}
               %td
                 %span.fa.fa-plus-circle{title: t('button.new_row')}
   %tbody{id: 'tabs-payments',data: {title: mat(@object,'tabs_payments')}}

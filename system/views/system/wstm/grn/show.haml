@@ -1,23 +1,19 @@
 :ruby
-  firm = Wstm::PartnerFirm.find_by(firm: true)
   dups = Wstm::Grn.monthly(@object.id_date.year,@object.id_date.month).where(:id.ne => @object.id,doc_name: @object.doc_name,supplr_id: @object.supplr_id)
-%span#hidden_data{data: {dialog: "show",model_name: mat(@object,@object.id_intern == true ? 'model_name_id_intern' : 'model_name'),oid: @object.id,js_ext: 'desk_grn'}}
+- xhr_hidden_data({dialog: 'show',model_name: mat(@object,@object.id_intern == true ? 'model_name_id_intern' : 'model_name'),oid: @object.id,js_ext: 'desk_grn'})
 %form{action: "/sys/#{@path}", method: "get"}
   %table
     %thead
       - if dups.count > 0
         - dups.asc(:id_date).each do |d|
           %tr.pdb-05
-            %td{colspan: @object.id_intern == true ? '5' : '6'}
-              %detail.warning.w-45rem{title: d.freights_list.join("\n")}
-                %i.fa.fa-info-circle.fa-lg.blue
-                = t('intro.show.desk_grn_dups',id_date: d.id_date.to_s,doc_name: d.doc_name,supplr: d.supplr.name[0])
+            - td_detail_for'detail w-45rem ta-ju',t('intro.show.desk_grn_dups',id_date: d.id_date.to_s,doc_name: d.doc_name,supplr: d.supplr.name[0]), 'warning'
       %tr.pdb-05
-        %td{colspan: @object.id_intern == true ? '5' : '6'}
-          %detail.detail.w-45rem
-            %i.fa.fa-info-circle.fa-lg.blue
-            = t('intro.show.desk_grn',id_date: l(@object.id_date,format: :trst),unit: firm.units.find(@object.unit_id).name[1],signed_by: @object.signed_by.name,supplr: @object.supplr.name[2],transp_d: @object.transp_d.name)
-    = haml :"#{@path}/_show"
+        - td_detail_for 'detail w-45rem ta-ju',t('intro.show.desk_grn',id_date: l(@object.id_date,format: :trst),unit: @firm.units.find(@object.unit_id).name[1],signed_by: @object.signed_by.name,supplr: @object.supplr.name[2],transp_d: @object.transp_d.name)
+    %tbody
+      %tr
+        %td
+          = haml :"#{@path}/_show"
     %tfoot
       - buttons =@object.freights.count == 0 ? ['delete'] : ['print','delete','cancel']
-      - tr_buttonset(buttons,{td: {class: 'ta-ce',colspan: @object.id_intern == true ? '5' : '6'}})
+      - tr_buttonset(buttons,{td: {class: 'ta-ce'}})
