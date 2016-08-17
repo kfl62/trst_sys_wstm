@@ -21,12 +21,6 @@ define () ->
             if Trst.desk.hdo.dialog is 'filter'
               if $bd.action in ['create','show','edit','delete']
                 $bd.r_path = 'sys/wstm/cache/filter'
-            if Trst.desk.hdo.dialog is 'query'
-              $button.on 'click', ()->
-                $params = jQuery.param($('[data-mark~=param]').serializeArray())
-                $url = "sys/wstm/cache/query?#{$params}&uid=#{$button.attr('id')}"
-                Trst.desk.init($url)
-                return
             return
           return
         init: ()->
