@@ -16,7 +16,7 @@
     %tbody.inner
       - tr_header_for mat(@object,'table_one')
       %tr
-        - td_label_for @object, 'null', {td: {colspan: 3, class: 'ta-ce'}, tag: {class: 'strip', label:  mat(@object,'stock_start')}}
+        - td_label_for @object, 'stock_start', {td: {colspan: 3, class: 'ta-ce'}, tag: {class: 'strip', label:  mat(@object,'stock_start')}}
         - td_value_for @object, 'null', {tag: {class: 'strip', value:  @object.by_unit_id(uid).sum_mny(y,m,mny: [:money_stock]).first}}
       - @object.stats_pos(uid,y,m,mny_all:true,exp_all: false).each do |r|
         - dif = r.delete_at(2); r.delete_at(-2)
@@ -31,12 +31,12 @@
     %thead
       %tr
         %td{colspan: 5}
-          = haml :'wstm/shared/_select_params'
+          = haml :'wstm/shared/_select_params', locals: {firm: @firm}
     %tbody.inner
       - tr_header_for mat(@object,'table_all')
       - @object.stats_all(y,m,mny_all: true,ext_all: false).each do |r|
         - dif = r.delete_at(4); r.delete_at(-2)
-        - r[0] == 'Totla' ? (id,style = nil,nil) : (id,style = r.shift,'link')
+        - r[0] == 'Total' ? (id,style = nil,nil) : (id,style = r.shift,nil)
         %tr
           - td_value_for r, 'null',   {tag: {id: id, class: "strip #{style}",value: r.shift}}
           - r.each_with_index do |c,i|

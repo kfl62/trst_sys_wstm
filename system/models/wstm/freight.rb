@@ -31,7 +31,7 @@ module Wstm
               a << [f.id,f.name,{name: f.name,id_stats: f.id_stats,um: f.um,pu: "#{'%.4f' % fs.pu}",pu_invoice: "0.0000",stck: "#{'%.2f' % fs.qu}"}]
             end
           else
-            a << [f.id,f.name,{name: f.name,id_stats: f.id_stats,um: f.um,pu: "0.0000",pu_invoice: "0.0000",stck: "#{'%.2f' % on_stock.sum(:qu)}"}]
+            a << [f.id,f.name,{name: f.name,id_stats: f.id_stats,um: f.um,pu: "0.0000",pu_invoice: "0.0000",stck: "#{'%.2f' % on_stock.sum(:qu)}"}] if on_stock.sum(:qu) > 0
           end
         end
       end
