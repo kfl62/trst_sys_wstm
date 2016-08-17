@@ -22,8 +22,8 @@
               %tr
                 - td_value_for cb, 'id_date', {tag: {class: 'strip link',value: (cb.id_date.to_s rescue "* #{Date.new(y,m,day).to_s}"), data: {oid: (cb.id rescue 'nil'),id_date: Date.new(y,m,day).to_s}}}
                 - td_value_for cb, 'ib',      {tag: {class: 'strip',value: (cb.ib rescue '-')},td: {class: 'ta-ri'}}
-                - td_value_for cb, 'ins',     {tag: {class: 'strip',value: (cb.lines.sum(:ins) rescue '-')},td: {class: 'ta-ri'}}
-                - td_value_for cb, 'outs',    {tag: {class: 'strip',value: (cb.lines.sum(:outs) rescue '-')},td: {class: 'ta-ri'}}
+                - td_value_for cb, 'ins',     {tag: {class: 'strip',value: (cb.lines.sum(:in) rescue '-')},td: {class: 'ta-ri'}}
+                - td_value_for cb, 'outs',    {tag: {class: 'strip',value: (cb.lines.sum(:out) rescue '-')},td: {class: 'ta-ri'}}
                 - td_value_for cb, 'fb',      {tag: {class: 'strip',value: (cb.fb rescue '-')},td: {class: 'ta-ri'}}
                 - td_value_for cb, 'count',   {tag: {class: 'strip',value: (cb.lines.count rescue '-')},td: {class: 'ta-ri'}}
             %tr.hidden
