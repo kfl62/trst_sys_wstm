@@ -320,7 +320,7 @@ define () ->
           $('span.fa-plus-circle').hide()
           return
         init: ()->
-          @buttons($('button,span.button'))
+          @buttons($('button'))
           @selects($('input[data-mark~=s2],input[data-mark~=repair],select'))
           @inputs($('input'))
           $log 'Wstm.desk.grn.init() OK...'
