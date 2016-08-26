@@ -25,7 +25,7 @@ define () ->
           qu  = v.filter('input[data-val=qu]').val(); qu = if $.isNumeric(qu) then parseFloat(qu).toFixed(2) else '0.00'
           val = (parseFloat(qu) * parseFloat(pu)).toFixed(2)
           _03 = if $fd.p03 then (parseFloat(val) * 0.03).toFixed(2) else '0.00'
-          _16 = (parseFloat(val) * 0.16).toFixed(2)
+          _16 = (parseFloat(val) * 0.0).toFixed(2)
           out = (parseFloat(val) - parseFloat(_03) - parseFloat(_16)).toFixed(2)
           $.extend true,
             $fd,
