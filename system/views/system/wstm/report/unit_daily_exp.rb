@@ -1,4 +1,5 @@
 # encoding: utf-8
+require "prawn/table"
 # Template for Document cumulativ APP.pdf
 
 period     = params[:period].to_i

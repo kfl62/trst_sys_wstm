@@ -1,4 +1,5 @@
 # encoding: utf-8
+require "prawn/table"
 # Template for Sitaţie lunară (Statistică).pdf
 
 def unit_ids

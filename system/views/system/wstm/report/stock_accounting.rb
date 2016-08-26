@@ -1,4 +1,5 @@
 # encoding: utf-8
+require "prawn/table"
 # Template for Sitaţie lunară (Contabilă).pdf
 
 def date_strt
