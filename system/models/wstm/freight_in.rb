@@ -26,9 +26,9 @@ module Wstm
     def p03
       doc_exp.nil? ? 0.0 : freight.p03 ? (val * 0.03).round(2) : 0.0
     end
-    # @todo
+    # p16 changed to 0.0, since 2016.01.01
     def p16
-      doc_exp.nil? ? 0.0 : (val * 0.16).round(2)
+      doc_exp.nil? ? 0.0 : 0.0
     end
     # @todo
     def out
