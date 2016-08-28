@@ -101,9 +101,14 @@
           },
           buttons: function(btns) {
             btns.each(function() {
-              var $bd, $button;
+              var $bd, $button, ref;
               $button = $(this);
               $bd = $button.data();
+              if (Trst.desk.hdo.dialog === 'filter') {
+                if ((ref = $bd.action) === 'create' || ref === 'show' || ref === 'edit' || ref === 'delete') {
+                  $bd.r_path = 'sys/wstm/partner_person/filter';
+                }
+              }
             });
           },
           init: function() {
