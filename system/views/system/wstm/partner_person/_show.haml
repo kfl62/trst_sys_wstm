@@ -3,11 +3,11 @@
   - tr_show_for @object,  'id_pn'
   - tr_show_for @object,  'name_last'
   - tr_show_for @object,  'name_frst'
-  - tr_show_for @object,  'id_doc',  {order: 'type'}
-  - tr_show_for @object,  'id_doc',  {order: 'sr'}
-  - tr_show_for @object,  'id_doc',  {order: 'nr'}
-  - tr_show_for @object,  'id_doc',  {order: 'by'}
-  - tr_show_for @object,  'id_doc',  {order: 'on'}
+  - tr_show_for @object,  'id_doc',  {guess: {order: 'type'}}
+  - tr_show_for @object,  'id_doc',  {guess: {order: 'sr'}}
+  - tr_show_for @object,  'id_doc',  {guess: {order: 'nr'}}
+  - tr_show_for @object,  'id_doc',  {guess: {order: 'by'}}
+  - tr_show_for @object,  'id_doc',  {guess: {order: 'on'}}
   - tr_show_for @object,  'created_at'
   - tr_show_for @object,  'updated_at'
 - if @object.has_address?; o = @object.address
