@@ -1,16 +1,8 @@
-%span#hidden_data{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null"}}
-%article#xhr_info.info
-  %i.fa.fa-info-circle.fa-lg.blue
-  = t('intro.create.main',data: mat(@object,'model_name'))
+- xhr_hidden_data({dialog: "create",oid: "null"})
+- xhr_info('info',t('intro.create.main',@object,'model_name'))
 %form{action: "/sys/#{@path}",method: "post"}
   %table
     %thead
-    = partial "#{@path}/form"
+    = haml :"#{@path}/_form"
     %tfoot
-      %tr
-        %td.buttonset.ta-ce{colspan: "3"}
-          - if params[:id_pn]
-            %button{type: "button",data: {r_path: "/sys/wstm/expenditure/create",action: "save",icon: "fa fa-floppy-o",remove: 'false'}}= t('button.save')
-          - else
-            %button{type: "button",data: {action: "save",icon: "fa fa-floppy-o",remove: 'false'}}= t('button.save')
-          %button{type: "button",data: {action: "cancel",icon: "fa fa-ban"}}= t('button.cancel')
+      - tr_buttonset(['save','cancel'],{td: {class: 'ta-ce'}})

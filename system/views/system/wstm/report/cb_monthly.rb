@@ -1,4 +1,5 @@
 # encoding: utf-8
+require "prawn/table"
 # Template for Registru de casă.pdf
 
 date = params[:date].split('-').map(&:to_i)

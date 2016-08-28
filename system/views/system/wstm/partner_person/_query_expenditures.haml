@@ -68,7 +68,7 @@
                         = app.name.rjust(l,"\u00a0")
     %tbody
       %tr.pdb-05
-        = partial "wstm/partner_person/query_freights", locals: {ta: ta,sa: sa,tc: tc,sc: sc,doc_ary: doc_ary}
+        = haml :"", locals: {ta: ta,sa: sa,tc: tc,sc: sc,doc_ary: doc_ary}
 - else
   %detail.detail
     %i.fa.fa-info-circle.fa-lg.blue

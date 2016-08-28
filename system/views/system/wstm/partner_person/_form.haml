@@ -1,37 +1,37 @@
 %tbody#tabs-1{data: {title: mat(@object,:tab_title)}}
-  - tr_input_for @object, 'id_pn',   {value: params[:id_pn]}
-  - tr_input_for @object, 'name_last'
-  - tr_input_for @object, 'name_frst'
-  - tr_input_for @object, 'id_doc',  {order: 'type'}
-  - tr_input_for @object, 'id_doc',  {order: 'sr'}
-  - tr_input_for @object, 'id_doc',  {order: 'nr'}
-  - tr_input_for @object, 'id_doc',  {order: 'by'}
-  - tr_input_for @object, 'id_doc',  {order: 'on'}
+  - tr_input_for @object, 'id_pn',   {guess: {value: params[:id_pn]}}
+  - tr_input_for @object, 'name_last',{tag: {placeholder: 'Nume'}}
+  - tr_input_for @object, 'name_frst',{tag: {placeholder: 'Prenume'}}
+  - tr_input_for @object, 'id_doc',  {guess: {order: 'type'}}
+  - tr_input_for @object, 'id_doc',  {guess: {order: 'sr'},tag: {placeholder: 'Seria BI'}}
+  - tr_input_for @object, 'id_doc',  {guess: {order: 'nr'},tag: {placeholder: 'Număr BI'}}
+  - tr_input_for @object, 'id_doc',  {guess: {order: 'by'}}
+  - tr_input_for @object, 'id_doc',  {guess: {order: 'on'},tag: {placeholder: '2010-01-01'}}
 - if @object.has_address? ; o = @object.address
   %tbody{id: "tabs-person-adress",data: {title: "#{mat(o,'model_name')} #{o.name}"}}
-    - tr_input_for o,  'name',    {nested: 'partner_person',disabled: true}
-    - tr_input_for o,  'city',    {nested: 'partner_person',style: 'ui-state-default focus'}
-    - tr_input_for o,  'street',  {nested: 'partner_person'}
-    - tr_input_for o,  'nr',      {nested: 'partner_person'}
-    - tr_input_for o,  'bl',      {nested: 'partner_person'}
-    - tr_input_for o,  'sc',      {nested: 'partner_person'}
-    - tr_input_for o,  'ap',      {nested: 'partner_person'}
-    - tr_input_for o,  'state',   {nested: 'partner_person'}
-    - tr_input_for o,  'country', {nested: 'partner_person'}
-    - tr_input_for o,  'zip',     {nested: 'partner_person'}
+    - tr_input_for o,  'name',    {guess: {nested: 'partner_person'},tag: {disabled: true}}
+    - tr_input_for o,  'city',    {guess: {nested: 'partner_person'},tag: {style: 'ui-state-default focus'}}
+    - tr_input_for o,  'street',  {guess: {nested: 'partner_person'}}
+    - tr_input_for o,  'nr',      {guess: {nested: 'partner_person'}}
+    - tr_input_for o,  'bl',      {guess: {nested: 'partner_person'}}
+    - tr_input_for o,  'sc',      {guess: {nested: 'partner_person'}}
+    - tr_input_for o,  'ap',      {guess: {nested: 'partner_person'}}
+    - tr_input_for o,  'state',   {guess: {nested: 'partner_person'}}
+    - tr_input_for o,  'country', {guess: {nested: 'partner_person'}}
+    - tr_input_for o,  'zip',     {guess: {nested: 'partner_person'}}
     %tr
       %td{colspan: '3'}
         %input{type: 'hidden',name: "[#{@path}][address_attributes][id]",value: o.id}
 - else
   - o = @object.build_address
   %tbody{id: "tabs-person-address-new",data: {title: mat(o, 'model_name')}}
-    - tr_input_for o,  'name',    {nested:  'partner_person',disabled: true}
-    - tr_input_for o,  'city',    {nested:  'partner_person',style: 'ui-state-default focus'}
-    - tr_input_for o,  'street',  {nested:  'partner_person'}
-    - tr_input_for o,  'nr',      {nested:  'partner_person'}
-    - tr_input_for o,  'bl',      {nested:  'partner_person'}
-    - tr_input_for o,  'sc',      {nested:  'partner_person'}
-    - tr_input_for o,  'ap',      {nested:  'partner_person'}
-    - tr_input_for o,  'state',   {nested:  'partner_person'}
-    - tr_input_for o,  'country', {nested:  'partner_person'}
-    - tr_input_for o,  'zip',     {nested:  'partner_person'}
+    - tr_input_for o,  'name',    {guess: {nested:  'partner_person'},tag: {disabled: true}}
+    - tr_input_for o,  'city',    {guess: {nested:  'partner_person'},tag: {style: 'ui-state-default focus'}}
+    - tr_input_for o,  'street',  {guess: {nested:  'partner_person'},tag: {placeholder: 'Stradă'}}
+    - tr_input_for o,  'nr',      {guess: {nested:  'partner_person'},tag: {placeholder: 'Număr'}}
+    - tr_input_for o,  'bl',      {guess: {nested:  'partner_person'},tag: {placeholder: 'Bloc'}}
+    - tr_input_for o,  'sc',      {guess: {nested:  'partner_person'},tag: {placeholder: 'Scara'}}
+    - tr_input_for o,  'ap',      {guess: {nested:  'partner_person'},tag: {placeholder: 'Apatament'}}
+    - tr_input_for o,  'state',   {guess: {nested:  'partner_person'},tag: {placeholder: 'Județ'}}
+    - tr_input_for o,  'country', {guess: {nested:  'partner_person'},tag: {placeholder: 'Țară'}}
+    - tr_input_for o,  'zip',     {guess: {nested:  'partner_person'},tag: {placeholder: 'Cod poștal'}}

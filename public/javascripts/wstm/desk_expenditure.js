@@ -13,12 +13,12 @@
               $('tr[data-mark~=related-header], tr[data-mark~=related-total]').removeClass('hidden');
               $('button[data-action=save]').button('option', 'disabled', false);
             }
-            $('span[data-val=nro').text("" + next + ".");
+            $('span[data-val=nro').text(next + ".");
             $('input[data-mark~=related-add]').val('');
             $('select[data-mark~=related-add]').val('null');
           },
           lineNewData: function() {
-            var $fd, $freight, freight_id, ord, out, pu, qu, um, v, val, _03, _16;
+            var $fd, $freight, _03, _16, freight_id, ord, out, pu, qu, um, v, val;
             v = $('[data-mark~=related-add]');
             $freight = v.filter('[data-val=freight]');
             $fd = $freight.find('option:selected').data();
@@ -33,7 +33,7 @@
             qu = $.isNumeric(qu) ? parseFloat(qu).toFixed(2) : '0.00';
             val = (parseFloat(qu) * parseFloat(pu)).toFixed(2);
             _03 = $fd.p03 ? (parseFloat(val) * 0.03).toFixed(2) : '0.00';
-            _16 = (parseFloat(val) * 0.16).toFixed(2);
+            _16 = (parseFloat(val) * 0.0).toFixed(2);
             out = (parseFloat(val) - parseFloat(_03) - parseFloat(_16)).toFixed(2);
             return $.extend(true, $fd, {
               ord: ord,
@@ -90,9 +90,9 @@
             sum_016 = 0;
             sum_out = 0;
             vl.each(function() {
-              var $row, out, val, _03, _16;
+              var $row, _03, _16, out, val;
               $row = $(this);
-              $row.find('span[data-val=ord]').text("" + i + ".");
+              $row.find('span[data-val=ord]').text(i + ".");
               $row.find('input').each(function() {
                 $(this).attr('name', $(this).attr('name').replace(/\d/, i));
               });
@@ -307,11 +307,11 @@
             });
           },
           init: function() {
-            var _ref;
+            var ref;
             this.buttons($('button,span.button'));
             this.selects($('select, input[data-mark~=s2], input[data-mark~=repair]'));
             this.inputs($('input'));
-            this.template = (_ref = $('tr.template')) != null ? _ref.remove() : void 0;
+            this.template = (ref = $('tr.template')) != null ? ref.remove() : void 0;
             this.lineNewReset();
             return $log('Wstm.desk.expenditure.init() OK...');
           }

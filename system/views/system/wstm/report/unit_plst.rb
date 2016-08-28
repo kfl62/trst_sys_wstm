@@ -1,8 +1,8 @@
 # encoding: utf-8
+require "prawn/table"
 # Template for Document cumulativ APP.pdf
 
-period     = params[:period].to_i
-unit_ids   = params[:unit_ids].split(',').map{|id| BSON::ObjectId.from_string(id)}
+unit_ids = params[:unit_ids].split(',').map{|id| BSON::ObjectId.from_string(id)}
 
 def firm
   Wstm::PartnerFirm.find_by(:firm => true)

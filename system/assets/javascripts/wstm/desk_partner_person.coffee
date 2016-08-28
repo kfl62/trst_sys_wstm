@@ -85,6 +85,9 @@ define () ->
           btns.each ()->
             $button = $(@)
             $bd = $button.data()
+            if Trst.desk.hdo.dialog is 'filter'
+              if $bd.action in ['create','show','edit','delete']
+                $bd.r_path = 'sys/wstm/partner_person/filter'
             return
           return
         init: ()->

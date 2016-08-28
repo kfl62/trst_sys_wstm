@@ -1,4 +1,5 @@
 # encoding: utf-8
+require "prawn/table"
 # Template for Wstm::Expenditure#pdf
 
 def firm
@@ -32,7 +33,8 @@ def table_freight_data
   @object.freights.each_with_index do |f,i|
     val = (f.pu * f.qu).round(2)
     p03 = f.freight.p03 ? (val *  3 / 100).round(2) : 0.0
-    p16 = (val * 16 / 100).round(2)
+    # p16 = (val * 16 / 100).round(2)
+    p16 = 0.0
     out = val - (p03 + p16)
     data[i + 1] = [i +1 , freight_name(f.freight.name), f.um, "%.2f" % f.pu, "%.2f" % f.qu, "%.2f" % val, "%.2f" % p03, "%.2f" % p16, "%.2f" % out]
   end unless @object.name == 'EMPTY'
@@ -246,7 +248,8 @@ def box_content_frr(pdf)
       style(row(6), background_color: 'dddddd', align: :center)
     end
     pdf.move_down 5.mm
-    pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_04', val: @object.name == "EMPTY" ? "__________" : @object.name == "EMPTY" ? "______________" : "%.2f" % (frr_freights.sum(:val) - frr_freights.sum(:val)*0.19), name: @object.name == "EMPTY" ? "______________" : @object.name), inline_format: true, align: :justify
+    # pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_04', val: @object.name == "EMPTY" ? "__________" : @object.name == "EMPTY" ? "______________" : "%.2f" % (frr_freights.sum(:val) - frr_freights.sum(:val)*0.19), name: @object.name == "EMPTY" ? "______________" : @object.name), inline_format: true, align: :justify
+    pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_04', val: @object.name == "EMPTY" ? "__________" : @object.name == "EMPTY" ? "______________" : "%.2f" % (frr_freights.sum(:val) - frr_freights.sum(:val)*0.03), name: @object.name == "EMPTY" ? "______________" : @object.name), inline_format: true, align: :justify
     pdf.move_down 3.mm
     pdf.text I18n.t('wstm.intro.pdf.desk_expenditure.text_05'), inline_format: true, align: :justify
     pdf.move_down 3.mm

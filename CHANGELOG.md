@@ -3,6 +3,19 @@
 * estimated release date: **2016-12-31**
 
 
+* **feature v0.3.1.12**
+   - feature date: **2016-08-27**
+   - bump version v0.3.1.12
+   - update CHANGELOG
+   - assets: js, `Wstm.desk.partner_person` cleanup, r_path & [#31]
+   - views: `Wstm::PartnerPerson` CRUD update
+   - views: remove unnecessary files
+   - reports: upgrade prawn, `report.haml` new version"
+   - remove unneeded `desk_report` files
+   - models: `Wstm::FreightIn` update (law changed)
+   - expenditure, update (law changed)
+   - translation typo
+
 * **feature v0.3.1.11**
    - feature date: **2016-08-17**
    - bump version v0.3.1.11

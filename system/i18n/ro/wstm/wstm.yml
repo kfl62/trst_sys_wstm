@@ -322,7 +322,7 @@ ro:
             all: |
               %{firm}%{unit}_NIR-DC-
             plst: |
-              %{firm}%{unit}_ListaPret-
+              %{firm}%{unit}_ListaPret
             stock_stats: |
               %{firm}%{unit}_Luna-
             stock_accounting: |

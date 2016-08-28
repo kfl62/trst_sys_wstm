@@ -1,4 +1,4 @@
-%span#hidden_data{data: {dialog: "query",title_data: "Client",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_partner_person'}}
+- xhr_hidden_data({dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_partner_person'})
 %table
   %thead
     %tr.pdb-05
@@ -7,8 +7,6 @@
   %tbody
     %tr.pdb-05
       %td.query-expenditures-container
-        = partial("#{@path}/query_expenditures")
+        = haml :"wstm/partner_person/_query_expenditures"
   %tfoot
-    %tr
-      %td.buttonset.ta-ce
-        %button{type: 'button', data: {action: "cancel", icon: 'circle-close'}}= t('button.cancel')
+    - tr_buttonset(['cancel'],{td: {class: 'ta-ce'}})
