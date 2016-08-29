@@ -1,18 +1,18 @@
 %tbody#tabs-1{data: {title: mat(@object, :tab_title)}}
-  - tr_input_for @object, 'name',       {order: 0}
-  - tr_input_for @object, 'name',       {order: 1}
-  - tr_input_for @object, 'name',       {order: 2}
-  - tr_input_for @object, 'identities', {order: 'caen'}
-  - tr_input_for @object, 'identities', {order: 'chambcom'}
-  - tr_input_for @object, 'identities', {order: 'fiscal'}
-  - tr_input_for @object, 'identities', {order: 'account'}
-  - tr_input_for @object, 'identities', {order: 'itm'}
-  - tr_input_for @object, 'identities', {order: 'internet'}
-  - tr_input_for @object, 'identities', {order: 'cod'}
-  - tr_input_for @object, 'contact',    {order: 'phone'}
-  - tr_input_for @object, 'contact',    {order: 'fax'}
-  - tr_input_for @object, 'contact',    {order: 'email'}
-  - tr_input_for @object, 'contact',    {order: 'website'}
+  - tr_input_for @object, 'name',       {guess: {order: 0}}
+  - tr_input_for @object, 'name',       {guess: {order: 1}}
+  - tr_input_for @object, 'name',       {guess: {order: 2}}
+  - tr_input_for @object, 'identities', {guess: {order: 'caen'}}
+  - tr_input_for @object, 'identities', {guess: {order: 'chambcom'}}
+  - tr_input_for @object, 'identities', {guess: {order: 'fiscal'}}
+  - tr_input_for @object, 'identities', {guess: {order: 'account'}}
+  - tr_input_for @object, 'identities', {guess: {order: 'itm'}}
+  - tr_input_for @object, 'identities', {guess: {order: 'internet'}}
+  - tr_input_for @object, 'identities', {guess: {order: 'cod'}}
+  - tr_input_for @object, 'contact',    {guess: {order: 'phone'}}
+  - tr_input_for @object, 'contact',    {guess: {order: 'fax'}}
+  - tr_input_for @object, 'contact',    {guess: {order: 'email'}}
+  - tr_input_for @object, 'contact',    {guess: {order: 'website'}}
   %tr
     - td_label_for @object, 'client'
     %td.boolean

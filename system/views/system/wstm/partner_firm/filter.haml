@@ -1,7 +1,5 @@
-%span#hidden_data{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_partner_firm'}}
-%article#xhr_info.info
-  %i.fa.fa-info-circle.fa-lg.blue
-  = t("intro.filter.main",data: mat(@object,'model_name'))
+- xhr_hidden_data({dialog: "filter",oid: "null",js_ext: "desk_partner_firm"})
+- xhr_info('info',t('intro.filter.main',@object,'model_name'))
 %form{action: "/sys/#{@path}",method: "get"}
   %table
     %tbody
@@ -9,5 +7,4 @@
         %td
           %input.select2{type: 'hidden',style: 'width:300px',data: {minlength: '2',ph: '0',search: @path.classify}}
     %tfoot
-      %tr
-        - td_buttonset(['create','show','edit','delete','cancel'],{style: 'ta-ce'})
+      - tr_buttonset(['create','show','edit','delete','cancel'],{td: {class: 'ta-ce'}})

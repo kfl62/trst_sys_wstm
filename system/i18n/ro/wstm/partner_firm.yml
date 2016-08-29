@@ -9,9 +9,11 @@ ro:
         role_admin: Administrator
         role_contactp: Persoană de contact
         role_delegate: Delegat
-      'wstm/partner_firm_unit':
+      'wstm/partner_firm/unit':
+        model_name: Unitatea
         name_0: Nume scurt
         name_1: Nume complet
+        role: Tip
         role_label: Tip unitate
         role_null: Tipul unităţii
         role_dprt: Departament
@@ -22,6 +24,7 @@ ro:
         trn_auth: Autorizaţie trans
         main: Principală?
       'wstm/partner_firm/bank':
+        model_name: Banca
         name: Banca
         name_ph: "00#Banca"
         swift: Cont

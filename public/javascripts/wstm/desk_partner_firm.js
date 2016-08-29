@@ -65,12 +65,12 @@
           },
           buttons: function(btns) {
             btns.each(function() {
-              var $bd, $button, $id;
+              var $bd, $button, $id, ref;
               $button = $(this);
               $bd = $button.data();
               $id = $button.attr('id');
               if ($bd.action === 'print') {
-                return $button.on('click', function() {
+                $button.on('click', function() {
                   var $url;
                   Trst.msgShow(Trst.i18n.msg.report.start);
                   $url = "/sys/wstm/report/print?rb=yearly_stats";
@@ -106,6 +106,12 @@
                   $url = "/sys/wstm/partner_firm/query?" + $params;
                   Trst.desk.init($url);
                 });
+                return;
+              }
+              if (Trst.desk.hdo.dialog === 'filter') {
+                if ((ref = $bd.action) === 'create' || ref === 'show' || ref === 'edit' || ref === 'delete') {
+                  $bd.r_path = 'sys/wstm/partner_firm/filter';
+                }
               }
             });
           },
