@@ -3,6 +3,19 @@
 * estimated release date: **2016-12-31**
 
 
+* **feature v0.3.1.13**
+   - feature date: **2016-08-29**
+   - bump version v0.3.1.13
+   - update CHANGELOG
+   - assets: js, `Wstm.desk.partner_firm` cleanup, r_path & [#31][#31]
+   - i18n: `wstm.partner_firm` missing, typo
+   - views: `Wstm::ParnerFirm` CRUD update
+   - views: `Wstm::ParnerFirm` unneeded delete
+   - views: `Wstm::ParnerFirm::Address` update
+   - views: `Wstm::ParnerFirm::Bank` update
+   - views: `Wstm::ParnerFirm::Person` update
+   - views: `Wstm::ParnerFirm::Unit` update
+
 * **feature v0.3.1.12**
    - feature date: **2016-08-27**
    - bump version v0.3.1.12
