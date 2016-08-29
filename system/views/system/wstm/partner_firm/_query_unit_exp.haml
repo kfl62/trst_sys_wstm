@@ -5,7 +5,7 @@
 %span#hidden_data{data: {dialog: "query",title_data: firm.name[1],model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_partner_firm'}}
 -if uid
   - unless @current_user.unit_id
-    = partial 'wstm/shared/select_unit'
+    = haml :'wstm/shared/_select_unit'
   %p.small
     %span.small Alegeți anul:&nbsp;&nbsp;
     %select.param{name: 'y'}
@@ -50,4 +50,4 @@
           %td{colspan: "3"} *Media lunară: lunile cu intrări
 -else
   %form{action: "/sys/#{@path}", method: "get"}
-    = partial 'wstm/shared/select_unit'
+    = haml :'wstm/shared/_select_unit'
