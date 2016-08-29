@@ -74,6 +74,10 @@ define () ->
                 Trst.desk.init($url)
                 return
               return
+            if Trst.desk.hdo.dialog is 'filter'
+              if $bd.action in ['create','show','edit','delete']
+                $bd.r_path = 'sys/wstm/partner_firm/filter'
+            return
           return
         init: ()->
           @doc_ary = []
