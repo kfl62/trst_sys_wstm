@@ -78,7 +78,13 @@
             - input_for  @object,'doc_date',    {tag: {type: 'hidden',value: 'strip'}}
         %tr.pdb-05
           - td_detail_for 'detail w-50rem ta-ju', t('intro.create.desk_grn.partner_firm',unit: unit.name[1],signed_by: @current_user.name,supplr: supplr.name[2],transp_d: transp_d.name)
-      = haml :"#{@path}/_form", locals: {id_intern: false,unit: unit,freights: freights}
+      %tbody
+        %tr.pdb-05
+          %td.add-line-container
+            = haml :"#{@path}/_doc_add_line"
+        %tr.pdb-05
+          %td
+            = haml :"#{@path}/_form", locals: {id_intern: false,unit: unit,freights: freights}
       %tfoot
-        %tr
-          - td_buttonset(['save','cancel'],{style: 'ta-ce'})
+        - tr_buttonset(['save','cancel'],{td: {class: 'ta-ce'}})
+

@@ -31,68 +31,35 @@
                 - input_for @object, 'sum_100',{tag: {type: 'hidden',value: data.values.sum{|r| r[4]}.round(2)}}
                 - input_for @object, 'sum_out',{tag: {type: 'hidden',value: data.values.sum{|r| r[4]}.round(2)}}
 -else
-  %tbody{id: 'tabs-freights',data: {title: mat(@object,'tabs_freights')}}
-    %tr
-      %td
-        %table.w-100pr
-          %tbody.inner
-            %tr
-              - mat(@object,'table_header').each do |label|
-                %td
-                  %span= label
-            - for i in 0..4 do; o = @object.freights.new
-              %tr
-                %td
-                  %select
-                    %option{value: 'null',data: {id_stats: 'null',um: 'kg',pu: 0,p03: 'null'}} Selectare material
-                    - freights.each do |f|
-                      %option{value: f[0], data: f[2]}= f[1]
-                  - input_for   o, 'id_date',   {guess: {nested: 'doc_grn',index: i},tag: {type: 'hidden',value: 'strip'}}
-                  - input_for   o, 'id_stats',  {guess: {nested: 'doc_grn',index: i},tag: {type: 'hidden',value: 'strip'}}
-                  - input_for   o, 'freight_id',{guess: {nested: 'doc_grn',index: i},tag: {type: 'hidden',value: 'strip'}}
-                %td
-                  - input_for  o, 'um',        {guess: {nested: 'doc_grn',index: i},tag: {disabled: true}}
-                %td
-                  - input_for  o, 'pu',        {guess: {nested: 'doc_grn',index: i}}
-                %td
-                  - input_for  o, 'qu',        {guess: {nested: 'doc_grn',index: i}}
-                %td
-                  %span.val 0.00
-                  - input_for   o,'val',       {guess: {nested: 'doc_grn',index: i},tag: {type: 'hidden'}}
-                %td.ta-ri.w-6rem
-                  %span.p03 0.00
-                %td.ta-ce
-                  %span.fa.fa-minus-circle.red{title: t('button.delete')}
-            %tr.total
-              %td{colspan: '4'}
-                %span Total
-              %td
-                %span.val 0.00
-                - input_for @object, 'sum_100',   {tag: {type: 'hidden'}}
-              %td
-                %span.p03 0.00
-                - input_for @object, 'sum_003',   {tag: {type: 'hidden'}}
-                - input_for @object, 'sum_out',   {tag: {type: 'hidden'}}
-              %td
-                %span.fa.fa-plus-circle{title: t('button.new_row')}
-  %tbody{id: 'tabs-payments',data: {title: mat(@object,'tabs_payments')}}
-    %tr.dn
-      %td
-        %detail.detail
-          %i.fa.fa-info-circle.fa-lg.blue
-          = t('intro.create.desk_grn.pyms_no')
-    %tr.inv.pdb-05
-      %td
-        %detail.detail
-          %i.fa.fa-info-circle.fa-lg.blue
-          = t('intro.create.desk_grn.pyms_ok')
-    %tr.inv.pdb-05
-      %td
-        %span= mat(@object,'deadl')
-        %input.ui-state-default.ta-ce{name: '[wstm/grn][deadl]',value: (Date.today + 30.days).to_s}
-    %tr.inv.pyms
-      %td
-        %input{type: 'hidden',name: '[wstm/grn][pyms][id_date]'}
-        %input{type: 'hidden',name: '[wstm/grn][pyms][id_intern]',value: 'false'}
-        %input.ui-state-default.w-25rem{name: '[wstm/grn][pyms][text]',placeholder: mat(@object,'pyms_text')}
-        %input.ui-state-default.ta-ce{name: '[wstm/grn][pyms][val]',placeholder: mat(@object,'pyms_val')}
+  %table{data: {mark: 'scroll'}}
+    %tbody.inner
+      - o = @object.freights.new
+      %tr.template{data: {mark: 'related'}}
+        %td
+          - value_for   o, 'ord',         {tag: {data: {val: 'ord'},class: 'strip',value: 'Nr.'}}
+          - input_for   o, 'freight_id',  {guess: {nested: 'doc_grn',index: 0},tag: {data: {val: 'freight_id'},type: 'hidden',value: 'strip'}}
+          - input_for   o, 'id_date',     {guess: {nested: 'doc_grn',index: 0},tag: {data: {val: 'id_date'},type: 'hidden',value: 'strip'}}
+          - input_for   o, 'id_stats',    {guess: {nested: 'doc_grn',index: 0},tag: {data: {val: 'id_stats'},type: 'hidden',value: 'strip'}}
+          - input_for   o, 'id_intern',   {guess: {nested: 'doc_grn',index: 0},tag: {data: {val: 'id_intern'},type: 'hidden',value: 'true'}}
+          - input_for   o, 'qu',          {guess: {nested: 'doc_grn',index: 0},tag: {data: {val: 'qu'},type: 'hidden',value: 'strip'}}
+          - input_for   o, 'pu',          {guess: {nested: 'doc_grn',index: 0},tag: {data: {val: 'pu'},type: 'hidden',value: 'strip'}}
+          - input_for   o, 'val',         {guess: {nested: 'doc_grn',index: 0},tag: {data: {val: 'val'},type: 'hidden',value: 'strip'}}
+        - td_value_for  o, 'name',        {tag: {data: {val: 'name'},class: 'strip',value: 'Material'}}
+        - td_value_for  o, 'um',          {tag: {data: {val: 'um'},class: 'strip ta-ce',value: 'strip'}}
+        - td_value_for  o, 'pu',          {tag: {data: {val: 'pu'},class: 'strip ta-ri',value: 'strip'}}
+        - td_value_for  o, 'qu',          {tag: {data: {val: 'qu'},class: 'strip ta-ri',value: 'strip'}}
+        - td_value_for  o, 'val',         {tag: {data: {val: 'val'},class: 'strip ta-ri',value: 'strip'}}
+        - td_value_for  o, '_03',         {tag: {data: {val: '_03'},class: 'strip ta-ri',value: 'strip'}}
+        - td_value_for  o, 'button',      {tag: {class: 'strip button fa fa-minus-circle red pointer',value: 'strip'}}
+
+      - tr_header_for mat(@object,'table_header'),{tr: {data:{mark: 'scroll related-header'}}}
+
+      %tr{data: {mark: 'related-total'}}
+        %td{colspan: 5}
+          - value_for @object, 'total',   {tag: {class: 'strip',value: 'TOTAL'}}
+          - input_for @object, 'sum_100', {tag: {data: {val: 'sum-100'},type: 'hidden',value: 'strip'}}
+          - input_for @object, 'sum_003', {tag: {data: {val: 'sum-003'},type: 'hidden',value: 'strip'}}
+          - input_for @object, 'sum_out', {tag: {data: {val: 'sum-out'},type: 'hidden',value: 'strip'}}
+        - td_value_for @object, 'sum-100',{tag: {data: {val: 'sum-100'},class: 'strip',value: 'strip'}}
+        - td_value_for @object, 'sum-003',{tag: {data: {val: 'sum-003'},class: 'strip',value: 'strip'}}
+        - td_value_for @object, 'button', {tag: {class: 'strip',value: 'strip'}}
