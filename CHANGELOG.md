@@ -2,6 +2,15 @@
 
 * estimated release date: **2016-12-31**
 
+* **feature v0.3.1.14**
+   - feature date: **2016-08-xx**
+   - bump version v0.3.1.14
+   - update CHANGELOG
+   - views: `Wstm::Grn` CRUD update
+   - views: `Wstm::Grn` unneeded delete
+   - assets: js, `Wstm.desk.grn` cleanup, r_path & [#31][#31]
+   - views: `Wstm::DeliveryNote` _doc_add_line, typo
+   - views: `Wstm::Expenditure` create, typo
 
 * **feature v0.3.1.13**
    - feature date: **2016-08-29**
