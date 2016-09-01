@@ -3,7 +3,7 @@
   %table
     %tbody.inner
       %tr
-        - i = @object.id_intern == true ? 4 : -2; mat(@object,'table_header')[0..i].each do |label|
+        - i = @object.id_intern == true ? 5 : -2; mat(@object,'table_header')[1..i].each do |label|
           %td
             %span= label
       - @object.freights.asc(:id_stats).each do |o|

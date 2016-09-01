@@ -1,7 +1,75 @@
+:ruby
+  unit_rcv = @current_user.unit_id || @firm.units.find_by(main: true).id
+  unit_snd = @current_user.unit_id.nil? ? nil : @firm.units.find_by(main: true).id
+  dln_ary  = params[:dln_ary].nil? ? [] : params[:dln_ary].split(',')
+  bckgrnd  = {"afdv" => "#FFBFF0","dpoa" => "#FFBFF0","ca21" => "#DDDDDD","cb25" => "#DDDDDD","sa57" => "#FFFF99","o139" => "#FFFF99","r25b" => "#BFFFBF","rafn" => "#BFFFBF"}
+
 - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_grn'})
 - if params[:id_intern]
   - xhr_info('info',@current_user.admin? ? t('intro.filter.desk_grn.admin',unit: @firm.units.find_by(main: true).name[1]) : t('intro.filter.desk_grn.user',unit: @current_user.unit.name[1],slug: @current_user.unit.slug.downcase))
-  = haml :"#{@path}/_filter_grn_intern"
+  %form{action: "/sys/#{@path}/filter?id_intern=true", method: 'get'}
+    %table
+      %thead
+        %tr.pdb-05
+          %td
+            %select{data: {mark: 'p03'}}
+              - mat(@object,'p03_select').each do |o|
+                %option{value: o[0], selected: o[0] == params[:p03]}= o[1]
+        - if params[:p03]
+          - dlns = Wstm::DeliveryNote.nonin(false).charged(false).by_p03(params[:p03].to_bool).where(:unit_id.ne  => unit_rcv)
+          - dlns = Wstm::DeliveryNote.nonin(false).charged(false).by_p03(params[:p03].to_bool).where(unit_id: unit_snd) if unit_snd
+          - if dlns.empty?
+            %tr.pdb-05
+              -td_detail_for 'detail',t('intro.filter.desk_grn.no_dln')
+          - else
+            %tr.pdb-05
+              %td
+                %span
+                  - dlns.each_with_index do |dln,i|
+                    %label.doc-name-list{style: "background-color: #{bckgrnd[dln.name.split('_')[1].downcase]}",title: "#{dln.freights_list.join("\n")}"}
+                      %input.dln_ary{id:dln.id,type: 'checkbox',checked: dln_ary.include?(dln.id.to_s)}
+                      = dln.doc_name
+            %tr.pdb-05
+              %td
+                %span= t('legend')
+                - @firm.units.asc(:slug).each do |u|
+                  %span{:style => "background-color: #{bckgrnd[u.name[0].downcase]};cursor:pointer", title: "#{u.name[1]}"}= u.name[0]
+      %tbody
+        - unless dln_ary.empty?
+          %tr.pdb-05
+            %td
+              %table.inner
+                %tbody.inner
+                  %tr
+                    - mat(@object,'table_header')[1..5].each do |label|
+                      %td
+                        %span= label
+                  - data = Wstm::DeliveryNote.where(:id.in => dln_ary).sum_freights_grn; data.sort.each do |s|
+                    %tr
+                      - td_value_for s, 'name',   {tag: {class: 'strip',value: s[1][0]}}
+                      - td_value_for s, 'um,',    {tag: {class: 'strip',value: 'kg'}}
+                      - td_value_for s, 'pu,',    {tag: {class: 'strip ta-ri dsp-ib',value: s[1][2]}}
+                      - td_value_for s, 'qu,',    {tag: {class: 'strip ta-ri dsp-ib',value: s[1][3]}}
+                      - td_value_for s, 'val,',   {tag: {class: 'strip ta-ri dsp-ib',value: s[1][4]}}
+                  %tr.result
+                    - td_value_for dlns,'total',  {td: {colspan: 4},tag: {class: 'strip ta-ri dsp-ib st',value: 'TOTAL'}}
+                    - td_value_for dlns,'sum',    {tag: {class: 'strip ta-ri dsp-ib st',value: "%.2f" % data.values.sum{|r| r[4]}}}
+      %tfoot
+        - tr_buttonset(['create','cancel'],{td: {class: 'ta-ce'}, create: {text: t('button.create') + " NIR!"}})
 - else
   - xhr_info('info',t('intro.filter.desk_grn.partner_firm',unit: @current_user.unit_id || @firm.units.find_by(main: true).name[1]))
-  = haml :"#{@path}/_filter_grn"
+  %form{action: "/sys/#{@path}", method: 'get'}
+    %table
+      %tbody
+        %tr
+          %td
+            - input_for @object, 'supplr_id',   {tag: {id: 'supplr_id',  type: 'hidden',name: 'strip', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '2',ph: '0',search: 'Wstm::PartnerFirm'}}}
+            - input_for @object, 'supplr_d_id', {tag: {id: 'supplr_d_id',type: 'hidden',name: 'strip', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '0',ph: '1',search: 'Wstm::PartnerFirmPerson'}}}
+            %button#supplr_d{type: "button", data: {action: "create", icon: "fa fa-plus-square-o"}}=  t('button.create') + " Delegat!"
+        %tr
+          %td
+            - input_for @object, 'transp_id',   {tag: {id: 'transp_id',  type: 'hidden',name: 'strip', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '2',ph: '2',search: 'Wstm::PartnerFirm'}}}
+            - input_for @object, 'transp_d_id', {tag: {id: 'transp_d_id',type: 'hidden',name: 'strip', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '0',ph: '3',search: 'Wstm::PartnerFirmPerson'}}}
+            %button#transp_d{type: "button", data: {action: "create", icon: "fa fa-plus-square-o"}}=  t('button.create') + " Delegat!"
+      %tfoot
+        - tr_buttonset(['create','cancel'],{td: {class: 'ta-ce'}, create: {text: t('button.create') + " NIR!"}})

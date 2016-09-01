@@ -2,27 +2,72 @@ define () ->
   $.extend true,Wstm,
     desk:
       grn:
+        lineNewReset: ()->
+          next = $('tr[data-mark~=related]').not('.hidden').length + 1
+          if next is 1
+            $('tr[data-mark~=related-header], tr[data-mark~=related-total]').addClass 'hidden'
+            $('button[data-action=save]').button 'option', 'disabled', true
+          else
+            $('tr[data-mark~=related-header], tr[data-mark~=related-total]').removeClass 'hidden'
+            $('button[data-action=save]').button 'option', 'disabled', false
+          $('span[data-val=nro').text("#{next}.")
+          $('input[data-mark~=related-add]').val ''
+          $('select[data-mark~=related-add]').val('null')
+          return
+        lineNewData: ()->
+          v = $('[data-mark~=related-add]')
+          $freight = v.filter('[data-val=freight]'); $fd = $freight.find('option:selected').data()
+          ord = $('tr[data-mark~=related]').not('.hidden').length + 1
+          freight_id = $freight.val()
+          um = $fd.um; v.filter('[data-val=um]').val(um)
+          pu = v.filter('input[data-val=pu]').val(); pu = if $.isNumeric(pu) then parseFloat(pu).toFixed(4) else parseFloat($fd.pu).toFixed(4)
+          v.filter('input[data-val=pu]').val(pu)
+          qu  = v.filter('input[data-val=qu]').val(); qu = if $.isNumeric(qu) then parseFloat(qu).toFixed(2) else '0.00'
+          val = (parseFloat(qu) * parseFloat(pu)).toFixed(2)
+          _03 = if ($fd.p03 and $('#supplr_id').data('p03')) then (parseFloat(val) * 0.03).toFixed(2) else '0.00'
+          _16 = (parseFloat(val) * 0.0).toFixed(2)
+          out = (parseFloat(val) - parseFloat(_03) - parseFloat(_16)).toFixed(2)
+          $.extend true,
+            $fd,
+            {ord: ord;freight_id: freight_id;id_date: $('#date_send').val();qu: qu;pu: pu;val: val;_03: _03;_16: _16;out: out}
+        lineInsert: ()->
+          r = @lineNewData()
+          l = @template.clone().removeClass('template')
+          l.find('span,input').each ->
+            e = $(@)
+            if e.data('val')
+              e.text r[e.data('val')]  if e.is('span')
+              e.val  r[e.data('val')]  if (e.is('input') and e.val() is '')
+          $('tr[data-mark~=related-total]').before l if parseFloat(r.qu) > 0
+          @calculate()
+          @lineNewReset()
+          @buttons($('span.button'))
+          return
         calculate: ()->
-          $rows  = $('tr.freight')
-          $total = $('tr.total')
-          tot_val = 0; tot_p03 = 0;
-          $rows.each ()->
-            $tr = $(@)
-            $sd = $tr.find('select').find('option:selected').data()
-            pu  = $tr.find('input[name*="pu"]').decFixed(2)
-            qu  = $tr.find('input[name*="qu"]').decFixed(2)
-            val = (parseFloat(pu.val()) * parseFloat(qu.val())).round(2)
-            p03 = if ($sd.p03 and $('#supplr_id').data('p03')) then (val * 0.03).round(2) else 0
-            tot_val += val; tot_p03 += p03
-            $tr.find('span.val').text(val.toFixed(2))
-            $tr.find('span.p03').text(p03.toFixed(2))
-            $tr.find('input[name*="val"]').val(val.toFixed(2))
+          vl = $('tr[data-mark~=related]').not('.hidden')
+          vt = $('tr[data-mark~=related-total]')
+          i  = 1; sum_100 = 0; sum_003 = 0; sum_016 = 0; sum_out = 0
+          vl.each ()->
+            $row = $(@)
+            $row.find('span[data-val=ord]').text("#{i}.")
+            $row.find('input').each ()->
+              $(@).attr('name',$(@).attr('name').replace(/\d/,i))
+              return
+            val = parseFloat($row.find('span[data-val=val]').text())
+            _03 = parseFloat($row.find('span[data-val=_03]').text())
+            _16 = parseFloat($row.find('span[data-val=_16]').text())
+            out = parseFloat($row.find('span[data-val=out]').text())
+            sum_100 += val; sum_003 += _03; sum_016 += _16; sum_out += out
+            i += 1
             return
-          $total.find('span.val').text(tot_val.toFixed(2))
-          $total.find('span.p03').text(tot_p03.toFixed(2))
-          $total.find('input[name*="sum_100"]').val(tot_val.toFixed(2))
-          $total.find('input[name*="sum_003"]').val(tot_p03.toFixed(2))
-          $total.find('input[name*="sum_out"]').val((tot_val - tot_p03).toFixed(2))
+          vt.find('span[data-val=sum-100]').text(sum_100.toFixed(2))
+          vt.find('span[data-val=sum-003]').text(sum_003.toFixed(2))
+          vt.find('span[data-val=sum-016]').text(sum_016.toFixed(2))
+          vt.find('span[data-val=sum-out]').text(sum_out.toFixed(2))
+          vt.find('input[data-val=sum-100]').val(sum_100.toFixed(2))
+          vt.find('input[data-val=sum-003]').val(sum_003.toFixed(2))
+          vt.find('input[data-val=sum-016]').val(sum_016.toFixed(2))
+          vt.find('input[data-val=sum-out]').val(sum_out.toFixed(2))
           return
         validate:
           filter: ()->
@@ -38,6 +83,11 @@ define () ->
               $('button[data-action="create"]').last().button 'option', 'disabled', true
             return
           create: ()->
+            $('input[data-mark~=related-add][data-val=pu]').val($('select[data-mark~=related-add][data-val=freight] option:selected').data('pu'))
+            $('input[data-mark~=related-add][data-val=qu]').val('0.00')
+            if $('span[data-val=nro]').text() isnt '1.'
+              $('button[data-action="save"]').button 'option', 'disabled', false
+            true
             if $('input#transp_d_id').length
               $transp_d = $('input#transp_d_id')
               if $transp_d.select2('val') is '' or $transp_d.select2('val') is 'new'
@@ -49,13 +99,6 @@ define () ->
                 $('button[data-action="save"]').button 'option', 'disabled', false
                 $('span.fa-plus-circle').show()
                 return true
-            return
-          pyms: ()->
-            if $('select.doc_type')?.val() isnt 'INV'
-              $('tr.inv').remove()
-            else
-              if $('input[name*="\[pyms\]\[val\]"]').val() is ''
-                $('tr.inv.pyms').remove()
             return
         selectedDeliveryNotes: ()->
           @dln_ary = []
@@ -99,46 +142,7 @@ define () ->
                 $url += "&p03=#{$select.val()}" unless $select.val() is 'null'
                 Trst.desk.init($url)
                 return
-            if $select.hasClass 'wstm'
-              if $select.hasClass 'doc_type'
-                $('tr.inv').hide()
-                $select.on 'change', ()->
-                  if $select.val() is 'DN' then $('input[name*="charged"]').val('false') else $('input[name*="charged"]').val('true')
-                  $('input[name*="doc_date"]').val($('#date_send').val())
-                  if $select.val() is 'INV'
-                    $('tr.dn').hide()
-                    $('tr.inv').show()
-                    $('input[name*="deadl"]').val($('#date_send').val())
-                    $('input[name*="\[pyms\]\[id_date\]"]').val($('#date_send').val())
-                  else
-                    $('tr.dn').show()
-                    $('tr.inv').hide()
-                  $select.next().focus()
-                  return
-              if $select.hasClass 'freight'
-                $select.on 'change', ()->
-                  if Wstm.desk.grn.validate.create()
-                    Wstm.desk.tmp.set('newRow',$('tr.freight').last())
-                    $sod = $select.find('option:selected').data()
-                    $inp = $select.parentsUntil('tbody').last().find('input')
-                    $inp.filter('[name*="freight_id"]').val($select.val())
-                    $inp.filter('[name*="id_date"]').val($('#date_send').val())
-                    $inp.filter('[name*="id_stats"]').val($sod.id_stats)
-                    $inp.filter('[name*="um"]').val($sod.um)
-                    pu = $inp.filter('[name*="pu"]').val($sod.pu).decFixed(2)
-                    qu = $inp.filter('[name*="qu"]').val('0.00')
-                    pu.on 'change', ()->
-                      Wstm.desk.grn.calculate()
-                    qu.on 'change', ()->
-                      Wstm.desk.grn.calculate()
-                    Wstm.desk.grn.calculate()
-                    qu.focus().select()
-                  else
-                    alert Trst.i18n.msg.grn_not_complete
-                    $select.val('null')
-                    $('button[data-action="save"]').button 'option', 'disabled', true
-                  return
-            else if $select.data().mark is 's2'
+            if $select.data().mark is 's2'
               if $id in ['supplr_id','transp_id']
                 $ph = Trst.i18n.select[Trst.desk.hdo.js_ext][$sd.ph]
                 $select.select2
@@ -258,6 +262,14 @@ define () ->
                   Trst.desk.closeDesk(false)
                   Trst.desk.init($url)
                 return
+            if $sd.val is 'freight'
+              $select.on 'change', ()->
+                if Wstm.desk.grn.validate.create()
+                  Wstm.desk.grn.lineNewData()
+                  $('input[data-mark~=related-add][data-val=qu]').focus().select()
+                else
+                  $select.val('null')
+                return
           return
         buttons: (btns)->
           btns.each ()->
@@ -277,18 +289,7 @@ define () ->
                   $url += "&dln_ary=#{Wstm.desk.grn.dln_ary}"
                   $bd.url = $url
                   $button.button 'option', 'disabled', false
-            else if Trst.desk.hdo.dialog is 'create'
-              if $id is 'transp_d'
-                $button.hide()
-              if $bd.action is 'save'
-                $button.button 'option', 'disabled', true
-                $button.data('remove',false)
-                $button.off 'click', Trst.desk.buttons.action.save
-                $button.on  'click', Wstm.desk.grn.calculate
-                $button.on  'click', Wstm.desk.grn.validate.pyms
-                $button.on  'click', Trst.desk.buttons.action.save
-                $log 'Wstm::Grn save...'
-            else if Trst.desk.hdo.dialog is 'show'
+            if Trst.desk.hdo.dialog is 'show'
               if $bd.action is 'print'
                 $button.on 'click', ()->
                   Trst.msgShow Trst.i18n.msg.report.start
@@ -300,28 +301,30 @@ define () ->
                       Trst.desk.downloadError Trst.desk.hdo.model_name
                   return
                 return
-            else
-              ###
-              Buttons default handler Trst.desk.buttons
-              ###
-          $('tbody').on 'click','span.fa-minus-circle', ()->
-            $button = $(@)
-            $button.parentsUntil('tbody').last().remove()
-            Wstm.desk.grn.calculate()
-            return
-          $('span.fa-plus-circle').on 'click', ()->
-            $('tr.total').before(Wstm.desk.tmp.newRow.clone())
-            $('tr.freight').last().find('input').each ()->
-              $(@).attr('name',$(@).attr('name').replace(/\d/,$('tr.freight').length - 1))
+            if $button.hasClass('fa-refresh')
+              $button.off 'click'
+              $button.on 'click', ()->
+                Wstm.desk.grn.lineNewReset()
+                return
+            if $button.hasClass('fa-plus-circle')
+              $button.off 'click'
+              $button.on 'click', ()->
+                Wstm.desk.grn.lineInsert()
+                return
+            if $button.hasClass('fa-minus-circle')
+              $button.off 'click'
+              $button.on 'click', ()->
+                $button.parentsUntil('tbody').last().remove()
+                Wstm.desk.grn.calculate()
+                Wstm.desk.grn.lineNewReset()
+                return
               return
-            Wstm.desk.grn.selects($('tr.freight').last().find('select'))
-            Wstm.desk.grn.calculate()
-            return
-          $('span.fa-plus-circle').hide()
           return
         init: ()->
           @buttons($('button,span.button'))
           @selects($('input[data-mark~=s2],input[data-mark~=repair],select'))
           @inputs($('input'))
+          @template = $('tr.template')?.remove()
+          @lineNewReset()
           $log 'Wstm.desk.grn.init() OK...'
   Wstm.desk.grn
