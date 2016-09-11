@@ -2,8 +2,18 @@
 
 * estimated release date: **2016-12-31**
 
+* **feature v0.3.1.15**
+   - feature date: **2016-09-11**
+   - bump version v0.3.1.14
+   - update CHANGELOG
+   - assets: js, `desk_partner_firm`, adapt ...
+   - reworked `_query_supplr_grn.haml`
+   - ad new method to `_select_params`, `stats_supplr`
+   - rename `_query_supplier_grn` to `_query_supplr_grn`
+   - delete temp. files
+
 * **feature v0.3.1.14**
-   - feature date: **2016-08-xx**
+   - feature date: **2016-09-01**
    - bump version v0.3.1.14
    - update CHANGELOG
    - views: `Wstm::Grn` CRUD update
