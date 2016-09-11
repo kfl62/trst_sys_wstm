@@ -4,7 +4,7 @@
   m   = params[:m].nil? ? today.month : params[:m].to_i
 - if params[:client]
   = haml :"#{@path}/_query_client_dln", locals: {y: y, m: m}
-- elsif params[:supplier]
-  = haml :"#{@path}/_query_supplier_grn", locals: {y: y, m: m}
+- elsif params[:supplr]
+  = haml :"#{@path}/_query_supplr_grn", locals: {y: y, m: m}
 - else
   = haml :"#{@path}/_query_unit_exp", locals: {y: y}
