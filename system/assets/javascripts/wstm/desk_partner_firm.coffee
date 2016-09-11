@@ -5,8 +5,8 @@ define () ->
         updateDocAry: (inpts)->
           inpts.filter(':checked').each ()->
             Wstm.desk.partner_firm.doc_ary.push(@id)
-          inpts.filter('.param').val(@doc_ary)
-          $params = jQuery.param($('.param').serializeArray())
+          inpts.filter('[data-mark="param doc_ary"]').val(@doc_ary)
+          $params = jQuery.param($('[data-mark~="param"]').serializeArray())
           $url = "/sys/wstm/partner_firm/query?#{$params}"
           Trst.desk.init($url)
           return
@@ -38,8 +38,8 @@ define () ->
                 return
             else
               $select.on 'change', ()->
-                $('.param.doc_ary').val('') if $(@).hasClass('firm')
-                $params = jQuery.param($('.param').serializeArray())
+                $('[data-mark~="doc_ary"]').val('') # if $(@).hasClass('firm')
+                $params = jQuery.param($('[data-mark~="param"]').serializeArray())
                 $url = "/sys/wstm/partner_firm/query?#{$params}"
                 Trst.desk.init($url)
           return
@@ -61,15 +61,15 @@ define () ->
                     Trst.msgHide()
                     Trst.desk.downloadError Trst.desk.hdo.model_name
                 false
-            else if $bd.action is 'toggle_checkbox'
+            if $bd.action is 'toggle_checkbox'
               $button.on 'click', ()->
-                if $('input.param.doc_ary').val().split(',')[0] is "" or $('input.param.doc_ary').val().split(',').length < $('input:checkbox').length
+                if $('input[data-mark="param doc_ary"]').val().split(',')[0] is "" or $('input[data-mark="param doc_ary"]').val().split(',').length < $('input:checkbox').length
                   $('input:checkbox').each ()->
                     Wstm.desk.partner_firm.doc_ary.push(@id)
                 else
                   Wstm.desk.partner_firm.doc_ary = []
-                $('input.param.doc_ary').val(Wstm.desk.partner_firm.doc_ary)
-                $params = jQuery.param($('.param').serializeArray())
+                $('input[data-mark="param doc_ary"]').val(Wstm.desk.partner_firm.doc_ary)
+                $params = jQuery.param($('[data-mark~="param"]').serializeArray())
                 $url = "/sys/wstm/partner_firm/query?#{$params}"
                 Trst.desk.init($url)
                 return
@@ -81,8 +81,8 @@ define () ->
           return
         init: ()->
           @doc_ary = []
-          Wstm.desk.partner_firm.buttons($('button'))
-          Wstm.desk.partner_firm.selects($('select.param,input.select2'))
-          Wstm.desk.partner_firm.inputs($('input.doc_ary'))
+          @buttons $('button')
+          @selects $('select[data-mark~="param"],input.select2')
+          @inputs  $('input[data-mark~="doc_ary"]')
           $log 'Wstm.desk.partner_firm.init() OK...'
   Wstm.desk.partner_firm
