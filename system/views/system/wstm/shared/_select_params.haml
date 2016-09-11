@@ -1,6 +1,7 @@
 :ruby
-  daily, firm, freight, p03 = locals[:daily], locals[:firm], locals[:freight], locals[:p03]
-  uid = @current_user.unit_id || params[:uid]
+  daily,firm,freight,p03,stats_supplr = locals[:daily],locals[:firm],locals[:freight],locals[:p03],locals[:stats_supplr]
+  uid    = @current_user.unit_id || params[:uid]
+  supplr = params[:supplr].nil? ? nil : Wstm::PartnerFirm.find(params[:supplr])
   y = params[:p_y].nil? ? @today.year  : params[:p_y].to_i
   m = params[:p_m].nil? ? @today.month : params[:p_m].to_i
   d = params[:p_d].nil? ? 0            : params[:p_d].to_i
@@ -37,3 +38,20 @@
           %select{data: {mark: 'param'},name:'p03'}
             - mat(@object,'p03_select')[p03].each do |o|
               %option{value: o[0], selected: o[0] == params[:p03]}= o[1]
+        - if stats_supplr
+          %select{data: {mark: 'param'},name: 'supplr'}
+            %option{value: 0}= 'Alegeți furnizorul!'
+            - if m == 0
+              - if
+                - Wstm::PartnerFirm.asc(:name).find(Wstm::Grn.monthly(y,m).nonin.by_p03(params[:p03]).pluck(:supplr_id).uniq).each do |f|
+                  %option{value: f.id, selected: supplr.try(:id) == f.id}= f.name[0]
+              - else
+                - Wstm::PartnerFirm.asc(:name).find(Wstm::Grn.yearly(y).nonin.pluck(:supplr_id).uniq).each do |f|
+                  %option{value: f.id, selected: supplr.try(:id) == f.id}= f.name[0]
+            - else
+              - if p03
+                - Wstm::PartnerFirm.asc(:name).find(Wstm::Grn.monthly(y,m).nonin.by_p03(params[:p03]).pluck(:supplr_id).uniq).each do |f|
+                  %option{value: f.id, selected: supplr.try(:id) == f.id}= f.name[0]
+              - else
+                - Wstm::PartnerFirm.asc(:name).find(Wstm::Grn.monthly(y,m).nonin.pluck(:supplr_id).uniq).each do |f|
+                  %option{value: f.id, selected: supplr.try(:id) == f.id}= f.name[0]
