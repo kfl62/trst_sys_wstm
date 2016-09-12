@@ -2,9 +2,17 @@
 
 * estimated release date: **2016-12-31**
 
+* **feature v0.3.1.16**
+   - feature date: **2016-09-12**
+   - bump version v0.3.1.16
+   - update CHANGELOG
+   - views: `_query_client_dln` rework, ...
+   - views: `_query_supplr_grn` forgotten styling :
+   - views: shared `_select_params` new method `stats_client`
+
 * **feature v0.3.1.15**
    - feature date: **2016-09-11**
-   - bump version v0.3.1.14
+   - bump version v0.3.1.15
    - update CHANGELOG
    - assets: js, `desk_partner_firm`, adapt ...
    - reworked `_query_supplr_grn.haml`

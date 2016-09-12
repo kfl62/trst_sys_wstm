@@ -20,7 +20,7 @@
         %td
           %span
             - l = grns.pluck(:doc_name).max_by(&:length).length; grns.each_with_index do |grn,i|
-              %label{style: "background-color:#{grn.charged? ? '#e6e6e6' : '#ff9999'}; min-width: #{l}rem", title: "#{grn.freights_list.join("\n")}"}
+              %label{class: 'doc-name-list',style: "background-color:#{grn.charged? ? '#e6e6e6' : '#ff9999'}; min-width: #{l}rem", title: "#{grn.freights_list.join("\n")}"}
                 %input{id:grn.id,type: 'checkbox',checked: doc_ary.include?(grn.id.to_s),data: {mark: 'doc_ary'}}
                 = grn.doc_name.rjust(l,"\u00a0")
     %tbody
