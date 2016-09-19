@@ -37,7 +37,7 @@ define () ->
                 Trst.desk.hdo.oid = if $select.select2('val') is '' then null else $select.select2('val')
                 return
             else
-              $select.on 'change', ()->
+              $select.on 'click', ()->
                 $('[data-mark~="doc_ary"]').val('') # if $(@).hasClass('firm')
                 $params = jQuery.param($('[data-mark~="param"]').serializeArray())
                 $url = "/sys/wstm/partner_firm/query?#{$params}"

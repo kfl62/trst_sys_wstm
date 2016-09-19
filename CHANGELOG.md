@@ -2,6 +2,17 @@
 
 * estimated release date: **2016-12-31**
 
+* **feature v0.3.1.17**
+   - feature date: **2016-09-19**
+   - bump version v0.3.1.17
+   - update CHANGELOG
+   - assets: js, `Wstm.desk.invoice` started rewriting
+   - i18n: `Wstm::Invoice` minor changes
+   - views: `Wstm::Freight` CRUD [#30][#30]]
+   - views: shared `_select_params` new methods `inv_client`, `inv_supplr`
+   - views: `_query_supplr_grn`, `_query_client_dln` minor changes
+   - assets: js, `desk_partner_firm`, change <-> click event
+
 * **feature v0.3.1.16**
    - feature date: **2016-09-12**
    - bump version v0.3.1.16

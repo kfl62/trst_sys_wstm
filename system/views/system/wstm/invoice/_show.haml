@@ -58,6 +58,4 @@
   %tbody
     %tr.pdb-05
       %td
-        %detail.warning
-          %i.fa.fa-fa-exclamation-triangle.fa-lg
-          = t('msg.no_freight_selected')
+        - td_detail_for 'warning w-45rem',t('msg.no_freight_selected'),'info'

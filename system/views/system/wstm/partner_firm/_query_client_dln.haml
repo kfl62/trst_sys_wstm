@@ -17,7 +17,7 @@
           %span= client.name[2] + ' ( ' + dlns.count.to_s + ' )'
           %button{type: 'button',data: {action: "toggle_checkbox", icon: 'fa fa-check-circle'}}= 'Toate'
       %tr{class: 'pdb-05'}
-        %td{style: "text-align: center"}
+        %td
           %span
             - l = dlns.pluck(:doc_name).max_by(&:length).length; dlns.each_with_index do |dln,i|
               %label{class: 'doc-name-list',style: "background-color:#{dln.charged? ? '#e6e6e6' : '#ff9999'}; min-width: #{l}rem",title: "#{dln.freights_list.join("\n")}"}
@@ -27,8 +27,8 @@
       - unless doc_ary.empty?
         %tr
           %td
-            %table.inner.w-80pr
-              %tbody.inner
+            %table{class: 'w-80pr'}
+              %tbody{class: 'inner'}
                 - tr_header_for mat(@object,'table_header_inv')
                 - data = dlns.where(:id.in => doc_ary).sum_freights_inv; data.sort.each do |s|
                   %tr
