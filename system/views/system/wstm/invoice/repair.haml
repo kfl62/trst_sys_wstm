@@ -4,10 +4,8 @@
     %thead
       - if @current_user.unit_id
         %tr.pdb-05
+          - td_detail_for 'detail w-40rem ta-ju',t('intro.repair.desk_invoice')
           %td
-            %detail.detail
-              %i.fa.fa-info-circle.fa-lg.blue
-              = t('intro.repair.desk_invoice')
             %input#date_send{type: 'hidden', value: Date.today.to_s}
       - else
         %tr.pdb-05
@@ -19,6 +17,5 @@
       %tr.pdb-05
         %td
           %input.repair{type: 'hidden',style: 'width:410px',data: {search: 'Wstm::Invoice',ph: '2'}}
-    %tfoot
-      %tr
-        - td_buttonset(['cancel'],{style: 'ta-ce'})
+    %tfoot{class: 'ta-ce'}
+      - tr_buttonset ['cancel']

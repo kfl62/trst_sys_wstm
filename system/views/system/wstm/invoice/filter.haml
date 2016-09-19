@@ -1,153 +1,103 @@
-:ruby
-  firm    = Wstm::PartnerFirm.find_by(firm: true)
-  today   = Date.today
-  y       = params[:p_y].nil? ? today.year  : params[:p_y].to_i
-  m       = params[:p_m].nil? ? today.month : params[:p_m].to_i
-  dln_ary = params[:dln_ary] == 'true' ? [] : params[:dln_ary].split(',') if params[:dln_ary]
-  grn_ary = params[:grn_ary] == 'true' ? [] : params[:grn_ary].split(',') if params[:grn_ary]
-  bckgrnd = {"afdv" => "#FFBFF0","dpoa" => "#FFBFF0","ca21" => "#DDDDDD","cb25" => "#DDDDDD","sa57" => "#FFFF99","o139" => "#FFFF99","r25b" => "#BFFFBF","rafn" => "#BFFFBF"}
 - if params[:grn_ary]
-  %span#hidden_data{data: {dialog: "filter",title_data: mat(@object,'model_name_grn'),model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_invoice'}}
-  %article#xhr_info.info
-    %i.fa.fa-info-circle.fa-lg.blue
-    = t('intro.filter.desk_invoice.grn')
+  :ruby
+    y       = params[:p_y].nil? ? @today.year  : params[:p_y].to_i
+    m       = params[:p_m].nil? ? @today.month : params[:p_m].to_i
+    supplr  = Wstm::PartnerFirm.find(params[:supplr]) if params[:supplr]
+    grns  = supplr.try(:grns_supplr)
+    grns  = (m == 0 ? grns.yearly(y).charged(false).where(doc_type: 'DN') : grns.monthly(y,m).charged(false).where(doc_type: 'DN')) if grns
+    grns  = (params[:p03] == 'null' ? grns : grns.by_p03(params[:p03])) if grns
+    doc_ary = params[:doc_ary].try(:split, ',')
+    grn_ary = doc_ary
+  - xhr_hidden_data({dialog: 'filter',title_data: mat(@object,'model_name_grn'),oid: 'null',js_ext: 'desk_invoice'})
+  - xhr_info('info',t('intro.filter.desk_invoice.grn'))
+  = haml :'wstm/shared/_select_params', locals: {p03: (0..3),inv_supplr: true}
   %form{action: "/sys/#{@path}", method: 'get'}
-    %table
+  %input{type: 'hidden',name: 'doc_ary', value: params[:doc_ary],data: {mark: 'param doc_ary'}}
+  - unless grns.try(:count) == 0 || grns.try(:count).nil?
+    %table{class: 'w-100pr'}
       %thead
-        = partial 'wstm/shared/select_params', locals: {colspan: '5', p03: (0..3)}
-        %tr.pdb-05
+        %tr{class: 'pdb-05'}
           %td
-            %input#supplr_id.param.select2{name: 'supplr_id', type: 'hidden', style: 'width:200px', data: {minlength: '2',ph: '3',search: 'Wstm::PartnerFirm'}}
-            %input#supplr_d_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: '0',ph: '1',search: 'Wstm::PartnerFirm'}}
-            %button#supplr_d{type: "button", data: {action: "create", icon: "fa fa-plus-square-o"}}=  t('button.create') + " Delegat!"
-        - if params[:p03] && params[:supplr_id]
-          - if params[:p03] == 'mixt'
-            - grns = Wstm::Grn.monthly(y,m).charged(false).where(supplr_id: params[:supplr_id],doc_type: 'DN').asc(:doc_name)
-          - else
-            - grns = Wstm::Grn.monthly(y,m).charged(false).by_p03(params[:p03].to_bool).where(supplr_id: params[:supplr_id],doc_type: 'DN').asc(:doc_name)
-          - if grns.empty?
-            %tr.grns
-              %td
-                %detail.detail
-                  %i.fa.fa-info-circle.fa-lg.blue
-                  = t('intro.filter.desk_invoice.no_grn')
-          - else
-            %tr.grns.pdb-05
-              %td
-                %span
-                  - grns.each_with_index do |grn,i|
-                    %label.doc-name-list{style: "background-color: #e6e6e6",title: "#{grn.freights_list.join("\n")}"}
-                      %input.grn_ary{id:grn.id,type: 'checkbox',checked: grn_ary.include?(grn.id.to_s)}
-                      = grn.doc_name
-            %tr.grns.pdb-05
-              %td
-                %span= t('intro.filter.desk_invoice.hover')
-        %tbody
-          - unless grn_ary.empty?
-            %tr.grns
-              %td
-                %table.inner
-                  %tbody.inner
+            %span= supplr.name[2] + ' ( ' + grns.count.to_s + ' )'
+            %button{type: 'button',data: {action: "toggle_checkbox", icon: 'fa fa-check-circle'}}= 'Toate'
+        %tr{class: 'pdb-05'}
+          %td
+            %span
+              - l = grns.pluck(:doc_name).max_by(&:length).length; grns.each_with_index do |grn,i|
+                %label{class: 'doc-name-list',style: "background-color:#{grn.charged? ? '#e6e6e6' : '#ff9999'};min-width: #{l}rem",title: "#{grn.freights_list.join("\n")}"}
+                  %input{id:grn.id,type: 'checkbox',checked: doc_ary.include?(grn.id.to_s),data: {mark: 'doc_ary'}}
+                  = grn.doc_name.rjust(l,"\u00a0")
+      %tbody
+        - unless doc_ary.empty?
+          %tr
+            %td
+              %table{class: 'w-80pr'}
+                %tbody{class: 'inner'}
+                  - tr_header_for mat(@object,'table_header_grn')
+                  - data = grns.where(:id.in => doc_ary).sum_freights_grn; data.sort.each do |s|
                     %tr
-                      - mat(@object,'table_header_grn').each do |label|
-                        %td
-                          %span= label
-                    - data = Wstm::Grn.where(:id.in => grn_ary).sum_freights_grn; data.sort.each do |s|
-                      %tr
-                        %td
-                          %span.stats= s[1][0]
-                        %td.ta-ce.w-4rem
-                          %span.um kg
-                        %td.ta-ri.w-8rem
-                          %span.pu= "%.2f" % s[1][2]
-                        %td.ta-ri.w-8rem
-                          %span.qu= "%.2f" % s[1][3]
-                        %td.ta-ri.w-8rem
-                          %span.val= "%.2f" % s[1][4]
-                    %tr.result
-                      %td{:colspan => "3"}
-                        %span Total
-                      %td
-                        %span= "%.2f" % data.values.sum{|r| r[3]}
-                      %td
-                        %span= "%.2f" % data.values.sum{|r| r[4]}
-      %tfoot
-        %tr
-          - td_buttonset(['create','cancel'],{style: 'ta-ce', create: {text: t('button.create') + " Facură!"}})
+                      - td_value_for s, 'xxx',   {tag: {class: 'strip',value: s[1][0]}}
+                      - td_value_for s, 'xxx',   {tag: {class: 'strip',value: 'kg'}}
+                      - td_value_for s, 'xxx',   {tag: {class: 'strip ta-ri dsp-ib',value: s[1][2]}}
+                      - td_value_for s, 'xxx',   {tag: {class: 'strip ta-ri dsp-ib',value: s[1][3]}}
+                      - td_value_for s, 'xxx',   {tag: {class: 'strip ta-ri dsp-ib',value: s[1][4]}}
+                  %tr.result
+                    - td_value_for @object,'xxx',  {td: {colspan: 3},tag: {class: 'strip ta-ce dsp-ib st',value: 'Total'}}
+                    - td_value_for @object,'xxx',  {tag: {class: 'strip ta-ri dsp-ib st',value: "%.2f" % data.values.sum{|r| r[3]}}}
+                    - td_value_for @object,'xxx',  {tag: {class: 'strip ta-ri dsp-ib st',value: "%.2f" % data.values.sum{|r| r[4]}}}
+      %tfoot{class: 'ta-ce'}
+        - tr_buttonset ['create','cancel'], {tr: {class: 'ta-ce'}, create: {text: t('button.create') + " Factură!"}}
 - elsif params[:dln_ary]
-  %span#hidden_data{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_invoice'}}
-  %article#xhr_info.info
-    %i.fa.fa-info-circle.fa-lg.blue
-    = t('intro.filter.desk_invoice.main')
+  :ruby
+    y       = params[:p_y].nil? ? @today.year  : params[:p_y].to_i
+    m       = params[:p_m].nil? ? @today.month : params[:p_m].to_i
+    client  = Wstm::PartnerFirm.find(params[:client]) if params[:client]
+    dlns  = client.try(:dlns_client)
+    dlns  = (m == 0 ? dlns.yearly(y).charged(false) : dlns.monthly(y,m).charged(false)) if dlns
+    dlns  = (params[:p03] == nil ? dlns : dlns.by_p03(params[:p03])) if dlns
+    doc_ary = params[:doc_ary].try(:split, ',')
+  - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_invoice'})
+  - xhr_info('info',t('intro.filter.desk_invoice.main'))
+  = haml :'wstm/shared/_select_params', locals: {p03: (0..3),inv_client: true}
   %form{action: "/sys/#{@path}", method: 'get'}
-    %table
+  %input{type: 'hidden',name: 'doc_ary', value: params[:doc_ary],data: {mark: 'param doc_ary'}}
+  - unless dlns.try(:count) == 0 || dlns.try(:count).nil?
+    %table{class: 'w-100pr'}
       %thead
-        = partial 'wstm/shared/select_params', locals: {colspan: '5', p03: (0..2)}
-        %tr.pdb-05
+        %tr{class: 'pdb-05'}
           %td
-            %input#client_id.param.select2{name: 'client_id',type: 'hidden', style: 'width:200px', data: {minlength: '2',ph: '0',search: 'Wstm::PartnerFirm'}}
-            %input#client_d_id.select2{type: 'hidden', style: 'width:200px', data: {minlength: '0',ph: '1',search: 'Wstm::PartnerFirm'}}
-            %button#client_d{type: "button", data: {action: "create", icon: "fa fa-plus-square-o"}}=  t('button.create') + " Delegat!"
-        - if params[:p03] && params[:client_id]
-          - dlns = Wstm::DeliveryNote.monthly(y,m).charged(false).by_p03(params[:p03].to_bool).where(:client_id  => params[:client_id])
-          - if dlns.empty?
-            %tr.dlns.pdb-05
-              %td
-                %detail.detail
-                  %i.fa.fa-info-circle.fa-lg.blue
-                  = t('intro.filter.desk_invoice.no_dln')
-          - else
-            %tr.dlns.pdb-05
-              %td
-                %span
-                  - dlns.each_with_index do |dln,i|
-                    %label.doc-name-list{style: "background-color: #{bckgrnd[dln.name.split('_')[1].downcase]}",title: "#{dln.freights_list.join("\n")}"}
-                      %input.dln_ary{id:dln.id,type: 'checkbox',checked: dln_ary.include?(dln.id.to_s)}
-                      = dln.doc_name
-            %tr.dlns.pdb-05
-              %td
-                %span= t('intro.filter.desk_invoice.legend')
-                - firm.units.asc(:slug).each do |u|
-                  %span.small{style: "background-color: #{bckgrnd[u.name[0].downcase]}",title: "#{u.name[1]}"}= u.name[0]
-                %br
-                %span= t('intro.filter.desk_invoice.hover')
-        %tbody
-          - unless dln_ary.empty?
-            %tr.dlns
-              %td
-                %table.inner
-                  %tbody.inner
+            %span= client.name[2] + ' ( ' + dlns.count.to_s + ' )'
+            %button{type: 'button',data: {action: "toggle_checkbox", icon: 'fa fa-check-circle'}}= 'Toate'
+        %tr{class: 'pdb-05'}
+          %td
+            %span
+              - l = dlns.pluck(:doc_name).max_by(&:length).length; dlns.each_with_index do |dln,i|
+                %label{class: 'doc-name-list',style: "background-color:#{dln.charged? ? '#e6e6e6' : '#ff9999'};min-width: #{l}rem",title: "#{dln.freights_list.join("\n")}"}
+                  %input{id:dln.id,type: 'checkbox',checked: doc_ary.include?(dln.id.to_s),data: {mark: 'doc_ary'}}
+                  = dln.doc_name.rjust(l,"\u00a0")
+      %tbody
+        - unless doc_ary.empty?
+          %tr
+            %td
+              %table{class: 'w-80pr'}
+                %tbody{class: 'inner'}
+                  - tr_header_for mat(@object,'table_header')
+                  - data = dlns.where(:id.in => doc_ary).sum_freights_inv; data.sort.each do |s|
                     %tr
-                      - mat(@object,'table_header').each do |label|
-                        %td
-                          %span= label
-                    - data = Wstm::DeliveryNote.where(:id.in => dln_ary).sum_freights_inv; data.sort.each do |s|
-                      %tr
-                        %td
-                          %span= s[1][0]
-                        %td.ta-ce.w-4rem
-                          %span kg
-                        %td.ta-ri.w-8rem
-                          %span= "%.2f" % s[1][2]
-                        %td.ta-ri.w-8rem
-                          %span= "%.2f" % s[1][3]
-                        %td.ta-ri.w-8rem
-                          %span= "%.4f" % s[1][4]
-                        %td.ta-ri.w-8rem
-                          %span= "%.2f" % s[1][5]
-                    %tr.result
-                      %td{:colspan => "2"}= "Total"
-                      %td
-                        %span= "%.2f" % data.values.sum{|r| r[2]}
-                      %td
-                        %span= "%.2f" % data.values.sum{|r| r[3]}
-                      %td
-                        %span
-                      %td
-                        %span= "%.2f" % data.values.sum{|r| r[5]}
-      %tfoot
-        %tr
-          - td_buttonset(['create','cancel'],{style: 'ta-ce', create: {text: t('button.create') + " Facură!"}})
+                      - td_value_for s, 'xxx',  {tag: {class: 'strip',value: s[1][0]}}
+                      - td_value_for s, 'xxx',  {tag: {class: 'strip',value: 'kg'}}
+                      - td_value_for s, 'xxx',  {tag: {class: 'strip ta-ri dsp-ib',value: s[1][2]}}
+                      - td_value_for s, 'xxx',  {tag: {class: 'strip ta-ri dsp-ib',value: s[1][3]}}
+                      - td_value_for s, 'xxx',  {tag: {class: 'strip ta-ri dsp-ib',value: s[1][4]}}
+                      - td_value_for s, 'xxx',  {tag: {class: 'strip ta-ri dsp-ib',value: s[1][5]}}
+                  %tr.result
+                    - td_value_for @object,'xxx',   {td: {colspan: 2},tag: {class: 'strip ta-ce dsp-ib st',value: 'Total'}}
+                    - td_value_for @object,'xxx',   {tag: {class: 'strip ta-ri dsp-ib st',value: "%.2f" % data.values.sum{|r| r[2]}}}
+                    - td_value_for @object,'xxx',   {tag: {class: 'strip ta-ri dsp-ib st',value: "%.2f" % data.values.sum{|r| r[3]}}}
+                    %td
+                    - td_value_for @object,'xxx',   {tag: {class: 'strip ta-ri dsp-ib st',value: "%.2f" % data.values.sum{|r| r[5]}}}
+      %tfoot{class: 'ta-ce'}
+        - tr_buttonset ['create','cancel'], {create: {text: t('button.create') + " Factură!"}}
 - elsif params[:inv_ary] == 'payable'
   %span#hidden_data{data: {dialog: "filter",title_data:mat(@object,'title_data_payable'),model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_payment'}}
   %form{action: "/sys/#{@path}", method: 'get'}
@@ -160,8 +110,7 @@
               = t('intro.filter.not_ready')
       %tbody
       %tfoot
-        %tr
-          - td_buttonset(['cancel'],{style: 'ta-ce', create: {text: t('button.create') + " NIR!"}})
+        - tr_buttonset ['create','cancel'], {create: {text: t('button.create') + " Factură!"}}
 - elsif params[:inv_ary] == 'receivable'
   %span#hidden_data{data: {dialog: "filter",title_data:mat(@object,'title_data_receivable'),model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_payment'}}
   %form{action: "/sys/#{@path}", method: 'get'}
@@ -174,8 +123,7 @@
               = t('intro.filter.not_ready')
       %tbody
       %tfoot
-        %tr
-          - td_buttonset(['cancel'],{style: 'ta-ce', create: {text: t('button.create') + " NIR!"}})
+        - tr_buttonset ['create','cancel'], {create: {text: t('button.create') + " Factură!"}}
 - else
   %span#hidden_data{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_payment'}}
   %form{action: "/sys/#{@path}", method: 'get'}
@@ -188,5 +136,4 @@
               = t('intro.filter.not_ready')
       %tbody
       %tfoot
-        %tr
-          - td_buttonset(['cancel'],{style: 'ta-ce', create: {text: t('button.create') + " NIR!"}})
+        - tr_buttonset ['create','cancel'], {create: {text: t('button.create') + " Factură!"}}

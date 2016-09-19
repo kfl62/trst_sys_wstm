@@ -1,80 +1,72 @@
-:ruby
-  firm     = Wstm::PartnerFirm.find_by(firm: true)
 - if params[:grn_ary]
   :ruby
     client   = Wstm::PartnerFirm.find(params[:supplr_id])
     client_d = client.people.find(params[:supplr_d_id]) rescue nil
     grn_ary  = params[:grn_ary].split(',')
     grn_ary.each{|id| @object.grns << Wstm::Grn.find(id)}
-  %span#hidden_data{data: {dialog: 'create',title_data: mat(@object,'model_name_grn'),model_name: mat(@object,'model_name'),oid: 'null',js_ext: 'desk_invoice'}}
+  - xhr_hidden_data({dialog: 'create',title_data: mat(@object,'model_name_grn'),oid: 'null',js_ext: 'desk_invoice'})
   %form{action: "/sys/#{@path}", method: 'post'}
     %table
       %thead
         %tr.pdb-05
           %td
             - label_for @object, 'name'
-            - input_for @object, 'name',        {value: @object.increment_name,style: 'ui-state-default ta-ce id_intern'}
+            - input_for @object, 'name',        {tag: {value: @object.increment_name}}
             - label_for @object, 'id_date'
-            - input_for @object, 'id_date',     {id: 'date_show',name: 'strip'}
-            - input_for @object, 'id_date',     {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
-            - input_for @object, 'id_intern',   {type: 'hidden',value: 'true'}
-            - input_for @object, 'client_id',   {type: 'hidden',value: client.id}
-            - input_for @object, 'client_d_id', {type: 'hidden',value: client_d.id}
-            - input_for @object, 'signed_by',   {type: 'hidden',value: @current_user.id}
+            - input_for @object, 'id_date',     {tag: {id: 'date_show',name: 'strip'}}
+            - input_for @object, 'id_date',     {tag: {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}}
+            - input_for @object, 'id_intern',   {tag: {type: 'hidden',value: 'true'}}
+            - input_for @object, 'client_id',   {tag: {type: 'hidden',value: client.id}}
+            - input_for @object, 'signed_by',   {tag: {type: 'hidden',value: @current_user.id}}
             - grn_ary.each do |grn|
-              -input_for @object,'grn_ids',     {type: 'hidden',name: "[#{@path}][grn_ids][]",value: grn}
+              -input_for @object,'grn_ids',     {tag: {type: 'hidden',name: "[#{@path}][grn_ids][]",value: grn}}
+            - if client_d
+              - input_for @object,'client_d_id',{tag: {type: 'hidden',value: client_d.id}}
         %tr.pdb-05
           %td.w-35rem
-            - input_for  @object,'doc_name',    {placeholder: mat(@object,'doc_name'), style: 'ui-state-default ta-ce focus'}
+            - input_for  @object,'doc_name',    {tag: {placeholder: mat(@object,'doc_name'), class: 'ui-state-default ta-ce focus'}}
         %tr.pdb-05
-          %td
-            %detail.detail.w-45rem
-              %i.fa.fa-info-circle.fa-lg.blue
-              = t('intro.create.desk_invoice.grn')
+          - td_detail_for 'detail w-40rem ta-ju',t('intro.create.desk_invoice.grn')
         %tr.pdb-05
           %td
             %hr
             %span{style: 'display:inline-block'}= mat(@object,'grns_name').concat @object.grns.map(&:doc_name).join(', ')
-        = partial "#{@path}/form", locals: {grns: grn_ary, dlns: nil}
-        %tfoot
-          %tr
-            - td_buttonset(['save','cancel'],{style: 'ta-ce'})
+        = haml :"#{@path}/_form", locals: {grns: grn_ary, dlns: nil}
+        %tfoot{class: 'ta-ce'}
+          - tr_buttonset ['save','cancel']
 - else
   :ruby
     client   = Wstm::PartnerFirm.find(params[:client_id])
     client_d = client.people.find(params[:client_d_id]) rescue nil
     dln_ary  = params[:dln_ary].split(',')
     dln_ary.each{|id| @object.dlns << Wstm::DeliveryNote.find(id)}
-  %span#hidden_data{data: {dialog: 'create',model_name: mat(@object,'model_name'),oid: 'null',js_ext: 'desk_invoice'}}
+  - xhr_hidden_data({dialog: 'create',oid: 'null',js_ext: 'desk_invoice'})
   %form{action: "/sys/#{@path}", method: 'post'}
     %table
       %thead
         %tr.pdb-05
           %td
             - label_for @object, 'name'
-            - input_for @object, 'name',        {value: @object.increment_name,style: 'ui-state-default ta-ce id_intern'}
+            - input_for @object, 'name',        {tag: {value: @object.increment_name}}
             - label_for @object, 'id_date'
-            - input_for @object, 'id_date',     {id: 'date_show',name: 'strip'}
-            - input_for @object, 'id_date',     {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
-            - input_for @object, 'id_intern',   {type: 'hidden',value: 'false'}
-            - input_for @object, 'client_id',   {type: 'hidden',value: client.id}
-            - input_for @object, 'client_d_id', {type: 'hidden',value: client_d.id}
-            - input_for @object, 'signed_by',   {type: 'hidden',value: @current_user.id}
+            - input_for @object, 'id_date',     {tag: {id: 'date_show',name: 'strip'}}
+            - input_for @object, 'id_date',     {tag: {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}}
+            - input_for @object, 'id_intern',   {tag: {type: 'hidden',value: 'false'}}
+            - input_for @object, 'client_id',   {tag: {type: 'hidden',value: client.id}}
+            - input_for @object, 'signed_by',   {tag: {type: 'hidden',value: @current_user.id}}
             - dln_ary.each do |dn|
-              -input_for @object,'dln_ids',     {type: 'hidden',name: "[#{@path}][dln_ids][]",value: dn}
+              -input_for @object,'dln_ids',     {tag: {type: 'hidden',name: "[#{@path}][dln_ids][]",value: dn}}
+            - if client_d
+              - input_for @object,'client_d_id',{tag: {type: 'hidden',value: client_d.id}}
         %tr.pdb-05
           %td.w-35rem
-            - input_for  @object,'doc_name',    {placeholder: mat(@object,'doc_name'), style: 'ui-state-default ta-ce focus'}
+            - input_for  @object,'doc_name',    {tag: {placeholder: mat(@object,'doc_name'), class: 'ui-state-default ta-ce focus'}}
         %tr.pdb-05
-          %td
-            %detail.detail.w-45rem
-              %i.fa.fa-info-circle.fa-lg.blue
-              = t('intro.create.desk_invoice.main')
+          - td_detail_for 'detail w-45rem ta-ju',t('intro.create.desk_invoice.main')
         %tr.pdb-05
           %td
             %hr
             %span{style: 'display:inline-block'}= mat(@object,'dlns_name').concat @object.dlns.map(&:doc_name).join(', ')
-        = partial "#{@path}/form", locals: {dlns: dln_ary, grns: nil}
-        %tfoot
-          %tr
-            - td_buttonset(['save','cancel'],{style: 'ta-ce'})
+        = haml :"#{@path}/_form", locals: {dlns: dln_ary, grns: nil}
+        %tfoot{class: 'ta-ce'}
+          - tr_buttonset ['save','cancel']

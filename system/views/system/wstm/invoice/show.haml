@@ -1,25 +1,18 @@
 :ruby
-  firm = Wstm::PartnerFirm.find_by(firm: true)
   grns = @object.dlns.empty?
   tdat = grns ? mat(@object,'model_name_grn') : mat(@object,'model_name')
-%span#hidden_data{data: {dialog: 'show',title_data: tdat,model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_invoice'}}
+- xhr_hidden_data({dialog: "show",title_data: tdat,oid: @object.id,js_ext: 'desk_invoice'})
 %form{action: "/sys/#{@path}", method: "get"}
   %table
     %thead
       %tr.pdb-05
         %td
-          -if grns
-            %detail.detail.w-45rem
-              %i.fa.fa-info-circle.fa-lg.blue
-              = t('intro.show.desk_invoice.grn',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
-          -else
-            %detail.detail.w-45rem
-              %i.fa.fa-info-circle.fa-lg.blue
-              = t('intro.show.desk_invoice.main',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
-    = partial "#{@path}/show"
-    %tfoot
+          - if grns
+            - detail_for 'info w-40rem ta-ju', t('intro.show.desk_invoice.grn',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
+          - else
+            - detail_for 'info w-40rem ta-ju', t('intro.show.desk_invoice.main',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
+    = haml :"#{@path}/_show"
+    %tfoot{class: 'ta-ce'}
       %tr
-        - if @object.freights.count == 0
-          - td_buttonset(['delete'],{style: 'ta-ce'})
-        - else
-          - td_buttonset(['print','delete','cancel'],{style: 'ta-ce'})
+        - buttons =@object.freights.count == 0 ? ['delete'] : ['print','delete','cancel']
+        - tr_buttonset buttons

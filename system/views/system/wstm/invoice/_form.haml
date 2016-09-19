@@ -1,78 +1,60 @@
 %tbody{id: 'tabs-freights',data: {title: mat(@object,'tabs_freights')}}
   %tr
     %td
-      %table.w-100pr
+      %table
         - if grns
           %tbody.inner
-            %tr
-              - mat(@object,'table_header_grn').each do |label|
-                %td
-                  %span= label
+            - tr_header_for mat(@object,'table_header_grn'),{tr: {data:{mark: 'scroll'}}}
             - data = Wstm::Grn.where(:id.in => grns).sum_freights_grn; data.sort.each_with_index do |s,i|
               - o = @object.freights.new
               %tr.freight
                 %td
                   %span.stats= s[1][0]
-                  - input_for o, 'name',      {type: 'hidden',nested: 'doc_inv',index: i,value: s[1][0]}
-                  - input_for o, 'um',        {type: 'hidden',nested: 'doc_inv',index: i,value: 'kg'}
-                  - input_for o, 'id_stats',  {type: 'hidden',nested: 'doc_inv',index: i,value: s[1][1]}
-                %td.ta-ce.w-4rem
-                  %span.um kg
-                %td.ta-ri.w-8rem
-                  %span.pu= "%.2f" % s[1][2]
-                  - input_for o,  'pu',       {type: 'hidden',nested: 'doc_inv',index: i,value: s[1][2]}
-                %td.ta-ri.w-8rem
-                  %span.qu= "%.2f" % s[1][3]
-                  - input_for o,  'qu',       {type: 'hidden',nested: 'doc_inv',index: i,value: s[1][3]}
-                %td.ta-ri.w-8rem
-                  %span.val= "%.2f" % s[1][4]
+                  - input_for o, 'id_stats',  {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][1],type: 'hidden'}}
+                  - input_for o, 'name',      {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][0],type: 'hidden'}}
+                  - input_for o, 'um',        {guess: {nested: 'doc_inv',index: i},tag: {value: 'kg',   type: 'hidden'}}
+                  - input_for o, 'pu',        {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][2],type: 'hidden'}}
+                  - input_for o, 'qu',        {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][3],type: 'hidden'}}
+                - td_value_for o, 'um',       {tag: {class: 'strip ta-ce',value: 'kg'},td: {class: 'ta-ce'}}
+                - td_value_for o, 'pu',       {tag: {class: 'strip ta-ri',value: s[1][2]}}
+                - td_value_for o, 'qu',       {tag: {class: 'strip ta-ri',value: s[1][3]}}
+                - td_value_for o, 'val',      {tag: {class: 'strip ta-ri',value: s[1][4]}}
             %tr.total
-              %td{:colspan => "3"}= "Total"
+              - td_value_for @object, 'total', {td: {colspan: 3},tag: {class: 'strip',value: 'Total'}}
+              - td_value_for @object, 'sum',   {tag: {class: 'strip',value:  "%.2f" % data.values.sum{|r| r[3]}}}
               %td
-                %span= "%.2f" % data.values.sum{|r| r[3]}
-              %td
-                %span= "%.2f" % data.values.sum{|r| r[4]}
-                - input_for @object, 'sum_100', {type: 'hidden',value: data.values.sum{|r| r[4]}}
+                - value_for @object, 'sum_100',{tag: {class: 'strip',value:  "%.2f" % data.values.sum{|r| r[4]}}}
+                - input_for @object, 'sum_100',{tag: {type: 'hidden',value: data.values.sum{|r| r[4]}}}
         -else
           %tbody.inner
-            %tr
-              - mat(@object,'table_header').each do |label|
-                %td
-                  %span= label
+            - tr_header_for mat(@object,'table_header'),{tr: {data:{mark: 'scroll'}}}
             - data = Wstm::DeliveryNote.where(:id.in => dlns).sum_freights_inv; data.sort.each_with_index do |s,i|
               - o = @object.freights.new
               %tr.freight
                 %td
                   %span.stats= s[1][0]
-                  - input_for o, 'name',      {type: 'hidden',nested: 'doc_inv',index: i,value: s[1][0]}
-                  - input_for o, 'um',        {type: 'hidden',nested: 'doc_inv',index: i,value: 'kg'}
-                  - input_for o, 'id_stats',  {type: 'hidden',nested: 'doc_inv',index: i,value: s[1][1]}
-                %td.ta-ce.w-4rem
-                  %span.um kg
-                %td.ta-ri.w-8rem
-                  %span.qu= "%.2f" % s[1][2]
-                  - input_for o,  'qu',       {type: 'hidden',nested: 'doc_inv',index: i,value: s[1][2]}
-                %td.ta-ri.w-8rem
-                  %span= "%.2f" % s[1][3]
-                %td.ta-ce.w-8rem
-                  - if s[1][4] == 0.0
-                    - input_for o,  'pu',     {style: 'qu ta-ri w-6rem',nested: 'doc_inv',index: i,value: "%.4f" % s[1][4]}
-                  -else
-                    %span.ta-ri= "%.4f" % s[1][4]
-                    - input_for o,  'pu',     {type: 'hidden',nested: 'doc_inv',index: i,value: s[1][4]}
+                  - input_for o, 'id_stats',  {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][1],type: 'hidden'}}
+                  - input_for o, 'name',      {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][0],type: 'hidden'}}
+                  - input_for o, 'um',        {guess: {nested: 'doc_inv',index: i},tag: {value: 'kg',type: 'hidden'}}
+                  - input_for o, 'qu',        {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][2],type: 'hidden'}}
+                - td_value_for o, 'um',       {tag: {class: 'strip ta-ce',value: 'kg'}}
+                - td_value_for o, 'qu',       {tag: {class: 'strip ta-ri',value: s[1][2]}}
+                - td_value_for o, 'val',      {tag: {class: 'strip ta-ri',value: s[1][3]}}
                 %td
-                  %span.val_invoice= "%.2f" % s[1][5]
+                  - if s[1][4] == 0.0
+                    - input_for o,  'pu',     {guess: {nested: 'doc_inv',index: i},tag: {class: 'strip ta-ri',style: 'box-sizing:border-box',size: 8,value: '0.0000'}}
+                  -else
+                    - value_for o,  'pu',     {tag: {class: 'strip',value: "%.4f" % s[1][4]}}
+                    - input_for o,  'pu',     {guess: {nested: 'doc_inv',index: i},value: s[1][4],tag: {type: 'hidden'}}
+                - td_value_for o, 'val_inv',  {tag: {class: 'strip ta-ri',value: s[1][5]}}
             %tr.total
-              %td{:colspan => "2"}= "Total"
+              - td_value_for @object, 'total',  {td: {colspan: 2},tag: {class: 'strip',value: 'Total'}}
+              - td_value_for @object, 'total',  {tag: {class: 'strip',value: "%.2f" % data.values.sum{|r| r[2]}}}
+              - td_value_for @object, 'total',  {tag: {class: 'strip',value: "%.2f" % data.values.sum{|r| r[3]}}}
               %td
-                %span= "%.2f" % data.values.sum{|r| r[2]}
               %td
-                %span= "%.2f" % data.values.sum{|r| r[3]}
-              %td
-                %span
-              %td
-                %span.sum_100= "%.2f" % data.values.sum{|r| r[5]}
-                - input_for @object, 'sum_100', {type: 'hidden',value: data.values.sum{|r| r[5]}}
+                - value_for @object, 'sum_100', {tag: {class: 'strip',value: "%.2f" % data.values.sum{|r| r[5]}}}
+                - input_for @object, 'sum_100', {tag: {type: 'hidden',value: data.values.sum{|r| r[5]}}}
   %tr
     %td
 %tbody{id: 'tabs-payments',data: {title: mat(@object,'tabs_payments')}}
@@ -82,12 +64,11 @@
       %input.true_ro{ type: 'radio',name: "[#{@path}][payed]",checked:  @object.payed,value: 'true'}
       %input.false_ro{type: 'radio',name: "[#{@path}][payed]",checked: !@object.payed,value: 'false'}
       %span.stats= mat(@object,'deadl')
-      - input_for @object, 'deadl', {style: 'ui-state-default ta-ce',value: (Date.today + 30.days).to_s}
+      - input_for @object, 'deadl', {tag: {style: 'ui-state-default ta-ce',value: (Date.today + 30.days).to_s}}
   - o = @object.pyms.new
   %tr
     %td
-      - input_for o, 'id_date',     {nested: 'doc_inv',index: 0,value: 'strip',placeholder: Date.today.to_s,style: 'ui-state-default ta-ce'}
-      - input_for o, 'expl',        {nested: 'doc_inv',index: 0,value: 'strip',placeholder: mat(@object,'pyms_expl')}
-      - input_for o, 'val',         {nested: 'doc_inv',index: 0,value: 'strip',placeholder: mat(@object,'pyms_val'),style: 'ui-state-default ta-ce'}
-      - input_for o, 'id_intern',   {type: 'hidden',nested: 'doc_inv',index: 0,value: 'true'}
-
+      - input_for o, 'id_date',     {guess: {nested: 'doc_inv',index: 0},tag: {value: 'strip',placeholder: Date.today.to_s,style: 'ui-state-default ta-ce'}}
+      - input_for o, 'expl',        {guess: {nested: 'doc_inv',index: 0},tag: {value: 'strip',placeholder: mat(@object,'pyms_expl')}}
+      - input_for o, 'val',         {guess: {nested: 'doc_inv',index: 0},tag: {value: 'strip',placeholder: mat(@object,'pyms_val'),style: 'ui-state-default ta-ce'}}
+      - input_for o, 'id_intern',   {guess: {nested: 'doc_inv',index: 0},tag: {value: 'true',type: 'hidden'}}
