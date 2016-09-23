@@ -1,47 +1,48 @@
 :ruby
-  unit_id = @current_user.unit_id || session[:unit_id]
-  from_freights = Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln_with_pu
-  resl_freights = Wstm::PartnerFirm.unit_by_unit_id(unit_id).freights.options_for_dln
-%span#hidden_data{data: {dialog: "create",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_sorting'}}
-%article#xhr_info.info
-  %i.fa.fa-info-circle.fa-lg.blue
-  = t('intro.create.main',data: mat(@object,'model_name'))
+  from_freights = Wstm::PartnerFirm.unit_by_unit_id(@uid).freights.options_for_dln(true)
+  resl_freights = Wstm::PartnerFirm.unit_by_unit_id(@uid).freights.options_for_dln
+- xhr_hidden_data({dialog: 'create',oid: 'null',js_ext: 'desk_sorting'})
+- xhr_info('info',t('intro.create.main',data: model_name))
 %form{action: "/sys/#{@path}",method: "post"}
   %table
     %thead
-      %tr.pdb-05
-        %td.ce{colspan: "4"}
+      %tr{class: 'pdb-05'}
+        %td
           %span.st Nr.
-          - input_for @object, 'name',      {value: @object.increment_name(unit_id),style: 'ui-state-default ce id_intern'}
+          - input_for @object, 'name',      {tag: {value: @object.increment_name(@uid),style: 'ui-state-default ce id_intern'}}
           %span.st din data de:
-          - input_for @object, 'id_date',   {id: 'date_show',name: 'strip'}
-          - input_for @object, 'id_date',   {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}
-          - input_for @object, 'unit_id',   {type: 'hidden',value: unit_id}
-          - input_for @object, 'signed_by', {type: 'hidden',value: @current_user.id}
-      %tr
-        %td{colspan: '4'}
+          - input_for @object, 'id_date',   {tag: {id: 'date_show',name: 'strip'}}
+          - input_for @object, 'id_date',   {tag: {type: 'hidden',id: 'date_send',value: @object.id_date.to_s}}
+          - input_for @object, 'unit_id',   {tag: {type: 'hidden',value: @uid}}
+          - input_for @object, 'signed_by', {tag: {type: 'hidden',value: @current_user.id}}
+      %tr{class: 'pdb-05'}
+        %td
           - label_for @object, 'expl'
-          - input_for @object, 'expl',      {value: mat(@object,'expl_default'),style: 'ui-state-default width-350'}
-      %tr.pdb-05
+          - input_for @object, 'expl',      {tag: {value: mat(@object,'expl_default'),style: 'ui-state-default width-350'}}
+      %tr{class: 'pdb-05'}
         - o_from = @object.from_freights.new
-        %td.select-freight{colspan: '4'}
-          %select.wstm.from-freight
+        %td
+          - input_for   o_from, 'id_date',   {guess: {nested: 'doc_sor',index: 0},tag: {type: 'hidden'}}
+          - input_for   o_from, 'id_stats',  {guess: {nested: 'doc_sor',index: 0},tag: {type: 'hidden'}}
+          - input_for   o_from, 'um',        {guess: {nested: 'doc_sor',index: 0},tag: {type: 'hidden'}}
+          - input_for   o_from, 'pu',        {guess: {nested: 'doc_sor',index: 0},tag: {type: 'hidden'}}
+          - input_for   o_from, 'qu',        {guess: {nested: 'doc_sor',index: 0},tag: {type: 'hidden',id: 'from-freight-qu-submit'}}
+          - input_for   o_from, 'freight_id',{guess: {nested: 'doc_sor',index: 0},tag: {type: 'hidden'}}
+          %select{data: {mark: 'from-freight'}}
             %option{value: 'null', data: {pu: 0.00, stck: 0.00}} Material sortat
             - from_freights.each do |f|
-              %option{value: f[0], data: f[2]}= f[1]
+              - title = "PU: #{("%.2f" % f[2][:pu]).rjust(6,"\u00a0")}; Stoc (#{f[2][:um]}): #{('%.2f' % f[2][:stck]).rjust(8,"\u00a0")}"
+              %option{value: f[0],data: f[2],style: 'font-family:Mono'}= "#{f[1].ljust(17,"\u00a0")} : #{title}"
           Sortat/kg &nbsp;
-          %span#from-freight-qu.qu.ui-state-default 0.00
+          %span{class: 'ui-state-default',data: {val: 'from-freight-qu'}} 0.00
           &nbsp;&nbsp;Stoc rămas/kg &nbsp;
-          %span#from-freight-stock.qu.ui-state-default 0.00
+          %span{class: 'ui-state-default',data: {val: 'from-freight-stock'}} 0.00
+    %tbody
+      %tr{class: 'pdb-05'}
+        %td{class: 'add-line-container hidden'}
+          = haml :"#{@path}/_doc_add_line"
       %tr
-        %td{colspan: '4'}
-          - input_for   o_from, 'id_date',   {type: 'hidden',nested: 'doc_sor',value: 'strip',index: 0}
-          - input_for   o_from, 'id_stats',  {type: 'hidden',nested: 'doc_sor',value: 'strip',index: 0}
-          - input_for   o_from, 'um',        {disabled: true,type: 'hidden',nested: 'doc_sor',value: 'strip',index: 0}
-          - input_for   o_from, 'pu',        {type: 'hidden',nested: 'doc_sor',value: 'strip',index: 0}
-          - input_for   o_from, 'qu',        {id: 'from-freight-qu-submit',type: 'hidden',nested: 'doc_sor',value: 'strip',index: 0}
-          - input_for   o_from, 'freight_id',{type: 'hidden',nested: 'doc_sor',value: 'strip',index: 0}
-    = partial "#{@path}/form", locals: {resl_freights: resl_freights}
-    %tfoot
-      %tr
-        - td_buttonset(['save','cancel'],{style: 'ta-ce'},'4')
+        %td
+          = haml :"#{@path}/_form", locals: {resl_freights: resl_freights}
+    %tfoot{class: 'ta-ce'}
+      - tr_buttonset ['save','cancel']
