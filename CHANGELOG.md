@@ -2,6 +2,18 @@
 
 * estimated release date: **2016-12-31**
 
+* **feature v0.3.1.18**
+   - feature date: **2016-09-23**
+   - bump version v0.3.1.18
+   - update CHANGELOG
+   - assets: js, `Wstm.desk.sorting` cleanup, [#31][#30]]
+   - i18n: `Wstm::Sorting` minor changes
+   - views: `Wstm::Sorting` CRUD [#30][#30]]
+   - views: shared `_select_unit` minor changes
+   - assets: `*.js` delete temp. fieles
+   - views: `Wstm::Cassation`, remove unneeded markdown
+   - views: `Wstm::Cassation` CRUD, move styling to %tfoot
+
 * **feature v0.3.1.17**
    - feature date: **2016-09-19**
    - bump version v0.3.1.17
