@@ -13,8 +13,8 @@
               %option{value: "null"}= t("select.option",data: mat(@object,'model_name'))
               - @object.by_unit_id(@uid).default_sort.each do |o|
                 %option{value: o.view_filter.first}= o.view_filter.last
-      %tfoot
-        - tr_buttonset(['create','show','delete','cancel'],{td: {class: 'ta-ce'}})
+      %tfoot{class: 'ta-ce'}
+        - tr_buttonset ['create','show','delete','cancel']
 -else
   - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_cassation'})
   = haml :'wstm/shared/_select_unit'

@@ -4,11 +4,10 @@
   %table
     %thead
       %tr.pdb-05
-        - td_detail_for 'detail w-35rem',t('intro.show.desk_cassation',id_date: l(@object.id_date,format: :trst),unit: @object.unit.name[1],signed_by: @object.signed_by.name,expl: @object.expl),'error-red'
+        - td_detail_for 'warning w-35rem',t('intro.show.desk_cassation',id_date: l(@object.id_date,format: :trst),unit: @object.unit.name[1],signed_by: @object.signed_by.name,expl: @object.expl),'error-red'
     %tbody
       %tr
         %td
           = haml :"/#{@path}/_show"
-    %tfoot
-      - tr_buttonset(['delete','cancel'],{td: {class: 'ta-ce'}})
-
+    %tfoot{class: 'ta-ce'}
+      - tr_buttonset ['delete','cancel']

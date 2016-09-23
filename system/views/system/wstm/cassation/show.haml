@@ -8,6 +8,6 @@
       %tr
         %td
           = haml :"#{@path}/_show"
-    %tfoot
+    %tfoot{class: 'ta-ce'}
       - buttons = @object.freights.count == 0 ? ['delete'] : ['print','delete','cancel']
-      - tr_buttonset(buttons,{td: {class: 'ta-ce'}})
+      - tr_buttonset buttons

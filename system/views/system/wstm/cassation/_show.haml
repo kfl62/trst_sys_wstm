@@ -6,12 +6,12 @@
       - @object.reload; @object.freights.each do |o|
         %tr
           - o.set(val: (o.pu * o.qu).round(2)) unless o.val > 0
-          - td_value_for  o, 'freight',   {guess: {nested: 'doc_cas',order: 'name'},tag: {class: 'strip'}}
-          - td_value_for  o, 'um',        {guess: {nested: 'doc_cas'},tag: {class: 'strip'},td: {class: 'ta-ce'}}
-          - td_value_for  o, 'pu',        {guess: {nested: 'doc_cas'},tag: {class: 'strip'},td: {class: 'ta-ri'}}
-          - td_value_for  o, 'qu',        {guess: {nested: 'doc_cas'},tag: {class: 'strip'},td: {class: 'ta-ri'}}
-          - td_value_for  o, 'val',       {guess: {nested: 'doc_cas'},tag: {class: 'strip'},td: {class: 'ta-ri'}}
-          - td_value_for  o, 'stock',     {tag: {class: 'strip',value:  o.freight.stock_by_key(o.freight.key(o.pu))},td: {class: 'ta-ri'}}
+          - td_value_for  o, 'freight',   {guess: {order: 'name'},tag: {class: 'strip'}}
+          - td_value_for  o, 'um',        {tag: {class: 'strip ta-ce'}}
+          - td_value_for  o, 'pu',        {tag: {class: 'strip ta-ri'}}
+          - td_value_for  o, 'qu',        {tag: {class: 'strip ta-ri'}}
+          - td_value_for  o, 'val',       {tag: {class: 'strip ta-ri'}}
+          - td_value_for  o, 'stock',     {tag: {class: 'strip ta-ri',value:  o.freight.stock_by_key(o.freight.key(o.pu))}}
       %tr
         - td_value_for @object, 'total',  {td: {colspan: 3},tag: {class: 'strip',value: 'TOTAL'}}
         - td_value_for @object, 'tot-qu', {tag: {class: 'strip',value: @object.freights.sum(:qu)}}

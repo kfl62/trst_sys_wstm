@@ -1,17 +1,13 @@
-%span#hidden_data{data: {dialog: "delete",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_sorting'}}
-%article#xhr_info.warning
-  %i.fa.fa-warning.fa-lg
-  = t('intro.delete.main',data: mat(@object,'model_name'))
+- xhr_hidden_data({dialog: "delete",js_ext: 'desk_sorting'})
+- xhr_info('warning',t('intro.delete.main',data: model_name))
 %form{action: "/sys/#{@path}",method: "delete"}
   %table
     %thead
       %tr.pdb-05
-        %td{colspan: "6"}
-          %detail.detail.w-35rem
-            %i.fa.fa-info-circle.fa-lg.blue
-            = t('intro.show.desk_sorting',id_date: l(@object.id_date,format: :trst),unit: @object.unit.name[1],signed_by: @object.signed_by.name,expl: @object.expl)
-    = partial "/#{@path}/show"
-    %tfoot
+        - td_detail_for 'warning w-35rem',t('intro.show.desk_sorting',id_date: l(@object.id_date,format: :trst),unit: @object.unit.name[1],signed_by: @object.signed_by.name,expl: @object.expl)
+    %tbody
       %tr
-        - td_buttonset(['delete','cancel'],{style: 'ta-ce'},'6')
-
+        %td
+          = haml :"/#{@path}/_show"
+    %tfoot{class: 'ta-ce'}
+      - tr_buttonset ['delete','cancel']

@@ -2,70 +2,97 @@ define () ->
   $.extend true,Wstm,
     desk:
       sorting:
+        lineNewReset: ()->
+          next = $('tr[data-mark~=related]').not('.hidden').length + 1
+          if next is 1
+            $('tr[data-mark~=related-header], tr[data-mark~=related-total]').addClass 'hidden'
+            $('button[data-action=save]').button 'option', 'disabled', true
+          else
+            $('tr[data-mark~=related-header], tr[data-mark~=related-total]').removeClass 'hidden'
+            $('button[data-action=save]').button 'option', 'disabled', false
+          $('span[data-val=nro').text("#{next}.")
+          $('input[data-mark~=related-add]').val ''
+          $('select[data-mark~=related-add]').val('null')
+          return
+        lineNewData: ()->
+          v = $('[data-mark~=related-add]')
+          $freight = v.filter('[data-val=freight]'); $fd = $freight.find('option:selected').data()
+          ord = $('tr[data-mark~=related]').not('.hidden').length + 1
+          freight_id = $freight.val()
+          um = $fd.um; v.filter('[data-val=um]').val(um)
+          stck = $fd.stck; stck = (if $.isNumeric(stck) then parseFloat(stck).toFixed(2) else '0.00'); v.filter('[data-val=stck]').val(stck)
+          qu = v.filter('input[data-val=qu]').val(); qu = if $.isNumeric(qu) then parseFloat(qu).toFixed(2) else '0.00'
+          pu = v.filter('input[data-val=pu]').val(); pu = if $.isNumeric(pu) then parseFloat(pu).toFixed(4) else '0.0000'
+          $.extend true,
+            $fd,
+            {ord: ord;freight_id: freight_id;id_date: $('#date_send').val();qu: qu}
+        lineInsert: ()->
+          r = @lineNewData()
+          l = @template.clone().removeClass('template')
+          l.find('span,input').each ->
+            e = $(@)
+            if e.data('val')
+              e.text r[e.data('val')]  if e.is('span')
+              e.val  r[e.data('val')]  if (e.is('input') and e.val() is '')
+          $('tr[data-mark~=related-total]').before l if parseFloat(r.qu) > 0
+          @calculate()
+          @lineNewReset()
+          @buttons($('span.button'))
+          return
+        validate:
+          create: ()->
+            $('input[data-mark~=related-add][data-val=pu]').val($('select[data-mark~=related-add][data-val=freight] option:selected').data('pu'))
+            $('input[data-mark~=related-add][data-val=qu]').val('0.00')
+            if $('span[data-val=nro]').text() isnt '1.'
+              $('button[data-action="save"]').button 'option', 'disabled', false
+            true
         calculate: (fromFreight = false)->
-          $rows  = $('tr.resl-freight')
-          $total = $('tr.total')
-          tot_qu = 0
           if fromFreight is true
-            $('select.resl-freight').val('null')
-            $('select.resl-freight').change()
-            total_qu = 0
-          else
-            $rows.each ()->
-              $tr = $(@)
-              $sd = $tr.find('select').find('option:selected').data()
-              qu  = parseFloat($tr.find('input[name*="qu"]').decFixed(2).val())
-              tot_qu += qu
-              $('#from-freight-qu').text(tot_qu.toFixed(2))
-              $('#from-freight-qu-submit').val(tot_qu.toFixed(2))
-          $('#from-freight-stock').text(($('select.from-freight').find('option:selected').data().stck - parseFloat($('#from-freight-qu-submit').decFixed(2).val())).toFixed(2))
-          $total.find('span.res').text(tot_qu.toFixed(2))
-          if tot_qu > 0
-            $('button[data-action="save"]').button 'option', 'disabled', false
-          else
-            $('button[data-action="save"]').button 'option', 'disabled', true
+            @rest = $('span[data-val="from-freight-stock"]').text()
+          vl = $('tr[data-mark~=related]').not('.hidden')
+          vt = $('tr[data-mark~=related-total]')
+          i  = 1; qu = 0; tot_qu = 0
+          vl.each ()->
+            $row = $(@)
+            $row.find('span[data-val=ord]').text("#{i}.")
+            $row.find('input').each ()->
+              $(@).attr('name',$(@).attr('name').replace(/\d/,i))
+              return
+            qu = parseFloat($row.find('input[data-val=qu]').val())
+            tot_qu += qu
+            i += 1
+            return
+          vt.find('[data-val=tot-qu]').text(tot_qu.toFixed(2))
+          $('span[data-val="from-freight-qu"]').text(tot_qu.toFixed(2))
+          $('span[data-val="from-freight-stock"]').text(@rest - tot_qu)
           return
         selects: (slcts)->
           slcts.each ()->
             $select = $(@)
             $sd = $select.data()
-            if $select.hasClass 'resl-freight'
+            if $sd.mark is 'from-freight'
               $select.on 'change', ()->
                 $sod = $select.find('option:selected').data()
-                $inp = $select.parentsUntil('tbody').last().find('input')
-                $inp.filter('[name*="freight_id"]').val($select.val())
-                $inp.filter('[name*="id_date"]').val($('#date_send').val())
-                $inp.filter('[name*="id_stats"]').val($sod.id_stats)
-                $inp.filter('[name*="um"]').val($sod.um)
-                $inp.filter('[name*="pu"]').val(parseFloat($('select.from-freight').find('option:selected').data().pu).toFixed(2))
-                qu = $inp.filter('[name*="qu"]').val('0.00')
-                qu.on 'change', ()->
-                  Wstm.desk.sorting.calculate()
-                Wstm.desk.sorting.calculate()
-                qu.focus().select()
-                return
-              return
-            else if $select.hasClass 'from-freight'
-              $select.on 'change', ()->
-                $sod = $select.find('option:selected').data()
-                $inp = $select.parentsUntil('thead').next('tr').find('input')
+                $inp = $select.prevAll('input')
                 $inp.filter('[name*="freight_id"]').val($select.val())
                 $inp.filter('[name*="id_date"]').val($('#date_send').val())
                 $inp.filter('[name*="id_stats"]').val($sod.id_stats)
                 $inp.filter('[name*="um"]').val($sod.um)
                 $inp.filter('[name*="qu"]').val('0.00')
                 $inp.filter('[name*="pu"]').val(parseFloat($sod.pu).toFixed(2))
-                $('#from-freight-stock').text(parseFloat($sod.stck).toFixed(2))
-                if $select.val() is 'null' then $('tbody').addClass('hidden') else $('tbody').removeClass('hidden')
+                $('span[data-val="from-freight-stock"]').text(parseFloat($sod.stck).toFixed(2))
+                if $select.val() is 'null' then $('.add-line-container').addClass('hidden') else $('.add-line-container').removeClass('hidden')
                 Wstm.desk.sorting.calculate(true)
                 return
               return
-            else if $select.hasClass 'wstm'
-              ###
-              Handled by Wstm.desk.select
-              ###
-            else
-              $log 'Select not handled!'
+            if $sd.val is 'freight'
+              $select.on 'change', ()->
+                if Wstm.desk.sorting.validate.create()
+                  Wstm.desk.sorting.lineNewData()
+                  $('input[data-mark~=related-add][data-val=qu]').focus().select()
+                else
+                  $select.val('null')
+                return
           return
         inputs: (inpts)->
           inpts.each ()->
@@ -86,13 +113,26 @@ define () ->
             $bd = $button.data()
             $id = $button.attr('id')
             if Trst.desk.hdo.dialog is 'create'
-              if $bd.action is 'save'
-                $button.button 'option', 'disabled', true
-                $button.data('remove',false)
-                $button.off 'click', Trst.desk.buttons.action.save
-                $button.on  'click', Wstm.desk.sorting.calculate
-                $button.on  'click', Trst.desk.buttons.action.save
-            else if Trst.desk.hdo.dialog is 'show'
+              if $button.hasClass('fa-refresh')
+                $button.off 'click'
+                $button.on 'click', ()->
+                  Wstm.desk.sorting.lineNewReset()
+                  return
+              if $button.hasClass('fa-plus-circle')
+                $button.off 'click'
+                $button.on 'click', ()->
+                  Wstm.desk.sorting.lineInsert()
+                  return
+              if $button.hasClass('fa-minus-circle')
+                $button.off 'click'
+                $button.on 'click', ()->
+                  $button.parentsUntil('tbody').last().remove()
+                  Wstm.desk.sorting.calculate()
+                  Wstm.desk.sorting.lineNewReset()
+                  return
+                return
+              return
+            if Trst.desk.hdo.dialog is 'show'
               if $bd.action is 'print'
                 $button.on 'click', ()->
                   Trst.msgShow Trst.i18n.msg.report.start
@@ -103,26 +143,12 @@ define () ->
                       Trst.msgHide()
                       Trst.desk.downloadError Trst.desk.hdo.model_name
                   false
-            else
-              ###
-              Buttons default handler Trst.desk.buttons
-              ###
-          $('span.icon-remove-sign').each ()->
-            $button = $(@)
-            $button.on 'click', ()->
-              $button.parentsUntil('tbody').last().remove()
-              Wstm.desk.sorting.calculate()
-              return
-            return
           return
         init: ()->
-          if $('#date_show').length
-            now = new Date()
-            min = if Trst.lst.admin is 'true' then new Date(now.getFullYear(),now.getMonth() - 1,1) else new Date(now.getFullYear(),now.getMonth(),1)
-            $('#date_show').datepicker 'option', 'maxDate', '+0'
-            $('#date_show').datepicker 'option', 'minDate', min
-          Wstm.desk.sorting.buttons($('button'))
-          Wstm.desk.sorting.selects($('select.wstm'))
-          Wstm.desk.sorting.inputs($('input'))
+          @buttons($('button,span.button'))
+          @selects($('select.wstm,select'))
+          @inputs($('input'))
+          @template = $('tr.template')?.remove()
+          @lineNewReset()
           $log 'Wstm.desk.sorting.init() OK...'
   Wstm.desk.sorting

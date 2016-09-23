@@ -1,37 +1,24 @@
-%tbody.inner.hidden
-  %tr
-    - mat(@object,'table_header_form').each do |label|
+%table{data: {mark: 'scroll'},style: 'margin-top:.5rem'}
+  %tbody.inner
+    - o = @object.resl_freights.new
+    %tr.template{data: {mark: 'related'}}
       %td
-        %span= label
-  - if @object.resl_freights.empty?
-    - for i in 0..4 do; o = @object.resl_freights.new
-      %tr.resl-freight
-        %td.select-freight
-          %select.wstm.resl-freight
-            %option{value: 'null'} Selectare material
-            - resl_freights.each do |f|
-              %option{value: f[0], data: f[2]}= f[1]
-          - input_for   o, 'freight_id',{type: 'hidden',nested: 'doc_sor',value: 'strip',index: i}
-          - input_for   o, 'id_date',   {type: 'hidden',nested: 'doc_sor',value: 'strip',index: i}
-          - input_for   o, 'id_stats',  {type: 'hidden',nested: 'doc_sor',value: 'strip',index: i}
-          - input_for   o, 'um',        {disabled: true,type: 'hidden',nested: 'doc_sor',value: 'strip',index: i}
-          - input_for   o, 'pu',        {type: 'hidden',nested: 'doc_sor',value: 'strip',index: i}
-        %td.ce
-          %span.um kg
-        %td.ce
-          - input_for  o, 'qu',        {style: ' qu',nested: 'doc_sor',index: i}
-        %td.action-1
-          %span.icon-remove-sign{title: t('button.delete')}
-    %tr.total
-      %td.ce.st{colspan: '2'}
-        %span Total
-      %td
-        %span.res 0.00
-      %td
-        %span &nbsp;
-  - else
-    %tr.pdb-05
-      %td{colspan: '4'}
-        %detail.warning
-          %i.fa.fa-info-circle.fa-lg.blue
-          = 'Editing not allowed!'
+        - value_for   o, 'ord',         {tag: {data: {val: 'ord'},class: 'strip ta-ce',value: 'Nr.'}}
+        - input_for   o, 'freight_id',  {guess: {nested: 'doc_sor',index: 0},tag: {data: {val: 'freight_id'},type: 'hidden',value: 'strip'}}
+        - input_for   o, 'id_date',     {guess: {nested: 'doc_sor',index: 0},tag: {data: {val: 'id_date'},type: 'hidden',value: 'strip'}}
+        - input_for   o, 'id_stats',    {guess: {nested: 'doc_sor',index: 0},tag: {data: {val: 'id_stats'},type: 'hidden',value: 'strip'}}
+        - input_for   o, 'id_intern',   {guess: {nested: 'doc_sor',index: 0},tag: {data: {val: 'id_intern'},type: 'hidden',value: 'true'}}
+        - input_for   o, 'qu',          {guess: {nested: 'doc_sor',index: 0},tag: {data: {val: 'qu'},type: 'hidden',value: 'strip'}}
+        - input_for   o, 'pu',          {guess: {nested: 'doc_sor',index: 0},tag: {data: {val: 'pu'},type: 'hidden',value: 'strip'}}
+        - input_for   o, 'val',         {guess: {nested: 'doc_sor',index: 0},tag: {data: {val: 'val'},type: 'hidden',value: 'strip'}}
+      - td_value_for  o, 'name',        {tag: {data: {val: 'name'},class: 'strip ta-ce',value: 'Material'}}
+      - td_value_for  o, 'um',          {tag: {data: {val: 'um'},class: 'strip ta-ce',value: 'strip'}}
+      - td_value_for  o, 'qu',          {tag: {data: {val: 'qu'},class: 'strip ta-ri',value: 'strip'}}
+      - td_value_for  o, 'button',      {tag: {class: 'strip button fa fa-minus-circle red pointer',value: 'strip'}}
+
+    - tr_header_for mat(@object,'table_header_form'),{tr: {data:{mark: 'scroll related-header'}}}
+
+    %tr{data: {mark: 'related-total'}}
+      - td_value_for @object, 'total',  {td: {colspan: 3},tag: {class: 'strip',value: 'Total'}}
+      - td_value_for @object, 'tot-qu', {tag: {data: {val: 'tot-qu'},class: 'strip',value: 'strip'}}
+      - td_value_for @object, 'button', {tag: {class: 'strip',value: 'strip'}}

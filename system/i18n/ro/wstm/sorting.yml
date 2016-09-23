@@ -4,6 +4,6 @@ ro:
       'wstm/sorting':
         model_name: PV Sortare
         table_header_show: ['Material', 'UM', 'PU', 'Sortat(kg)', 'Valoare', 'Stock(kg)']
-        table_header_form: ['Material', 'UM', 'Cant. din sortare', ' ']
+        table_header_form: ['Nr.', 'Material', 'UM', 'Cant. din sortare', ' ']
         expl: 'Explicaţii'
         expl_default: 'PV sortare nr.'
