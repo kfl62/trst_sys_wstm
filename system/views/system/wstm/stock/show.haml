@@ -1,17 +1,19 @@
-%span#hidden_data{data: {dialog: "show",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_stock'}}
+- xhr_hidden_data({dialog: 'show',js_ext: 'desk_sorting'})
 %form{action: "/sys/#{@path}", method: "get"}
   %table
     %thead
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         %td
           - label_for @object, 'name'
           - value_for @object, 'name'
           - label_for @object, 'id_date'
           %span.ta-ce.st= @object.id_date.to_s
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         %td
           - value_for @object, 'expl'
-    = partial "#{@path}/show"
-    %tfoot
+    %tbody
       %tr
-        - td_buttonset(['create','edit','delete','cancel'],{style: 'ta-ce'})
+        %td
+          = haml :"#{@path}/_show"
+    %tfoot{class: 'ta-ce'}
+      - tr_buttonset ['create','edit','delete','cancel']

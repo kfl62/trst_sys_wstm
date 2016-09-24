@@ -1,47 +1,43 @@
 :ruby
-  firm    = Wstm::PartnerFirm.find_by(firm: true)
-  unit_id = @current_user.unit_id || session[:unit_id]
-  unit    = firm.units.find(unit_id)
   forbidden = @object.id_date != Date.new(2000,1,31)
 - if forbidden
-  %span#hidden_data{data: {dialog: "edit",model_name: mat(@object,'model_name'),oid:  @object.id,js_ext: 'desk_stock'}}
+  - xhr_hidden_data({dialog: "edit",oid: @object.id,js_ext: 'desk_stock'})
   %table
     %thead
-      %tr.pdb-05
-        %td
-          %detail.warning.w-35rem
-            = t('intro.edit.desk_stock.forbidden')
+      %tr{class: 'pdb-05'}
+        - td_detail_for 'warning w-35rem', t('intro.edit.desk_stock.forbidden')
       %tr.pdb-05
         %td
           - label_for @object, 'name'
           - value_for @object, 'name'
           - label_for @object, 'id_date'
-          - input_for @object, 'id_date', {type: 'hidden',value: @object.id_date.to_s}
-          %span.ta-ce.st= @object.id_date.to_s
-      %tr.pdb-05
-        %td
-          - value_for @object, 'expl'
-    = partial "#{@path}/show"
-    %tfoot
+          - input_for @object, 'id_date', {tag: {type: 'hidden',value: @object.id_date.to_s}}
+          %span{class: 'ta-ce st'}= @object.id_date.to_s
+      %tr{class: 'pdb-05'}
+        - td_value_for @object, 'expl'
+    %tbody
       %tr
-        %td.buttonset.ta-ce
-          %button{type: "button", data: {action: "cancel",icon: "fa fa-ban"}}= t('button.cancel')
+        %td
+          = haml :"#{@path}/_show"
+    %tfoot{class: 'ta-ce'}
+      - tr_buttonset ['cancel']
 - else
-  %span#hidden_data{data: {dialog: "edit",model_name: mat(@object,'model_name'),oid: @object.id,js_ext: 'desk_stock'}}
+  - xhr_hidden_data({dialog: "edit",oid: @object.id,js_ext: 'desk_stock'})
   %form{action: "/sys/#{@path}", method: "put"}
     %table
       %thead
-        %tr.pdb-05
+        %tr{class: 'pdb-05'}
           %td
             - label_for @object, 'name'
             - value_for @object, 'name'
             - label_for @object, 'id_date'
-            - input_for @object, 'id_date', {type: 'hidden',value: @object.id_date.to_s}
-            %span.ta-ce.st= @object.id_date.to_s
-        %tr.pdb-05
-          %td
-            - value_for @object, 'expl'
-      = partial "#{@path}/form", locals: {unit: unit}
-      %tfoot
+            - input_for @object, 'id_date', {tag: {type: 'hidden',value: @object.id_date.to_s}}
+            %span{class: 'ta-ce st'}= @object.id_date.to_s
+        %tr{class: 'pdb-05'}
+          - td_value_for @object, 'expl'
+      %tbody
         %tr
-          - td_buttonset(['save','cancel'],{style: 'ta-ce'})
+          %td
+            = haml :"#{@path}/_form"
+      %tfoot{class: 'ta-ce'}
+        - tr_buttonset ['save','cancel']
