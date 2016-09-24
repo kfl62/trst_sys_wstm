@@ -64,14 +64,19 @@ define () ->
           btns.each ()->
             $button = $(@)
             $bd = $button.data()
+            if Trst.desk.hdo.dialog is 'filter'
+              if $bd.action in ['create','show','edit','delete']
+                $bd.r_path = 'sys/wstm/stock/filter'
+                return
             if Trst.desk.hdo.dialog in ['create','edit']
               if $bd.action is 'save'
                   $button.data('remove',false)
                   $button.off 'click', Trst.desk.buttons.action.save
                   $button.on  'click', Wstm.desk.stock.calculate
                   $button.on  'click', Trst.desk.buttons.action.save
-                  $log 'Wstm::Stock save...'
-          $('span.icon-remove-sign').each ()->
+                  return
+                return
+          $('span[class~="fa-minus-circle"]').each ()->
             $button = $(@)
             $button.unbind()
             $tr = $button.parentsUntil('tbody').last()
@@ -88,7 +93,7 @@ define () ->
                 $tr.addClass 'hidden'
                 return
             return
-          $('span.icon-plus-sign').each ()->
+          $('span[class~="fa-plus-circle"]').each ()->
             $button = $(@)
             $button.unbind()
             $tr = $button.parentsUntil('tbody').last()
@@ -102,8 +107,8 @@ define () ->
             return
           return
         init: ()->
-          Wstm.desk.stock.buttons($('button'))
-          Wstm.desk.stock.selects($('select.wstm'))
-          Wstm.desk.stock.inputs($('input'))
+          @buttons($('button'))
+          @selects($('select.wstm'))
+          @inputs($('input'))
           $log 'Wstm.desk.stock.init() OK...'
   Wstm.desk.stock
