@@ -1,23 +1,20 @@
-:ruby
-  unit_id = @current_user.unit_id || session[:unit_id]
-%span#hidden_data{data: {dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_stock'}}
--if unit_id
-  %article#xhr_info.info
-    %i.fa.fa-info-circle.fa-lg.blue
-    = t("intro.filter.desk_stock")
+-if @uid
+  - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_stock'})
+  - xhr_info('info',t("intro.filter.desk_stock"))
   - unless @current_user.unit_id
-    = partial 'wstm/shared/select_unit'
+    = haml :'wstm/shared/_select_unit'
   %form{action: "/sys/#{@path}",method: "get"}
     %table
+      %thead
       %tbody
-        %tr.pdb-05
+        %tr{class: 'pdb-05'}
           %td
-            %select#oid
+            %select{id: 'oid'}
               %option{value: "null"}= t("select.option", data: mat(@object,'model_name'))
-              - @object.where(unit_id: unit_id).default_sort.each do |o|
+              - @object.by_unit_id(@uid).default_sort.each do |o|
                 %option{value: o.view_filter.first}= o.view_filter.last
-      %tfoot
-        %tr
-        - td_buttonset(['create','show','edit','delete','cancel'],{style: 'ta-ce'})
+      %tfoot{class: 'ta-ce'}
+        - tr_buttonset ['create','show','edit','delete','cancel']
 -else
-  = partial 'wstm/shared/select_unit'
+  - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_stock'})
+  = haml :'wstm/shared/_select_unit'

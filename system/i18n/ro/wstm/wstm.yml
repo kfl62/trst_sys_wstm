@@ -352,6 +352,8 @@ ro:
         Hmmm... Se pare că nu aţi ales niciun material!
         Sau aţi uitat să introduceţi cantitatea!
         Apăsaţi <b>"Ştergere"</b> şi încercaţi din nou :)
+      no_freight_stock: |
+        Hmmm... Se pare că aţi ales o lună fără mișcare!
       no_payments: |
         Nu există nici o plată!
       id_pn:

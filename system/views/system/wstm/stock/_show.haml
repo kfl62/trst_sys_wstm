@@ -1,31 +1,18 @@
 - @object.reload
 - if @object.freights.count > 0
-  %tbody
-    %tr
-      %td
-        %table.w-100pr.scroll
-          %tbody.inner
-            %tr.scroll
-              - mat(@object,'table_header').each do |label|
-                %td
-                  %span= label
-            - @object.freights.where(:qu.ne => 0).asc(:id_stats,:pu).each do |o|
-              %tr
-                %td
-                  - value_for  o, 'freight',   {order: 'name',style: 'name',nested: 'doc_stk'}
-                %td.ta-ce
-                  - value_for  o, 'um',        {style: 'um',nested: 'doc_stk'}
-                %td.ta-ri
-                  - value_for  o, 'pu',        {style: 'pu',nested: 'doc_stk'}
-                %td.ta-ri
-                  - value_for  o, 'qu',        {style: 'qu',nested: 'doc_stk'}
-                %td.ta-ri
-                  - value_for  o, 'val',       {style: 'val',nested: 'doc_stk'}
-            %tr
-    %tr
+  %table{data: {mark: 'scroll'}}
+    %tbody{class: 'inner'}
+      - tr_header_for mat(@object,'table_header')[0..4]
+      - @object.freights.where(:qu.ne => 0).asc(:id_stats,:pu).each do |o|
+        %tr
+          - td_value_for  o, 'freight',{guess: {order: 'name'},tag: {class: 'strip'}}
+          - td_value_for  o, 'um',     {tag: {class: 'strip ta-ce'}}
+          - td_value_for  o, 'pu',     {tag: {class: 'strip ta-ri'}}
+          - td_value_for  o, 'qu',     {tag: {class: 'strip ta-ri'}}
+          - td_value_for  o, 'val',    {tag: {class: 'strip ta-ri'}}
+      %tr{class: 'hidden'}
 - else
-  %tbody
-    %tr
-      %td
-        %detail.detail.w-45rem
-          = t('msg.no_freight_in_stock')
+  %table
+    %tbody
+      %tr{class: 'pdb-05'}
+        - td_detail_for 'warning w-35rem',t('msg.no_freight_stock')

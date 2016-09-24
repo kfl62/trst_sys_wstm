@@ -2,11 +2,23 @@
 
 * estimated release date: **2016-12-31**
 
+* **feature v0.3.1.19**
+   - feature date: **2016-09-xx**
+   - bump version v0.3.1.19
+   - update CHANGELOG
+   - assets: js, `Wstm.desk.stock` cleanup, r_path & [#31][#31]
+   - i18n: `Wstm::Stock` minor changes
+   - views: `Wstm::Stock` CRUD [#30][#30]
+   - i18n: `wstm` forgotten `no_freight_stock`
+   - views: `Wstm::Sorting` typo `_show.haml`
+   - assets: `*.js` add r_path, :( forgotten
+   - assets: `*.js` delete temp. fieles
+
 * **feature v0.3.1.18**
    - feature date: **2016-09-23**
    - bump version v0.3.1.18
    - update CHANGELOG
-   - assets: js, `Wstm.desk.sorting` cleanup, [#31][#30]]
+   - assets: js, `Wstm.desk.sorting` cleanup, [#31][#31]]
    - i18n: `Wstm::Sorting` minor changes
    - views: `Wstm::Sorting` CRUD [#30][#30]]
    - views: shared `_select_unit` minor changes
