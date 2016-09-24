@@ -115,6 +115,10 @@ define () ->
             $button = $(@)
             $bd = $button.data()
             $id = $button.attr('id')
+            if Trst.desk.hdo.dialog is 'filter'
+              if $bd.action in ['create','show','edit','delete']
+                $bd.r_path = 'sys/wstm/cassation/filter'
+                return
             if $button.hasClass('fa-refresh')
               $button.off 'click'
               $button.on 'click', ()->
