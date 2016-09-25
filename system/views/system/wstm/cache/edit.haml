@@ -1,13 +1,10 @@
-:ruby
-  end_of_month = Date.today == Date.today.end_of_month
-
-- xhr_hidden_data({dialog: "edit",oid: @object.id,js_ext: 'desk_cache'})
+- xhr_hidden_data({dialog: "edit",js_ext: 'desk_cache'})
 %form{action: "/sys/#{@path}", method: "put"}
   %table
     %thead
     %tbody
       %tr
         %td
-          = haml :"#{@path}/_form", locals: {end_of_month: end_of_month}
-    %tfoot
-      - td_buttonset(['save','delete','cancel'],{td: {class: 'ta-ce'}})
+          = haml :"#{@path}/_form"
+    %tfoot{class: 'ta-ce'}
+      - td_buttonset ['save','delete','cancel']
