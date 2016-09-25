@@ -2,13 +2,13 @@
 %form{action: "/sys/#{@path}",method: "get"}
   %table
     %thead
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         %td
           - label_for @object, 'name'
           - value_for @object, 'name'
           - label_for @object, 'id_date'
           - value_for @object, 'id_date'
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         %td
           - label_for @object, 'ib'
           - value_for @object, 'ib'
@@ -20,5 +20,5 @@
       %tr
         %td
           = haml :"#{@path}/_show"
-    %tfoot
-      - tr_buttonset(['print','edit','delete','cancel'],{td: {class: 'ta-ce'}})
+    %tfoot{class: 'ta-ce'}
+      - tr_buttonset ['print','edit','delete','cancel']

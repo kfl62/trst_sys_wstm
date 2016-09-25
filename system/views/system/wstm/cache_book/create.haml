@@ -2,18 +2,17 @@
   y,m,d = params[:id_date].split('-').map(&:to_i)
   date  = Date.new(y,m,d)
   prev  = Wstm::CacheBook.where(:id_date.lt => date).desc(:id_date).limit(1).first
-
 - xhr_hidden_data({dialog: 'create',oid: 'null',js_ext: 'desk_cache_book'})
 %form{action: "/sys/#{@path}",method: "post"}
   %table
     %thead
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         %td
           - label_for @object, 'name'
           - value_for @object, 'name',    {tag: {value: "#{@firm.name[0][0..2].upcase}_RC-#{date.to_s.gsub("-","")}"}}
           - label_for @object, 'id_date'
           - value_for @object, 'id_date', {tag: {value: date.to_s}}
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         %td
           - label_for @object, 'ib'
           - value_for @object, 'ib',      {tag: {data: {val: 'ib'},class: 'strip st red',value: (prev.fb rescue 0.0)}}
@@ -25,12 +24,12 @@
           - input_for @object, 'id_date', {tag: {type: 'hidden',value: date.to_s}}
           - input_for @object, 'ib',      {tag: {data: {val: 'ib'},type: 'hidden',value: (prev.fb rescue 0.0)}}
           - input_for @object, 'fb',      {tag: {data: {val: 'fb'},type: 'hidden',value: (prev.fb rescue 0.0)}}
-      %tr.pdb-05
-        %td.add-line-container
+      %tr{class: 'pdb-05'}
+        %td{class: 'add-line-container'}
           = haml :"#{@path}/_doc_add_line"
     %tbody
       %tr
         %td
           = haml :"#{@path}/_form", locals: {create: true}
-    %tfoot
-      - tr_buttonset(['save','cancel'],{td: {class: 'ta-ce'}})
+    %tfoot{class: 'ta-ce'}
+      - tr_buttonset ['save','cancel']

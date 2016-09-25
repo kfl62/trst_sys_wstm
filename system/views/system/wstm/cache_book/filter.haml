@@ -4,7 +4,6 @@
   d = params[:p_d].nil? ? @today.day   : params[:p_d].to_i
   current_month = y + m == @today.year + @today.month
   range = current_month ? (1..d) : (1..Time.days_in_month(m,y))
-
 - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_cache_book'})
 %table
   %thead
@@ -15,7 +14,7 @@
     %tr
       %td
         %table{data: {mark: 'scroll'}}
-          %tbody.inner
+          %tbody{class: 'inner'}
             - tr_header_for mat(@object, 'tbl_filter_hdr'), {tr: {data: {mark: 'scroll'}}}
             - range.each do |day|
               - cb = @object.find_by(id_date: Date.new(y,m,day))
@@ -26,6 +25,6 @@
                 - td_value_for cb, 'outs',    {tag: {class: 'strip',value: (cb.lines.sum(:out) rescue '-')},td: {class: 'ta-ri'}}
                 - td_value_for cb, 'fb',      {tag: {class: 'strip',value: (cb.fb rescue '-')},td: {class: 'ta-ri'}}
                 - td_value_for cb, 'count',   {tag: {class: 'strip',value: (cb.lines.count rescue '-')},td: {class: 'ta-ri'}}
-            %tr.hidden
-  %tfoot
-    - tr_buttonset(['cancel'],{td: {class: 'ta-ce'}})
+            %tr{class: 'hidden'}
+  %tfoot{class: 'ta-ce'}
+    - tr_buttonset ['cancel']
