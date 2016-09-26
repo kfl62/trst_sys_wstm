@@ -1,9 +1,8 @@
-%table{data: {mark: 'scroll'}}
+%table{data: {mark: 'scroll'},style: 'margin-top:.5rem'}
   %tbody.inner
     - o = @object.freights.new
     %tr.template{data: {mark: 'related'}}
-      %td
-        - value_for   o, 'name',        {tag: {data: {val: 'name'},class: 'strip',value: 'Material'}}
+      %td{class: 'hidden'}
         - input_for   o, 'freight_id',  {guess: {nested: 'doc_cas',index: 0},tag: {data: {val: 'freight_id'},type: 'hidden',value: 'strip'}}
         - input_for   o, 'id_date',     {guess: {nested: 'doc_cas',index: 0},tag: {data: {val: 'id_date'},type: 'hidden',value: 'strip'}}
         - input_for   o, 'id_stats',    {guess: {nested: 'doc_cas',index: 0},tag: {data: {val: 'id_stats'},type: 'hidden',value: 'strip'}}
@@ -13,6 +12,8 @@
         - input_for   o, 'pu_invoice',  {guess: {nested: 'doc_cas',index: 0},tag: {data: {val: 'pu_invoice'},type: 'hidden',value: 'strip'}}
         - input_for   o, 'val',         {guess: {nested: 'doc_cas',index: 0},tag: {data: {val: 'val'},type: 'hidden',value: 'strip'}}
         - input_for   o, 'val_invoice', {guess: {nested: 'doc_cas',index: 0},tag: {data: {val: 'val_invoice'},type: 'hidden',value: 'strip'}}
+      - td_value_for  o, 'ord',         {tag: {data: {val: 'ord'},class: 'strip',value: 'Nr.'}}
+      - td_value_for  o, 'name',        {tag: {data: {val: 'name'},class: 'strip',value: 'Material'}}
       - td_value_for  o, 'um',          {tag: {data: {val: 'um'},class: 'strip ta-ce',value: 'strip'}}
       - td_value_for  o, 'pu',          {tag: {data: {val: 'pu'},class: 'strip ta-ri',value: 'strip'}}
       - td_value_for  o, 'stck',        {tag: {data: {val: 'stck'},class: 'strip ta-ri',value: 'strip'}}
@@ -23,6 +24,6 @@
     - tr_header_for mat(@object,'table_header_form'),{tr: {data:{mark: 'scroll related-header'}}}
 
     %tr{data: {mark: 'related-total'}}
-      - td_value_for @object, 'total',  {td: {colspan: 4},tag: {class: 'strip',value: 'TOTAL'}}
+      - td_value_for @object, 'total',  {td: {colspan: 5},tag: {class: 'strip',value: 'Total'}}
       - td_value_for @object, 'tot-qu', {tag: {data: {val: 'tot-qu'},class: 'strip',value: 'strip'}}
       - td_value_for @object, 'button', {td: {colspan: 2},tag: {class: 'strip',value: 'strip'}}

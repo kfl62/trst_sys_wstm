@@ -3,7 +3,7 @@
 %form{action: "/sys/#{@path}",method: "delete"}
   %table
     %thead
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         - td_detail_for 'warning w-35rem',t('intro.show.desk_cassation',id_date: l(@object.id_date,format: :trst),unit: @object.unit.name[1],signed_by: @object.signed_by.name,expl: @object.expl),'error-red'
     %tbody
       %tr
