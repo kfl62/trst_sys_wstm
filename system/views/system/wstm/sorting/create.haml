@@ -9,7 +9,7 @@
       %tr{class: 'pdb-05'}
         %td
           %span.st Nr.
-          - input_for @object, 'name',      {tag: {value: @object.increment_name(@uid),style: 'ui-state-default ce id_intern'}}
+          - input_for @object, 'name',      {tag: {data: {mark: 'resize'},value: @object.increment_name(@uid),style: 'ui-state-default ce id_intern'}}
           %span.st din data de:
           - input_for @object, 'id_date',   {tag: {id: 'date_show',name: 'strip'}}
           - input_for @object, 'id_date',   {tag: {type: 'hidden',id: 'date_send',value: @object.id_date.to_s}}
