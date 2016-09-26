@@ -80,20 +80,27 @@ define () ->
                     $(@).val($('#date_send').val()) unless $(@).val() is ''
                     return
                 return
-              return
-            if $input.data().mark is 'wpu'
-              $input.on 'change', ()->
-                Trst.msgShow()
-                if $input.is(':checked')
-                  $url = "/sys/partial/wstm/cassation/_doc_add_line?wpu=#{$input.val()}"
-                  $('td.add-line-container').load $url, ()->
-                    Wstm.desk.cassation.buttons($('span.button'))
-                    Wstm.desk.cassation.inputs($('input[data-mark=wpu]'))
-                    Wstm.desk.cassation.selects($('select[data-val=freight]'))
-                    Trst.desk.inputs.handleUI()
-                    Trst.msgHide()
-                    return
+            if $input.data().val is 'qu'
+              $input.keypress (e)->
+                key = e.which
+                if key is 13
+                  $('span.button.fa-plus-circle').click()
+                  return false
                 return
+              return
+            # if $input.data().mark is 'wpu'
+            #   $input.on 'change', ()->
+            #     Trst.msgShow()
+            #     if $input.is(':checked')
+            #       $url = "/sys/partial/wstm/cassation/_doc_add_line?wpu=#{$input.val()}"
+            #       $('td.add-line-container').load $url, ()->
+            #         Wstm.desk.cassation.buttons($('span.button'))
+            #         Wstm.desk.cassation.inputs($('input[data-mark=wpu]'))
+            #         Wstm.desk.cassation.selects($('select[data-val=freight]'))
+            #         Trst.desk.inputs.handleUI()
+            #         Trst.msgHide()
+            #         return
+            #     return
           return
         selects: (slcts)->
           slcts.each ()->
