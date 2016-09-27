@@ -1,14 +1,14 @@
 %table{data: {mark: 'scroll'}}
-  %tbody.inner
+  %tbody{class: 'inner'}
     - o = @object.lines.new
-    %tr.template{data: {mark: 'related'}}
-      %td.w-2rem.ta-ri
-        - value_for o, 'order',   {tag:  {data: {val: 'ord'},class: 'strip'}}
+    %tr{class: 'template',data: {mark: 'related'}}
+      %td{class: 'hidden'}
         - input_for o, 'order',   {guess: {nested: 'cb',index: 0},tag: {data: {val: 'ord'},type: 'hidden',value: 'strip'}}
         - input_for o, 'doc',     {guess: {nested: 'cb',index: 0},tag: {data: {val: 'doc'},type: 'hidden',value: 'strip'}}
         - input_for o, 'expl',    {guess: {nested: 'cb',index: 0},tag: {data: {val: 'exp'},type: 'hidden',value: 'strip'}}
         - input_for o, 'in',      {guess: {nested: 'cb',index: 0},tag: {data: {val: 'ins'},type: 'hidden',value: 'strip'}}
         - input_for o, 'out',     {guess: {nested: 'cb',index: 0},tag: {data: {val: 'out'},type: 'hidden',value: 'strip'}}
+      - td_value_for o, 'order',  {td: {class: 'w-2rem'},tag: {data: {val: 'ord'},class: 'strip'}}
       - td_value_for o, 'doc',    {td: {class: 'w-8rem'},tag: {data: {val: 'doc'},class: 'strip',value: 'Document'}}
       - td_value_for o, 'exp',    {td: {class: 'w-40rem'},tag: {data: {val: 'exp'},class: 'strip',value: 'Explicatii'}}
       - td_value_for o, 'ins',    {td: {class: 'w-8rem ta-ri'},tag: {data: {val: 'ins'},class: 'strip',value: 'Incasare'}}
@@ -20,14 +20,14 @@
       - @object.lines.asc(:order).each do |l|
         - unless l.new_record?
           %tr{data: {mark: 'related'}}
-            %td.w-2rem.ta-ri
-              - value_for o, 'order',   {tag:  {class: 'strip', value: "#{l.order}."}}
+            %td{class: 'hidden'}
               - input_for o, 'id',      {guess: {nested: 'cb',index: l.order},tag: {data: {val: '_id'},type: 'hidden',value: l.id}}
               - input_for o, 'order',   {guess: {nested: 'cb',index: l.order},tag: {data: {val: 'ord'},type: 'hidden',value: l.order}}
               - input_for o, 'doc',     {guess: {nested: 'cb',index: l.order},tag: {data: {val: 'doc'},type: 'hidden',value: l.doc}}
               - input_for o, 'expl',    {guess: {nested: 'cb',index: l.order},tag: {data: {val: 'exp'},type: 'hidden',value: l.expl}}
               - input_for o, 'in',      {guess: {nested: 'cb',index: l.order},tag: {data: {val: 'ins'},type: 'hidden',value: l.in}}
               - input_for o, 'out',     {guess: {nested: 'cb',index: l.order},tag: {data: {val: 'out'},type: 'hidden',value: l.out}}
+            - td_value_for o, 'order',  {td: {class: 'w-2rem'},tag: {class: 'strip', value: "#{l.order}."}}
             - td_value_for o, 'doc',    {td: {class: 'w-8rem'},tag: {class: 'strip',value: l.doc}}
             - td_value_for o, 'exp',    {td: {class: 'w-40rem'},tag: {class: 'strip',value: l.expl}}
             - td_value_for o, 'ins',    {td: {class: 'w-8rem ta-ri'},tag: {class: 'strip',value: l.in}}

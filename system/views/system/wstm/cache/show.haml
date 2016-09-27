@@ -1,4 +1,4 @@
-- xhr_hidden_data({dialog: "show",oid: @object.id,js_ext: 'desk_cache'})
+- xhr_hidden_data({dialog: "show",js_ext: 'desk_cache'})
 %form{action: "/sys/#{@path}",method: "get"}
   %table
     %thead
@@ -6,6 +6,6 @@
       %tr
         %td
           = haml :"#{@path}/_show"
-    %tfoot
+    %tfoot{class: 'ta-ce'}
       - buttons = @current_user.admin? ? ['create','edit','delete','cancel'] : ['create','edit','cancel']
-      - tr_buttonset(buttons,{td: {class: 'ta-ce'}})
+      - tr_buttonset buttons

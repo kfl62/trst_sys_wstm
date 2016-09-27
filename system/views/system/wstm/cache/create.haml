@@ -1,7 +1,4 @@
-:ruby
-  end_of_month = Date.today == Date.today.end_of_month
-
-- xhr_hidden_data({dialog: "create",js_ext: 'desk_cache'})
+- xhr_hidden_data({dialog: "create",oid: 'null',js_ext: 'desk_cache'})
 - xhr_info('info',t('intro.create.main',data: model_name))
 %form{action: "/sys/#{@path}",method: "post"}
   %table
@@ -9,6 +6,6 @@
     %tbody
       %tr
         %td
-          = haml :"#{@path}/_form", locals: {end_of_month: end_of_month}
-    %tfoot
-      - tr_buttonset(['save','cancel'],{tr: {class: 'ta-ce'}})
+          = haml :"#{@path}/_form"
+    %tfoot{class: 'ta-ce'}
+      - tr_buttonset ['save','cancel']

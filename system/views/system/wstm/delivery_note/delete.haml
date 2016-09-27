@@ -3,12 +3,11 @@
 %form{action: "/sys/#{@path}",method: "delete"}
   %table
     %thead
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         - td_detail_for 'detail w-50rem ta-ju',t('intro.show.desk_delivery_note',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),firm: @firm.name[2],firm_d: @object.signed_by.name,client: @object.client.name[2],client_d: (@object.client_d.name rescue 'Anonymous'),transp: @object.transp.name[2],transp_d: @object.transp_d.name),'error-red'
     %tbody
       %tr
         %td
           = haml :"/#{@path}/_show"
-    %tfoot
-      - tr_buttonset(['delete','cancel'],{td: {class: 'ta-ce'}})
-
+    %tfoot{class: 'ta-ce'}
+      - tr_buttonset ['delete','cancel']

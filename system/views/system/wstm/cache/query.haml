@@ -13,7 +13,7 @@
       %tr
         %td{colspan: 4}
           = haml :'wstm/shared/_select_params', locals: {firm: @firm}
-    %tbody.inner
+    %tbody{class: 'inner'}
       - tr_header_for mat(@object,'table_one')
       %tr
         - td_label_for @object, 'stock_start', {td: {colspan: 3, class: 'ta-ce'}, tag: {class: 'strip', label:  mat(@object,'stock_start')}}
@@ -32,7 +32,7 @@
       %tr
         %td{colspan: 5}
           = haml :'wstm/shared/_select_params', locals: {firm: @firm}
-    %tbody.inner
+    %tbody{class: 'inner'}
       - tr_header_for mat(@object,'table_all')
       - @object.stats_all(y,m,mny_all: true,ext_all: false).each do |r|
         - dif = r.delete_at(4); r.delete_at(-2)

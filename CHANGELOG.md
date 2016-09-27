@@ -2,8 +2,22 @@
 
 * estimated release date: **2016-12-31**
 
+* **feature v0.3.1.20**
+   - feature date: **2016-09-27**
+   - bump version v0.3.1.20
+   - update CHANGELOG
+   - views: `Wstm::Sorting` forgotten class :(
+   - views: `Wstm::DeliveryNote` CRUD final
+   - assets: js, `Wstm.desk.delivery_note` cleanup,  add on Enter keypress & [#31][#31]
+   - views: `Wstm::Sorting` {tag: {data: {mark: 'resize'} issue
+   - views: `Wstm::Cassation` CRUD final
+   - assets: js, `Wstm.desk.cassation` add on Enter keypress
+   - i18n: `Wstm::Cassation` complete translation
+   - views: `Wstm::Cache_book` CRUD final
+   - views: `Wstm::Cache` CRUD final
+
 * **feature v0.3.1.19**
-   - feature date: **2016-09-xx**
+   - feature date: **2016-09-24**
    - bump version v0.3.1.19
    - update CHANGELOG
    - assets: js, `Wstm.desk.stock` cleanup, r_path & [#31][#31]

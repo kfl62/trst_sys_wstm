@@ -1,5 +1,5 @@
 %table{data: {mark: 'scroll'}}
-  %tbody.inner
+  %tbody{class: 'inner'}
     - tr_header_for mat(@object,'tbl_lines_hdr')[0..4],{tr: {data:{mark: 'scroll related-header'}}}
     - @object.lines.asc(:order).each do |l|
       %tr{data: {mark: 'related'}}

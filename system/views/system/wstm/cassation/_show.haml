@@ -1,7 +1,7 @@
 - @object.reload
 - if @object.freights.count > 0
   %table
-    %tbody.inner
+    %tbody{class: 'inner'}
       - tr_header_for mat(@object,'table_header_show')
       - @object.reload; @object.freights.each do |o|
         %tr

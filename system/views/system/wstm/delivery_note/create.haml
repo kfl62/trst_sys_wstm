@@ -1,15 +1,14 @@
 :ruby
   client  = Wstm::PartnerFirm.find(params[:client_id])
-  transp  = Wstm::PartnerFirm.find(params[:transp_id])
   client_d= client.people.find(params[:client_d_id]) if params[:client_d_id]
+  transp  = Wstm::PartnerFirm.find(params[:transp_id])
   transp_d= transp.people.find(params[:transp_d_id])
-
 - xhr_hidden_data({dialog: 'create',oid: 'null',js_ext: 'desk_delivery_note'})
 - xhr_info('info',t('intro.create.main',data: model_name))
 %form{action: "/sys/#{@path}",method: "post"}
   %table
     %thead
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         %td
           - label_for @object, 'name'
           - input_for @object, 'name',         {tag: {data: {mark: 'ui-focus resize'},value: @object.increment_name(@uid)}}
@@ -24,20 +23,20 @@
           - input_for @object, 'signed_by',    {tag: {type: 'hidden',value: @current_user.id}}
           - if client_d
             - input_for @object, 'client_d_id',{tag: {type: 'hidden',value: client_d.id}}
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         %td
           - label_for @object, 'doc_name'
           - input_for @object, 'doc_name',     {tag: {data: {mark: 'ui-focus focus step'}, value: "#{@firm.name[0][0..2].upcase}-"}}
           - label_for @object, 'doc_plat'
           - input_for @object, 'doc_plat',     {tag: {data: {mark: 'ui-focus step'}, value: 'strip'}}
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         - td_detail_for 'detail w-50rem ta-ju',t('intro.create.desk_delivery_note',firm: @firm.name[2],firm_d: @current_user.name,client: client.name[2],client_d: (client_d.name rescue 'Anonymous'),transp: transp.name[2],transp_d: transp_d.name)
     %tbody
-      %tr.pdb-05
-        %td.add-line-container
+      %tr{class: 'pdb-05'}
+        %td{class: 'add-line-container'}
           = haml :"#{@path}/_doc_add_line"
       %tr
         %td
           = haml :"#{@path}/_form",locals: {id_intern: client.firm.to_s}
-    %tfoot
-      - tr_buttonset(['save','cancel'],{td: {class: 'ta-ce'}})
+    %tfoot{class: 'ta-ce'}
+      - tr_buttonset ['save','cancel']
