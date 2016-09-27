@@ -99,7 +99,7 @@ define () ->
                   $('input[name*="id_date"]').each ()->
                     $(@).val($('#date_send').val())
                     return
-              return
+                  return
             if $input.data().mark is 'wpu'
               $input.on 'change', ()->
                 Trst.msgShow()
@@ -107,12 +107,20 @@ define () ->
                   $url = "/sys/partial/wstm/delivery_note/_doc_add_line?wpu=#{$input.val()}"
                   $('td.add-line-container').load $url, ()->
                     Wstm.desk.delivery_note.buttons($('span.button'))
-                    Wstm.desk.delivery_note.inputs($('input[data-mark=wpu]'))
-                    Wstm.desk.delivery_note.selects($('select[data-val=freight]'))
+                    Wstm.desk.delivery_note.inputs($('input[data-mark="wpu"],input[data-val="qu"]'))
+                    Wstm.desk.delivery_note.selects($('select[data-val="freight"]'))
                     Trst.desk.inputs.handleUI()
                     Trst.msgHide()
                     return
                 return
+            if $input.data().val is 'qu'
+              $input.keypress (e)->
+                key = e.which
+                if key is 13
+                  $('span.button.fa-plus-circle').click()
+                  return false
+                return
+              return
           return
         selects: (slcts)->
           slcts.each ()->
