@@ -1,6 +1,6 @@
 - if @object.freights.count > 0
-  %table.w-100pr{data: {mark: 'scroll'}}
-    %tbody.inner
+  %table{class: 'w-100pr',data: {mark: 'scroll'}}
+    %tbody{class: 'inner'}
       - tr_header_for mat(@object,'table_header_show'),{tr: {data:{mark: 'scroll'}}}
       - @object.reload; @object.freights.each do |o|
         %tr
@@ -18,5 +18,5 @@
 - else
   %table
     %tbody
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         - td_detail_for 'warning w-45rem',t('msg.no_freight_selected'),'info'

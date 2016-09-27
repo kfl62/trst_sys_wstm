@@ -6,20 +6,20 @@
     %table
       %thead
         - if @current_user.unit_id
-          %tr.pdb-05
+          %tr{class: 'pdb-05'}
             - td_detail_for 'detail w-35rem',t('intro.repair.desk_delivery_note')
             - input_for @object, 'id_date',     {tag: {id: 'date_send',type: 'hidden',name: 'strip',value: @today.to_s}}
         - else
-          %tr.pdb-05
+          %tr{class: 'pdb-05'}
             %td
               - label_for @object, 'id_date',     {guess: {label: 'day'}}
               - input_for @object, 'id_date',     {tag: {id: 'date_show',name: 'strip',value: l(@today,format: :trst)}}
               - input_for @object, 'id_date',     {tag: {id: 'date_send',type: 'hidden',name: 'strip',value: @today.to_s}}
       %tbody
-        %tr.pdb-05
+        %tr{class: 'pdb-05'}
           -td_input_for   @object, 'repair', {tag: {data: {mark: 'repair',search: 'Wstm::DeliveryNote',ph: '4',uid: @uid},class: 'w-40rem',name: 'strip',value: 'strip'}}
-      %tfoot
-        - tr_buttonset(['cancel'],{td: {class: 'ta-ce'}})
+      %tfoot{class: 'ta-ce'}
+        - tr_buttonset ['cancel']
 -else
   %form{action: "/sys/#{@path}",method: "get"}
     = haml :'wstm/shared/_select_unit'

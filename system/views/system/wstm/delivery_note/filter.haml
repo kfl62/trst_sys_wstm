@@ -7,17 +7,17 @@
     %table
       %tbody
         %tr
-          %td
+          %td{style: 'display:-webkit-box'}
             - input_for @object, 'client_id',   {tag: {id: 'client_id',  type: 'hidden',name: 'strip', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '2',ph: '0',search: 'Wstm::PartnerFirm'}}}
             - input_for @object, 'client_d_id', {tag: {id: 'client_d_id',type: 'hidden',name: 'strip', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '0',ph: '1',search: 'Wstm::PartnerFirmPerson'}}}
             %button#client_d{type: "button",data: {action: "create", icon: "fa fa-plus-square-o"}}= t('button.create') + " Delegat!"
         %tr
-          %td
+          %td{style: 'display:-webkit-box'}
             - input_for @object, 'transp_id',   {tag: {id: 'transp_id',  type: 'hidden',name: 'strip', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '2',ph: '2',search: 'Wstm::PartnerFirm'}}}
             - input_for @object, 'transp_d_id', {tag: {id: 'transp_d_id',type: 'hidden',name: 'strip', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '0',ph: '3',search: 'Wstm::PartnerFirmPerson'}}}
             %button#transp_d{type: "button",data: {action: "create",icon: "fa fa-plus-square-o"}}= t('button.create') + " Delegat!"
-      %tfoot
-        - tr_buttonset(['create','cancel'],{td: {class: 'ta-ce'}, create: {text: t('button.create') + " Anexa3!"}})
+      %tfoot{class: 'ta-ce'}
+        - tr_buttonset ['create','cancel'], {create: {text: t('button.create') + " Anexa3!"}}
 -else
   %form{action: "/sys/#{@path}",method: "get"}
     = haml :'wstm/shared/_select_unit'
