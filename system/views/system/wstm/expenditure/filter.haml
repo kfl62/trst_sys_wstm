@@ -1,6 +1,6 @@
-- xhr_hidden_data({dialog: 'filter',title_data: mat(Wstm::PartnerPerson,'model_name'),oid: 'null',js_ext: 'desk_expenditure'})
+- xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_expenditure'})
 -if @uid
-  - xhr_info('info',t("intro.filter.desk_expenditure",data: mat(@object,'model_name')))
+  - xhr_info('info',t("intro.filter.desk_expenditure",data:'model_name'))
   - unless @current_user.unit_id
     = haml :'wstm/shared/_select_unit'
   %form{action: "/sys/#{@path}",method: "get"}
@@ -9,9 +9,9 @@
         %tr
           %td
             - input_for @object, 'client_id', {tag: {id: 'client_id',type: 'hidden',name: 'strip',value: 'strip',class: 'w-30rem',data: {mark: 's2',minlength: '3',ph: '0',search: 'Wstm::PartnerPerson'}}}
-            %button#client{type: "button",data: {action: "create", icon: "fa fa-plus-square-o"}}= t('button.create') + " Persoană fizică!"
-      %tfoot
-        - tr_buttonset(['create','cancel'],{td: {class: 'ta-ce'}, create: {text: t('button.create') + " APP!"}})
+            %button{id: 'client',type: "button",data: {action: "create", icon: "fa fa-plus-square-o"}}= t('button.create') + " Persoană fizică!"
+      %tfoot{class: 'ta-ce'}
+        - tr_buttonset ['create','cancel'], {create: {text: t('button.create') + " APP!"}}
 -else
   %form{action: "/sys/#{@path}", method: "get"}
     = haml :'wstm/shared/_select_unit'

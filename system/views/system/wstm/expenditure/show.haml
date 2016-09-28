@@ -2,12 +2,12 @@
 %form{action: "/sys/#{@path}",method: "get"}
   %table
     %thead
-      %tr.pdb-05
+      %t{class: 'pdb-05'}
         - td_detail_for 'detail w-50rem ta-ju',t('intro.show.desk_expenditure',@object.client.i18n_hash.merge(enr: @object.name,eon: l(@object.id_date,format: :trst)))
     %tbody
       %tr
         %td
           = haml :"#{@path}/_show"
-    %tfoot
+    %tfoot{class: 'ta-ce'}
       - buttons =@object.freights.count == 0 ? ['delete'] : ['print','delete','cancel']
-      - tr_buttonset(buttons,{td: {class: 'ta-ce'}})
+      - tr_buttonset buttons
