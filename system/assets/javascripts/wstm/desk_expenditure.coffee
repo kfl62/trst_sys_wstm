@@ -43,13 +43,22 @@ define () ->
           @lineNewReset()
           @buttons($('span.button'))
           return
-        validate:
-          create: ()->
-            $('input[data-mark~=related-add][data-val=pu]').val($('select[data-mark~=related-add][data-val=freight] option:selected').data('pu'))
-            $('input[data-mark~=related-add][data-val=qu]').val('0.00')
-            if $('span[data-val=nro]').text() isnt '1.'
-              $('button[data-action="save"]').button 'option', 'disabled', false
-            true
+        noMatchesMsg: (term)->
+          $button = $('button#client')
+          if term.length < 13
+            $button.hide()
+            $msg = Trst.i18n.msg.id_pn.start.replace '%{data}', 13 - term.length
+          else if term.length is 13
+            if Trst.desk.inputs.__f.validateIdPN(term)
+              $button.show()
+              $button.data 'url', "/sys/wstm/partner_person?id_pn=#{term}"
+              $msg = Trst.i18n.msg.id_pn.valid
+            else
+              $button.hide()
+              $msg = Trst.i18n.msg.id_pn.invalid
+          else
+            $button.hide()
+            $msg = Trst.i18n.msg.id_pn.too_long
         calculate: ()->
           vl = $('tr[data-mark~=related]').not('.hidden')
           vt = $('tr[data-mark~=related-total]')
@@ -76,6 +85,13 @@ define () ->
           vt.find('input[data-val=sum-016]').val(sum_016.toFixed(2))
           vt.find('input[data-val=sum-out]').val(sum_out.toFixed(2))
           return
+        validate:
+          create: ()->
+            $('input[data-mark~=related-add][data-val=pu]').val($('select[data-mark~=related-add][data-val=freight] option:selected').data('pu'))
+            $('input[data-mark~=related-add][data-val=qu]').val('0.00')
+            if $('span[data-val=nro]').text() isnt '1.'
+              $('button[data-action="save"]').button 'option', 'disabled', false
+            true
         inputs: (inpts)->
           inpts.each ()->
             $input = $(@)
@@ -92,23 +108,15 @@ define () ->
               $input.on 'change', ()->
                 Wstm.desk.expenditure.calculate()
               return
+            if $input.data().val is 'qu'
+              $input.keypress (e)->
+                key = e.which
+                if key is 13
+                  $('span.button.fa-plus-circle').click()
+                  return false
+                return
+              return
           return
-        noMatchesMsg: (term)->
-          $button = $('button#client')
-          if term.length < 13
-            $button.button 'option', 'disabled', true
-            $msg = Trst.i18n.msg.id_pn.start.replace '%{data}', 13 - term.length
-          else if term.length is 13
-            if Trst.desk.inputs.__f.validateIdPN(term)
-              $button.button 'option', 'disabled', false
-              $button.data 'url', "/sys/wstm/partner_person?id_pn=#{term}"
-              $msg = Trst.i18n.msg.id_pn.valid
-            else
-              $button.button 'option', 'disabled', true
-              $msg = Trst.i18n.msg.id_pn.invalid
-          else
-            $button.button 'option', 'disabled', true
-            $msg = Trst.i18n.msg.id_pn.too_long
         selects: (slcts)->
           slcts.each ()->
             $select = $(@)
@@ -187,8 +195,8 @@ define () ->
             $button = $(@)
             $bd = $button.data()
             if Trst.desk.hdo.dialog is 'filter'
-              if $bd.action is 'create'
-                $button.button 'option', 'disabled', true
+              $('button[data-action=create]:not(#client)').button 'option', 'disabled', true
+              $('#client').hide()
             if Trst.desk.hdo.dialog is 'create'
               if $bd.action is 'save'
                 if Trst.desk.hdf.attr('action') is '/sys/wstm/expenditure'
@@ -218,7 +226,7 @@ define () ->
           return
         init: ()->
           @buttons($('button,span.button'))
-          @selects($('select, input[data-mark~=s2], input[data-mark~=repair]'))
+          @selects($('select,input[data-mark~=s2],input[data-mark~=repair]'))
           @inputs($('input'))
           @template = $('tr.template')?.remove()
           @lineNewReset()
