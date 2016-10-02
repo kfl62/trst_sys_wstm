@@ -4,44 +4,45 @@
     unit     = @firm.units.find(unit_id)
     dln_ary  = params[:dln_ary].split(',')
     dln_ary.each{|id| @object.dlns << Wstm::DeliveryNote.find(id)}
-  %span#hidden_data{data: {dialog: 'create',model_name: mat(@object,'model_name_id_intern'),oid: 'null',js_ext: 'desk_grn'}}
+  - xhr_hidden_data({dialog: 'create',model_name: mat(@object,'model_name_id_intern'),oid: 'null',js_ext: 'desk_grn'})
   %form{action: "/sys/#{@path}/create?id_intern=true", method: 'post'}
     %table
       %thead
-        %tr
-          %td.pdb-05
-            - label_for @object, 'name'
-            - input_for @object, 'name',      {tag: {data: {mark: 'ui-focus resize'},value: @object.increment_name(unit_id)}}
-            - label_for @object, 'id_date'
-            - input_for @object, 'id_date',   {tag: {id: 'date_show',name: 'strip'}}
-            - input_for @object, 'id_date',   {tag: {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}}
-            - input_for @object, 'id_intern', {tag: {type: 'hidden',value: 'true'}}
-            - input_for @object, 'doc_type',  {tag: {type: 'hidden',value: 'DN'}}
-            - input_for @object, 'doc_name',  {tag: {type: 'hidden',value: @object.dlns.map(&:doc_name).join(', ')}}
-            - input_for @object, 'doc_date',  {tag: {type: 'hidden',value: @object.dlns.last.id_date}}
-            - input_for @object, 'supplr_id', {tag: {type: 'hidden',value: @firm.id}}
-            - input_for @object, 'transp_id', {tag: {type: 'hidden',value: @firm.id}}
-            - input_for @object, 'unit_id',   {tag: {type: 'hidden',value: unit_id}}
-            - input_for @object, 'signed_by', {tag: {type: 'hidden',value: @current_user.id}}
-            - input_for @object, 'charged',   {tag: {type: 'hidden',value: 'true'}}
+        %tr{class: 'pdb-05'}
+          %td{class: 'hidden'}
+            - input_for @object, 'id_date',   {tag: {id: 'date_send',value: @object.id_date.to_s}}
+            - input_for @object, 'id_intern', {tag: {value: 'true'}}
+            - input_for @object, 'doc_type',  {tag: {value: 'DN'}}
+            - input_for @object, 'doc_name',  {tag: {value: @object.dlns.map(&:doc_name).join(', ')}}
+            - input_for @object, 'doc_date',  {tag: {value: @object.dlns.last.id_date}}
+            - input_for @object, 'supplr_id', {tag: {value: @firm.id}}
+            - input_for @object, 'transp_id', {tag: {value: @firm.id}}
+            - input_for @object, 'unit_id',   {tag: {value: unit_id}}
+            - input_for @object, 'charged',   {tag: {value: 'true'}}
+            - input_for @object, 'signed_by', {tag: {value: @current_user.id}}
             - dln_ary.each do |dn|
-              -input_for @object,'dln_ids',   {tag: {type: 'hidden',name: "[#{@path}][dln_ids][]",value: dn}}
-        %tr.pdb-05
+              -input_for @object,'dln_ids',   {tag: {name: "[#{@path}][dln_ids][]",value: dn}}
           %td
-            %span= t('intro.create.desk_grn.id_intern',unit: unit.name[1])
-        %tr.pdb-05
+            - label_for @object, 'name'
+            - input_for @object, 'name',      {tag: {type: 'text',class: 'ui-state-default ta-ce',data: {mark: 'ui-focus resize'},value: @object.increment_name(unit_id)}}
+            - label_for @object, 'id_date'
+            - input_for @object, 'id_date',   {tag: {type: 'text',id: 'date_show',name: 'strip'}}
+        %tr{class: 'pdb-05'}
+          - td_detail_for 'edit', t('intro.create.desk_grn.id_intern',unit: unit.name[1])
+        %tr{class: 'pdb-05'}
           %td
-            - input_for @object, 'transp_d_id', {tag: {id: 'transp_d_id', value: 'strip',class: 'w-20rem',data:{mark: 's2',minlength: '0',ph: '3',search: 'Wstm::PartnerFirm',transp_id: @firm.id}}}
             - label_for @object, 'doc_plat'
-            - input_for @object, 'doc_plat',    {tag: {data: {mark: 'ui-focus step'}, value: 'strip'}}
-            %button#transp_d{type: "button", data: {action: "create", icon: "fa fa-plus-square-o"}}=  t('button.create') + " Delegat!"
-        %tr.pdb-05
+            - input_for @object, 'doc_plat',    {tag: {data: {mark: 'ui-focus step focus'}, value: 'strip'}}
+            - input_for @object, 'transp_d_id', {tag: {id:'transp_d_id',class: 'w-20rem',data:{mark: 's2',ph: '3',search: 'Wstm::PartnerFirm',transp_id: @firm.id}}}
+        %tr{class: 'pdb-05'}
           %td
-            %hr
-            %span.small.width-450{style: 'display:inline-block'}= mat(@object,'dlns_name').concat @object.dlns.map(&:doc_name).join(', ')
-      = haml :"#{@path}/_form", locals: {dlns: dln_ary,id_intern: true,unit: unit}
-      %tfoot
-        - tr_buttonset(['save','cancel'],{td: {class: 'ta-ce'}})
+            %span{type: 'font-size:90%'}= mat(@object,'dlns_name').concat @object.dlns.map(&:doc_name).join(', ')
+      %tbody
+        %tr
+          %td
+            = haml :"#{@path}/_form", locals: {dlns: dln_ary,id_intern: true,unit: unit}
+      %tfoot{class: 'ta-ce'}
+        - tr_buttonset ['save','cancel']
 - else
   :ruby
     unit     = @firm.units.find_by(main: true)
@@ -50,41 +51,41 @@
     transp   = Wstm::PartnerFirm.find(params[:transp_id])
     transp_d = transp.people.find(params[:transp_d_id])
     freights = unit.freights.options_for_exp
-  %span#hidden_data{data: {dialog: 'create',model_name: mat(@object,'model_name'),oid: 'null',js_ext: 'desk_grn'}}
+  - xhr_hidden_data({dialog: 'create',model_name: mat(@object,'model_name'),oid: 'null',js_ext: 'desk_grn'})
   %form{action: "/sys/#{@path}", method: 'post'}
     %table
       %thead
-        %tr.pdb-05
+        %tr{class: 'pdb-05'}
+          %td{class: 'hidden'}
+            - input_for @object, 'id_date',     {tag: {id: 'date_send',value: @object.id_date.to_s}}
+            - input_for @object, 'id_intern',   {tag: {value: 'false'}}
+            - input_for @object, 'supplr_id',   {tag: {value: supplr.id,id: 'supplr_id', data: {p03: supplr.p03.to_s}}}
+            - input_for @object, 'transp_id',   {tag: {value: transp.id}}
+            - input_for @object, 'transp_d_id', {tag: {value: transp_d.id}}
+            - input_for @object, 'unit_id',     {tag: {value: unit.id}}
+            - input_for @object, 'signed_by',   {tag: {value: @current_user.id}}
+            - input_for @object, 'charged',     {tag: {value: 'true'}}
+            - if supplr_d
+              - input_for @object,'supplr_d_id',{tag: {value: supplr_d.id}}
+            - input_for @object, 'doc_date',    {tag: {value: 'strip'}}
           %td
             - label_for @object, 'name'
-            - input_for @object, 'name',        {tag: {data: {mark: 'ui-focus resize'},value: @object.increment_name(unit.id)}}
+            - input_for @object, 'name',        {tag: {type: 'text',data: {mark: 'ui-focus resize'},value: @object.increment_name(unit.id)}}
             - label_for @object, 'id_date'
-            - input_for @object, 'id_date',     {tag: {id: 'date_show',name: 'strip'}}
-            - input_for @object, 'id_date',     {tag: {id: 'date_send',type: 'hidden',value: @object.id_date.to_s}}
-            - input_for @object, 'id_intern',   {tag: {type: 'hidden',value: 'false'}}
-            - input_for @object, 'supplr_id',   {tag: {type: 'hidden',value: supplr.id,id: 'supplr_id', data: {p03: supplr.p03.to_s}}}
-            - input_for @object, 'transp_id',   {tag: {type: 'hidden',value: transp.id}}
-            - input_for @object, 'transp_d_id', {tag: {type: 'hidden',value: transp_d.id}}
-            - if supplr_d
-              - input_for @object,'supplr_d_id',{tag: {type: 'hidden',value: supplr_d.id}}
-            - input_for @object, 'unit_id',     {tag: {type: 'hidden',value: unit.id}}
-            - input_for @object, 'signed_by',   {tag: {type: 'hidden',value: @current_user.id}}
-            - input_for @object, 'charged',     {tag: {type: 'hidden',value: 'true'}}
-        %tr.pdb-05
+            - input_for @object, 'id_date',     {tag: {type: 'text',id: 'date_show',name: 'strip'}}
+        %tr{class: 'pdb-05'}
           %td
-            - select_for @object,'doc_type',    {type: 'enum',style: 'wstm doc_type focus',select_options: %w{null DN INV MIN}}
-            - input_for  @object,'doc_name',    {tag: {style: 'ui-state-default ta-ce',placeholder: mat(@object,'doc_name')}}
-            - input_for  @object,'doc_plat',    {tag: {style: 'ui-state-default ta-ce',placeholder: mat(@object,'doc_plat')}}
-            - input_for  @object,'doc_date',    {tag: {type: 'hidden',value: 'strip'}}
-        %tr.pdb-05
+            - select_for @object,'doc_type',    {type: 'enum',style: 'doc_type',select_options: %w{null DN INV MIN}}
+            - input_for  @object,'doc_name',    {tag: {data: {mark: 'ui-focus step'},placeholder: mat(@object,'doc_name')}}
+            - input_for  @object,'doc_plat',    {tag: {data: {mark: 'ui-focus step'},placeholder: mat(@object,'doc_plat')}}
+        %tr{class: 'pdb-05'}
           - td_detail_for 'detail w-50rem ta-ju', t('intro.create.desk_grn.partner_firm',unit: unit.name[1],signed_by: @current_user.name,supplr: supplr.name[2],transp_d: transp_d.name)
       %tbody
-        %tr.pdb-05
-          %td.add-line-container
+        %tr{class: 'pdb-05'}
+          %td{class: 'add-line-container'}
             = haml :"#{@path}/_doc_add_line"
-        %tr.pdb-05
+        %tr
           %td
-            = haml :"#{@path}/_form", locals: {id_intern: false,unit: unit,freights: freights}
-      %tfoot
-        - tr_buttonset(['save','cancel'],{td: {class: 'ta-ce'}})
-
+            = haml :"#{@path}/_form", locals: {id_intern: false}
+      %tfoot{class: 'ta-ce'}
+        - tr_buttonset ['save','cancel']

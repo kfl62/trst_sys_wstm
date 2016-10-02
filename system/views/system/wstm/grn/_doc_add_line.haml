@@ -1,7 +1,7 @@
 :ruby
-  freights =  @firm.units.find(@uid).freights.options_for_exp
+  freights =  @firm.units.find_by(main: true).freights.options_for_exp
 
-%table.w-100pr
+%table{class: 'w-100pr'}
   %tr
     %td
       - value_for @object, 'txt', {tag: {class: 'strip',value: 'Materiale de recepționat'}}

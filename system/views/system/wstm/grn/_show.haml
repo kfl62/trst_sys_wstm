@@ -1,11 +1,9 @@
 - @object.reload
 - if @object.freights.count > 0
-  %table
-    %tbody.inner
-      %tr
-        - i = @object.id_intern == true ? 5 : -2; mat(@object,'table_header')[1..i].each do |label|
-          %td
-            %span= label
+  %table{class: 'w-80pr'}
+    %tbody{class: 'inner'}
+      - i = @object.id_intern == true ? 5 : -2
+      - tr_header_for mat(@object,'table_header')[1..i]
       - @object.freights.asc(:id_stats).each do |o|
         %tr
           - td_value_for  o, 'freight',     {guess: {order: 'name',nested: 'doc_grn'},tag: {class: 'strip'}}
@@ -14,7 +12,7 @@
           - td_value_for  o, 'qu',          {guess: {nested: 'doc_grn'},tag: {class: 'strip ta-ri'}}
           - td_value_for  o, 'val',         {guess: {nested: 'doc_grn'},tag: {class: 'strip ta-ri'}}
           - unless @object.id_intern
-            %td.ta-ri.w-6rem
+            %td{class: 'w-6rem ta-ri'}
               %span.val= "%.2f" % ((o.freight.p03 == true and @object.supplr.p03 == true) ? (o.val * 0.03).round(2) : 0)
       %tr
         - td_value_for @object, 'total',    {td: {colspan: 4},tag: {class: 'strip',value: 'TOTAL'}}
@@ -24,5 +22,5 @@
 - else
   %table
     %tbody
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         - td_detail_for 'warning w-45rem',t('msg.no_freight_selected'),'info'
