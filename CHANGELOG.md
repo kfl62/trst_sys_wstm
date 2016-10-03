@@ -1,6 +1,19 @@
 ## v1.0.0
 
 * estimated release date: **2016-12-31**
+*
+
+**feature v0.3.1.21**
+   - feature date: **2016-09-03**
+   - bump version v0.3.1.21
+   - update CHANGELOG
+   - views: `Wstm::Invoice` CRUD final
+   - assets: js, `Wstm.desk.Invoice` cleanup, & [#31][#31]
+   - views: `Wstm::Grn` CRUD final
+   - assets: js, `Wstm.desk.grn` cleanup, add on Enter keypress & [#31][#31]
+   - i18n: `Wstm::Cassation` minor changes
+   - views: `Wstm::Expanditure` CRUD final
+   - assets: js, `Wstm.desk.expenditure` cleanup,  add on Enter keypress & [#31][#31]
 
 * **feature v0.3.1.20**
    - feature date: **2016-09-27**
