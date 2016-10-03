@@ -25,11 +25,10 @@ define () ->
           qu  = v.filter('input[data-val=qu]').val(); qu = if $.isNumeric(qu) then parseFloat(qu).toFixed(2) else '0.00'
           val = (parseFloat(qu) * parseFloat(pu)).toFixed(2)
           _03 = if ($fd.p03 and $('#supplr_id').data('p03')) then (parseFloat(val) * 0.03).toFixed(2) else '0.00'
-          _16 = (parseFloat(val) * 0.0).toFixed(2)
-          out = (parseFloat(val) - parseFloat(_03) - parseFloat(_16)).toFixed(2)
+          out = (parseFloat(val) - parseFloat(_03)).toFixed(2)
           $.extend true,
             $fd,
-            {ord: ord;freight_id: freight_id;id_date: $('#date_send').val();qu: qu;pu: pu;val: val;_03: _03;_16: _16;out: out}
+            {ord: ord;freight_id: freight_id;id_date: $('#date_send').val();qu: qu;pu: pu;val: val;_03: _03;out: out}
         lineInsert: ()->
           r = @lineNewData()
           l = @template.clone().removeClass('template')
@@ -46,7 +45,7 @@ define () ->
         calculate: ()->
           vl = $('tr[data-mark~=related]').not('.hidden')
           vt = $('tr[data-mark~=related-total]')
-          i  = 1; sum_100 = 0; sum_003 = 0; sum_016 = 0; sum_out = 0
+          i  = 1; sum_100 = 0; sum_003 = 0; sum_out = 0
           vl.each ()->
             $row = $(@)
             $row.find('span[data-val=ord]').text("#{i}.")
@@ -55,18 +54,15 @@ define () ->
               return
             val = parseFloat($row.find('span[data-val=val]').text())
             _03 = parseFloat($row.find('span[data-val=_03]').text())
-            _16 = parseFloat($row.find('span[data-val=_16]').text())
             out = parseFloat($row.find('span[data-val=out]').text())
-            sum_100 += val; sum_003 += _03; sum_016 += _16; sum_out += out
+            sum_100 += val; sum_003 += _03; sum_out += out
             i += 1
             return
           vt.find('span[data-val=sum-100]').text(sum_100.toFixed(2))
           vt.find('span[data-val=sum-003]').text(sum_003.toFixed(2))
-          vt.find('span[data-val=sum-016]').text(sum_016.toFixed(2))
           vt.find('span[data-val=sum-out]').text(sum_out.toFixed(2))
           vt.find('input[data-val=sum-100]').val(sum_100.toFixed(2))
           vt.find('input[data-val=sum-003]').val(sum_003.toFixed(2))
-          vt.find('input[data-val=sum-016]').val(sum_016.toFixed(2))
           vt.find('input[data-val=sum-out]').val(sum_out.toFixed(2))
           return
         validate:
@@ -128,6 +124,14 @@ define () ->
                   $('select.doc_type').focus()
                 if Trst.desk.hdo.dialog is 'repair'
                   Wstm.desk.grn.selects($('input.repair'))
+              return
+            if $input.data().val is 'qu'
+              $input.keypress (e)->
+                key = e.which
+                if key is 13
+                  $('span.button.fa-plus-circle').click()
+                  return false
+                return
               return
             return
           return

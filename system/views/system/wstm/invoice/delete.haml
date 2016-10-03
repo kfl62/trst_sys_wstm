@@ -5,7 +5,7 @@
 %form{action: "/sys/#{@path}", method: "delete"}
   %table
     %thead
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         %td
           - if grns
             - detail_for 'warning w-40rem ta-ju', t('intro.show.desk_invoice.grn',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
