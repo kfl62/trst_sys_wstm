@@ -114,7 +114,7 @@ define () ->
             $id = $button.attr('id')
             if Trst.desk.hdo.dialog is 'filter'
               if $bd.action in ['create','show','edit','delete']
-                $bd.r_path = 'sys/wstm/cassation/filter'
+                $bd.r_path = 'sys/wstm/sorting/filter'
                 return
             if Trst.desk.hdo.dialog is 'create'
               if $button.hasClass('fa-refresh')
