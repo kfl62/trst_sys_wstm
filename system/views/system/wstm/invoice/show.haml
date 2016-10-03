@@ -5,7 +5,7 @@
 %form{action: "/sys/#{@path}", method: "get"}
   %table
     %thead
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         %td
           - if grns
             - detail_for 'info w-40rem ta-ju', t('intro.show.desk_invoice.grn',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
@@ -13,6 +13,4 @@
             - detail_for 'info w-40rem ta-ju', t('intro.show.desk_invoice.main',doc_name: @object.doc_name,id_date: l(@object.id_date,format: :trst),client: @object.client.name[2])
     = haml :"#{@path}/_show"
     %tfoot{class: 'ta-ce'}
-      %tr
-        - buttons =@object.freights.count == 0 ? ['delete'] : ['print','delete','cancel']
-        - tr_buttonset buttons
+      - tr_buttonset ['print','delete','cancel']

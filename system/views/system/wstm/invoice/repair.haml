@@ -1,21 +1,20 @@
-%span#hidden_data{data: {dialog: "repair",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_invoice'}}
+- xhr_hidden_data({dialog: "repair",oid: "null",js_ext: 'desk_invoice'})
 %form{action: "/sys/#{@path}", method: "get"}
   %table
     %thead
       - if @current_user.unit_id
-        %tr.pdb-05
+        %tr{class: 'pdb-05'}
           - td_detail_for 'detail w-40rem ta-ju',t('intro.repair.desk_invoice')
           %td
-            %input#date_send{type: 'hidden', value: Date.today.to_s}
+            %input{id:'date_send',type: 'hidden', value: Date.today.to_s}
       - else
-        %tr.pdb-05
+        %tr{class: 'pdb-05'}
           %td
-            %span= mat(@object,'day')
-            %input#date_show.ui-state-default{type: 'text',value: l(Date.today,format: :trst)}
-            %input#date_send{type: 'hidden', value: Date.today.to_s}
+            - label_for @object, 'id_date',     {guess: {label: 'day'}}
+            - input_for @object, 'id_date',     {tag: {id: 'date_show',name: 'strip',value: l(@today,format: :trst)}}
+            - input_for @object, 'id_date',     {tag: {id: 'date_send',type: 'hidden',name: 'strip',value: @today.to_s}}
     %tbody
-      %tr.pdb-05
-        %td
-          %input.repair{type: 'hidden',style: 'width:410px',data: {search: 'Wstm::Invoice',ph: '2'}}
+      %tr{class: 'pdb-05'}
+        -td_input_for   @object, 'repair', {tag: {value: 'strip',class: 'w-40rem',data: {mark: 'repair',search: 'Wstm::Invoice',ph: '2'}}}
     %tfoot{class: 'ta-ce'}
       - tr_buttonset ['cancel']
