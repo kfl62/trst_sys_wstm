@@ -2,7 +2,7 @@
 %form{action: "/sys/#{@path}",method: "get"}
   %table
     %thead
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         - td_detail_for 'detail w-35rem',t('intro.show.desk_sorting',id_date: l(@object.id_date,format: :trst),unit: @object.unit.name[1],signed_by: @object.signed_by.name,expl: @object.expl)
     %tbody
       %tr
@@ -10,5 +10,4 @@
           = haml :"#{@path}/_show"
     %tfoot{class: 'ta-ce'}
       %tr
-        - buttons =@object.from_freights.count == 0 ? ['delete'] : ['print','delete','cancel']
-        - tr_buttonset buttons
+        - tr_buttonset ['print','delete','cancel']
