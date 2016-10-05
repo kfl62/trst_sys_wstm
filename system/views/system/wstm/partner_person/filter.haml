@@ -3,9 +3,9 @@
 %form{action: "/sys/#{@path}",method: "get"}
   %table
     %tbody
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         %td
-          %input.w-30rem.select2{type: 'hidden',data: {minlength: '3',ph: '0',search: @path.classify}}
-    %tfoot
+          %input{type: 'hidden',class: 'w-30rem select2',data: {minlength: '3',ph: '0',search: @path.classify}}
+    %tfoot{class: 'ta-ce'}
       - buttons = @current_user.admin? ? ['create','show','edit','delete','cancel'] : ['create', 'show','edit','cancel']
-      - tr_buttonset(buttons,{td: {class: 'ta-ce'}})
+      - tr_buttonset(buttons,{td: })
