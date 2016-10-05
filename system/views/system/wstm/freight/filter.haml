@@ -7,14 +7,14 @@
     %table
       %thead
       %tbody
-        %tr.pdb-05
+        %tr{class: 'pdb-05'}
           %td
-            %select#oid
+            %select{id: 'oid'}
               %option{value: "null"}= t("select.option",data: model_name)
               - @object.where(unit_id: @uid).default_sort.each do |o|
                 %option{value: o.view_filter.first}= o.view_filter.last
-      %tfoot
+      %tfoot{class: 'ta-ce'}
         - buttons = @current_user.admin? ? ['create','show','edit','delete','cancel'] : ['show','edit','cancel']
-        - tr_buttonset(buttons,{td: {class: 'ta-ce'}})
+        - tr_buttonset buttons
 - else
   = haml :'wstm/shared/_select_unit'
