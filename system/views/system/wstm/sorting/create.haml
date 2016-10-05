@@ -8,9 +8,9 @@
     %thead
       %tr{class: 'pdb-05'}
         %td{class: 'hidden'}
-          - input_for @object, 'id_date',   {tag: {type: 'hidden',id: 'date_send',value: @object.id_date.to_s}}
-          - input_for @object, 'unit_id',   {tag: {type: 'hidden',value: @uid}}
-          - input_for @object, 'signed_by', {tag: {type: 'hidden',value: @current_user.id}}
+          - input_for @object, 'id_date',   {tag: {id: 'date_send',value: @object.id_date.to_s}}
+          - input_for @object, 'unit_id',   {tag: {value: @uid}}
+          - input_for @object, 'signed_by', {tag: {value: @current_user.id}}
         %td
           %span Nr.
           - input_for @object, 'name',      {tag: {data: {mark: 'resize'},value: @object.increment_name(@uid),style: 'ui-state-default ce id_intern'}}
@@ -23,11 +23,11 @@
       %tr{class: 'pdb-05'}
         - o_from = @object.from_freights.new
         %td{class: 'hidden'}
-          - input_for   o_from, 'freight_id',{guess: {nested: 'doc_sor',index: 0},tag: {type: 'hidden'}}
-          - input_for   o_from, 'id_date',   {guess: {nested: 'doc_sor',index: 0},tag: {type: 'hidden'}}
-          - input_for   o_from, 'id_stats',  {guess: {nested: 'doc_sor',index: 0},tag: {type: 'hidden'}}
-          - input_for   o_from, 'pu',        {guess: {nested: 'doc_sor',index: 0},tag: {type: 'hidden'}}
-          - input_for   o_from, 'qu',        {guess: {nested: 'doc_sor',index: 0},tag: {type: 'hidden'}}
+          - input_for   o_from, 'freight_id',{guess: {nested: 'doc_sor',index: 0}}
+          - input_for   o_from, 'id_date',   {guess: {nested: 'doc_sor',index: 0}}
+          - input_for   o_from, 'id_stats',  {guess: {nested: 'doc_sor',index: 0}}
+          - input_for   o_from, 'pu',        {guess: {nested: 'doc_sor',index: 0}}
+          - input_for   o_from, 'qu',        {guess: {nested: 'doc_sor',index: 0}}
         %td
           %select{data: {mark: 'from-freights'}}
             %option{value: 'null', data: {pu: 0.00, stck: 0.00}} Material sortat
