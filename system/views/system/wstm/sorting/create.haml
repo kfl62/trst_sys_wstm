@@ -7,35 +7,36 @@
   %table
     %thead
       %tr{class: 'pdb-05'}
+        %td{class: 'hidden'}
+          - input_for @object, 'id_date',   {tag: {id: 'date_send',value: @object.id_date.to_s}}
+          - input_for @object, 'unit_id',   {tag: {value: @uid}}
+          - input_for @object, 'signed_by', {tag: {value: @current_user.id}}
         %td
-          %span.st Nr.
+          %span Nr.
           - input_for @object, 'name',      {tag: {data: {mark: 'resize'},value: @object.increment_name(@uid),style: 'ui-state-default ce id_intern'}}
-          %span.st din data de:
+          %span din data de:
           - input_for @object, 'id_date',   {tag: {id: 'date_show',name: 'strip'}}
-          - input_for @object, 'id_date',   {tag: {type: 'hidden',id: 'date_send',value: @object.id_date.to_s}}
-          - input_for @object, 'unit_id',   {tag: {type: 'hidden',value: @uid}}
-          - input_for @object, 'signed_by', {tag: {type: 'hidden',value: @current_user.id}}
       %tr{class: 'pdb-05'}
         %td
           - label_for @object, 'expl'
           - input_for @object, 'expl',      {tag: {value: mat(@object,'expl_default'),style: 'ui-state-default width-350'}}
       %tr{class: 'pdb-05'}
         - o_from = @object.from_freights.new
+        %td{class: 'hidden'}
+          - input_for   o_from, 'freight_id',{guess: {nested: 'doc_sor',index: 0}}
+          - input_for   o_from, 'id_date',   {guess: {nested: 'doc_sor',index: 0}}
+          - input_for   o_from, 'id_stats',  {guess: {nested: 'doc_sor',index: 0}}
+          - input_for   o_from, 'pu',        {guess: {nested: 'doc_sor',index: 0}}
+          - input_for   o_from, 'qu',        {guess: {nested: 'doc_sor',index: 0}}
         %td
-          - input_for   o_from, 'id_date',   {guess: {nested: 'doc_sor',index: 0},tag: {type: 'hidden'}}
-          - input_for   o_from, 'id_stats',  {guess: {nested: 'doc_sor',index: 0},tag: {type: 'hidden'}}
-          - input_for   o_from, 'um',        {guess: {nested: 'doc_sor',index: 0},tag: {type: 'hidden'}}
-          - input_for   o_from, 'pu',        {guess: {nested: 'doc_sor',index: 0},tag: {type: 'hidden'}}
-          - input_for   o_from, 'qu',        {guess: {nested: 'doc_sor',index: 0},tag: {type: 'hidden',id: 'from-freight-qu-submit'}}
-          - input_for   o_from, 'freight_id',{guess: {nested: 'doc_sor',index: 0},tag: {type: 'hidden'}}
-          %select{data: {mark: 'from-freight'}}
+          %select{data: {mark: 'from-freights'}}
             %option{value: 'null', data: {pu: 0.00, stck: 0.00}} Material sortat
             - from_freights.each do |f|
               - title = "PU: #{("%.2f" % f[2][:pu]).rjust(6,"\u00a0")}; Stoc (#{f[2][:um]}): #{('%.2f' % f[2][:stck]).rjust(8,"\u00a0")}"
               %option{value: f[0],data: f[2],style: 'font-family:Mono'}= "#{f[1].ljust(17,"\u00a0")} : #{title}"
-          Sortat/kg &nbsp;
+          %span Sortat/kg &nbsp;
           %span{class: 'ui-state-default',data: {val: 'from-freight-qu'}} 0.00
-          &nbsp;&nbsp;Stoc rămas/kg &nbsp;
+          %span &nbsp;&nbsp;Stoc rămas/kg &nbsp;
           %span{class: 'ui-state-default',data: {val: 'from-freight-stock'}} 0.00
     %tbody
       %tr{class: 'pdb-05'}

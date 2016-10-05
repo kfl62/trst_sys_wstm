@@ -3,12 +3,12 @@
   %table
     %thead
       - unless @current_user.admin?
-        %tr.pdb-05
+        %tr{class: 'pdb-05'}
           - td_detail_for 'detail',t('intro.edit.desk_freight')
     %tbody
       %tr
         %td
           = haml :"#{@path}/_form"
-    %tfoot
+    %tfoot{class: 'ta-ce'}
       - buttons = @current_user.admin? ? ['save','delete','cancel'] : ['save','cancel']
-      - tr_buttonset(buttons,{td: {class: 'ta-ce'}})
+      - tr_buttonset buttons

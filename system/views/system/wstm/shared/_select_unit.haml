@@ -17,5 +17,5 @@
         - @firm.units.asc(:slug).each do |unit|
           %option{value: unit.id}= unit.name[1]
     %hr
-  %article.ta-ce
+  %article{class: 'ta-ce'}
     - button 'cancel'

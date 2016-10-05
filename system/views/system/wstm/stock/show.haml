@@ -7,7 +7,7 @@
           - label_for @object, 'name'
           - value_for @object, 'name'
           - label_for @object, 'id_date'
-          %span.ta-ce.st= @object.id_date.to_s
+          - value_for @object, 'id_date', {tag: {value: @object.id_date.to_s}}
       %tr{class: 'pdb-05'}
         %td
           - value_for @object, 'expl'

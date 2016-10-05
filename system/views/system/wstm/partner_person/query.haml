@@ -1,12 +1,12 @@
 - xhr_hidden_data({dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_partner_person'})
 %table
   %thead
-    %tr.pdb-05
+    %tr{class: 'pdb-05'}
       %td
-        %input.select2.param{name: 'p_oid',type: 'hidden',style: 'width:300px',data: {minlength: '3',ph: '0',search: @path.classify}}
+        %input{name: 'p_oid',type: 'hidden',class: 'w-30rem select2 param',data: {minlength: '3',ph: '0',search: @path.classify}}
   %tbody
-    %tr.pdb-05
-      %td.query-expenditures-container
+    %tr{class: 'pdb-05'}
+      %td{class: 'query-expenditures-container'}
         = haml :"wstm/partner_person/_query_expenditures"
-  %tfoot
-    - tr_buttonset(['cancel'],{td: {class: 'ta-ce'}})
+  %tfoot{class: 'ta-ce'}
+    - tr_buttonset ['cancel']

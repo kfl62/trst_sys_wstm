@@ -62,7 +62,9 @@ define () ->
             tot_qu += qu
             i += 1
             return
+          vl.find('[data-val=pu]').val(parseFloat($('select[data-mark="from-freights"]').find('option:selected').data().pu).toFixed(2))
           vt.find('[data-val=tot-qu]').text(tot_qu.toFixed(2))
+          $($('input[name*="qu"]')[0]).val(tot_qu)
           $('span[data-val="from-freight-qu"]').text(tot_qu.toFixed(2))
           $('span[data-val="from-freight-stock"]').text(@rest - tot_qu)
           return
@@ -70,21 +72,20 @@ define () ->
           slcts.each ()->
             $select = $(@)
             $sd = $select.data()
-            if $sd.mark is 'from-freight'
+            if $sd.mark is 'from-freights'
               $select.on 'change', ()->
                 $sod = $select.find('option:selected').data()
-                $inp = $select.prevAll('input')
+                $inp = $select.parent().prev().find(':input')
                 $inp.filter('[name*="freight_id"]').val($select.val())
                 $inp.filter('[name*="id_date"]').val($('#date_send').val())
                 $inp.filter('[name*="id_stats"]').val($sod.id_stats)
                 $inp.filter('[name*="um"]').val($sod.um)
-                $inp.filter('[name*="qu"]').val('0.00')
                 $inp.filter('[name*="pu"]').val(parseFloat($sod.pu).toFixed(2))
+                $inp.filter('[name*="qu"]').val('0.00')
                 $('span[data-val="from-freight-stock"]').text(parseFloat($sod.stck).toFixed(2))
                 if $select.val() is 'null' then $('.add-line-container').addClass('hidden') else $('.add-line-container').removeClass('hidden')
                 Wstm.desk.sorting.calculate(true)
                 return
-              return
             if $sd.val is 'freight'
               $select.on 'change', ()->
                 if Wstm.desk.sorting.validate.create()
@@ -93,7 +94,6 @@ define () ->
                 else
                   $select.val('null')
                 return
-          return
         inputs: (inpts)->
           inpts.each ()->
             $input = $(@)
@@ -103,8 +103,14 @@ define () ->
                   $('input[name*="id_date"]').each ()->
                     $(@).val($('#date_send').val()) unless $(@).val() is ''
                     return
-                if Trst.desk.hdo.dialog is 'repair'
-                  Wstm.desk.sorting.selects($('input.repair'))
+              return
+            if $input.data().val is 'qu'
+              $input.keypress (e)->
+                key = e.which
+                if key is 13
+                  $('span.button.fa-plus-circle').click()
+                  return false
+                return
               return
           return
         buttons: (btns)->
@@ -114,8 +120,7 @@ define () ->
             $id = $button.attr('id')
             if Trst.desk.hdo.dialog is 'filter'
               if $bd.action in ['create','show','edit','delete']
-                $bd.r_path = 'sys/wstm/cassation/filter'
-                return
+                $bd.r_path = 'sys/wstm/sorting/filter'
             if Trst.desk.hdo.dialog is 'create'
               if $button.hasClass('fa-refresh')
                 $button.off 'click'
@@ -134,8 +139,6 @@ define () ->
                   Wstm.desk.sorting.calculate()
                   Wstm.desk.sorting.lineNewReset()
                   return
-                return
-              return
             if Trst.desk.hdo.dialog is 'show'
               if $bd.action is 'print'
                 $button.on 'click', ()->
@@ -147,10 +150,10 @@ define () ->
                       Trst.msgHide()
                       Trst.desk.downloadError Trst.desk.hdo.model_name
                   false
-          return
+                  return
         init: ()->
           @buttons($('button,span.button'))
-          @selects($('select.wstm,select'))
+          @selects($('select'))
           @inputs($('input'))
           @template = $('tr.template')?.remove()
           @lineNewReset()

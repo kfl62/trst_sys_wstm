@@ -1,6 +1,6 @@
+- xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_stock'})
+- xhr_info('info',t("intro.filter.desk_stock"))
 -if @uid
-  - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_stock'})
-  - xhr_info('info',t("intro.filter.desk_stock"))
   - unless @current_user.unit_id
     = haml :'wstm/shared/_select_unit'
   %form{action: "/sys/#{@path}",method: "get"}
@@ -16,5 +16,4 @@
       %tfoot{class: 'ta-ce'}
         - tr_buttonset ['create','show','edit','delete','cancel']
 -else
-  - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_stock'})
   = haml :'wstm/shared/_select_unit'

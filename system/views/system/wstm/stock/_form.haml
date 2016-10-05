@@ -2,42 +2,42 @@
   unit     = Trst::PartnerFirm.unit_by_unit_id(@uid)
   freights = @object.new_record? ? @object.freights : @object.freights.where(:qu.ne => 0).asc(:id_stats,:pu)
 %table{data: {mark: 'scroll'}}
-  %tbody.inner
+  %tbody{class: 'inner'}
     - tr_header_for mat(@object,'table_header')
     - unless  freights.empty?
       - freights.each_with_index do |o,i|
         %tr{class: 'freight'}
-          %td
-            %span= o.freight.name
-            - input_for   o, 'freight_id', {guess:{nested: 'doc_stk',index: i},tag: {type: 'hidden',value: o.freight_id}}
-            - input_for   o, 'id_stats',   {guess:{nested: 'doc_stk',index: i},tag: {type: 'hidden',value: o.id_stats}}
-            - input_for   o, 'id_intern',  {guess:{nested: 'doc_stk',index: i},tag: {type: 'hidden',value: 'false'}}
-            - input_for   o, 'id_date',    {guess:{nested: 'doc_stk',index: i},tag: {type: 'hidden',value: Date.today.end_of_month.tomorrow.to_s}}
-            - input_for   o, 'um',         {guess:{nested: 'doc_stk',index: i},tag: {type: 'hidden',value: o.freight.um}}
-            - input_for   o, 'val',        {guess:{nested: 'doc_stk',index: i},tag: {type: 'hidden',value: "%.2f" % o.val}}
+          %td{class: 'hidden'}
+            - input_for   o, 'freight_id', {guess:{nested: 'doc_stk',index: i},tag: {value: o.freight_id}}
+            - input_for   o, 'id_stats',   {guess:{nested: 'doc_stk',index: i},tag: {value: o.id_stats}}
+            - input_for   o, 'id_intern',  {guess:{nested: 'doc_stk',index: i},tag: {value: 'false'}}
+            - input_for   o, 'id_date',    {guess:{nested: 'doc_stk',index: i},tag: {value: Date.today.end_of_month.tomorrow.to_s}}
+            - input_for   o, 'um',         {guess:{nested: 'doc_stk',index: i},tag: {value: o.freight.um}}
+            - input_for   o, 'val',        {guess:{nested: 'doc_stk',index: i},tag: {value: "%.2f" % o.val}}
             - unless @object.new_record?
-              - input_for  o, 'id',        {guess:{nested: 'doc_stk',index: i},tag: {type: 'hidden',value: o.id}}
+              - input_for  o, 'id',        {guess:{nested: 'doc_stk',index: i},tag: {value: o.id}}
+          - td_value_for  o, 'freight',    {tag:  {class: 'strip',value: o.freight.name}}
           - td_value_for  o, 'um',         {tag:  {class: 'strip ta-ce',value: o.freight.um}}
           - td_input_for  o, 'pu',         {guess:{nested: 'doc_stk',index: i},tag: {class: 'strip ta-ri',style: 'box-sizing:border-box',size: 4,value: "%.2f" % o.pu}}
           - td_input_for  o, 'qu',         {guess:{nested: 'doc_stk',index: i},tag: {class: 'strip ta-ri',style: 'box-sizing:border-box',size: 6,value: "%.2f" % o.qu}}
           - td_value_for  o, 'val',        {tag:  {class: 'strip ta-ri',value: "%.2f" % o.val}}
-          - td_value_for  o, 'button',     {tag: {class: 'strip button fa fa-times-circle red pointer',value: 'strip',title: t('button.delete')}}
+          - td_value_for  o, 'button',     {tag:  {class: 'strip button fa fa-times-circle red pointer',value: 'strip',title: t('button.delete')}}
     - else
       - o = @object.freights.new
       %tr{class: 'hidden freight'}
-        %td
-          - value_for   o, 'freight',   {guess:{nested: 'doc_stk',order: 'name'},class: 'strip'}
-          - input_for   o, 'freight_id',{guess:{nested: 'doc_stk',index: 0},tag: {type: 'hidden',value: 'strip'}}
-          - input_for   o, 'id_stats',  {guess:{nested: 'doc_stk',index: 0},tag: {type: 'hidden',value: 'strip'}}
-          - input_for   o, 'id_intern', {guess:{nested: 'doc_stk',index: 0},tag: {type: 'hidden',value: 'strip'}}
-          - input_for   o, 'id_date',   {guess:{nested: 'doc_stk',index: 0},tag: {type: 'hidden',value: 'strip'}}
-          - input_for   o, 'um',        {guess:{nested: 'doc_stk',index: 0},tag: {type: 'hidden',value: 'strip'}}
-          - input_for   o, 'val',       {guess:{nested: 'doc_stk',index: 0},tag: {type: 'hidden',value: 0}}
+        %td{class: 'hidden'}
+          - input_for   o, 'freight_id',{guess:{nested: 'doc_stk',index: 0},tag: {value: 'strip'}}
+          - input_for   o, 'id_stats',  {guess:{nested: 'doc_stk',index: 0},tag: {value: 'strip'}}
+          - input_for   o, 'id_intern', {guess:{nested: 'doc_stk',index: 0},tag: {value: 'strip'}}
+          - input_for   o, 'id_date',   {guess:{nested: 'doc_stk',index: 0},tag: {value: 'strip'}}
+          - input_for   o, 'um',        {guess:{nested: 'doc_stk',index: 0},tag: {value: 'strip'}}
+          - input_for   o, 'val',       {guess:{nested: 'doc_stk',index: 0},tag: {value: 0}}
+        - td_value_for  o, 'freight',   {guess:{nested: 'doc_stk',order: 'name'},class: 'strip'}
         - td_value_for  o, 'um',        {tag:  {class: 'strip ta-ce'}}
         - td_input_for  o, 'pu',        {guess:{nested: 'doc_stk',index: 0},tag: {class: 'strip ta-ri',value: 0}}
         - td_input_for  o, 'qu',        {guess:{nested: 'doc_stk',index: 0},tag: {class: 'strip ta-ri',value: 0}}
         - td_value_for  o, 'val',       {tag:  {class: 'strip ta-ri',value: 0}}
-        - td_value_for  o, 'button',    {tag: {class: 'strip button fa fa-times-circle red pointer',value: 'strip',title: t('button.delete')}}
+        - td_value_for  o, 'button',    {tag:  {class: 'strip button fa fa-times-circle red pointer',value: 'strip',title: t('button.delete')}}
     %tr{class: 'plus'}
       %td{colspan: 2}
         %select{class: 'freight wstm'}

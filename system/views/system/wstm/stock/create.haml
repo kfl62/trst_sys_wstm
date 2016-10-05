@@ -8,7 +8,7 @@
       %tr{class: 'pdb-05'}
         - td_detail_for 'warning w-35rem',t('intro.create.desk_stock.too_soon',data: l(Date.today.end_of_month,format: :trst))
     %tfoot{class: 'ta-ce'}
-      - tr_buttonset(['cancel'],)
+      - tr_buttonset ['cancel']
 - else
   - unit.stock_now.freights.where(:qu.ne => 0).asc(:id_stats,:pu).each{|f| @object.freights << f.clone}
   - xhr_hidden_data({dialog: 'create',js_ext: 'desk_stock'})
@@ -18,10 +18,10 @@
         %tr
           %td
             - label_for @object, 'name',    {tag: {class: 'strip'}}
-            %span.stats.st= "Stock_#{unit.slug}_#{l(Date.today.end_of_month.tomorrow, format: '%Y-%m')}"
+            %span{class: 'st'}= "Stock_#{unit.slug}_#{l(Date.today.end_of_month.tomorrow, format: '%Y-%m')}"
             - input_for @object, 'name',    {tag: {type: 'hidden',value: "Stock_#{unit.slug}_#{l(Date.today.end_of_month.tomorrow, format: '%Y-%m')}"}}
             - label_for @object, 'id_date', {tag: {style: 'strip'}}
-            %span.stats.width-150.ce.st= Date.today.end_of_month.tomorrow.to_s
+            %span{class: 'st'}= Date.today.end_of_month.tomorrow.to_s
             - input_for @object, 'id_date',  {tag: {type: 'hidden',value: Date.today.end_of_month.tomorrow.to_s}}
             - input_for @object, 'unit_id',  {tag: {type: 'hidden',value: @uid}}
         %tr{class: 'pdb-05'}

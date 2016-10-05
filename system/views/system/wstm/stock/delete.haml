@@ -1,7 +1,7 @@
 :ruby
   forbidden = @object.id_date != Date.today.end_of_month.tomorrow
+- xhr_hidden_data({dialog: 'delete',js_ext: 'desk_stock'})
 - if forbidden
-  - xhr_hidden_data({dialog: 'delete',js_ext: 'desk_stock'})
   %form{action: "/sys/#{@path}", method: "delete"}
     %table
       %thead
@@ -23,7 +23,6 @@
       %tfoot{class: 'ta-ce'}
         - tr_buttonset ['cancel']
 - else
-  - xhr_hidden_data({dialog: 'delete',js_ext: 'desk_stock'})
   %form{action: "/sys/#{@path}", method: "delete"}
     %table
       %thead

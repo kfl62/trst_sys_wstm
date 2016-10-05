@@ -1,18 +1,18 @@
 :ruby
   forbidden = @object.id_date != Date.new(2000,1,31)
+- xhr_hidden_data({dialog: "edit",oid: @object.id,js_ext: 'desk_stock'})
 - if forbidden
-  - xhr_hidden_data({dialog: "edit",oid: @object.id,js_ext: 'desk_stock'})
   %table
     %thead
       %tr{class: 'pdb-05'}
         - td_detail_for 'warning w-35rem', t('intro.edit.desk_stock.forbidden')
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         %td
           - label_for @object, 'name'
           - value_for @object, 'name'
           - label_for @object, 'id_date'
+          - value_for @object, 'id_date', {tag: {value: @object.id_date.to_s}}
           - input_for @object, 'id_date', {tag: {type: 'hidden',value: @object.id_date.to_s}}
-          %span{class: 'ta-ce st'}= @object.id_date.to_s
       %tr{class: 'pdb-05'}
         - td_value_for @object, 'expl'
     %tbody
@@ -22,7 +22,6 @@
     %tfoot{class: 'ta-ce'}
       - tr_buttonset ['cancel']
 - else
-  - xhr_hidden_data({dialog: "edit",oid: @object.id,js_ext: 'desk_stock'})
   %form{action: "/sys/#{@path}", method: "put"}
     %table
       %thead
@@ -31,8 +30,8 @@
             - label_for @object, 'name'
             - value_for @object, 'name'
             - label_for @object, 'id_date'
+            - value_for @object, 'id_date', {tag: {value: @object.id_date.to_s}}
             - input_for @object, 'id_date', {tag: {type: 'hidden',value: @object.id_date.to_s}}
-            %span{class: 'ta-ce st'}= @object.id_date.to_s
         %tr{class: 'pdb-05'}
           - td_value_for @object, 'expl'
       %tbody

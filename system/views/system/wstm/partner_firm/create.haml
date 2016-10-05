@@ -4,5 +4,5 @@
   %table
     %thead
     = haml :"#{@path}/_form"
-    %tfoot
-      - tr_buttonset(['save','cancel'],{td: {class: 'ta-ce'}})
+    %tfoot{class: 'ta-ce'}
+      - tr_buttonset ['save','cancel']

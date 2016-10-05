@@ -3,6 +3,20 @@
 * estimated release date: **2016-12-31**
 *
 
+**feature v0.3.1.22**
+   - feature date: **2016-09-05**
+   - bump version v0.3.1.22
+   - update CHANGELOG
+   - views: `Wstm::PartnerPerson` CRUD final
+   - views: `Wstm::PartnerFirm` CRUD final
+   - views: `Wstm::Freight` CRUD final
+   - views: `Wstm::Stock` CRUD final
+   - views: `Wstm::Sorting` fix 'hidden' duplicate
+   - views: `Wstm::Shared` CRUD final
+   - views: `Wstm::Sorting` CRUD final
+   - assets: js, `Wstm.desk.sorting` cleanup, add on Enter keypress & [#31][#31]
+   - assets: js, `Wstm.desk.sorting` typo (cut/paste) (:
+
 **feature v0.3.1.21**
    - feature date: **2016-09-03**
    - bump version v0.3.1.21
