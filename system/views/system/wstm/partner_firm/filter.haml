@@ -3,8 +3,8 @@
 %form{action: "/sys/#{@path}",method: "get"}
   %table
     %tbody
-      %tr.pdb-05
+      %tr{class: 'pdb-05'}
         %td
-          %input.select2{type: 'hidden',style: 'width:300px',data: {minlength: '2',ph: '0',search: @path.classify}}
-    %tfoot
-      - tr_buttonset(['create','show','edit','delete','cancel'],{td: {class: 'ta-ce'}})
+          %input{type: 'hidden',class: 'w-30rem select2',data: {minlength: '2',ph: '0',search: @path.classify}}
+    %tfoot{class: 'ta-ce'}
+      - tr_buttonset ['create','show','edit','delete','cancel']
