@@ -8,7 +8,7 @@
       - tr_input_for @object,  'money_in',    {tag: {data: {mark: 'focus ui-focus step'}}}
       - tr_input_for @object,  'money_out',   {tag: {data: {mark: 'ui-focus step'}}}
       - tr_input_for @object,  'money_stock', {tag: {data: {mark: 'ui-focus step'},value: end_of_month ? "%.2f" % (Wstm::Cache.stats_all(Date.today.year,Date.today.month,mny_all: false,ext_all: false).each_with_object({}){|e,h| h[e[0].to_s]=e[-1]}[session[:unit_id]] || 0.0) : @object.money_stock}}
-      - tr_input_for @object,  'expl',        {tag: {data: {mark: 'ui-focus step'},value: end_of_month ? "Sold iniţial, #{l(Date.today.end_of_month + 1, format: '%B')}" : nil}}
+      - tr_input_for @object,  'expl',        {tag: {data: {mark: 'ui-focus step'},value: end_of_month ? "Sold iniţial, #{l(Date.today.end_of_month + 1, format: '%B')}" : nil,placeholder: 'De la...'}}
       %tr
         %td{colspan: 3}
           - input_for @object, 'unit_id',     {tag: {type: 'hidden',value: @uid}}
@@ -19,7 +19,7 @@
       - tr_input_for @object,   'name',       {tag: {data: {mark: 'ui-focus step'}}}
       - tr_input_for @object,   'id_date',    {tag: {id: 'date_show',name: 'strip'}}
       - tr_input_for @object,   'money_in',   {tag: {data: {mark: 'focus ui-focus step'}}}
-      - tr_input_for @object,   'expl',       {tag: {data: {mark: 'ui-focus step'}}}
+      - tr_input_for @object,   'expl',       {tag: {data: {mark: 'ui-focus step'},placeholder: 'De la...'}}
       %tr.hidden
         %td{colspan: 3}
           - input_for @object,  'unit_id',    {tag: {type: 'hidden',value: @uid}}

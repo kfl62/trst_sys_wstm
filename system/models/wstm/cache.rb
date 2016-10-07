@@ -3,8 +3,8 @@
 module Wstm
   class Cache < Trst::Cache
 
-    field :id_intern,         type: Boolean,                            default: false
-    field :expl,              type: String,                             default: 'Vasy Ildiko'
+    field :id_intern,         type: Boolean,      default: false
+    field :expl,              type: String
 
     belongs_to  :unit,        class_name: 'Wstm::PartnerFirm::Unit',    inverse_of: :dps, index: true
 
