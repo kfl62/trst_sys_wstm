@@ -9,26 +9,27 @@
   %table
     %thead
       %tr{class: 'pdb-05'}
+        %td{class: 'hidden'}
+          - input_for @object, 'id_date',      {tag: {id: 'date_send',value: @object.id_date.to_s}}
+          - input_for @object, 'id_intern',    {tag: {value: client.firm.to_s}}
+          - input_for @object, 'client_id',    {tag: {value: client.id}}
+          - input_for @object, 'transp_id',    {tag: {value: transp.id}}
+          - input_for @object, 'transp_d_id',  {tag: {value: transp_d.id}}
+          - input_for @object, 'unit_id',      {tag: {value: @uid}}
+          - input_for @object, 'signed_by',    {tag: {value: @current_user.id}}
+          - if client_d
+            - input_for @object, 'client_d_id',{tag: {value: client_d.id}}
         %td
           - label_for @object, 'name'
-          - input_for @object, 'name',         {tag: {data: {mark: 'ui-focus resize'},value: @object.increment_name(@uid)}}
+          - input_for @object, 'name',         {tag: {data: {mark: 'ui-focus step resize'},value: @object.increment_name(@uid)}}
           - label_for @object, 'id_date'
           - input_for @object, 'id_date',      {tag: {id: 'date_show',name: 'strip'}}
-          - input_for @object, 'id_intern',    {tag: {type: 'hidden',value: client.firm.to_s}}
-          - input_for @object, 'id_date',      {tag: {type: 'hidden',id: 'date_send',value: @object.id_date.to_s}}
-          - input_for @object, 'client_id',    {tag: {type: 'hidden',value: client.id}}
-          - input_for @object, 'transp_id',    {tag: {type: 'hidden',value: transp.id}}
-          - input_for @object, 'transp_d_id',  {tag: {type: 'hidden',value: transp_d.id}}
-          - input_for @object, 'unit_id',      {tag: {type: 'hidden',value: @uid}}
-          - input_for @object, 'signed_by',    {tag: {type: 'hidden',value: @current_user.id}}
-          - if client_d
-            - input_for @object, 'client_d_id',{tag: {type: 'hidden',value: client_d.id}}
       %tr{class: 'pdb-05'}
         %td
           - label_for @object, 'doc_name'
-          - input_for @object, 'doc_name',     {tag: {data: {mark: 'ui-focus focus step'}, value: "#{@firm.name[0][0..2].upcase}-"}}
+          - input_for @object, 'doc_name',     {tag: {data: {mark: 'ui-focus step focus'},value: "#{@firm.name[0][0..2].upcase}-"}}
           - label_for @object, 'doc_plat'
-          - input_for @object, 'doc_plat',     {tag: {data: {mark: 'ui-focus step'}, value: 'strip'}}
+          - input_for @object, 'doc_plat',     {tag: {data: {mark: 'ui-focus step'},value: 'strip'}}
       %tr{class: 'pdb-05'}
         - td_detail_for 'detail w-50rem ta-ju',t('intro.create.desk_delivery_note',firm: @firm.name[2],firm_d: @current_user.name,client: client.name[2],client_d: (client_d.name rescue 'Anonymous'),transp: transp.name[2],transp_d: transp_d.name)
     %tbody
