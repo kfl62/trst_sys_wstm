@@ -4,19 +4,20 @@
   %table
     %thead
       %tr{class: 'pdb-05'}
+        %td{class: 'hidden'}
+          - input_for @object, 'id_date',   {tag: {id: 'date_send',value: @object.id_date.to_s}}
+          - input_for @object, 'id_intern', {tag: {value: 'true'}}
+          - input_for @object, 'unit_id',   {tag: {value: @uid}}
+          - input_for @object, 'signed_by', {tag: {value: @current_user.id}}
         %td
           - label_for @object, 'name'
-          - input_for @object, 'name',      {tag: {data: {mark: 'resize ui-focus'},value: @object.increment_name(@uid)}}
+          - input_for @object, 'name',      {tag: {data: {mark: 'ui-focus step resize'},value: @object.increment_name(@uid)}}
           - label_for @object, 'id_date'
-          - input_for @object, 'id_date',   {tag: {id: 'date_show',name: 'strip'}}
-          - input_for @object, 'id_date',   {tag: {type: 'hidden',id: 'date_send',value: @object.id_date.to_s}}
-          - input_for @object, 'id_intern', {tag: {type: 'hidden',value: 'true'}}
-          - input_for @object, 'unit_id',   {tag: {type: 'hidden',value: @uid}}
-          - input_for @object, 'signed_by', {tag: {type: 'hidden',value: @current_user.id}}
+          - input_for @object, 'id_date',   {tag: {data: {mark: 'ui-focus step'},id: 'date_show',name: 'strip'}}
       %tr{class: 'pdb-05'}
         %td
           - label_for @object, 'expl'
-          - input_for @object, 'expl',       {tag: {data: {mark: 'focus ui-focus'},class: 'w-40rem',value: mat(@object,'expl_default')}}
+          - input_for @object, 'expl',      {tag: {data: {mark: 'ui-focus step focus'},class: 'w-40rem',placeholder: 'PV din data de...'}}
     %tbody
       %tr{class: 'pdb-05'}
         %td{class: 'add-line-container'}
