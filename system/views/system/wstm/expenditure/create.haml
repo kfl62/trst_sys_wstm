@@ -6,16 +6,17 @@
   %table
     %thead
       %tr{class: 'pdb-05'}
+        %td{class: 'hidden'}
+          - input_for @object, 'id_date',      {tag: {id: 'date_send',value: @object.id_date.to_s}}
+          - input_for @object, 'id_intern',    {tag: {value: 'true'}}
+          - input_for @object, 'client_id',    {tag: {value: client.id}}
+          - input_for @object, 'unit_id',      {tag: {value: @uid}}
+          - input_for @object, 'signed_by',    {tag: {value: @current_user.id}}
         %td
           - label_for @object, 'name'
           - input_for @object, 'name',         {tag: {data: {mark: 'ui-focus resize'},class: 'ui-state-default ta-ce',value: @object.increment_name(@uid)}}
           - label_for @object, 'id_date'
           - input_for @object, 'id_date',      {tag: {id: 'date_show',name: 'strip'}}
-          - input_for @object, 'id_intern',    {tag: {type: 'hidden',value: 'true'}}
-          - input_for @object, 'id_date',      {tag: {type: 'hidden',id: 'date_send',value: @object.id_date.to_s}}
-          - input_for @object, 'client_id',    {tag: {type: 'hidden',value: client.id}}
-          - input_for @object, 'unit_id',      {tag: {type: 'hidden',value: @uid}}
-          - input_for @object, 'signed_by',    {tag: {type: 'hidden',value: @current_user.id}}
       %tr{class: 'pdb-05'}
         - td_detail_for 'detail w-50rem ta-ju',t('intro.create.desk_expenditure',client.i18n_hash)
     %tbody
