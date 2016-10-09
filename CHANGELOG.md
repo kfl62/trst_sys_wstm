@@ -3,8 +3,24 @@
 * estimated release date: **2016-12-31**
 *
 
+**feature v0.3.1.23**
+   - feature date: **2016-10-09**
+   - bump version v0.3.1.23
+   - update CHANGELOG
+   - all except js, `Wstm::Stock` review
+   - all except js, `Wstm::Sorting` review
+   - all except js, `Wstm::PartnerPerson` review
+   - all except js, `Wstm::PartnerFirm` review
+   - all except js, `Wstm::Invoice` review
+   - all except js, `Wstm::Grn` review
+   - all except js, `Wstm::Expanditure` review
+   - all except js, `Wstm::DeliveryNote` review
+   - all except js, `Wstm::Sorting` review
+   - all except js, `Wstm::Cassation` review
+   - all except js, `Wstm::Cache` review
+
 **feature v0.3.1.22**
-   - feature date: **2016-09-05**
+   - feature date: **2016-10-05**
    - bump version v0.3.1.22
    - update CHANGELOG
    - views: `Wstm::PartnerPerson` CRUD final
@@ -18,7 +34,7 @@
    - assets: js, `Wstm.desk.sorting` typo (cut/paste) (:
 
 **feature v0.3.1.21**
-   - feature date: **2016-09-03**
+   - feature date: **2016-10-03**
    - bump version v0.3.1.21
    - update CHANGELOG
    - views: `Wstm::Invoice` CRUD final
