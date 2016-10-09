@@ -10,7 +10,7 @@
 - if @object.has_address? ; o = @object.address
   %tbody{id: "tabs-person-adress",data: {title: "#{mat(o,'model_name')} #{o.name}"}}
     - tr_input_for o,  'name',    {guess: {nested: 'partner_person'},tag: {disabled: true}}
-    - tr_input_for o,  'city',    {guess: {nested: 'partner_person'},tag: {style: 'ui-state-default focus'}}
+    - tr_input_for o,  'city',    {guess: {nested: 'partner_person'},tag: {class: 'ui-state-default focus'}}
     - tr_input_for o,  'street',  {guess: {nested: 'partner_person'}}
     - tr_input_for o,  'nr',      {guess: {nested: 'partner_person'}}
     - tr_input_for o,  'bl',      {guess: {nested: 'partner_person'}}
@@ -26,7 +26,7 @@
   - o = @object.build_address
   %tbody{id: "tabs-person-address-new",data: {title: mat(o, 'model_name')}}
     - tr_input_for o,  'name',    {guess: {nested:  'partner_person'},tag: {disabled: true}}
-    - tr_input_for o,  'city',    {guess: {nested:  'partner_person'},tag: {style: 'ui-state-default focus'}}
+    - tr_input_for o,  'city',    {guess: {nested:  'partner_person'},tag: {class: 'ui-state-default focus'}}
     - tr_input_for o,  'street',  {guess: {nested:  'partner_person'},tag: {placeholder: 'Stradă'}}
     - tr_input_for o,  'nr',      {guess: {nested:  'partner_person'},tag: {placeholder: 'Număr'}}
     - tr_input_for o,  'bl',      {guess: {nested:  'partner_person'},tag: {placeholder: 'Bloc'}}
