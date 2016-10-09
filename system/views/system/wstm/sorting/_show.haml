@@ -1,6 +1,4 @@
 - @object.reload
-- @object.from_freights.each{|f| f.set(id_intern: true, val: (f.pu*f.qu).round(2))}
-- @object.resl_freights.each{|f| f.set(id_intern: true, val: (f.pu*f.qu).round(2))}
 - if @object.resl_freights.count > 0
   %table
     %tbody{class: 'inner'}

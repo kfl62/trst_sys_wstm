@@ -9,11 +9,11 @@
               - o = @object.freights.new
               %tr
                 %td{class: 'hidden'}
-                  - input_for o, 'id_stats',  {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][1],type: 'hidden'}}
-                  - input_for o, 'name',      {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][0],type: 'hidden'}}
-                  - input_for o, 'um',        {guess: {nested: 'doc_inv',index: i},tag: {value: 'kg',   type: 'hidden'}}
-                  - input_for o, 'pu',        {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][2],type: 'hidden'}}
-                  - input_for o, 'qu',        {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][3],type: 'hidden'}}
+                  - input_for o, 'id_stats',  {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][1]}}
+                  - input_for o, 'name',      {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][0]}}
+                  - input_for o, 'um',        {guess: {nested: 'doc_inv',index: i},tag: {value: 'kg'}}
+                  - input_for o, 'pu',        {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][2]}}
+                  - input_for o, 'qu',        {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][3]}}
                 - td_value_for o, 'name',     {tag: {class: 'strip',value: s[1][0]}}
                 - td_value_for o, 'um',       {tag: {class: 'strip ta-ce',value: 'kg'}}
                 - td_value_for o, 'pu',       {tag: {class: 'strip ta-ri',value: s[1][2]}}
@@ -32,10 +32,10 @@
               - o = @object.freights.new
               %tr
                 %td{class: 'hidden'}
-                  - input_for o, 'id_stats',  {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][1],type: 'hidden'}}
-                  - input_for o, 'name',      {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][0],type: 'hidden'}}
-                  - input_for o, 'um',        {guess: {nested: 'doc_inv',index: i},tag: {value: 'kg',type: 'hidden'}}
-                  - input_for o, 'qu',        {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][2],type: 'hidden'}}
+                  - input_for o, 'id_stats',  {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][1]}}
+                  - input_for o, 'name',      {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][0]}}
+                  - input_for o, 'um',        {guess: {nested: 'doc_inv',index: i},tag: {value: 'kg'}}
+                  - input_for o, 'qu',        {guess: {nested: 'doc_inv',index: i},tag: {value: s[1][2]}}
                 - td_value_for o, 'name',     {tag: {class: 'strip',value: s[1][0]}}
                 - td_value_for o, 'um',       {tag: {class: 'strip ta-ce',value: 'kg'}}
                 - td_value_for o, 'qu',       {tag: {class: 'strip ta-ri',value: s[1][2]}}
@@ -62,11 +62,11 @@
       %input.true_ro{ type: 'radio',name: "[#{@path}][payed]",checked:  @object.payed,value: 'true'}
       %input.false_ro{type: 'radio',name: "[#{@path}][payed]",checked: !@object.payed,value: 'false'}
       %span= mat(@object,'deadl')
-      - input_for @object, 'deadl', {tag: {style: 'ui-state-default ta-ce',value: (Date.today + 30.days).to_s}}
+      - input_for @object, 'deadl', {tag: {class: 'ui-state-default ta-ce',value: (Date.today + 30.days).to_s}}
   - o = @object.pyms.new
   %tr
     %td
-      - input_for o, 'id_date',     {guess: {nested: 'doc_inv',index: 0},tag: {value: 'strip',placeholder: Date.today.to_s,style: 'ui-state-default ta-ce'}}
+      - input_for o, 'id_date',     {guess: {nested: 'doc_inv',index: 0},tag: {value: 'strip',placeholder: Date.today.to_s,class: 'ui-state-default ta-ce'}}
       - input_for o, 'expl',        {guess: {nested: 'doc_inv',index: 0},tag: {value: 'strip',placeholder: mat(@object,'pyms_expl')}}
-      - input_for o, 'val',         {guess: {nested: 'doc_inv',index: 0},tag: {value: 'strip',placeholder: mat(@object,'pyms_val'),style: 'ui-state-default ta-ce'}}
+      - input_for o, 'val',         {guess: {nested: 'doc_inv',index: 0},tag: {value: 'strip',placeholder: mat(@object,'pyms_val'),class: 'ui-state-default ta-ce'}}
       - input_for o, 'id_intern',   {guess: {nested: 'doc_inv',index: 0},tag: {value: 'true',type: 'hidden'}}

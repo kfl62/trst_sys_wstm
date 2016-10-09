@@ -13,13 +13,13 @@
           - input_for @object, 'signed_by', {tag: {value: @current_user.id}}
         %td
           %span Nr.
-          - input_for @object, 'name',      {tag: {data: {mark: 'resize'},value: @object.increment_name(@uid),style: 'ui-state-default ce id_intern'}}
+          - input_for @object, 'name',      {tag: {value: @object.increment_name(@uid),data: {mark: 'ui-focus step resize'}}}
           %span din data de:
-          - input_for @object, 'id_date',   {tag: {id: 'date_show',name: 'strip'}}
+          - input_for @object, 'id_date',   {tag: {id: 'date_show',name: 'strip',data: {mark: 'ui-focus step'}}}
       %tr{class: 'pdb-05'}
         %td
           - label_for @object, 'expl'
-          - input_for @object, 'expl',      {tag: {value: mat(@object,'expl_default'),style: 'ui-state-default width-350'}}
+          - input_for @object, 'expl',      {tag: {class: 'w-45rem',placeholder: 'PV sortare nr.',data: {mark: 'ui-focus step focus'}}}
       %tr{class: 'pdb-05'}
         - o_from = @object.from_freights.new
         %td{class: 'hidden'}
