@@ -31,7 +31,7 @@
         %tr{class: 'pdb-05'}
           %td
             %hr
-            %span{style: 'display:inline-block'}= mat(@object,'grns_name').concat @object.grns.map(&:doc_name).join(', ')
+            %span{class: 'dsp-ib'}= mat(@object,'grns_name').concat @object.grns.map(&:doc_name).join(', ')
       = haml :"#{@path}/_form", locals: {grns: grn_ary, dlns: nil}
       %tfoot{class: 'ta-ce'}
         - tr_buttonset ['save','cancel']
@@ -68,7 +68,7 @@
         %tr{class: 'pdb-05'}
           %td
             %hr
-            %span{style: 'display:inline-block'}= mat(@object,'dlns_name').concat @object.dlns.map(&:doc_name).join(', ')
+            %span{class: 'dsp-ib'}= mat(@object,'dlns_name').concat @object.dlns.map(&:doc_name).join(', ')
         = haml :"#{@path}/_form", locals: {dlns: dln_ary, grns: nil}
         %tfoot{class: 'ta-ce'}
           - tr_buttonset ['save','cancel']
