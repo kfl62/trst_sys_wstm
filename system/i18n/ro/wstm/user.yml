@@ -3,4 +3,4 @@ ro:
     attributes:
       'wstm/user':
         model_name: Gestionar
-        table_header: ['Gestionar', 'Pct.Colectare', 'Zile lucrate', 'Bani achitați', 'Media zilnică']
+        table_header: ['Gestionar', 'Pct.Colectare', 'Zile lucrate', 'Bani achitați', 'Media zilnică', '']
