@@ -1,4 +1,4 @@
-%tbody#tabs-1{data: {title: mat(@object,:tab_title)}}
+%tbody{id:'tabs-1',data: {title: mat(@object,:tab_title)}}
   - tr_input_for @object, 'id_pn',   {guess: {value: params[:id_pn]}}
   - tr_input_for @object, 'name_last',{tag: {placeholder: 'Nume'}}
   - tr_input_for @object, 'name_frst',{tag: {placeholder: 'Prenume'}}
