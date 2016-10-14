@@ -44,5 +44,5 @@
                   - td_value_for @object,'xxx',   {tag: {class: 'strip ta-ri dsp-ib st',value: "%.2f" % data.values.sum{|r| r[3]}}}
                   %td
                   - td_value_for @object,'xxx',   {tag: {class: 'strip ta-ri dsp-ib st',value: "%.2f" % data.values.sum{|r| r[5]}}}
-    %tfoot
-      - tr_buttonset(['cancel'],{td: {class: 'ta-ce'}})
+    %tfoot{class: 'ta-ce'}
+      - tr_buttonset ['cancel']
