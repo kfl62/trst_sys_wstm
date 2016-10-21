@@ -3,6 +3,17 @@
 * estimated release date: **2016-12-31**
 *
 
+**feature v0.3.1.24**
+   - feature date: **2016-10-21**
+   - bump version v0.3.1.24
+   - update CHANGELOG
+   - all, `Wstm::PartnerFirm` review, forgotten stuff :)
+   - all, `Wstm::PartnerPerson` review, cleanup `js`
+   - config: updated year
+   - models: `Wstm::Expenditure` added 2016 condition to `sum_freights_exp`
+   - all, `Wstm::User` review, cleanup `js`
+   - assets: js; `desk.js` no change, but recompiled
+
 **feature v0.3.1.23**
    - feature date: **2016-10-09**
    - bump version v0.3.1.23
