@@ -1,9 +1,9 @@
-- xhr_hidden_data({dialog: "filter",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_partner_person'})
+- xhr_hidden_data({dialog: "query",oid: "null",js_ext: 'desk_partner_person'})
 %table
   %thead
     %tr{class: 'pdb-05'}
       %td
-        %input{name: 'p_oid',type: 'hidden',class: 'w-30rem select2 param',data: {minlength: '3',ph: '0',search: @path.classify}}
+        %input{name: 'p_oid',type: 'hidden',class: 'w-30rem select2',data: {mark: 'param',minlength: '3',ph: '0',search: @path.classify}}
   %tbody
     %tr{class: 'pdb-05'}
       %td{class: 'query-expenditures-container'}

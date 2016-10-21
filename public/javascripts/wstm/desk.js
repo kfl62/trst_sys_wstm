@@ -1,6 +1,6 @@
 (function() {
-  var __slice = [].slice,
-    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+  var slice = [].slice,
+    indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   define(function() {
     $.extend(true, Wstm, {
@@ -15,11 +15,11 @@
           },
           clear: function() {
             var what;
-            what = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+            what = 1 <= arguments.length ? slice.call(arguments, 0) : [];
             return $.each(this, (function(_this) {
               return function(k) {
                 if (what.length) {
-                  if (__indexOf.call(__slice.call(what), k) >= 0) {
+                  if (indexOf.call(slice.call(what), k) >= 0) {
                     return delete _this[k];
                   }
                 } else {

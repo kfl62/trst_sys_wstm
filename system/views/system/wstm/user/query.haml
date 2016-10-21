@@ -3,69 +3,55 @@
   y   = params[:p_y].nil? ? today.year  : params[:p_y].to_i
   m   = params[:p_m].nil? ? today.month : params[:p_m].to_i
   sday,sout = 0,0
-  s2dt= Wstm::User.where(:unit_id.ne => nil).asc(:name).map{|u| {id: u.id,text: u.name}}.to_json
+  s2dt= Wstm::User.where(:unit_id.ne => nil).asc(:name).map{|u| {:id => u.id.to_s,text: u.name}}.to_json
   user_ids = params[:user_ids].split(',') if params[:user_ids]
-%span#hidden_data{data: {dialog: "query",model_name: mat(@object,'model_name'),oid: "null",js_ext: 'desk_user'}}
+- xhr_hidden_data({dialog: "query",oid: "null",js_ext: 'desk_user'})
 - if user_ids
-  %table
-    %thead
-      %tr.pdb-05
-        %td{colspan: 6}
-          %detail.info.w-45rem
-            %i.fa.fa-info-circle.fa-lg.blue
-            = t('intro.filter.not_ready')
-    %tbody.inner
-      %tr
-        - mat(@object,'table_header').each do |label|
-          %td
-            %span= label
-        %td
-      - user_ids.each do |id|; u = Wstm::User.find(id); d = u.work_stats(y,m)
-        %tr
-          %td
-            %span= u.name
-          %td.ta-ce
-            %span= u.unit.name[0]
-          %td.ta-ri
-            - sday += d.wdy
-            %span= "%.2f" % d.wdy
-          %td.ta-ri
-            - sout += d.out
-            %span= "%.2f" % d.out
-          %td.ta-ri
-            %span= "%.2f" % d.avg
-          %td.ta-ce
-            %button.print{type: 'button',title: 'Detalii',data: {action: "print",text: 'hidden',icon: 'fa fa-only fa-print fa-lg',url: "p_y=#{y}&p_m=#{m}&user_ids=#{u.id}&fn=#{y}-#{'%02d' % m}_#{u.unit.name[0]}-#{u.login_name}"}}
-      %tr
-        %td= 'Total'
-        %td= ''
-        %td
-          %span= "%.2f" % sday
-        %td
-          %span= "%.2f" % sout
-        %td
-          - avg = sout / sday; avg = avg.nan? ? 0 : avg
-          %span= "%.2f" % avg
-        %td
-    %tfoot
-      %tr
-        - td_buttonset(['cancel'],{style: 'ta-ce'},'6')
-- else
   %form{action: "/sys/#{@path}", method: 'get'}
     %table
       %thead
-        %tr.pdb-05
-          %td
-            %detail.info.w-30rem
-              %i.fa.fa-info-circle.fa-lg.blue
-              = t('intro.filter.not_ready')
-        = partial 'wstm/shared/select_params', locals: {colspan: '0'}
-      %tbody
+        %tr{class: 'pdb-05'}
+          -td_detail_for 'info w-35rem',t('intro.filter.not_ready'),nil,6
+      %tbody{class: 'inner'}
+        - tr_header_for mat(@object,'table_header'),{tr: {data:{mark: 'scroll'}}}
+        - user_ids.each do |id|; u = Wstm::User.find(id); d = u.work_stats(y,m)
+          %tr
+            - td_value_for u, 'xxx',  {tag: {class: 'strip',value: u.name}}
+            - td_value_for u, 'xxx',  {tag: {class: 'strip ta-ce',value: u.unit.name[0]}}
+            %td
+              - sday += d.wdy
+              - value_for  d, 'xxx',  {tag: {class: 'strip ta-ri',value: "%.2f" % d.wdy}}
+            %td
+              - sout += d.out
+              - value_for  d, 'xxx',  {tag: {class: 'strip ta-ri',value: "%.2f" % d.out}}
+            - td_value_for d, 'xxx',  {tag: {class: 'strip ta-ri',value: "%.2f" % d.avg}}
+            %td
+              %button{type: 'button',title: 'Detalii',data: {action: "print",icon: 'fa fa-only fa-print fa-lg',url: "p_y=#{y}&p_m=#{m}&user_ids=#{u.id}&fn=#{y}-#{'%02d' % m}_#{u.unit.name[0]}-#{u.login_name}"}}
         %tr
+          - td_value_for @object, 'xxx', {td: {colspan: 2},tag: {class: 'strip ta-ce',value: 'Total'}}
+          - td_value_for @object, 'xxx', {tag: {class: 'strip ta-ce',value: "%.2f" % sday}}
+          - td_value_for @object, 'xxx', {tag: {class: 'strip ta-ce',value: "%.2f" % sout}}
           %td
-            %input.w-30rem.select2.param{type: 'hidden',name: 'user_ids',data: {data: s2dt}}
-            %button.query{type: 'button',data: {action: "query",text: 'hidden',icon: 'fa fa-only fa-search'}}
+            - avg = sout / sday; avg = avg.nan? ? 0 : avg
+            - value_for  @object, 'xxx', {tag: {class: 'strip ta-ce',value: "%.2f" % avg}}
+          %td
+      %tfoot{class: 'ta-ce'}
+        %tr
+          %td{colspan: 6}
+            - button 'cancel'
+- else
+  %table
+    %thead
+      %tr{class: 'pdb-05'}
+        -td_detail_for 'info w-30rem', t('intro.filter.not_ready')
+      %tr
+        %td
+          = haml :'wstm/shared/_select_params', locals: {colspan: '0'}
+    %tbody
+      %tr
+        %td
+          %input{type: 'hidden',class: 'w-30rem select2',name: 'user_ids',data: {data: s2dt,mark: 's2 param'}}
+          %button{type: 'button',data: {action: "query",icon: 'fa fa-only fa-search'}}
 
-      %tfoot
-        %tr
-          - td_buttonset(['cancel'],{style: 'ta-ce'})
+    %tfoot{class: 'ta-ce'}
+      - tr_buttonset ['cancel']

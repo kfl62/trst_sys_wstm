@@ -39,10 +39,11 @@ module Wstm
           app.freights.asc(:id_stats).each_with_object(s) do |f,s|
             key = f.id_stats
             if s[key].nil?
-              s[key] = [f.freight.name,f.freight.id_stats,f.pu,f.qu,f.val,f.freight.p03]
+              s[key] = [f.freight.name,f.freight.id_stats,f.pu,f.qu,f.val,f.freight.p03,f.id_date.year < 2016 ? f.val * 0.16 : 0]
             else
               s[key][3] += f.qu
               s[key][4] += f.val
+              s[key][6] += f.id_date.year < 2016 ? f.val * 0.16 : 0
             end
           end
         end

@@ -2,18 +2,16 @@ define () ->
   $.extend true,Wstm,
     desk:
       partner_person:
-        calculate: ()->
-          return
         updateDocAry: (inpts)->
           @doc_ary = []
           inpts.filter(':checked').each ()->
             Wstm.desk.partner_person.doc_ary.push(@id)
-          inpts.filter('.param.doc_ary').val(@doc_ary)
-          $params = jQuery.param($('.param').serializeArray())
+          inpts.filter('[data-mark="param doc_ary"]').val(@doc_ary)
+          $params = jQuery.param($('[data-mark~="param"]').serializeArray())
           $url = "/sys/partial/wstm/partner_person/_query_expenditures?#{$params}"
           Trst.msgShow()
           $('td.query-expenditures-container').load $url, ()->
-            Wstm.desk.partner_person.selects($('select.param'))
+            Wstm.desk.partner_person.selects($('select[data-mark~="param"]'))
             Wstm.desk.partner_person.inputs($('input'))
             Trst.msgHide()
             return
@@ -53,11 +51,11 @@ define () ->
                 else
                   Trst.desk.hdo.oid = $select.select2('val')
                   if Trst.desk.hdo.dialog is 'query'
-                    $params = jQuery.param($('.param').serializeArray())
+                    $params = jQuery.param($('[data-mark~="param"]').serializeArray())
                     $url = "/sys/partial/wstm/partner_person/_query_expenditures?#{$params}"
                     Trst.msgShow()
                     $('td.query-expenditures-container').load $url, ()->
-                      Wstm.desk.partner_person.selects($('select.param'))
+                      Wstm.desk.partner_person.selects($('select[data-mark~="param"]'))
                       Wstm.desk.partner_person.inputs($('input'))
                       Trst.msgHide()
                       return
@@ -65,19 +63,17 @@ define () ->
                   return
                 return
               return
-            else if $select.hasClass 'param'
+            else
               $select.on 'change', ()->
-                $('.param.doc_ary').val('')
-                $params = jQuery.param($('.param').serializeArray())
+                $('[data-mark~="param doc_ary"]').val('')
+                $params = jQuery.param($('[data-mark~="param"]').serializeArray())
                 $url = "/sys/partial/wstm/partner_person/_query_expenditures?#{$params}"
                 Trst.msgShow()
                 $('td.query-expenditures-container').load $url, ()->
-                  Wstm.desk.partner_person.selects($('select.param'))
+                  Wstm.desk.partner_person.selects($('select[data-mark~="param"]'))
                   Wstm.desk.partner_person.inputs($('input'))
                   Trst.msgHide()
                   return
-              return
-            else
               return
             return
           return
@@ -91,8 +87,8 @@ define () ->
             return
           return
         init: ()->
-          Wstm.desk.partner_person.buttons($('button'))
-          Wstm.desk.partner_person.selects($('select.param, input.select2, input.repair'))
-          Wstm.desk.partner_person.inputs($('input'))
+          @buttons($('button'))
+          @selects($('select[data-mark~="param"],input.select2,input.repair'))
+          @inputs($('input[data-mark~="doc_ary"],input'))
           $log 'Wstm.desk.partner_person.init() OK...'
   Wstm.desk.partner_person
