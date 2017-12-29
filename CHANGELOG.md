@@ -3,6 +3,13 @@
 * estimated release date: **2016-12-31**
 *
 
+**feature v0.3.1.25**
+   - feature date: **2017-12-29**
+   - bump version v0.3.1.25
+   - update CHANGELOG
+   - images: `100644`
+   - minor changes `Wstm::Invoice`
+
 **feature v0.3.1.24**
    - feature date: **2016-10-21**
    - bump version v0.3.1.24

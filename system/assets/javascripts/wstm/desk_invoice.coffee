@@ -3,8 +3,10 @@ define () ->
     desk:
       invoice:
         updateDocAry: (inpts)->
-          inpts.filter(':checked').each ()->
+          @doc_ary = []
+          $('input:checked').each ()->
             Wstm.desk.invoice.doc_ary.push(@id)
+            return
           inpts.filter('[data-mark="param doc_ary"]').val(@doc_ary)
           $params = jQuery.param($('[data-mark~="param"]').serializeArray())
           $url = "/sys/wstm/invoice/filter?grn_ary=true&#{$params}" if $('[data-mark="param"]').filter('[name="supplr"]').length > 0
@@ -109,7 +111,6 @@ define () ->
               return
           return
         init: ()->
-          @doc_ary = []
           @buttons($('button'))
           @selects($('select,input.select2,input[data-mark~="repair"]'))
           @inputs($('input[data-mark~="doc_ary"]'))
