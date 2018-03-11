@@ -1,7 +1,8 @@
 ## v1.0.0
 
-* estimated release date: **2016-12-31**
-*
+* release date: **2018-03-11**
+* bump version v1.0.0
+* update CHANGELOG
 
 **feature v0.3.1.25**
    - feature date: **2017-12-29**
