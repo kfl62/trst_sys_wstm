@@ -1,17 +1,25 @@
+## v1.0.1
+
+* release date: **2018-03-18**
+   - bump version v1.0.1
+   - update CHANGELOG
+   - views: `Wstm::PartnerPerson` _form.haml bugfix
+   - views: `Wstm::Sorting` filter.haml default sort order
+
 ## v1.0.0
 
 * release date: **2018-03-11**
-* bump version v1.0.0
-* update CHANGELOG
+   - bump version v1.0.0
+   - update CHANGELOG
 
-**feature v0.3.1.25**
+* **feature v0.3.1.25**
    - feature date: **2017-12-29**
    - bump version v0.3.1.25
    - update CHANGELOG
    - images: `100644`
    - minor changes `Wstm::Invoice`
 
-**feature v0.3.1.24**
+* **feature v0.3.1.24**
    - feature date: **2016-10-21**
    - bump version v0.3.1.24
    - update CHANGELOG
@@ -22,7 +30,7 @@
    - all, `Wstm::User` review, cleanup `js`
    - assets: js; `desk.js` no change, but recompiled
 
-**feature v0.3.1.23**
+* **feature v0.3.1.23**
    - feature date: **2016-10-09**
    - bump version v0.3.1.23
    - update CHANGELOG
@@ -38,7 +46,7 @@
    - all except js, `Wstm::Cassation` review
    - all except js, `Wstm::Cache` review
 
-**feature v0.3.1.22**
+* **feature v0.3.1.22**
    - feature date: **2016-10-05**
    - bump version v0.3.1.22
    - update CHANGELOG
@@ -52,7 +60,7 @@
    - assets: js, `Wstm.desk.sorting` cleanup, add on Enter keypress & [#31][#31]
    - assets: js, `Wstm.desk.sorting` typo (cut/paste) (:
 
-**feature v0.3.1.21**
+* **feature v0.3.1.21**
    - feature date: **2016-10-03**
    - bump version v0.3.1.21
    - update CHANGELOG
