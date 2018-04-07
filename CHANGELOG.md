@@ -1,3 +1,11 @@
+## v1.0.2
+
+* release date: **2018-02-07**
+   - bump version v1.0.2
+   - update CHANGELOG
+   - views: `Wstm::Expendirure` _form.haml bugfix
+   - views: shared `_select_params` font-family Monospace
+
 ## v1.0.1
 
 * release date: **2018-03-18**
