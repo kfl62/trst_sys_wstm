@@ -19,9 +19,9 @@
           - t('month')[1..12].each_with_index do |month,i|
             %option{value: i + 1, selected: m == i + 1}= month
         - if daily
-          %select{data: {mark: 'param'},name: 'p_d',style: 'font-family:Courier'}
+          %select{data: {mark: 'param'},name: 'p_d',style: 'font-family:Monospace'}
             - (0..Time.days_in_month(m,y)).each do |day|
-              %option{value: day, selected: d == day}= l(Date.new(y,m,day), format: "%a, %Y-%m-%d") rescue 'Stocuri zilnice'
+              %option{value: day, selected: d == day}= l(Date.new(y,m,day), format: "%Y-%m-%d %a") rescue 'Stocuri zilnice'
         - if firm
           - if @current_user.unit_id
             %span= l(@today,format: :trst)
