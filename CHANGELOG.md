@@ -1,6 +1,14 @@
+## v1.0.3
+
+* release date: **2018-04-12**
+   - bump version v1.0.3
+   - update CHANGELOG
+   - views: `Wstm::Grn` filter|create.haml minor changes
+   - views: `Wstm::DeliveryNote` _form.haml minor changes
+
 ## v1.0.2
 
-* release date: **2018-02-07**
+* release date: **2018-04-07**
    - bump version v1.0.2
    - update CHANGELOG
    - views: `Wstm::Expendirure` _form.haml bugfix
