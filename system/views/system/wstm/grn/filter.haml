@@ -7,6 +7,8 @@
 - xhr_hidden_data({dialog: 'filter',oid: 'null',js_ext: 'desk_grn'})
 - if params[:id_intern]
   - xhr_info('info',@current_user.admin? ? t('intro.filter.desk_grn.admin',unit: @firm.units.find_by(main: true).name[1]) : t('intro.filter.desk_grn.user',unit: @current_user.unit.name[1],slug: @current_user.unit.slug.downcase))
+  - unless @current_user.unit_id
+    = haml :'wstm/shared/_select_unit'
   %form{action: "/sys/#{@path}/filter?id_intern=true", method: 'get'}
     %table
       %thead
