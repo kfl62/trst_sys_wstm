@@ -18,7 +18,7 @@
             - input_for @object, 'supplr_id', {tag: {value: @firm.id}}
             - input_for @object, 'transp_id', {tag: {value: @firm.id}}
             - input_for @object, 'unit_id',   {tag: {value: unit_id}}
-            - input_for @object, 'charged',   {tag: {value: 'true'}}
+            - input_for @object, 'charged',   {tag: {value: 'false'}}
             - input_for @object, 'signed_by', {tag: {value: @current_user.id}}
             - dln_ary.each do |dn|
               -input_for @object,'dln_ids',   {tag: {name: "[#{@path}][dln_ids][]",value: dn}}
@@ -64,7 +64,7 @@
             - input_for @object, 'transp_d_id', {tag: {value: transp_d.id}}
             - input_for @object, 'unit_id',     {tag: {value: unit.id}}
             - input_for @object, 'signed_by',   {tag: {value: @current_user.id}}
-            - input_for @object, 'charged',     {tag: {value: 'true'}}
+            - input_for @object, 'charged',     {tag: {value: 'false'}}
             - if supplr_d
               - input_for @object,'supplr_d_id',{tag: {value: supplr_d.id}}
             - input_for @object, 'doc_date',    {tag: {value: 'strip'}}
